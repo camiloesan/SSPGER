@@ -91,11 +91,10 @@ CREATE TABLE ModalidadesTR(
 );
 
 CREATE TABLE LGAC (
-	ID_LGAC int not null,
-	clave varchar(2),
-	nombre varchar(15),
-	descripcion varchar(40),
-    PRIMARY KEY(ID_LGAC)
+	clave varchar(2) not null,
+	nombre varchar(50),
+	descripcion varchar(400),
+    PRIMARY KEY(clave)
 );
 
 CREATE TABLE Avances (
