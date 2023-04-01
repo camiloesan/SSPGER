@@ -67,6 +67,7 @@ CREATE TABLE Proyectos (
 	resultadosEsperados nvarchar(500),
 	bibliografiaRecomendada nvarchar(500),
 	estado varchar(15) default 'Por revisar.',
+	etapa varchar(20),
 	NRC int,
     PRIMARY KEY(ID_proyecto)
 );
