@@ -55,7 +55,7 @@ CREATE TABLE Proyectos (
 	ID_proyecto int not null, 
 	claveCuerpoAcademico varchar(10),
 	nombreProyectoInvestigación varchar(30), 
-	ID_LGAC int,
+	LGAC int,
 	lineaInvestigacion varchar(200),
 	duracionAprox varchar(10),
 	ID_modalidadTR int,
