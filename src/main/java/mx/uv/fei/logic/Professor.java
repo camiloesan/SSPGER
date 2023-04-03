@@ -1,6 +1,7 @@
 package mx.uv.fei.logic;
 
 public class Professor {
+    private int professorId;
     private String professorName;
     private String professorFirsLastName;
     private String professorSecondLastName;
@@ -15,6 +16,10 @@ public class Professor {
         this.professorSecondLastName = professorSecondLastName;
         this.professorEmail = professorEmail;
         this.userId = userId;
+    }
+
+    public int getProfessorId() {
+        return professorId;
     }
 
     public String getProfessorName() {
@@ -35,6 +40,10 @@ public class Professor {
 
     public int getUserId() {
         return userId;
+    }
+
+    public void setProfessorId(int professorId) {
+        this.professorId = professorId;
     }
 
     public void setProfessorName(String professorName) {
