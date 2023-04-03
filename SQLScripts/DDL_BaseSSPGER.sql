@@ -2,7 +2,7 @@ CREATE DATABASE SSPGER;
 USE SSPGER;
 
 CREATE TABLE CuentasAcceso (
-	ID_usuario int not null,
+	ID_usuario int not null auto_increment,
 	nombreUsuario varchar(15), 
 	contrasena nvarchar(16),
     PRIMARY KEY(ID_usuario)
@@ -20,7 +20,7 @@ CREATE TABLE Estudiantes (
 );
 
 CREATE TABLE Profesores (
-	ID_profesor int not null,
+	ID_profesor int not null auto_increment,
 	nombre varchar(30),
 	apellidoPaterno varchar(30), 
 	apellidoMaterno varchar(30),
@@ -45,14 +45,14 @@ CREATE TABLE ExperienciasEducativas (
 );
 
 CREATE TABLE CodirectoresProyecto (
-	ID_codirectorProyecto int not null,
+	ID_codirectorProyecto int not null auto_increment,
 	ID_proyecto int,
 	ID_profesor int,
 	PRIMARY KEY(ID_codirectorProyecto)
 );
 
 CREATE TABLE Proyectos (
-	ID_proyecto int not null, 
+	ID_proyecto int not null auto_increment,
 	claveCuerpoAcademico varchar(10),
 	nombreProyectoInvestigación varchar(30), 
 	LGAC varchar(2),
@@ -74,7 +74,7 @@ CREATE TABLE Proyectos (
 );
 
 CREATE TABLE ModalidadesTR(
-	ID_modalidadTR int not null,
+	ID_modalidadTR int not null auto_increment,
 	modalidadTR varchar(15),
     PRIMARY KEY(ID_modalidadTR)
 );
@@ -87,7 +87,7 @@ CREATE TABLE LGAC (
 );
 
 CREATE TABLE Avances (
-	ID_avance int not null,
+	ID_avance int not null auto_increment,
 	nombre varchar(30),
 	fechaCreacion date,
 	fechaEntrega date,
@@ -97,7 +97,7 @@ CREATE TABLE Avances (
 );
 
 CREATE TABLE Evidencias (
-	ID_evidencia int not null,
+	ID_evidencia int not null auto_increment,
 	titulo varchar(30),
 	estado varchar(15) default 'Por revisar.',
 	calificacion int,
@@ -110,7 +110,7 @@ CREATE TABLE Evidencias (
 );
 
 CREATE TABLE Reportes (
-	ID_reporte int not null,
+	ID_reporte int not null auto_increment,
 	titulo varchar (30),
 	descripcion varchar (200),
 	ID_profesor int,
@@ -118,7 +118,7 @@ CREATE TABLE Reportes (
 );
 
 CREATE TABLE ReporteEstudiantes (
-	ID_reporteEstudiante int not null,
+	ID_reporteEstudiante int not null auto_increment,
 	matricula varchar(10),
 	ID_reporte int,
 	PRIMARY KEY(ID_reporteEstudiante)
