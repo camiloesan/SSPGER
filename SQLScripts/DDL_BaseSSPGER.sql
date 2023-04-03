@@ -99,7 +99,8 @@ CREATE TABLE Avances (
 CREATE TABLE Evidencias (
 	ID_evidencia int not null,
 	titulo varchar(30),
-	estado varchar(15),
+	estado varchar(15) default 'Por revisar.',
+	calificacion int,
 	descripcion varchar(100),
 	ID_profesor int,
 	ID_avance int,
