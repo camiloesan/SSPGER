@@ -60,6 +60,7 @@ CREATE TABLE Proyectos (
 	duracionAprox varchar(10),
 	ID_modalidadTR int,
 	nombreTrabajoRecepcional varchar(30),
+	requisitos varchar(500),
 	ID_director int,
 	alumnosParticipantes int,
 	descripcionProyectoInvestigacion nvarchar(2000),
@@ -70,19 +71,6 @@ CREATE TABLE Proyectos (
 	etapa varchar(20),
 	NRC int,
     PRIMARY KEY(ID_proyecto)
-);
-
-CREATE TABLE Requisitos (
-	ID_requisito int not null,
-	nombre varchar(30),
-	PRIMARY KEY(ID_requisito)
-);
-
-CREATE TABLE RequisitosProyecto (
-	ID_requisitoProyecto int not null,
-	ID_proyecto int,
-	ID_requisito int,
-	PRIMARY KEY(ID_requisitoProyecto)
 );
 
 CREATE TABLE ModalidadesTR(
