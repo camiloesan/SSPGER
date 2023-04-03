@@ -18,6 +18,8 @@ public class AccessAccountDAO implements IAccessAccount {
         preparedStatement.setInt(1, accessAccount.getUserId());
         preparedStatement.setString(2, accessAccount.getUsername());
         preparedStatement.setString(3, accessAccount.getUserPassword());
+
+        databaseManager.closeConnection();
     }
 
     @Override

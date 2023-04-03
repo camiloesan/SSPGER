@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ProjectEvidenceDAO implements IProjectEvidence {
     @Override
-    public void addProjectEvidence() throws SQLException {
+    public void addProjectEvidence(ProjectEvidence projectEvidence) throws SQLException {
 
     }
 
