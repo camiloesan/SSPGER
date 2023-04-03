@@ -55,34 +55,22 @@ CREATE TABLE Proyectos (
 	ID_proyecto int not null, 
 	claveCuerpoAcademico varchar(10),
 	nombreProyectoInvestigación varchar(30), 
-	LGAC int,
+	LGAC varchar(2),
 	lineaInvestigacion varchar(200),
 	duracionAprox varchar(10),
 	ID_modalidadTR int,
 	nombreTrabajoRecepcional varchar(30),
+	requisitos varchar(500),
 	ID_director int,
 	alumnosParticipantes int,
-	descripcionProyectoInvestigacion nvarchar(500),
-	descripcionTrabajoRecepcional nvarchar(500),
-	resultadosEsperados nvarchar(500),
-	bibliografiaRecomendada nvarchar(500),
+	descripcionProyectoInvestigacion nvarchar(2000),
+	descripcionTrabajoRecepcional nvarchar(2000),
+	resultadosEsperados nvarchar(2000),
+	bibliografiaRecomendada nvarchar(2000),
 	estado varchar(15) default 'Por revisar.',
 	etapa varchar(20),
 	NRC int,
     PRIMARY KEY(ID_proyecto)
-);
-
-CREATE TABLE Requisitos (
-	ID_requisito int not null,
-	nombre varchar(30),
-	PRIMARY KEY(ID_requisito)
-);
-
-CREATE TABLE RequisitosProyecto (
-	ID_requisitoProyecto int not null,
-	ID_proyecto int,
-	ID_requisito int,
-	PRIMARY KEY(ID_requisitoProyecto)
 );
 
 CREATE TABLE ModalidadesTR(
@@ -111,7 +99,8 @@ CREATE TABLE Avances (
 CREATE TABLE Evidencias (
 	ID_evidencia int not null,
 	titulo varchar(30),
-	estado varchar(15),
+	estado varchar(15) default 'Por revisar.',
+	calificacion int,
 	descripcion varchar(100),
 	ID_profesor int,
 	ID_avance int,

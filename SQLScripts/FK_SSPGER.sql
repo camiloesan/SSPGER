@@ -19,10 +19,6 @@ ALTER TABLE Proyectos
 	ADD CONSTRAINT FK_Proyectos_Profesores FOREIGN KEY (ID_director) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE,
 	ADD CONSTRAINT FK_Proyectos_ExperienciasEducativas FOREIGN KEY (NRC) REFERENCES ExperienciasEducativas (NRC) ON DELETE CASCADE;
 
-ALTER TABLE RequisitosProyecto
-	ADD CONSTRAINT FK_RequisitosProyecto_Proyectos FOREIGN KEY (ID_proyecto) REFERENCES Proyectos (ID_proyecto) ON DELETE CASCADE,
-	ADD CONSTRAINT FK_RequisitosProyecto_Requisitos FOREIGN KEY (ID_requisito) REFERENCES Proyectos (ID_proyecto) ON DELETE CASCADE;
-
 ALTER TABLE CodirectoresProyecto
 	ADD CONSTRAINT FK_CodirectoresProyecto_Proyectos FOREIGN KEY (ID_proyecto) REFERENCES Proyectos (ID_proyecto) ON DELETE CASCADE,
 	ADD CONSTRAINT FK_CodirectoresProyecto_Profesores FOREIGN KEY (ID_profesor) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE;
