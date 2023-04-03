@@ -1,17 +1,18 @@
 package mx.uv.fei.logic;
 
 import mx.uv.fei.dao.IAccessAccount;
+import mx.uv.fei.dao.IProjectEvidence;
 
 import java.sql.SQLException;
 
 public class AccessAccountDAO implements IAccessAccount {
     @Override
-    public void addAccessAccount(AccessAccountDAO accessAccount) throws SQLException {
+    public void addAccessAccount(AccessAccount accessAccount) throws SQLException {
 
     }
 
     @Override
-    public void modifyAccessAccount(AccessAccountDAO accessAccount) throws SQLException {
+    public void modifyAccessAccount(AccessAccount accessAccount) throws SQLException {
 
     }
 
