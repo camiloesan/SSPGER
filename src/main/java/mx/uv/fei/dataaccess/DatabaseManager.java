@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 
 public class DatabaseManager {
     private Connection connection;
-    private final String DATABASE_NAME = "jdbc:mariadb://localhost/congreso";
-    private final String DATABASE_USER = "usuario";
-    private final String DATABASE_PASSWORD = "roschester";
+    private final String DATABASE_NAME = "jdbc:mariadb://localhost/SSPGER";
+    private final String DATABASE_USER = "sspgerUser";
+    private final String DATABASE_PASSWORD = "sspgerSys";
 
     private void connect() throws SQLException {
         connection = DriverManager.getConnection(DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD);
