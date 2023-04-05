@@ -10,14 +10,14 @@ import java.sql.SQLException;
 public class AccessAccountDAO implements IAccessAccount {
     @Override
     public void addAccessAccount(AccessAccount accessAccount) throws SQLException {
-        String query = "insert into CuentasAcceso(ID_usuario, nombreUsuario, contrasena) values (?,?,?)";
+        String query = "insert into CuentasAcceso(nombreUsuario, contrasena) values (?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, accessAccount.getUserId());
-        preparedStatement.setString(2, accessAccount.getUsername());
-        preparedStatement.setString(3, accessAccount.getUserPassword());
+        preparedStatement.setString(1, accessAccount.getUsername());
+        preparedStatement.setString(2, accessAccount.getUserPassword());
+        preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
     }

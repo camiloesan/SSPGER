@@ -5,10 +5,15 @@ public class AccessAccount {
     private String username;
     private String userPassword;
 
-    public AccessAccount(int userId, String username, String userPassword) {
-        this.userId = userId;
+    public AccessAccount() {}
+
+    public AccessAccount(String username, String userPassword) {
         this.username = username;
         this.userPassword = userPassword;
+    }
+
+    public void areCredentialsValid() {
+
     }
 
     public int getUserId() {

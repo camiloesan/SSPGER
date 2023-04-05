@@ -57,6 +57,16 @@
       <version>3.1.2</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.5</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -79,7 +89,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>mx.uv.fei.gui/mx.uv.fei.gui.HelloApplication</mainClass>
+              <mainClass>mx.uv.fei.gui/mx.uv.fei.gui.LoginWindow</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
