@@ -23,12 +23,30 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public void modifyAccessAccount(AccessAccount accessAccount) throws SQLException {
+    public void modifyAccessAccountByUsername(String username, AccessAccount accessAccount) throws SQLException {
+        String query = "update CuentasAcceso set nombreUsuario=(?), contrasena=(?) where nombreUsuario=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
 
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, accessAccount.getUsername());
+        preparedStatement.setString(2, accessAccount.getUserPassword());
+        preparedStatement.setString(3, username);
+        preparedStatement.executeUpdate();
+
+        databaseManager.closeConnection();
     }
 
     @Override
-    public void deleteAccessAccountByName(String name) throws SQLException {
+    public void deleteAccessAccountByName(String username) throws SQLException {
+        String query = "delete from CuentasAcceso where nombreUsuario=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
 
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
+        preparedStatement.executeUpdate();
+
+        databaseManager.closeConnection();
     }
 }
