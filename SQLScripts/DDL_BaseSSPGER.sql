@@ -131,7 +131,7 @@ CREATE TABLE SolicitudesProyecto (
 	ID_proyecto int,
 	matriculaEstudiante varchar(10),
 	estado varchar(20) default 'Por aceptar',
-	motivos varchar(850)
+	motivos varchar(850),
 	PRIMARY KEY(ID_solicitudProyecto)
 );
 				
