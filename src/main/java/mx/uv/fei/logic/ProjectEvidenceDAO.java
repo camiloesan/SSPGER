@@ -27,8 +27,17 @@ public class ProjectEvidenceDAO implements IProjectEvidence {
     }
 
     @Override
-    public void addProjectEvidenceGradeById(int id) throws SQLException {
+    public void updateProjectEvidenceGradeByMatricula(String matricula, int grade) throws SQLException {
+        String query = "update Evidencias set calificacion=(?) where matriculaEstudiante=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
 
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, grade);
+        preparedStatement.setString(2, matricula);
+        preparedStatement.executeUpdate();
+
+        databaseManager.closeConnection();
     }
 
     @Override
