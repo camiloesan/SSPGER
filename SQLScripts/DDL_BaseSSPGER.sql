@@ -89,6 +89,7 @@ CREATE TABLE LGAC (
 CREATE TABLE Avances (
 	ID_avance int not null auto_increment,
 	nombre varchar(30),
+	descripcion nvarchar(800),
 	fechaInicio date,
 	fechaEntrega date,
 	ID_profesor int,
