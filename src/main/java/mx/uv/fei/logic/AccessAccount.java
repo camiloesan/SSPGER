@@ -12,10 +12,6 @@ public class AccessAccount {
         this.userPassword = userPassword;
     }
 
-    public void areCredentialsValid() {
-
-    }
-
     public int getUserId() {
         return userId;
     }

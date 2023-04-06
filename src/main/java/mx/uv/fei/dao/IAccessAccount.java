@@ -7,4 +7,5 @@ public interface IAccessAccount {
     void addAccessAccount(AccessAccount accessAccount) throws SQLException;
     void modifyAccessAccountByUsername(String username, AccessAccount accessAccount) throws SQLException;
     void deleteAccessAccountByName(String username) throws SQLException;
+    boolean areCredentialsValid(String username, String password) throws SQLException;
 }

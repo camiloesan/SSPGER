@@ -11,11 +11,8 @@ public class ProjectEvidence {
     private int projectId;
     private String studentMatricula;
 
-    public ProjectEvidence(int projectEvidenceId, String projectEvidenceTitle, String projectEvidenceStatus, int projectEvidenceGrade, String projectEvidenceDescription, int professorId, int progressId, int projectId, String studentMatricula) {
-        this.projectEvidenceId = projectEvidenceId;
+    public ProjectEvidence(String projectEvidenceTitle, String projectEvidenceDescription, int professorId, int progressId, int projectId, String studentMatricula) {
         this.projectEvidenceTitle = projectEvidenceTitle;
-        this.projectEvidenceStatus = projectEvidenceStatus;
-        this.projectEvidenceGrade = projectEvidenceGrade;
         this.projectEvidenceDescription = projectEvidenceDescription;
         this.professorId = professorId;
         this.progressId = progressId;

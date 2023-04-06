@@ -5,6 +5,7 @@ import mx.uv.fei.dataaccess.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AccessAccountDAO implements IAccessAccount {
@@ -48,5 +49,24 @@ public class AccessAccountDAO implements IAccessAccount {
         preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
+    }
+
+    @Override
+    public boolean areCredentialsValid(String username, String password) throws SQLException { // modify not duplicates
+        boolean isValid;
+        String query = "select * from CuentasAcceso where nombreUsuario=(?) and contrasena=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
+        preparedStatement.setString(2, password);
+
+        ResultSet rs = preparedStatement.executeQuery();
+        isValid = rs.next();
+
+        databaseManager.closeConnection();
+
+        return isValid;
     }
 }
