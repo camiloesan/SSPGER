@@ -17,16 +17,14 @@ public class ProjectEvidenceDAO implements IProjectEvidence {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, projectEvidence.getProjectEvidenceTitle());
         preparedStatement.setString(2, projectEvidence.getProjectEvidenceDescription());
-        //preparedStatement.setInt(3, );//las llaves foráneas se obtienen de alguna manera mientras se detecte el clic anterior
-        //preparedStatement.setInt(4, );
-        //preparedStatement.setInt(5, );
-        //preparedStatement.setString(6, );
+        preparedStatement.setInt(3, projectEvidence.getProfessorId());
+        preparedStatement.setInt(4, projectEvidence.getProgressId());
+        preparedStatement.setInt(5, projectEvidence.getProjectId());
+        preparedStatement.setString(6, projectEvidence.getStudentMatricula());
         preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
     }
-
-    //getStudentMatriculaByName or something
 
     @Override
     public void addProjectEvidenceGradeById(int id) throws SQLException {
