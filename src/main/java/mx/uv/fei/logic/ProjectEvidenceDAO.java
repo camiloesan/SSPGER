@@ -34,7 +34,7 @@ public class ProjectEvidenceDAO implements IProjectEvidence {
     }
 
     @Override
-    public void getProjectEvidenceByStudent(String studentName) throws SQLException {
+    public void getProjectEvidenceByStudentName(String studentName) throws SQLException {
 
     }
 }

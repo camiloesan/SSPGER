@@ -7,5 +7,5 @@ import java.sql.SQLException;
 public interface IProjectEvidence {
     void addProjectEvidence(ProjectEvidence projectEvidence) throws SQLException;
     void addProjectEvidenceGradeById(int id) throws SQLException;
-    void getProjectEvidenceByStudent(String studentName) throws SQLException;
+    void getProjectEvidenceByStudentName(String studentName) throws SQLException;
 }
