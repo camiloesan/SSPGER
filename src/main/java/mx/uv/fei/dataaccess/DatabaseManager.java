@@ -18,7 +18,7 @@ public class DatabaseManager {
     private static String DATABASE_PASSWORD;
 
     public DatabaseManager() {
-        String configFilePath = "/home/camilo/Documents/SSPGER/src/main/java/mx/uv/fei/config.properties";
+        String configFilePath = "src/main/java/mx/uv/fei/config.properties";
         FileInputStream propertiesInput;
         try {
             propertiesInput = new FileInputStream(configFilePath);
