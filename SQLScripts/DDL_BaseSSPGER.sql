@@ -5,6 +5,7 @@ CREATE TABLE CuentasAcceso (
 	ID_usuario int not null auto_increment,
 	nombreUsuario varchar(15), 
 	contrasena nvarchar(16),
+	tipoUsuario varchar(20),
     PRIMARY KEY(ID_usuario)
 );
 
