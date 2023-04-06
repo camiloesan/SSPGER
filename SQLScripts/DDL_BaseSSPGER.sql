@@ -125,3 +125,13 @@ CREATE TABLE ReporteEstudiantes (
 	ID_reporte int,
 	PRIMARY KEY(ID_reporteEstudiante)
 );
+
+CREATE TABLE SolicitudesProyecto (
+	ID_solicitudProyecto int not null auto_increment,
+	ID_proyecto int,
+	matriculaEstudiante varchar(10),
+	estado varchar(20) default 'Por aceptar',
+	motivos varchar(850)
+	PRIMARY KEY(ID_solicitudProyecto)
+);
+				
