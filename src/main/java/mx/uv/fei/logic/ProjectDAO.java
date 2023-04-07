@@ -6,10 +6,6 @@ import mx.uv.fei.dataaccess.DatabaseManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.util.EventListener;
-import java.util.List;
 
 public class ProjectDAO implements IProject{
     public int addProject(Project project) throws SQLException {
