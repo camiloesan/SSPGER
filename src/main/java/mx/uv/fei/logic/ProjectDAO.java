@@ -6,14 +6,19 @@ import mx.uv.fei.dataaccess.DatabaseManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.util.EventListener;
+import java.util.List;
 
 public class ProjectDAO implements IProject{
-    public int addProject(Project project) throws SQLException{
+    public int addProject(Project project) throws SQLException {
         int result;
         String sqlQuery = "INSERT INTO Proyectos (clavecuerpoacademico, nombreproyectoinvestigación, lgac, lineainvestigacion, duracionaprox, id_modalidadtr, nombretrabajorecepcional, id_director, alumnosparticipantes, descripcionproyectoinvestigacion, descripciontrabajorecepcional, resultadosesperados, bibliografiarecomendada, estado, etapa, nrc) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
+
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
         preparedStatement.setString(1,project.getAcademicBodyId());
@@ -39,4 +44,21 @@ public class ProjectDAO implements IProject{
         return result;
     }
 
+    public int updateProjectState(int projectId, String state) throws SQLException {
+        int result;
+        String sqlQuery = "UPDATE Proyectos SET estado = (?) WHERE ID_proyecto = (?)";
+
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+
+        preparedStatement.setString(1, state);
+        preparedStatement.setInt(2,projectId);
+
+        result = preparedStatement.executeUpdate(sqlQuery);
+        databaseManager.closeConnection();
+
+        return result;
+    }
 }
