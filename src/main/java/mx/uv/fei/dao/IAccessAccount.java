@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 public interface IAccessAccount {
     void addAccessAccount(AccessAccount accessAccount) throws SQLException;
-    void modifyAccessAccount(AccessAccount accessAccount) throws SQLException;
-    void deleteAccessAccountByName(String name) throws SQLException;
+    void modifyAccessAccountByUsername(String username, AccessAccount accessAccount) throws SQLException;
+    void deleteAccessAccountByName(String username) throws SQLException;
+    boolean areCredentialsValid(String username, String password) throws SQLException;
 }
