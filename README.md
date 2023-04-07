@@ -13,3 +13,5 @@ Universidad Veracruzana, Ingeniería de Software, Equipo 7.
 [Modelos de la base de datos](https://drive.google.com/file/d/15xQUhz0pMKhsUGMORKv5BTxl-t-5_C-5/view)
 <br>
 [Estándar de codificación](https://uvmx-my.sharepoint.com/:w:/g/personal/zs21013875_estudiantes_uv_mx/EbCptpw2HYpItv2jaD74rJUBMyEvVAdo0eyz0Kv_zgCjYw?e=wi9d4n)
+<br>
+[Entrega final](https://1drv.ms/w/s!AgdsmCGZVKaPlxoC8HZZVHd0SVoJ?e=44smuq)
