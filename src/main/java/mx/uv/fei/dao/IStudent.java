@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IStudent {
     List<Student> getStudents() throws SQLException;
+    void insertStudent(Student student) throws SQLException;
 }
