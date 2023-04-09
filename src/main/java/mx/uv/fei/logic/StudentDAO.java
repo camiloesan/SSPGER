@@ -15,8 +15,8 @@ public class StudentDAO implements IStudent {
     public List<Student> getStudents() throws SQLException {
         List<Student> listStudents = new ArrayList<>();
         String query = "SELECT * FROM Estudiantes";
-        DatabaseManager dataBaseManager = new DatabaseManager();
-        Connection connection = dataBaseManager.getConnection();
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet results = statement.executeQuery();
         do {
@@ -33,7 +33,8 @@ public class StudentDAO implements IStudent {
 
             listStudents.add(objectStudent);
         } while (results.next());
-        dataBaseManager.closeConnection();
+        statement.executeUpdate();
+        databaseManager.closeConnection();
         return listStudents;
     }
 
@@ -51,6 +52,7 @@ public class StudentDAO implements IStudent {
         statement.setString(5, student.getAcademicEmail());
         statement.setInt(6, student.getNRC());
         statement.setInt(7, student.getUserID());
+        statement.executeUpdate();
 
         databaseManager.closeConnection();
     }

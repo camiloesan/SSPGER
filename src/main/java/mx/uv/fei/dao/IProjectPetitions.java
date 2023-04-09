@@ -8,4 +8,5 @@ import java.util.List;
 public interface IProjectPetitions {
     List<ProjectPetitions> getProjectPetitions() throws SQLException;
     void createProjectPetition(ProjectPetitions projectPetition) throws SQLException;
+    void validateProjectPetition(String option, int projectID, String studentTuition) throws SQLException;
 }
