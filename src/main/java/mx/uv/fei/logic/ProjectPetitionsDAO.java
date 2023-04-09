@@ -34,4 +34,18 @@ public class ProjectPetitionsDAO implements IProjectPetitions {
         dataBaseManager.closeConnection();
         return listPetitions;
     }
+
+    @Override
+    public void createProjectPetition(ProjectPetitions projectPetition) throws SQLException {
+        String query = "INSERT INTO SolicitudesProyecto(ID_proyecto, matriculaEstudiante, motivos) VALUES(?,?,?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query);
+
+        statement.setInt(1, projectPetition.getProjectID());
+        statement.setString(2, projectPetition.getStudentTuition());
+        statement.setString(3, projectPetition.getDescription());
+
+        databaseManager.closeConnection();
+    }
 }

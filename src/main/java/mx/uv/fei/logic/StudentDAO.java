@@ -36,4 +36,22 @@ public class StudentDAO implements IStudent {
         dataBaseManager.closeConnection();
         return listStudents;
     }
+
+    @Override
+    public void insertStudent(Student student) throws SQLException{
+        String query = "INSERT INTO Estudiantes(matricula, nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, NRC, ID_usuario) VALUES(?,?,?,?,?,?,?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query);
+
+        statement.setString(1, student.getTuition());
+        statement.setString(2, student.getName());
+        statement.setString(3, student.getLastName());
+        statement.setString(4, student.getMothersLastName());
+        statement.setString(5, student.getAcademicEmail());
+        statement.setInt(6, student.getNRC());
+        statement.setInt(7, student.getUserID());
+
+        databaseManager.closeConnection();
+    }
 }
