@@ -77,7 +77,7 @@ CREATE TABLE Proyectos (
 
 CREATE TABLE ModalidadesTR(
 	ID_modalidadTR int not null auto_increment,
-	modalidadTR varchar(15),
+	modalidadTR varchar(50),
     PRIMARY KEY(ID_modalidadTR)
 );
 
