@@ -56,4 +56,18 @@ public class StudentDAO implements IStudent {
 
         databaseManager.closeConnection();
     }
+
+    @Override
+    public void deleteStudent(String studentTuition) throws SQLException {
+        String query = "DELETE FROM Estudiantes WHERE matricula=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query);
+
+        statement.setString(1, studentTuition);
+
+        statement.executeUpdate();
+        databaseManager.closeConnection();
+    }
+
 }
