@@ -5,8 +5,9 @@ CREATE TABLE CuentasAcceso (
 	ID_usuario int not null auto_increment,
 	nombreUsuario varchar(15), 
 	contrasena nvarchar(16),
-	tipoUsuario varchar(20),
-    PRIMARY KEY(ID_usuario)
+    tipoUsuario enum('administrador', 'estudiante', 'profesor', 'representanteCA'),
+    PRIMARY KEY(ID_usuario),
+    UNIQUE (nombreUsuario)
 );
 
 CREATE TABLE Estudiantes (
@@ -101,7 +102,7 @@ CREATE TABLE Avances (
 CREATE TABLE Evidencias (
 	ID_evidencia int not null auto_increment,
 	titulo varchar(30),
-	estado varchar(15) default 'Por revisar.',
+	estado enum('por revisar', 'revisado') default 'por revisar',
 	calificacion int,
 	descripcion varchar(100),
 	ID_profesor int,
