@@ -5,6 +5,7 @@ import mx.uv.fei.dataaccess.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProjectEvidenceDAO implements IProjectEvidence {
@@ -42,6 +43,14 @@ public class ProjectEvidenceDAO implements IProjectEvidence {
 
     @Override
     public void getProjectEvidenceByStudentId(String id) throws SQLException {
+        String query = "select * from Evidencias where matriculaEstudiante=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
 
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, id);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
     }
 }
