@@ -31,6 +31,7 @@ public class ProjectPetitionsDAO implements IProjectPetitions {
 
             listPetitions.add(objectPetitions);
         } while (results.next());
+        statement.executeUpdate();
         dataBaseManager.closeConnection();
         return listPetitions;
     }
@@ -45,7 +46,24 @@ public class ProjectPetitionsDAO implements IProjectPetitions {
         statement.setInt(1, projectPetition.getProjectID());
         statement.setString(2, projectPetition.getStudentTuition());
         statement.setString(3, projectPetition.getDescription());
+        statement.executeUpdate();
 
         databaseManager.closeConnection();
     }
+
+    @Override
+    public void validateProjectPetition(String option, int projectID, String studentTuition) throws SQLException {
+        String query = "UPDATE SolicitudesProyecto SET estado=(?) WHERE ID_proyecto=(?) AND matriculaEstudiante=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query);
+
+        statement.setString(1, option);
+        statement.setInt(2, projectID);
+        statement.setString(3, studentTuition);
+
+        statement.executeUpdate();
+        databaseManager.closeConnection();
+    }
+
 }
