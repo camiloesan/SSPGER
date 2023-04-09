@@ -69,7 +69,7 @@ CREATE TABLE Proyectos (
 	descripcionTrabajoRecepcional nvarchar(2000),
 	resultadosEsperados nvarchar(2000),
 	bibliografiaRecomendada nvarchar(2000),
-	estado varchar(15) default 'Por revisar.',
+	estado varchar(15) enum('Verificado','Por revisar') default 'Por revisar',
 	etapa varchar(20),
 	NRC int,
     PRIMARY KEY(ID_proyecto)
