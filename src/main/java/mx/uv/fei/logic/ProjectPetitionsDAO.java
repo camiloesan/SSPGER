@@ -52,15 +52,27 @@ public class ProjectPetitionsDAO implements IProjectPetitions {
     }
 
     @Override
-    public void validateProjectPetition(String option, int projectID, String studentTuition) throws SQLException {
-        String query = "UPDATE SolicitudesProyecto SET estado=(?) WHERE ID_proyecto=(?) AND matriculaEstudiante=(?)";
+    public void validateProjectPetition(String validation, int projectPetitionID) throws SQLException {
+        String query = "UPDATE SolicitudesProyecto SET estado=(?) WHERE ID_solicitudProyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement statement = connection.prepareStatement(query);
 
-        statement.setString(1, option);
-        statement.setInt(2, projectID);
-        statement.setString(3, studentTuition);
+        statement.setString(1, validation);
+        statement.setInt(2, projectPetitionID);
+
+        statement.executeUpdate();
+        databaseManager.closeConnection();
+    }
+
+    @Override
+    public void deleteProjectPetition(int projectPetitionID) throws SQLException {
+        String query = "DELETE FROM SolicitudesProyecto WHERE ID_solicitudProyecto=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query);
+
+        statement.setInt(1, projectPetitionID);
 
         statement.executeUpdate();
         databaseManager.closeConnection();
