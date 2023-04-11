@@ -2,10 +2,12 @@ CREATE DATABASE SSPGER;
 USE SSPGER;
 
 CREATE TABLE CuentasAcceso (
-	ID_usuario int not null,
+	ID_usuario int not null auto_increment,
 	nombreUsuario varchar(15), 
 	contrasena nvarchar(16),
-    PRIMARY KEY(ID_usuario)
+    tipoUsuario enum('administrador', 'estudiante', 'profesor', 'representanteCA'),
+    PRIMARY KEY(ID_usuario),
+    UNIQUE (nombreUsuario)
 );
 
 CREATE TABLE Estudiantes (
@@ -20,7 +22,7 @@ CREATE TABLE Estudiantes (
 );
 
 CREATE TABLE Profesores (
-	ID_profesor int not null,
+	ID_profesor int not null auto_increment,
 	nombre varchar(30),
 	apellidoPaterno varchar(30), 
 	apellidoMaterno varchar(30),
@@ -45,21 +47,21 @@ CREATE TABLE ExperienciasEducativas (
 );
 
 CREATE TABLE CodirectoresProyecto (
-	ID_codirectorProyecto int not null,
+	ID_codirectorProyecto int not null auto_increment,
 	ID_proyecto int,
 	ID_profesor int,
 	PRIMARY KEY(ID_codirectorProyecto)
 );
 
 CREATE TABLE Proyectos (
-	ID_proyecto int not null, 
+	ID_proyecto int not null auto_increment,
 	claveCuerpoAcademico varchar(10),
-	nombreProyectoInvestigación varchar(30), 
+	nombreProyectoInvestigación varchar(200), 
 	LGAC varchar(2),
-	lineaInvestigacion varchar(200),
+	lineaInvestigacion varchar(300),
 	duracionAprox varchar(10),
 	ID_modalidadTR int,
-	nombreTrabajoRecepcional varchar(30),
+	nombreTrabajoRecepcional varchar(200),
 	requisitos varchar(500),
 	ID_director int,
 	alumnosParticipantes int,
@@ -67,15 +69,15 @@ CREATE TABLE Proyectos (
 	descripcionTrabajoRecepcional nvarchar(2000),
 	resultadosEsperados nvarchar(2000),
 	bibliografiaRecomendada nvarchar(2000),
-	estado varchar(15) default 'Por revisar.',
+	estado enum('Verificado','Por revisar','Declinado') default 'Por revisar',
 	etapa varchar(20),
 	NRC int,
     PRIMARY KEY(ID_proyecto)
 );
 
 CREATE TABLE ModalidadesTR(
-	ID_modalidadTR int not null,
-	modalidadTR varchar(15),
+	ID_modalidadTR int not null auto_increment,
+	modalidadTR varchar(50),
     PRIMARY KEY(ID_modalidadTR)
 );
 
@@ -87,9 +89,10 @@ CREATE TABLE LGAC (
 );
 
 CREATE TABLE Avances (
-	ID_avance int not null,
+	ID_avance int not null auto_increment,
 	nombre varchar(30),
-	fechaCreacion date,
+	descripcion nvarchar(800),
+	fechaInicio date,
 	fechaEntrega date,
 	ID_profesor int,
 	ID_proyecto int,
@@ -97,9 +100,9 @@ CREATE TABLE Avances (
 );
 
 CREATE TABLE Evidencias (
-	ID_evidencia int not null,
+	ID_evidencia int not null auto_increment,
 	titulo varchar(30),
-	estado varchar(15) default 'Por revisar.',
+	estado enum('por revisar', 'revisado') default 'por revisar',
 	calificacion int,
 	descripcion varchar(100),
 	ID_profesor int,
@@ -110,7 +113,7 @@ CREATE TABLE Evidencias (
 );
 
 CREATE TABLE Reportes (
-	ID_reporte int not null,
+	ID_reporte int not null auto_increment,
 	titulo varchar (30),
 	descripcion varchar (200),
 	ID_profesor int,
@@ -118,8 +121,18 @@ CREATE TABLE Reportes (
 );
 
 CREATE TABLE ReporteEstudiantes (
-	ID_reporteEstudiante int not null,
+	ID_reporteEstudiante int not null auto_increment,
 	matricula varchar(10),
 	ID_reporte int,
 	PRIMARY KEY(ID_reporteEstudiante)
 );
+
+CREATE TABLE SolicitudesProyecto (
+	ID_solicitudProyecto int not null auto_increment,
+	ID_proyecto int,
+	matriculaEstudiante varchar(10),
+	estado varchar(20) default 'Por aceptar',
+	motivos varchar(850),
+	PRIMARY KEY(ID_solicitudProyecto)
+);
+				
