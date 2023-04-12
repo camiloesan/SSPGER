@@ -40,7 +40,7 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public void deleteAccessAccountByName(String username) throws SQLException {
+    public void deleteAccessAccountByUsername(String username) throws SQLException {
         String query = "delete from CuentasAcceso where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -53,18 +53,17 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public boolean areCredentialsValid(String username, String password) throws SQLException { // modify not duplicates
+    public boolean areCredentialsValid(String username, String password) throws SQLException {
         boolean isValid;
-        String query = "select * from CuentasAcceso where nombreUsuario=(?) and contrasena=(?)";
+        String query = "select 1 from CuentasAcceso where nombreUsuario=(?) and contrasena=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, password);
-
-        ResultSet rs = preparedStatement.executeQuery();
-        isValid = rs.next();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        isValid = resultSet.next();
 
         databaseManager.closeConnection();
 
