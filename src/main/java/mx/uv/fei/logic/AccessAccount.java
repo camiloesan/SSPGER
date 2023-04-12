@@ -4,12 +4,22 @@ public class AccessAccount {
     private int userId;
     private String username;
     private String userPassword;
+    private  String userType;
 
     public AccessAccount() {}
 
-    public AccessAccount(String username, String userPassword) {
+    public AccessAccount(String username, String userPassword, String userType) {
         this.username = username;
         this.userPassword = userPassword;
+        this.userType = userType;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public int getUserId() {
