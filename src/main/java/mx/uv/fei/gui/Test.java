@@ -21,7 +21,6 @@ public class Test {
         student.setUserID(2);
         try{
             studentDAO.insertStudent(student);
-            studentDAO.getStudents();
         } catch (SQLException exception){
             exception.getErrorCode();
         }

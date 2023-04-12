@@ -43,16 +43,17 @@ public class StudentDAO implements IStudent {
         String query = "INSERT INTO Estudiantes(matricula, nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, NRC, ID_usuario) VALUES(?,?,?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
-        PreparedStatement statement = connection.prepareStatement(query);
+        System.out.println("prueba");
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-        statement.setString(1, student.getTuition());
-        statement.setString(2, student.getName());
-        statement.setString(3, student.getLastName());
-        statement.setString(4, student.getMothersLastName());
-        statement.setString(5, student.getAcademicEmail());
-        statement.setInt(6, student.getNRC());
-        statement.setInt(7, student.getUserID());
-        statement.executeUpdate();
+        preparedStatement.setString(1, student.getTuition());
+        preparedStatement.setString(2, student.getName());
+        preparedStatement.setString(3, student.getLastName());
+        preparedStatement.setString(4, student.getMothersLastName());
+        preparedStatement.setString(5, student.getAcademicEmail());
+        preparedStatement.setInt(6, student.getNRC());
+        preparedStatement.setInt(7, student.getUserID());
+        preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
     }
