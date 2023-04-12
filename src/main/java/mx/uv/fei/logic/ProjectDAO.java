@@ -34,7 +34,7 @@ public class ProjectDAO implements IProject{
         preparedStatement.setString(15,project.getStage());
         preparedStatement.setInt(16,project.getNRC());
 
-        result = preparedStatement.executeUpdate(sqlQuery);
+        result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
 
         return result;
@@ -52,7 +52,7 @@ public class ProjectDAO implements IProject{
         preparedStatement.setString(1, state);
         preparedStatement.setInt(2,projectId);
 
-        result = preparedStatement.executeUpdate(sqlQuery);
+        result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
 
         return result;
