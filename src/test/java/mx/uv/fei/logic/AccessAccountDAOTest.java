@@ -39,7 +39,7 @@ class AccessAccountDAOTest {
     void modifyAccessAccountByUsernameAlreadyExists() {
         var accessAccountDAO = new AccessAccountDAO();
         var accessAccount = new AccessAccount("camilo", "camilo", "administrador");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("jorge", accessAccount));
+        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("themaster", accessAccount));
     }
 
     @Test
@@ -55,12 +55,6 @@ class AccessAccountDAOTest {
     @Test
     void modifyAccessAccountByUsernameWrongUserType() {
 
-    }
-
-    @Test
-    void deleteAccessAccountByUsername() {
-        var accessAccountDAO = new AccessAccountDAO();
-        assertFalse(false);
     }
 
     @Test
