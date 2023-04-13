@@ -56,7 +56,7 @@ CREATE TABLE CodirectoresProyecto (
 
 CREATE TABLE Proyectos (
 	ID_proyecto int not null auto_increment,
-	claveCuerpoAcademico varchar(10),
+	claveCA varchar(10),
 	nombreProyectoInvestigación varchar(200), 
 	LGAC varchar(2),
 	lineaInvestigacion varchar(300),
