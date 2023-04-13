@@ -32,11 +32,12 @@ CREATE TABLE Profesores (
 );
 
 CREATE TABLE CuerpoAcademico (
-	clave varchar (10) not null,
-    DES_adscripción varchar(15),
-    unidad_adscripción varchar(15),
-    responsable int,
-    PRIMARY KEY (clave)
+	claveCA varchar (10) not null,
+	nombreCA varchar (45),
+    	DES_adscripción varchar(15),
+    	unidad_adscripción varchar(15),
+    	responsable int,
+    PRIMARY KEY (claveCA)
 );
 
 CREATE TABLE ExperienciasEducativas (
