@@ -34,8 +34,8 @@ CREATE TABLE Profesores (
 CREATE TABLE CuerpoAcademico (
 	claveCA varchar (10) not null,
 	nombreCA varchar (45),
-    	DES_adscripción varchar(15),
-    	unidad_adscripción varchar(15),
+    	DES_adscripción varchar(40),
+    	unidad_adscripción varchar(40),
     	responsable int,
     PRIMARY KEY (claveCA)
 );
