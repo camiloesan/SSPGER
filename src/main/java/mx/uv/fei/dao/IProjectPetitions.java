@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IProjectPetitions {
-    List<ProjectPetitions> getProjectPetitions() throws SQLException;
     void createProjectPetition(ProjectPetitions projectPetition) throws SQLException;
     void validateProjectPetition(String validation, int projectPetitionID) throws SQLException;
     void deleteProjectPetition(int projectPetitionID) throws  SQLException;

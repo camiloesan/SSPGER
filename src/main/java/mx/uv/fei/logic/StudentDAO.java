@@ -12,38 +12,10 @@ import java.util.List;
 
 public class StudentDAO implements IStudent {
     @Override
-    public List<Student> getStudents() throws SQLException {
-        List<Student> listStudents = new ArrayList<>();
-        String query = "SELECT * FROM Estudiantes";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        PreparedStatement statement = connection.prepareStatement(query);
-        ResultSet results = statement.executeQuery();
-        do {
-
-            Student objectStudent = new Student();
-
-            objectStudent.setTuition(results.getString("matricula"));
-            objectStudent.setName(results.getString("nombre"));
-            objectStudent.setLastName(results.getString("apellidoPaterno"));
-            objectStudent.setMothersLastName(results.getString("apellidoMaterno"));
-            objectStudent.setAcademicEmail(results.getString("correoInstitucional"));
-            objectStudent.setNRC(results.getInt("NRC"));
-            objectStudent.setUserID(results.getInt("ID_usuario"));
-
-            listStudents.add(objectStudent);
-        } while (results.next());
-        statement.executeUpdate();
-        databaseManager.closeConnection();
-        return listStudents;
-    }
-
-    @Override
     public void insertStudent(Student student) throws SQLException{
         String query = "INSERT INTO Estudiantes(matricula, nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, NRC, ID_usuario) VALUES(?,?,?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
-        System.out.println("prueba");
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1, student.getTuition());
@@ -53,21 +25,21 @@ public class StudentDAO implements IStudent {
         preparedStatement.setString(5, student.getAcademicEmail());
         preparedStatement.setInt(6, student.getNRC());
         preparedStatement.setInt(7, student.getUserID());
-        preparedStatement.executeUpdate();
+        preparedStatement.executeQuery();
 
         databaseManager.closeConnection();
     }
 
     @Override
-    public void deleteStudent(String studentTuition) throws SQLException {
+    public void deleteStudent(String studentID) throws SQLException {
         String query = "DELETE FROM Estudiantes WHERE matricula=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement statement = connection.prepareStatement(query);
 
-        statement.setString(1, studentTuition);
+        statement.setString(1, studentID);
 
-        statement.executeUpdate();
+        statement.executeQuery();
         databaseManager.closeConnection();
     }
 

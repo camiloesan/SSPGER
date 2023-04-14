@@ -12,31 +12,6 @@ import java.util.List;
 
 public class ProjectPetitionsDAO implements IProjectPetitions {
     @Override
-    public List<ProjectPetitions> getProjectPetitions() throws SQLException {
-        List<ProjectPetitions> listPetitions = new ArrayList<>();
-        String query = "SELECT * FROM SolicitudesProyecto";
-        DatabaseManager dataBaseManager = new DatabaseManager();
-        Connection connection = dataBaseManager.getConnection();
-        PreparedStatement statement = connection.prepareStatement(query);
-        ResultSet results = statement.executeQuery();
-        do {
-
-            ProjectPetitions objectPetitions = new ProjectPetitions();
-
-            objectPetitions.setProjectPetitionID(results.getInt("ID_solicitudProyecto"));
-            objectPetitions.setProjectID(results.getInt("ID_proyecto"));
-            objectPetitions.setStudentTuition(results.getString("matriculaEstudiante"));
-            objectPetitions.setStatus(results.getString("estado"));
-            objectPetitions.setDescription(results.getString("motivos"));
-
-            listPetitions.add(objectPetitions);
-        } while (results.next());
-        statement.executeUpdate();
-        dataBaseManager.closeConnection();
-        return listPetitions;
-    }
-
-    @Override
     public void createProjectPetition(ProjectPetitions projectPetition) throws SQLException {
         String query = "INSERT INTO SolicitudesProyecto(ID_proyecto, matriculaEstudiante, motivos) VALUES(?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -46,7 +21,7 @@ public class ProjectPetitionsDAO implements IProjectPetitions {
         statement.setInt(1, projectPetition.getProjectID());
         statement.setString(2, projectPetition.getStudentTuition());
         statement.setString(3, projectPetition.getDescription());
-        statement.executeUpdate();
+        statement.executeQuery();
 
         databaseManager.closeConnection();
     }
@@ -61,7 +36,7 @@ public class ProjectPetitionsDAO implements IProjectPetitions {
         statement.setString(1, validation);
         statement.setInt(2, projectPetitionID);
 
-        statement.executeUpdate();
+        statement.executeQuery();
         databaseManager.closeConnection();
     }
 
