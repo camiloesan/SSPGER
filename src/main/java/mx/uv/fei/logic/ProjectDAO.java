@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class ProjectDAO implements IProject{
     public int addProject(Project project) throws SQLException {
         int result;
-        String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, duracionAprox, ID_modalidadTR, nombreProyectoInvestigación, requisitos, ID_director, alumnosParticipantes, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, bibliografiaRecomendada, estado, etapa, NRC) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, duracionAprox, ID_modalidadTR, nombreTrabajoRecepcional, requisitos, ID_director, alumnosParticipantes, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, bibliografiaRecomendada, etapa, NRC) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -21,7 +21,7 @@ public class ProjectDAO implements IProject{
 
         preparedStatement.setString(1,project.getAcademicBodyId());
         preparedStatement.setString(2,project.getInvestigationProjectName());
-        preparedStatement.setInt(3,project.getLGAC_Id());
+        preparedStatement.setString(3,project.getLGAC_Id());
         preparedStatement.setString(4,project.getInvestigationLine());
         preparedStatement.setString(5,project.getApproximateDuration());
         preparedStatement.setInt(6,project.getModalityId());
@@ -33,9 +33,8 @@ public class ProjectDAO implements IProject{
         preparedStatement.setString(12,project.getReceptionWorkDescription());
         preparedStatement.setString(13,project.getExpectedResults());
         preparedStatement.setString(14,project.getRecommendedBibliography());
-        preparedStatement.setString(15,project.getState());
-        preparedStatement.setString(16,project.getStage());
-        preparedStatement.setInt(17,project.getNRC());
+        preparedStatement.setString(15,project.getStage());
+        preparedStatement.setInt(16,project.getNRC());
 
         result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
