@@ -62,19 +62,14 @@ public class ProjectDAO implements IProject{
     }
 
     public ArrayList<SimpleProject> getProjectsByState(String projectState) throws SQLException {
-        String sqlQuery = null;
-        if (projectState == "Verificado") {
-            sqlQuery = "SELECT P.ID_proyecto, P.nombreProyectoInvestigación AS 'Proyecto', CONCAT (P2.nombre, ' ',P2.apellidoPaterno, ' ', P2.apellidoMaterno) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = 'Verificado'";
-        } else if (projectState == "Por revisar") {
-            sqlQuery = "SELECT P.ID_proyecto, P.nombreProyectoInvestigación AS 'Proyecto', CONCAT (P2.nombre, ' ',P2.apellidoPaterno, ' ', P2.apellidoMaterno) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = 'Por revisar'";
-        } else if (projectState == "Declinado") {
-            sqlQuery = "SELECT P.ID_proyecto, P.nombreProyectoInvestigación AS 'Proyecto', CONCAT (P2.nombre, ' ',P2.apellidoPaterno, ' ', P2.apellidoMaterno) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = 'Declinado'";
-        }
+        String sqlQuery = "SELECT P.ID_proyecto, P.nombreProyectoInvestigación AS 'Proyecto', CONCAT (P2.nombre, ' ',P2.apellidoPaterno, ' ', P2.apellidoMaterno) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = ?";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1,projectState);
+
         ResultSet resultSet = preparedStatement.executeQuery();
 
         ArrayList<SimpleProject> simpleProjects = new ArrayList<>();
@@ -100,6 +95,7 @@ public class ProjectDAO implements IProject{
 
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1,projectID);
+
         ResultSet resultSet = preparedStatement.executeQuery();
 
         DetailedProject detailedProject = new DetailedProject();
