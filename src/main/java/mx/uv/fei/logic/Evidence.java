@@ -1,6 +1,6 @@
 package mx.uv.fei.logic;
 
-public class ProjectEvidence {
+public class Evidence {
     private int projectEvidenceId;
     private String projectEvidenceTitle;
     private String projectEvidenceStatus;
@@ -11,7 +11,7 @@ public class ProjectEvidence {
     private int projectId;
     private String studentId;
 
-    public ProjectEvidence(String projectEvidenceTitle, String projectEvidenceDescription, int professorId, int progressId, int projectId, String studentId) {
+    public Evidence(String projectEvidenceTitle, String projectEvidenceDescription, int professorId, int progressId, int projectId, String studentId) {
         this.projectEvidenceTitle = projectEvidenceTitle;
         this.projectEvidenceDescription = projectEvidenceDescription;
         this.professorId = professorId;
