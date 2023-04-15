@@ -3,9 +3,9 @@ USE SSPGER;
 
 CREATE TABLE CuentasAcceso (
 	ID_usuario int not null auto_increment,
-	nombreUsuario varchar(15), 
-	contrasena nvarchar(16),
-    tipoUsuario enum('administrador', 'estudiante', 'profesor', 'representanteCA'),
+	nombreUsuario varchar(15) not null, 
+	contrasena nvarchar(16) not null,
+    tipoUsuario enum('administrador', 'estudiante', 'profesor', 'representanteCA') not null,
     PRIMARY KEY(ID_usuario),
     UNIQUE (nombreUsuario)
 );
@@ -93,8 +93,8 @@ CREATE TABLE Avances (
 	ID_avance int not null auto_increment,
 	nombre varchar(30),
 	descripcion nvarchar(800),
-	fechaInicio date,
-	fechaEntrega date,
+	fechaInicio date not null,
+	fechaEntrega date not null,
 	ID_profesor int,
 	ID_proyecto int,
     PRIMARY KEY(ID_avance)
@@ -102,7 +102,7 @@ CREATE TABLE Avances (
 
 CREATE TABLE Evidencias (
 	ID_evidencia int not null auto_increment,
-	titulo varchar(30),
+	titulo varchar(30) not null,
 	estado enum('por revisar', 'revisado') default 'por revisar',
 	calificacion int,
 	descripcion varchar(100),
@@ -110,6 +110,7 @@ CREATE TABLE Evidencias (
 	ID_avance int,
 	ID_proyecto int,
 	matriculaEstudiante varchar(10),
+    CHECK (calificacion>=0 and calificacion<=10),
     PRIMARY KEY(ID_Evidencia)
 );
 
