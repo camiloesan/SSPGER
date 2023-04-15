@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccessAccountDAO implements IAccessAccount {
     @Override
@@ -53,8 +55,6 @@ public class AccessAccountDAO implements IAccessAccount {
         databaseManager.closeConnection();
     }
 
-
-
     @Override
     public boolean areCredentialsValid(String username, String password) throws SQLException {
         boolean isValid;
@@ -89,5 +89,28 @@ public class AccessAccountDAO implements IAccessAccount {
         }
 
         return type;
+    }
+
+    @Override
+    public List<AccessAccount> getListAccessAccounts() throws SQLException {
+        String query = "select tipoUsuario from CuentasAcceso where nombreUsuario=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        List<AccessAccount> accessAccountList = new ArrayList<>();
+        while (resultSet.next()) {
+            AccessAccount accessAccount = new AccessAccount();
+            accessAccount.setUserId(resultSet.getInt("ID_usuario"));
+            accessAccount.setUsername(resultSet.getString("nombreusuario"));
+            accessAccount.setUserPassword(resultSet.getString("contrasena"));
+            accessAccount.setUserType(resultSet.getString("tipoUsuario"));
+            accessAccountList.add(accessAccount);
+        }
+
+        return accessAccountList;
     }
 }
