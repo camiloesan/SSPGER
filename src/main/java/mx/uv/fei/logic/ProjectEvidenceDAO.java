@@ -21,7 +21,7 @@ public class ProjectEvidenceDAO implements IProjectEvidence {
         preparedStatement.setInt(3, projectEvidence.getProfessorId());
         preparedStatement.setInt(4, projectEvidence.getProgressId());
         preparedStatement.setInt(5, projectEvidence.getProjectId());
-        preparedStatement.setString(6, projectEvidence.getStudentMatricula());
+        preparedStatement.setString(6, projectEvidence.getStudentId());
         preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();

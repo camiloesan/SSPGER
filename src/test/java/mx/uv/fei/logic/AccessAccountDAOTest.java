@@ -1,5 +1,8 @@
 package mx.uv.fei.logic;
 
+import org.checkerframework.checker.units.qual.A;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -7,17 +10,34 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccessAccountDAOTest {
-    @Test
-    void addAccessAccountWrongUserType() {
+
+    @BeforeEach
+    void setUp() throws SQLException {
         var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount("jorge", "pass", "coche");
+        var accessAccount = new AccessAccount();
+        accessAccount.setUsername("dummy");
+        accessAccount.setUserPassword("dummy");
+        accessAccount.setUserType("profesor");
+        accessAccountDAO.addAccessAccount(accessAccount);
+    }
+
+    @AfterEach
+    void tearDown() throws SQLException {
+        var accessAccountDAO = new AccessAccountDAO();
+        accessAccountDAO.deleteAccessAccountByUsername("dummy");
+    }
+
+    @Test
+    void testAddAccessAccountWrongUserType() {
+        var accessAccountDAO = new AccessAccountDAO();
+        var accessAccount = new AccessAccount("dummy", "dummy", "coche");
         assertThrows(SQLException.class, () -> accessAccountDAO.addAccessAccount(accessAccount));
     }
 
     @Test
     void addAccessAccountUserAlreadyExists() {
         var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount("camilo", "camilo", "administrador");
+        var accessAccount = new AccessAccount("dummy", "dummy", "profesor");
         assertThrows(SQLException.class, () -> accessAccountDAO.addAccessAccount(accessAccount));
     }
 
@@ -38,8 +58,8 @@ class AccessAccountDAOTest {
     @Test
     void modifyAccessAccountByUsernameAlreadyExists() {
         var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount("camilo", "camilo", "administrador");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("themaster", accessAccount));
+        var accessAccount = new AccessAccount("dummy", "dummy", "profesor");
+        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("camilo", accessAccount));
     }
 
     @Test
@@ -59,6 +79,7 @@ class AccessAccountDAOTest {
 
     @Test
     void areCredentialsValid() {
-
+        var accessAccountDAO = new AccessAccountDAO();
+        assertDoesNotThrow(() -> accessAccountDAO.areCredentialsValid("dummy", "dummy"));
     }
 }

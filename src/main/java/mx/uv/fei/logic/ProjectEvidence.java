@@ -9,15 +9,15 @@ public class ProjectEvidence {
     private int professorId;
     private int progressId;
     private int projectId;
-    private String studentMatricula;
+    private String studentId;
 
-    public ProjectEvidence(String projectEvidenceTitle, String projectEvidenceDescription, int professorId, int progressId, int projectId, String studentMatricula) {
+    public ProjectEvidence(String projectEvidenceTitle, String projectEvidenceDescription, int professorId, int progressId, int projectId, String studentId) {
         this.projectEvidenceTitle = projectEvidenceTitle;
         this.projectEvidenceDescription = projectEvidenceDescription;
         this.professorId = professorId;
         this.progressId = progressId;
         this.projectId = projectId;
-        this.studentMatricula = studentMatricula;
+        this.studentId = studentId;
     }
 
     public int getProjectEvidenceId() {
@@ -84,11 +84,11 @@ public class ProjectEvidence {
         this.projectId = projectId;
     }
 
-    public String getStudentMatricula() {
-        return studentMatricula;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudentMatricula(String studentMatricula) {
-        this.studentMatricula = studentMatricula;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 }
