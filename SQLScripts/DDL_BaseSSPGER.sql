@@ -58,7 +58,7 @@ CREATE TABLE Proyectos (
 	ID_proyecto int not null auto_increment,
 	claveCA varchar(10),
 	nombreProyectoInvestigación varchar(200), 
-	LGAC varchar(2),
+	LGAC enum('L1','L2'),
 	lineaInvestigacion varchar(300),
 	duracionAprox varchar(10),
 	ID_modalidadTR int,
