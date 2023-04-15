@@ -1,6 +1,6 @@
 package mx.uv.fei.logic;
 
-public class ProjectPetitions {
+public class ProjectRequest {
     private int projectPetitionID;
     private int projectID;
     private String studentTuition;
