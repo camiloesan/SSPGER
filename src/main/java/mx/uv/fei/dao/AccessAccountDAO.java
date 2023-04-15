@@ -1,6 +1,5 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.IAccessAccount;
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.AccessAccount;
 
@@ -8,8 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AccessAccountDAO implements IAccessAccount {
     @Override
@@ -92,7 +89,7 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public List<AccessAccount> getListAccessAccounts() throws SQLException {
+    public ResultSet getListAccessAccounts() throws SQLException {
         String query = "select nombreUsuario, tipoUsuario from CuentasAcceso";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -101,12 +98,6 @@ public class AccessAccountDAO implements IAccessAccount {
         ResultSet resultSet = preparedStatement.executeQuery();
         databaseManager.closeConnection();
 
-        List<AccessAccount> accessAccountList = new ArrayList<>();
-        while (resultSet.next()) {
-            AccessAccount accessAccount = new AccessAccount(resultSet.getString("nombreusuario"), resultSet.getString("tipoUsuario"));
-            accessAccountList.add(accessAccount);
-        }
-
-        return accessAccountList;
+        return resultSet;
     }
 }
