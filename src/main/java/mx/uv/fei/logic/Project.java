@@ -4,11 +4,12 @@ public class Project {
     private int projectId;
     private String academicBodyId;
     private String investigationProjectName;
-    private int LGAC_Id;
+    private String LGAC_Id;
     private String investigationLine;
     private String approximateDuration;
     private int modalityId;
     private String receptionWorkName;
+    private String requisites;
     private int directorID;
     private int studentsParticipating;
     private String investigationProjectDescription;
@@ -21,7 +22,7 @@ public class Project {
 
     public Project() {}
 
-    public Project(String academicBodyId, String investigationProjectName, int LGAC_Id, String investigationLine, String approximateDuration, int modalityId, String receptionWorkName, int directorID, int studentsParticipating, String investigationProjectDescription, String receptionWorkDescription, String expectedResults, String recommendedBibliography, String state, String stage, int NRC) {
+    public Project(String academicBodyId, String investigationProjectName, String LGAC_Id, String investigationLine, String approximateDuration, int modalityId, String receptionWorkName, String requisites, int directorID, int studentsParticipating, String investigationProjectDescription, String receptionWorkDescription, String expectedResults, String recommendedBibliography, String state, String stage, int NRC) {
         this.academicBodyId = academicBodyId;
         this.investigationProjectName = investigationProjectName;
         this.LGAC_Id = LGAC_Id;
@@ -29,6 +30,7 @@ public class Project {
         this.approximateDuration = approximateDuration;
         this.modalityId = modalityId;
         this.receptionWorkName = receptionWorkName;
+        this.requisites = requisites;
         this.directorID = directorID;
         this.studentsParticipating = studentsParticipating;
         this.investigationProjectDescription = investigationProjectDescription;
@@ -64,11 +66,11 @@ public class Project {
         this.investigationProjectName = investigationProjectName;
     }
 
-    public int getLGAC_Id() {
+    public String getLGAC_Id() {
         return LGAC_Id;
     }
 
-    public void setLGAC_Id(int LGAC_Id) {
+    public void setLGAC_Id(String LGAC_Id) {
         this.LGAC_Id = LGAC_Id;
     }
 
@@ -102,6 +104,14 @@ public class Project {
 
     public void setReceptionWorkName(String receptionWorkName) {
         this.receptionWorkName = receptionWorkName;
+    }
+
+    public String getRequisites(){
+        return requisites;
+    }
+
+    public void setRequisites(String requisites) {
+        this.requisites = requisites;
     }
 
     public int getDirectorID() {
