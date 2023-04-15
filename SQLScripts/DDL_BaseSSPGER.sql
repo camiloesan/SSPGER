@@ -104,7 +104,7 @@ CREATE TABLE Avances (
 CREATE TABLE Evidencias (
 	ID_evidencia int not null auto_increment,
 	titulo varchar(30) not null,
-	estado enum('por revisar', 'revisado') default 'por revisar',
+	estado enum('Por revisar', 'Revisado') default 'Por revisar',
 	calificacion int,
 	descripcion varchar(100),
 	ID_profesor int,

@@ -1,7 +1,7 @@
 package mx.uv.fei.logic;
 
 public class Student {
-    private String tuition;
+    private String studentID;
     private String name;
     private String lastName;
     private String mothersLastName;
@@ -9,12 +9,12 @@ public class Student {
     private int NRC;
     private int userID;
 
-    public String getTuition() {
-        return tuition;
+    public String getStudentID() {
+        return studentID;
     }
 
-    public void setTuition(String tuition) {
-        this.tuition = tuition;
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
     }
 
     public String getName() {
