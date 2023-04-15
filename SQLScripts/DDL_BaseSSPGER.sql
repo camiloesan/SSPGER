@@ -97,6 +97,7 @@ CREATE TABLE Avances (
 	fechaEntrega date not null,
 	ID_profesor int,
 	ID_proyecto int,
+    UNIQUE(nombre),
     PRIMARY KEY(ID_avance)
 );
 
