@@ -2,13 +2,14 @@ package mx.uv.fei.logic;
 
 public class DetailedProject {
     private int projectID;
-    private String academicBody;
-    private String investigationProject;
-    private String LGAC;
+    private String academicBodyName;
+    private String projectTitle; //for List consults
+    private String investigationProjectName;
+    private String lgacDescription;
     private String investigationLine;
     private String approxDuration;
-    private String rwModality;
-    private String receptionWork;
+    private String receptionWorkModality;
+    private String receptionWorkName;
     private String requisites;
     private String director;
     private String coDirector;
@@ -26,28 +27,36 @@ public class DetailedProject {
         this.projectID = projectID;
     }
 
-    public String getAcademicBody() {
-        return academicBody;
+    public String getAcademicBodyName() {
+        return academicBodyName;
     }
 
-    public void setAcademicBody(String academicBody) {
-        this.academicBody = academicBody;
+    public void setAcademicBodyName(String academicBodyName) {
+        this.academicBodyName = academicBodyName;
     }
 
-    public String getInvestigationProject() {
-        return investigationProject;
+    public String getProjectTitle() {
+        return projectTitle;
     }
 
-    public void setInvestigationProject(String investigationProject) {
-        this.investigationProject = investigationProject;
+    public void setProjectTitle(String projectTitle){
+        this.projectTitle = projectTitle;
     }
 
-    public String getLGAC() {
-        return LGAC;
+    public String getInvestigationProjectName() {
+        return investigationProjectName;
     }
 
-    public void setLGAC(String LGAC) {
-        this.LGAC = LGAC;
+    public void setInvestigationProjectName(String investigationProjectName) {
+        this.investigationProjectName = investigationProjectName;
+    }
+
+    public String getLgacDescription() {
+        return lgacDescription;
+    }
+
+    public void setLgacDescription(String lgacDescription) {
+        this.lgacDescription = lgacDescription;
     }
 
     public String getInvestigationLine() {
@@ -66,20 +75,20 @@ public class DetailedProject {
         this.approxDuration = approxDuration;
     }
 
-    public String getRwModality() {
-        return rwModality;
+    public String getReceptionWorkModality() {
+        return receptionWorkModality;
     }
 
-    public void setRwModality(String rwModality) {
-        this.rwModality = rwModality;
+    public void setReceptionWorkModality(String receptionWorkModality) {
+        this.receptionWorkModality = receptionWorkModality;
     }
 
-    public String getReceptionWork() {
-        return receptionWork;
+    public String getReceptionWorkName() {
+        return receptionWorkName;
     }
 
-    public void setReceptionWork(String receptionWork) {
-        this.receptionWork = receptionWork;
+    public void setReceptionWorkName(String receptionWorkName) {
+        this.receptionWorkName = receptionWorkName;
     }
 
     public String getRequisites() {

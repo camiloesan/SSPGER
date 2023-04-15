@@ -8,8 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProjectDAO implements IProject{
+    @Override
     public int addProject(Project project) throws SQLException {
         int result;
         String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, duracionAprox, ID_modalidadTR, nombreTrabajoRecepcional, requisitos, ID_director, alumnosParticipantes, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, bibliografiaRecomendada, etapa, NRC) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
@@ -41,7 +43,8 @@ public class ProjectDAO implements IProject{
 
         return result;
     }
-
+    
+    @Override
     public int updateProjectState(int projectId, String state) throws SQLException {
         int result;
         String sqlQuery = "UPDATE Proyectos SET estado = (?) WHERE ID_proyecto = (?)";
@@ -60,8 +63,9 @@ public class ProjectDAO implements IProject{
         return result;
     }
 
-    public ArrayList<SimpleProject> getProjectsByState(String projectState) throws SQLException {
-        String sqlQuery = "SELECT P.ID_proyecto, P.nombreProyectoInvestigación AS 'Proyecto', CONCAT (P2.nombre, ' ',P2.apellidoPaterno, ' ', P2.apellidoMaterno) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = ?";
+    @Override
+    public ArrayList<DetailedProject> getProjectsByState(String projectState) throws SQLException {
+        String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional AS TrabajoRecepcional, P.nombreProyectoInvestigación AS 'ProyectoInvestigacion', CONCAT (P2.nombre, ' ',P2.apellidoPaterno, ' ', P2.apellidoMaterno) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = ?";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -71,22 +75,27 @@ public class ProjectDAO implements IProject{
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        ArrayList<SimpleProject> simpleProjects = new ArrayList<>();
+        ArrayList<DetailedProject> detailedProjects = new ArrayList<>();
         while (resultSet.next()) {
-            SimpleProject simpleProject = new SimpleProject();
+            DetailedProject detailedProject = new DetailedProject();
 
-            simpleProject.setProjectID(resultSet.getInt("ID_proyecto"));
-            simpleProject.setProjectName(resultSet.getString("Proyecto"));
-            simpleProject.setProfessorFullName(resultSet.getString("Profesor"));
+            detailedProject.setProjectID(resultSet.getInt("ID_proyecto"));
+            if (resultSet.getString("ProyectoInvestigacion") == null || Objects.equals(resultSet.getString("ProyectoInvestigacion"), " ")){
+                detailedProject.setProjectTitle(resultSet.getString("TrabajoRecepcional"));
+            } else {
+                detailedProject.setProjectTitle(resultSet.getString("ProyectoInvestigacion"));
+            }
+            detailedProject.setDirector(resultSet.getString("Profesor"));
 
-            simpleProjects.add(simpleProject);
+            detailedProjects.add(detailedProject);
         }
 
         databaseManager.closeConnection();
 
-        return simpleProjects;
+        return detailedProjects;
     }
 
+    @Override
     public DetailedProject getProjectInfo(int projectID) throws SQLException{
         String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, LC.nombre AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.nombre, ' ',PRF.apellidoPaterno, ' ', PRF.apellidoMaterno) AS 'Director', CONCAT (CD.nombre, ' ',CD.apellidoPaterno, ' ', CD.apellidoMaterno) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.clave LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR LEFT JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor LEFT JOIN CodirectoresProyecto COP ON P.ID_proyecto = COP.ID_proyecto LEFT JOIN Profesores CD ON COP.ID_profesor = CD.ID_profesor WHERE P.ID_proyecto = ?";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -100,13 +109,13 @@ public class ProjectDAO implements IProject{
         DetailedProject detailedProject = new DetailedProject();
         if (resultSet.next()) {
             detailedProject.setProjectID(resultSet.getInt("ID_proyecto"));
-            detailedProject.setAcademicBody(resultSet.getString("Cuerpo Académico"));
-            detailedProject.setInvestigationProject(resultSet.getString("nombreProyectoInvestigación"));
-            detailedProject.setLGAC(resultSet.getString("LGAC"));
+            detailedProject.setAcademicBodyName(resultSet.getString("Cuerpo Académico"));
+            detailedProject.setInvestigationProjectName(resultSet.getString("nombreProyectoInvestigación"));
+            detailedProject.setLgacDescription(resultSet.getString("LGAC"));
             detailedProject.setInvestigationLine(resultSet.getString("lineaInvestigacion"));
             detailedProject.setApproxDuration(resultSet.getString("duracionAprox"));
-            detailedProject.setRwModality(resultSet.getString("modalidadTR"));
-            detailedProject.setReceptionWork(resultSet.getString("nombreTrabajorecepcional"));
+            detailedProject.setReceptionWorkModality(resultSet.getString("modalidadTR"));
+            detailedProject.setReceptionWorkName(resultSet.getString("nombreTrabajorecepcional"));
             detailedProject.setRequisites(resultSet.getString("requisitos"));
             detailedProject.setDirector(resultSet.getString("Director"));
             detailedProject.setCoDirector(resultSet.getString("Co-director"));
