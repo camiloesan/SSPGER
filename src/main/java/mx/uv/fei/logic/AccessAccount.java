@@ -1,17 +1,45 @@
 package mx.uv.fei.logic;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class AccessAccount {
     private int userId;
     private String username;
     private String userPassword;
-    private  String userType;
+    private String userType;
+    private SimpleStringProperty usernameProperty;
+    private SimpleStringProperty userTypeProperty;
 
-    public AccessAccount() {}
+    public AccessAccount() {
+    }
 
-    public AccessAccount(String username, String userPassword, String userType) {
-        this.username = username;
-        this.userPassword = userPassword;
-        this.userType = userType;
+    public AccessAccount(String username, String userType) {
+        this.usernameProperty = new SimpleStringProperty(username);
+        this.userTypeProperty = new SimpleStringProperty(userType);
+    }
+
+    public String getUsernameProperty() {
+        return usernameProperty.get();
+    }
+
+    public SimpleStringProperty usernamePropertyProperty() {
+        return usernameProperty;
+    }
+
+    public void setUsernameProperty(String usernameProperty) {
+        this.usernameProperty.set(usernameProperty);
+    }
+
+    public String getUserTypeProperty() {
+        return userTypeProperty.get();
+    }
+
+    public SimpleStringProperty userTypePropertyProperty() {
+        return userTypeProperty;
+    }
+
+    public void setUserTypeProperty(String userTypeProperty) {
+        this.userTypeProperty.set(userTypeProperty);
     }
 
     public String getUserType() {

@@ -93,7 +93,7 @@ public class AccessAccountDAO implements IAccessAccount {
 
     @Override
     public List<AccessAccount> getListAccessAccounts() throws SQLException {
-        String query = "select tipoUsuario from CuentasAcceso where nombreUsuario=(?)";
+        String query = "select nombreUsuario, tipoUsuario from CuentasAcceso";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -103,11 +103,7 @@ public class AccessAccountDAO implements IAccessAccount {
 
         List<AccessAccount> accessAccountList = new ArrayList<>();
         while (resultSet.next()) {
-            AccessAccount accessAccount = new AccessAccount();
-            accessAccount.setUserId(resultSet.getInt("ID_usuario"));
-            accessAccount.setUsername(resultSet.getString("nombreusuario"));
-            accessAccount.setUserPassword(resultSet.getString("contrasena"));
-            accessAccount.setUserType(resultSet.getString("tipoUsuario"));
+            AccessAccount accessAccount = new AccessAccount(resultSet.getString("nombreusuario"), resultSet.getString("tipoUsuario"));
             accessAccountList.add(accessAccount);
         }
 
