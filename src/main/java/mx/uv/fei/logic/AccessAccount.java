@@ -10,6 +10,8 @@ public class AccessAccount {
     private SimpleStringProperty usernameProperty;
     private SimpleStringProperty userTypeProperty;
 
+
+
     public AccessAccount() {
     }
 
