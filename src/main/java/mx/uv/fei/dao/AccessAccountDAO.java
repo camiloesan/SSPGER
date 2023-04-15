@@ -65,7 +65,6 @@ public class AccessAccountDAO implements IAccessAccount {
         preparedStatement.setString(2, password);
         ResultSet resultSet = preparedStatement.executeQuery();
         isValid = resultSet.next();
-
         databaseManager.closeConnection();
 
         return isValid;

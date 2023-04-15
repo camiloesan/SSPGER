@@ -1,63 +1,54 @@
 package mx.uv.fei.logic;
 
 public class Evidence {
-    private int projectEvidenceId;
-    private String projectEvidenceTitle;
-    private String projectEvidenceStatus;
-    private int projectEvidenceGrade;
-    private String projectEvidenceDescription;
+    private int evidenceId;
+    private String evidenceTitle;
+    private String evidenceStatus;
+    private int evidenceGrade;
+    private String evidenceDescription;
     private int professorId;
-    private int progressId;
+    private int advancementId;
     private int projectId;
     private String studentId;
 
-    public Evidence(String projectEvidenceTitle, String projectEvidenceDescription, int professorId, int progressId, int projectId, String studentId) {
-        this.projectEvidenceTitle = projectEvidenceTitle;
-        this.projectEvidenceDescription = projectEvidenceDescription;
-        this.professorId = professorId;
-        this.progressId = progressId;
-        this.projectId = projectId;
-        this.studentId = studentId;
+    public int getEvidenceId() {
+        return evidenceId;
     }
 
-    public int getProjectEvidenceId() {
-        return projectEvidenceId;
+    public void setEvidenceId(int evidenceId) {
+        this.evidenceId = evidenceId;
     }
 
-    public void setProjectEvidenceId(int projectEvidenceId) {
-        this.projectEvidenceId = projectEvidenceId;
+    public String getEvidenceTitle() {
+        return evidenceTitle;
     }
 
-    public String getProjectEvidenceTitle() {
-        return projectEvidenceTitle;
+    public void setEvidenceTitle(String evidenceTitle) {
+        this.evidenceTitle = evidenceTitle;
     }
 
-    public void setProjectEvidenceTitle(String projectEvidenceTitle) {
-        this.projectEvidenceTitle = projectEvidenceTitle;
+    public String getEvidenceStatus() {
+        return evidenceStatus;
     }
 
-    public String getProjectEvidenceStatus() {
-        return projectEvidenceStatus;
+    public void setEvidenceStatus(String evidenceStatus) {
+        this.evidenceStatus = evidenceStatus;
     }
 
-    public void setProjectEvidenceStatus(String projectEvidenceStatus) {
-        this.projectEvidenceStatus = projectEvidenceStatus;
+    public int getEvidenceGrade() {
+        return evidenceGrade;
     }
 
-    public int getProjectEvidenceGrade() {
-        return projectEvidenceGrade;
+    public void setEvidenceGrade(int evidenceGrade) {
+        this.evidenceGrade = evidenceGrade;
     }
 
-    public void setProjectEvidenceGrade(int projectEvidenceGrade) {
-        this.projectEvidenceGrade = projectEvidenceGrade;
+    public String getEvidenceDescription() {
+        return evidenceDescription;
     }
 
-    public String getProjectEvidenceDescription() {
-        return projectEvidenceDescription;
-    }
-
-    public void setProjectEvidenceDescription(String projectEvidenceDescription) {
-        this.projectEvidenceDescription = projectEvidenceDescription;
+    public void setEvidenceDescription(String evidenceDescription) {
+        this.evidenceDescription = evidenceDescription;
     }
 
     public int getProfessorId() {
@@ -68,12 +59,12 @@ public class Evidence {
         this.professorId = professorId;
     }
 
-    public int getProgressId() {
-        return progressId;
+    public int getAdvancementId() {
+        return advancementId;
     }
 
-    public void setProgressId(int progressId) {
-        this.progressId = progressId;
+    public void setAdvancementId(int advancementId) {
+        this.advancementId = advancementId;
     }
 
     public int getProjectId() {
