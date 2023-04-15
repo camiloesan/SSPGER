@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import mx.uv.fei.logic.AccessAccountDAO;
+import mx.uv.fei.dao.AccessAccountDAO;
 
 import java.sql.SQLException;
 
