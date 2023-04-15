@@ -1,6 +1,5 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.IProfessor;
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.Professor;
 

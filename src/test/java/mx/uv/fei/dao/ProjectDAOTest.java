@@ -1,5 +1,6 @@
-package mx.uv.fei.logic;
+package mx.uv.fei.dao;
 
+import mx.uv.fei.logic.DetailedProject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
