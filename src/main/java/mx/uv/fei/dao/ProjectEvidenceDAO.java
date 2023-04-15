@@ -1,7 +1,8 @@
-package mx.uv.fei.logic;
+package mx.uv.fei.dao;
 
 import mx.uv.fei.dao.IProjectEvidence;
 import mx.uv.fei.dataaccess.DatabaseManager;
+import mx.uv.fei.logic.ProjectEvidence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

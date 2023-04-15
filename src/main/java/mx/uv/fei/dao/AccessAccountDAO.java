@@ -1,7 +1,8 @@
-package mx.uv.fei.logic;
+package mx.uv.fei.dao;
 
 import mx.uv.fei.dao.IAccessAccount;
 import mx.uv.fei.dataaccess.DatabaseManager;
+import mx.uv.fei.logic.AccessAccount;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
