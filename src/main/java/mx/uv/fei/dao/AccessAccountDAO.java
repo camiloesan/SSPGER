@@ -53,6 +53,8 @@ public class AccessAccountDAO implements IAccessAccount {
         databaseManager.closeConnection();
     }
 
+
+
     @Override
     public boolean areCredentialsValid(String username, String password) throws SQLException {
         boolean isValid;
@@ -68,5 +70,24 @@ public class AccessAccountDAO implements IAccessAccount {
         databaseManager.closeConnection();
 
         return isValid;
+    }
+
+    @Override
+    public String getAccessAccountTypeByUsername(String username) throws SQLException {
+        String query = "select tipoUsuario from CuentasAcceso where nombreUsuario=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        String type = "null";
+        while (resultSet.next()) {
+            type = resultSet.getString("tipoUsuario");
+        }
+
+        return type;
     }
 }

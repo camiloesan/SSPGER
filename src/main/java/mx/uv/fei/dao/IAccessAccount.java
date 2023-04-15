@@ -8,4 +8,5 @@ public interface IAccessAccount {
     void modifyAccessAccountByUsername(String username, AccessAccount accessAccount) throws SQLException;
     void deleteAccessAccountByUsername(String username) throws SQLException;
     boolean areCredentialsValid(String username, String password) throws SQLException;
+    String getAccessAccountTypeByUsername(String username) throws SQLException;
 }
