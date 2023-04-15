@@ -5,7 +5,7 @@ CREATE TABLE CuentasAcceso (
 	ID_usuario int not null auto_increment,
 	nombreUsuario varchar(15) not null, 
 	contrasena nvarchar(16) not null,
-    tipoUsuario enum('administrador', 'estudiante', 'profesor', 'representanteCA') not null,
+    tipoUsuario enum('Administrador', 'Estudiante', 'Profesor', 'RepresentanteCA') not null,
     PRIMARY KEY(ID_usuario),
     UNIQUE (nombreUsuario)
 );
@@ -34,15 +34,15 @@ CREATE TABLE Profesores (
 CREATE TABLE CuerpoAcademico (
 	claveCA varchar (10) not null,
 	nombreCA varchar (45),
-    	DES_adscripción varchar(40),
-    	unidad_adscripción varchar(40),
-    	responsable int,
+    DES_adscripción varchar(40),
+    unidad_adscripción varchar(40),
+    responsable int,
     PRIMARY KEY (claveCA)
 );
 
 CREATE TABLE ExperienciasEducativas (
 	NRC int not null,
-	nombre varchar(20),
+	nombre enum('Proyecto Guiado','Experiencia Recepcional'),
 	ID_profesor int,
     PRIMARY KEY(NRC)
 );
@@ -78,7 +78,7 @@ CREATE TABLE Proyectos (
 
 CREATE TABLE ModalidadesTR(
 	ID_modalidadTR int not null auto_increment,
-	modalidadTR varchar(50),
+	modalidadTR enum('Monografía','Revisión Multivocal de la Literatura','Revisión Sistemática de la Literatura','Tesis','Trabajo Práctico-Técnico'),
     PRIMARY KEY(ID_modalidadTR)
 );
 
@@ -97,13 +97,14 @@ CREATE TABLE Avances (
 	fechaEntrega date not null,
 	ID_profesor int,
 	ID_proyecto int,
+    UNIQUE(nombre),
     PRIMARY KEY(ID_avance)
 );
 
 CREATE TABLE Evidencias (
 	ID_evidencia int not null auto_increment,
 	titulo varchar(30) not null,
-	estado enum('por revisar', 'revisado') default 'por revisar',
+	estado enum('Por revisar', 'Revisado') default 'Por revisar',
 	calificacion int,
 	descripcion varchar(100),
 	ID_profesor int,
@@ -133,7 +134,7 @@ CREATE TABLE SolicitudesProyecto (
 	ID_solicitudProyecto int not null auto_increment,
 	ID_proyecto int,
 	matriculaEstudiante varchar(10),
-	estado varchar(20) default 'Por aceptar',
+	estado enum('Aceptado','Por validar','Rechazado') default 'Por validar',
 	motivos varchar(850),
 	PRIMARY KEY(ID_solicitudProyecto)
 );

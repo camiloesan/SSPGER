@@ -14,7 +14,6 @@ ALTER TABLE CuerpoAcademico ADD
 	CONSTRAINT FK_CuerpoAcademico_Profesores FOREIGN KEY (responsable) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE;
 	
 ALTER TABLE Proyectos
-	ADD CONSTRAINT FK_Proyectos_CuerpoAcademico FOREIGN KEY (claveCA) REFERENCES CuerpoAcademico (claveCA) ON DELETE CASCADE,
 	ADD CONSTRAINT FK_Proyectos_LGAC FOREIGN KEY (LGAC) REFERENCES LGAC (clave) ON DELETE CASCADE,
 	ADD CONSTRAINT FK_Proyectos_ModalidadesTR FOREIGN KEY (ID_modalidadTR) REFERENCES ModalidadesTR (ID_modalidadTR) ON DELETE CASCADE,
 	ADD CONSTRAINT FK_Proyectos_Profesores FOREIGN KEY (ID_director) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE,

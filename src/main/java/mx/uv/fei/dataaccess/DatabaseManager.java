@@ -56,5 +56,5 @@ public class DatabaseManager {
                 Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, "error", exception);
             }
         }
-    }    
+    }
 }

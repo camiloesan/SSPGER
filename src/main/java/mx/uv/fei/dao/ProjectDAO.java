@@ -1,7 +1,8 @@
-package mx.uv.fei.logic;
+package mx.uv.fei.dao;
 
 import mx.uv.fei.dao.IProject;
 import mx.uv.fei.dataaccess.DatabaseManager;
+import mx.uv.fei.logic.Project;
 
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
