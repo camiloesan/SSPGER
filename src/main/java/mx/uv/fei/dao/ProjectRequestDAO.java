@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class ProjectRequestDAO implements IProjectRequest {
     @Override
-    public int createProjectPetition(ProjectRequest projectPetition) throws SQLException {
+    public int createProjectRequest(ProjectRequest projectPetition) throws SQLException {
         int result;
         String query = "INSERT INTO SolicitudesProyecto(ID_proyecto, matriculaEstudiante, motivos) VALUES(?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -27,7 +27,7 @@ public class ProjectRequestDAO implements IProjectRequest {
     }
 
     @Override
-    public int validateProjectPetition(String validation, int projectPetitionID) throws SQLException {
+    public int validateProjectRequest(String validation, int projectPetitionID) throws SQLException {
         int result;
         String query = "UPDATE SolicitudesProyecto SET estado=(?) WHERE ID_solicitudProyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -43,7 +43,7 @@ public class ProjectRequestDAO implements IProjectRequest {
     }
 
     @Override
-    public int deleteProjectPetition(int projectPetitionID) throws SQLException {
+    public int deleteProjectRequest(int projectPetitionID) throws SQLException {
         int result;
         String query = "DELETE FROM SolicitudesProyecto WHERE ID_solicitudProyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();

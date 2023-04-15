@@ -5,7 +5,7 @@ import mx.uv.fei.logic.ProjectRequest;
 import java.sql.SQLException;
 
 public interface IProjectRequest {
-    int createProjectPetition(ProjectRequest projectPetition) throws SQLException;
-    int validateProjectPetition(String validation, int projectPetitionID) throws SQLException;
-    int deleteProjectPetition(int projectPetitionID) throws  SQLException;
+    int createProjectRequest(ProjectRequest projectPetition) throws SQLException;
+    int validateProjectRequest(String validation, int projectPetitionID) throws SQLException;
+    int deleteProjectRequest(int projectPetitionID) throws  SQLException;
 }
