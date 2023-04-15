@@ -7,9 +7,33 @@ public class AccessAccount {
     private String username;
     private String userPassword;
     private String userType;
+    private SimpleStringProperty usernameProperty;
+    private SimpleStringProperty userTypeProperty;
 
-    public AccessAccount() {
+    public String getUsernameProperty() {
+        return usernameProperty.get();
     }
+
+    public SimpleStringProperty usernamePropertyProperty() {
+        return usernameProperty;
+    }
+
+    public void setUsernameProperty(String usernameProperty) {
+        this.usernameProperty.set(usernameProperty);
+    }
+
+    public String getUserTypeProperty() {
+        return userTypeProperty.get();
+    }
+
+    public SimpleStringProperty userTypePropertyProperty() {
+        return userTypeProperty;
+    }
+
+    public void setUserTypeProperty(String userTypeProperty) {
+        this.userTypeProperty.set(userTypeProperty);
+    }
+
     public String getUserType() {
         return userType;
     }

@@ -1,40 +1,44 @@
 package mx.uv.fei.gui;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import mx.uv.fei.dao.AccessAccountDAO;
-import mx.uv.fei.logic.AccessAccount;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CRUDAccessAccountController {
     @FXML
-    private TableView<AccessAccount> tableViewAccessAccounts;
-    @FXML
-    private TableColumn<AccessAccount, String> tableColumnUsername;
-    @FXML
-    private TableColumn<AccessAccount, String> tableColumnUserType;
+    private TableView<ObservableList> tableViewAccessAccounts;
 
     @FXML
     private void updateListView() throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        ObservableList<ObservableList> data = FXCollections.observableArrayList();
+        ResultSet resultSet = accessAccountDAO.getListAccessAccounts();
 
-        tableColumnUsername.setCellValueFactory(new PropertyValueFactory<>("usernameProperty"));
-        tableColumnUserType.setCellValueFactory(new PropertyValueFactory<>("userTypeProperty"));
-        tableViewAccessAccounts.getItems().setAll(accessAccountDAO.getListAccessAccounts());
+        for(int i = 0 ; i < resultSet.getMetaData().getColumnCount(); i++){
+            final int j = i;
+            TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(i+1));
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
+            tableViewAccessAccounts.getColumns().addAll(col);
+        }
 
-        /*
-        for(AccessAccount accessAccountObject : accessAccountDAO.getListAccessAccounts()) {
-            tableViewAccessAccounts.getItems().add(accessAccountObject);
+        while(resultSet.next()){
+            ObservableList<String> row = FXCollections.observableArrayList();
+            for(int i = 1 ; i <= resultSet.getMetaData().getColumnCount(); i++){
+                row.add(resultSet.getString(i));
+            }
+            data.add(row);
+        }
 
-            System.out.println(accessAccountObject.getUsername());
-            System.out.println(accessAccountObject.getUserType());
-        }*/
+        tableViewAccessAccounts.setItems(data);
     }
     @FXML
     private void initialize() throws SQLException {

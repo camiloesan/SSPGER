@@ -1,6 +1,8 @@
 package mx.uv.fei.dao;
 
 import mx.uv.fei.logic.AccessAccount;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,5 +12,5 @@ public interface IAccessAccount {
     void deleteAccessAccountByUsername(String username) throws SQLException;
     boolean areCredentialsValid(String username, String password) throws SQLException;
     String getAccessAccountTypeByUsername(String username) throws SQLException;
-    List<AccessAccount> getListAccessAccounts() throws SQLException;
+    ResultSet getListAccessAccounts() throws SQLException;
 }
