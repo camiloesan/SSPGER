@@ -3,9 +3,9 @@ USE SSPGER;
 
 CREATE TABLE CuentasAcceso (
 	ID_usuario int not null auto_increment,
-	nombreUsuario varchar(15), 
-	contrasena nvarchar(16),
-    tipoUsuario enum('administrador', 'estudiante', 'profesor', 'representanteCA'),
+	nombreUsuario varchar(15) not null, 
+	contrasena nvarchar(16) not null,
+    tipoUsuario enum('administrador', 'estudiante', 'profesor', 'representanteCA') not null,
     PRIMARY KEY(ID_usuario),
     UNIQUE (nombreUsuario)
 );
@@ -32,11 +32,12 @@ CREATE TABLE Profesores (
 );
 
 CREATE TABLE CuerpoAcademico (
-	clave varchar (10) not null,
-    DES_adscripción varchar(15),
-    unidad_adscripción varchar(15),
-    responsable int,
-    PRIMARY KEY (clave)
+	claveCA varchar (10) not null,
+	nombreCA varchar (45),
+    	DES_adscripción varchar(40),
+    	unidad_adscripción varchar(40),
+    	responsable int,
+    PRIMARY KEY (claveCA)
 );
 
 CREATE TABLE ExperienciasEducativas (
@@ -55,7 +56,7 @@ CREATE TABLE CodirectoresProyecto (
 
 CREATE TABLE Proyectos (
 	ID_proyecto int not null auto_increment,
-	claveCuerpoAcademico varchar(10),
+	claveCA varchar(10),
 	nombreProyectoInvestigación varchar(200), 
 	LGAC varchar(2),
 	lineaInvestigacion varchar(300),
@@ -63,7 +64,7 @@ CREATE TABLE Proyectos (
 	ID_modalidadTR int,
 	nombreTrabajoRecepcional varchar(200),
 	requisitos varchar(500),
-	ID_director int,
+	ID_director int not null,
 	alumnosParticipantes int,
 	descripcionProyectoInvestigacion nvarchar(2000),
 	descripcionTrabajoRecepcional nvarchar(2000),
@@ -92,16 +93,17 @@ CREATE TABLE Avances (
 	ID_avance int not null auto_increment,
 	nombre varchar(30),
 	descripcion nvarchar(800),
-	fechaInicio date,
-	fechaEntrega date,
+	fechaInicio date not null,
+	fechaEntrega date not null,
 	ID_profesor int,
 	ID_proyecto int,
+    UNIQUE(nombre),
     PRIMARY KEY(ID_avance)
 );
 
 CREATE TABLE Evidencias (
 	ID_evidencia int not null auto_increment,
-	titulo varchar(30),
+	titulo varchar(30) not null,
 	estado enum('por revisar', 'revisado') default 'por revisar',
 	calificacion int,
 	descripcion varchar(100),
@@ -109,6 +111,7 @@ CREATE TABLE Evidencias (
 	ID_avance int,
 	ID_proyecto int,
 	matriculaEstudiante varchar(10),
+    CHECK (calificacion>=0 and calificacion<=10),
     PRIMARY KEY(ID_Evidencia)
 );
 
