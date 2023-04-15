@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.AccessAccountDAO;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class LoginController {
@@ -15,9 +16,10 @@ public class LoginController {
     @FXML
     private PasswordField textFieldPassword;
     @FXML
-    private void onActionButtonContinue() throws SQLException {
+    private void onActionButtonContinue() throws SQLException, IOException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         if (accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText())) {
+            redirectToWindow();
             Stage stage = (Stage) textFieldUser.getScene().getWindow();
             stage.close();
         } else {
@@ -25,6 +27,22 @@ public class LoginController {
             alert.setHeaderText("El usuario o contraseña no son válidos");
             alert.setContentText("Inténtelo de nuevo");
             alert.showAndWait();
+        }
+    }
+
+    public void redirectToWindow() throws SQLException, IOException {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        switch (accessAccountDAO.getAccessAccountTypeByUsername(textFieldUser.getText())) {
+            case "administrador":
+                CRUDAccessAccountWindow crudAccessAccountWindow = new CRUDAccessAccountWindow();
+                crudAccessAccountWindow.start(new Stage());
+                break;
+            case "estudiante":
+                break;
+            case "profesor":
+                break;
+            case "representanteCA":
+                break;
         }
     }
 }
