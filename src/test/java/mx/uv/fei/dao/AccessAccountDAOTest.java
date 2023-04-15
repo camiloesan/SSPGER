@@ -87,7 +87,7 @@ class AccessAccountDAOTest {
     @Test
     void testModifyAccessAccountByUsernameTooLong() {
         var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount("1234567890123456", "dummy", "profesor");
+        var accessAccount = new AccessAccount();
         accessAccount.setUsername("1234567890123456");
         accessAccount.setUserPassword("dummy");
         accessAccount.setUserType("profesor");
@@ -107,7 +107,7 @@ class AccessAccountDAOTest {
     @Test
     void testModifyAccessAccountByUsernameWrongUserType() {
         var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount("dummy", "dummy", "car");
+        var accessAccount = new AccessAccount();
         accessAccount.setUsername("dummy");
         accessAccount.setUserPassword("dummy");
         accessAccount.setUserType("car");
