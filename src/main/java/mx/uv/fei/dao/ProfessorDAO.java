@@ -1,6 +1,5 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.IProfessor;
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.Professor;
 
@@ -19,11 +18,11 @@ public class ProfessorDAO implements IProfessor {
 
         preparedStatement.setString(1, professor.getProfessorName());
         preparedStatement.setString(2,professor.getProfessorFirsLastName());
-        preparedStatement.setString(2,professor.getProfessorSecondLastName());
-        preparedStatement.setString(3,professor.getProfessorEmail());
-        preparedStatement.setInt(4,professor.getUserId());
+        preparedStatement.setString(3,professor.getProfessorSecondLastName());
+        preparedStatement.setString(4,professor.getProfessorEmail());
+        preparedStatement.setInt(5,professor.getUserId());
 
-        result = preparedStatement.executeUpdate(sqlQuery);
+        result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
 
         return result;
