@@ -13,7 +13,7 @@ CREATE TABLE CuentasAcceso (
 CREATE TABLE Estudiantes (
 	matricula varchar(10) not null,
 	nombre varchar(30),
-	apellidos varchar(80),
+	apellidos varchar(60),
 	correoInstitucional nvarchar(30),
 	NRC int,
 	ID_usuario int,
@@ -23,7 +23,7 @@ CREATE TABLE Estudiantes (
 CREATE TABLE Profesores (
 	ID_profesor int not null auto_increment,
 	nombre varchar(30),
-	apellidos varchar(80),
+	apellidos varchar(60),
 	correoInstitucional nvarchar(30),
 	ID_usuario int,
     PRIMARY KEY(ID_profesor)
