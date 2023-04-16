@@ -89,7 +89,7 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public ResultSet getListAccessAccounts() throws SQLException {
+    public ResultSet getResultSetAccessAccounts() throws SQLException {
         String query = "select nombreUsuario, tipoUsuario from CuentasAcceso";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();

@@ -5,10 +5,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import mx.uv.fei.dao.AccessAccountDAO;
+import mx.uv.fei.logic.AccessAccount;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,12 +19,36 @@ import java.sql.SQLException;
 public class CRUDAccessAccountController {
     @FXML
     private TableView<ObservableList> tableViewAccessAccounts;
+    @FXML
+    private Button buttonAddNewUser;
+    @FXML
+    private Button buttonModifyUser;
+    @FXML
+    private Button buttonDeleteUser;
 
+    @FXML
+    private void adduser() throws SQLException {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        //accessAccountDAO.addAccessAccount(accessAccount);
+    }
+    @FXML
+    private void modifySelectedUser() throws SQLException {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        tableViewAccessAccounts.getSelectionModel().getSelectedIndex();
+
+        accessAccountDAO.modifyAccessAccountByUsername("", accessAccount);
+    }
+    @FXML
+    private void deleteUser() {
+
+    }
     @FXML
     private void updateListView() throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        ObservableList<ObservableList> data = FXCollections.observableArrayList();
-        ResultSet resultSet = accessAccountDAO.getListAccessAccounts();
+        ObservableList data = FXCollections.observableArrayList();
+        ResultSet resultSet = accessAccountDAO.getResultSetAccessAccounts();
 
         for(int i = 0 ; i < resultSet.getMetaData().getColumnCount(); i++){
             final int j = i;

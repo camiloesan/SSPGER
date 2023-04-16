@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
@@ -21,9 +22,18 @@
             </TableView>
             <VBox alignment="CENTER" prefHeight="344.0" prefWidth="269.0" spacing="40.0">
                <children>
-                  <Button mnemonicParsing="false" text="Agregar nuevo usuario" />
-                  <Button mnemonicParsing="false" text="Modificar usuario" />
-                  <Button mnemonicParsing="false" text="Eliminar usuario" />
+                  <Button fx:id="buttonAddNewUser" mnemonicParsing="false" onAction="#adduser" text="Agregar nuevo usuario">
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor></Button>
+                  <Button fx:id="buttonModifyUser" disable="true" mnemonicParsing="false" onAction="#modifySelectedUser" text="Modificar usuario">
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor></Button>
+                  <Button fx:id="buttonDeleteUser" disable="true" mnemonicParsing="false" onAction="#deleteUser" text="Eliminar usuario">
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor></Button>
                </children>
                <HBox.margin>
                   <Insets />
