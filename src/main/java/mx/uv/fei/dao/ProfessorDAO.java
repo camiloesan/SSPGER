@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class ProfessorDAO implements IProfessor {
     public int addProfessor(Professor professor) throws SQLException{
         int result;
-        String sqlQuery = "INSERT INTO Profesores (nombre, apellidoPaterno, apellidoMaterno, correoInstitucional, ID_usuario) VALUES (?,?,?,?,?)";
+        String sqlQuery = "INSERT INTO Profesores (nombre, apellidos, correoInstitucional, ID_usuario) VALUES (?,?,?,?,?)";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();

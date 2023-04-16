@@ -19,6 +19,7 @@ class ProfessorDAOTest {
 
         accessAccount.setUsername("ocharanJorgeO");
         accessAccount.setUserPassword("contrasenaJOOH");
+        accessAccount.setUserType("profesor");
 
         accessAccountDAO.addAccessAccount(accessAccount);
     }
