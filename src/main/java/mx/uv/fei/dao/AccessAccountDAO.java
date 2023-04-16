@@ -1,6 +1,5 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.IAccessAccount;
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.AccessAccount;
 
@@ -103,7 +102,9 @@ public class AccessAccountDAO implements IAccessAccount {
 
         List<AccessAccount> accessAccountList = new ArrayList<>();
         while (resultSet.next()) {
-            AccessAccount accessAccount = new AccessAccount(resultSet.getString("nombreusuario"), resultSet.getString("tipoUsuario"));
+            AccessAccount accessAccount = new AccessAccount();
+            accessAccount.setUsername(resultSet.getString("userName"));
+            accessAccount.setUserType(resultSet.getString("tipoUsuario"));
             accessAccountList.add(accessAccount);
         }
 

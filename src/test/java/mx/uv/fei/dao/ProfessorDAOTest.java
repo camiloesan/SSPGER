@@ -1,6 +1,7 @@
 package mx.uv.fei.dao;
 
 import mx.uv.fei.logic.Professor;
+import mx.uv.fei.logic.AccessAccount;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ class ProfessorDAOTest {
     void tearDown() throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
 
-        accessAccountDAO.deleteAccessAccountByName("ocharanJorgeO");
+        accessAccountDAO.deleteAccessAccountByUsername("ocharanJorgeO");
     }
 
     @Test

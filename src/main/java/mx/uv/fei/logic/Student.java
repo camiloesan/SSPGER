@@ -4,7 +4,6 @@ public class Student {
     private String studentID;
     private String name;
     private String lastName;
-    private String mothersLastName;
     private String academicEmail;
     private int NRC;
     private int userID;
@@ -31,14 +30,6 @@ public class Student {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getMothersLastName() {
-        return mothersLastName;
-    }
-
-    public void setMothersLastName(String mothersLastName) {
-        this.mothersLastName = mothersLastName;
     }
 
     public String getAcademicEmail() {
