@@ -23,8 +23,7 @@ CREATE TABLE Estudiantes (
 CREATE TABLE Profesores (
 	ID_profesor int not null auto_increment,
 	nombre varchar(30),
-	apellidoPaterno varchar(30), 
-	apellidoMaterno varchar(30),
+	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
 	ID_usuario int,
     PRIMARY KEY(ID_profesor)
