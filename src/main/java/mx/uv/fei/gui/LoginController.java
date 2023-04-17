@@ -22,7 +22,7 @@ public class LoginController {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         if (accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText())) {
             redirectToWindow();
-            closeWindow();
+            closeCurrentWindow();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("El usuario o contraseña no son válidos");
@@ -47,7 +47,7 @@ public class LoginController {
         }
     }
 
-    private void closeWindow() {
+    private void closeCurrentWindow() {
         Stage stage = (Stage) textFieldUser.getScene().getWindow();
         stage.close();
     }
