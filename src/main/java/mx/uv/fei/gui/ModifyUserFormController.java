@@ -26,9 +26,11 @@ public class ModifyUserFormController {
     void buttonCancelAction() {
 
     }
+
     private void validarDatos() {
 
     }
+
     @FXML
     void buttonContinueAction() {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
@@ -46,6 +48,7 @@ public class ModifyUserFormController {
 
         }
     }
+
     private final static ObservableList<String> observableListComboItems = FXCollections.observableArrayList("administrador", "estudiante", "profesor", "representanteCA");
 
     @FXML
