@@ -24,14 +24,17 @@ public class AddUserFormController {
     private TextField textFieldUsername;
 
     private final static ObservableList<String> observableListComboItems = FXCollections.observableArrayList("administrador", "estudiante", "profesor", "representanteCA");
+
     @FXML
     private void buttonCancelAction() {
         Stage stage = (Stage) buttonCancel.getScene().getWindow();
         stage.close();
     }
+
     private void validarDatos() {
 
     }
+
     @FXML
     private void buttonContinueAction() {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
@@ -51,6 +54,7 @@ public class AddUserFormController {
             alert.setContentText("Revisa el contenido de tus campos o inténtalo más tarde");
         }
     }
+
     @FXML
     private void initialize() {
         comboBoxUserType.setItems(observableListComboItems);

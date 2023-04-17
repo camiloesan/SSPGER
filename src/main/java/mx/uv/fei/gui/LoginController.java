@@ -13,8 +13,10 @@ import java.sql.SQLException;
 public class LoginController {
     @FXML
     private TextField textFieldUser;
+
     @FXML
     private PasswordField textFieldPassword;
+
     @FXML
     private void onActionButtonContinue() throws SQLException, IOException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
