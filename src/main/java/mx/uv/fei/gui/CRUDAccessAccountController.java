@@ -81,7 +81,7 @@ public class CRUDAccessAccountController {
 
     private boolean isUserAdmin(String username) throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("administrador");
+        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("Administrador");
     }
 
     private void confirmDeletion() throws SQLException {

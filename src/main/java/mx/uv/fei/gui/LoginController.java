@@ -34,15 +34,15 @@ public class LoginController {
     private void redirectToWindow() throws SQLException, IOException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         switch (accessAccountDAO.getAccessAccountTypeByUsername(textFieldUser.getText())) {
-            case "administrador":
+            case "Administrador":
                 CRUDAccessAccountWindow crudAccessAccountWindow = new CRUDAccessAccountWindow();
                 crudAccessAccountWindow.start(new Stage());
                 break;
-            case "estudiante":
+            case "Estudiante":
                 break;
-            case "profesor":
+            case "Profesor":
                 break;
-            case "representanteCA":
+            case "RepresentanteCA":
                 break;
         }
     }
