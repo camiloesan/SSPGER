@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccessAccountDAO implements IAccessAccount {
     @Override
@@ -89,7 +91,7 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public ResultSet getListAccessAccounts() throws SQLException {
+    public List<AccessAccount> getListAccessAccounts() throws SQLException {
         String query = "select nombreUsuario, tipoUsuario from CuentasAcceso";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -98,6 +100,14 @@ public class AccessAccountDAO implements IAccessAccount {
         ResultSet resultSet = preparedStatement.executeQuery();
         databaseManager.closeConnection();
 
-        return resultSet;
+        List<AccessAccount> accessAccountList = new ArrayList<>();
+        while(resultSet.next()) {
+            AccessAccount accessAccount = new AccessAccount();
+            accessAccount.setUsername(resultSet.getString("nombreUsuario"));
+            accessAccount.setUserType(resultSet.getString("tipoUsuario"));
+            accessAccountList.add(accessAccount);
+        }
+
+        return accessAccountList;
     }
 }
