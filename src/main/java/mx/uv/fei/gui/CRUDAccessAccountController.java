@@ -1,71 +1,67 @@
 package mx.uv.fei.gui;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.util.Callback;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import mx.uv.fei.dao.AccessAccountDAO;
 import mx.uv.fei.logic.AccessAccount;
 
-import java.sql.ResultSet;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class CRUDAccessAccountController {
     @FXML
-    private TableView<ObservableList> tableViewAccessAccounts;
-    @FXML
-    private Button buttonAddNewUser;
-    @FXML
-    private Button buttonModifyUser;
-    @FXML
-    private Button buttonDeleteUser;
+    private ListView<String> listViewUsernames;
 
     @FXML
-    private void adduser() throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        AccessAccount accessAccount = new AccessAccount();
-        //accessAccountDAO.addAccessAccount(accessAccount);
+    private void buttonAddNewUserAction() throws IOException {
+        AddUserFormWindow addUserFormWindow = new AddUserFormWindow();
+        Stage mainStage = (Stage) listViewUsernames.getScene().getWindow();
+        Stage subStage = new Stage();
+        subStage.initOwner(mainStage);
+        addUserFormWindow.start(subStage);
     }
     @FXML
-    private void modifySelectedUser() throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        AccessAccount accessAccount = new AccessAccount();
-        tableViewAccessAccounts.getSelectionModel().getSelectedIndex();
+    private void buttonModifyUserAction() throws IOException {
+        ModifyUserFormWindow modifyUserFormWindow = new ModifyUserFormWindow();
+        Stage mainStage = (Stage) listViewUsernames.getScene().getWindow();
+        Stage subStage = new Stage();
+        subStage.initOwner(mainStage);
+        modifyUserFormWindow.start(subStage);
+    }
 
-        accessAccountDAO.modifyAccessAccountByUsername("", accessAccount);
+    private boolean isUserAdmin(String username) throws SQLException {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("administrador");
     }
     @FXML
-    private void deleteUser() {
-
+    private void buttonDeleteUserAction() throws SQLException {
+        String username = listViewUsernames.getSelectionModel().getSelectedItem();
+        if (username == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No se puede realizar la operación");
+            alert.setContentText("Debes seleccionar al usuario que quieres eliminar");
+            alert.show();
+        } else {
+            AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+            //agregar confirmacion
+            if (isUserAdmin(username)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No se puede realizar la operación");
+                alert.setContentText("No se pueden eliminar los usuarios administrador");
+                alert.show();
+            } else {
+                accessAccountDAO.deleteAccessAccountByUsername(username);
+            }
+        }
     }
     @FXML
     private void updateListView() throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        ObservableList data = FXCollections.observableArrayList();
-        ResultSet resultSet = accessAccountDAO.getResultSetAccessAccounts();
-
-        for(int i = 0 ; i < resultSet.getMetaData().getColumnCount(); i++){
-            final int j = i;
-            TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(i+1));
-            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
-            tableViewAccessAccounts.getColumns().addAll(col);
+        listViewUsernames.getItems().clear();
+        for(AccessAccount accessAccountObject : accessAccountDAO.getListAccessAccounts()) {
+            listViewUsernames.getItems().add(accessAccountObject.getUsername());
         }
-
-        while(resultSet.next()){
-            ObservableList<String> row = FXCollections.observableArrayList();
-            for(int i = 1 ; i <= resultSet.getMetaData().getColumnCount(); i++){
-                row.add(resultSet.getString(i));
-            }
-            data.add(row);
-        }
-
-        tableViewAccessAccounts.setItems(data);
     }
     @FXML
     private void initialize() throws SQLException {
