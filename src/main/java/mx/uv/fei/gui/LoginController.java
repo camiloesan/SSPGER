@@ -22,8 +22,7 @@ public class LoginController {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         if (accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText())) {
             redirectToWindow();
-            Stage stage = (Stage) textFieldUser.getScene().getWindow();
-            stage.close();
+            closeCurrentWindow();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("El usuario o contraseña no son válidos");
@@ -32,7 +31,7 @@ public class LoginController {
         }
     }
 
-    public void redirectToWindow() throws SQLException, IOException {
+    private void redirectToWindow() throws SQLException, IOException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         switch (accessAccountDAO.getAccessAccountTypeByUsername(textFieldUser.getText())) {
             case "administrador":
@@ -46,5 +45,10 @@ public class LoginController {
             case "representanteCA":
                 break;
         }
+    }
+
+    private void closeCurrentWindow() {
+        Stage stage = (Stage) textFieldUser.getScene().getWindow();
+        stage.close();
     }
 }

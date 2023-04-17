@@ -16,62 +16,37 @@ public class CRUDAccessAccountController {
 
     @FXML
     private void buttonAddNewUserAction() throws IOException {
-        AddUserFormWindow addUserFormWindow = new AddUserFormWindow();
-        Stage mainStage = (Stage) listViewUsernames.getScene().getWindow();
-        Stage subStage = new Stage();
-        subStage.initOwner(mainStage);
-        addUserFormWindow.start(subStage);
+        startAddUserWindow();
     }
 
     @FXML
     private void buttonModifyUserAction() throws IOException {
-        ModifyUserFormWindow modifyUserFormWindow = new ModifyUserFormWindow();
-        Stage mainStage = (Stage) listViewUsernames.getScene().getWindow();
-        Stage subStage = new Stage();
-        subStage.initOwner(mainStage);
-        modifyUserFormWindow.start(subStage);
-    }
-
-    private boolean isUserAdmin(String username) throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("administrador");
+        startModifyUserWindow();
     }
 
     @FXML
     private void buttonDeleteUserAction() throws SQLException {
         String username = listViewUsernames.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         if (username == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("No se puede realizar la operación");
             alert.setContentText("Debes seleccionar al usuario que quieres eliminar");
             alert.show();
         } else {
-            AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-            //agregar confirmacion
             if (isUserAdmin(username)) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("No se puede realizar la operación");
                 alert.setContentText("No se pueden eliminar los usuarios administrador");
                 alert.show();
             } else {
-                accessAccountDAO.deleteAccessAccountByUsername(username);
+                confirmDeletion();
+                updateListView();
             }
         }
     }
 
     @FXML
     private void buttonCancelAction() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
-        Optional<ButtonType> result = alert.showAndWait();
-        LoginWindow loginWindow = new LoginWindow();
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            alert.close();
-        } else {
-            loginWindow.start(new Stage());
-            Stage stage = (Stage) listViewUsernames.getScene().getWindow();
-            stage.close();
-        }
+        returnToPreviousWindow();
     }
 
     @FXML
@@ -86,5 +61,52 @@ public class CRUDAccessAccountController {
     @FXML
     private void initialize() throws SQLException {
         updateListView();
+    }
+
+    private void startAddUserWindow() throws IOException {
+        AddUserFormWindow addUserFormWindow = new AddUserFormWindow();
+        Stage mainStage = (Stage) listViewUsernames.getScene().getWindow();
+        Stage subStage = new Stage();
+        subStage.initOwner(mainStage);
+        addUserFormWindow.start(subStage);
+    }
+
+    private void startModifyUserWindow() throws IOException {
+        ModifyUserFormWindow modifyUserFormWindow = new ModifyUserFormWindow();
+        Stage mainStage = (Stage) listViewUsernames.getScene().getWindow();
+        Stage subStage = new Stage();
+        subStage.initOwner(mainStage);
+        modifyUserFormWindow.start(subStage);
+    }
+
+    private boolean isUserAdmin(String username) throws SQLException {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("administrador");
+    }
+
+    private void confirmDeletion() throws SQLException {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("¿Está seguro que desea eliminar al usuario " + listViewUsernames.getSelectionModel().getSelectedItem() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isEmpty() || result.get() != ButtonType.OK) {
+            alert.close();
+        } else {
+            accessAccountDAO.deleteAccessAccountByUsername(listViewUsernames.getSelectionModel().getSelectedItem());
+        }
+    }
+
+    private void returnToPreviousWindow() throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> result = alert.showAndWait();
+        LoginWindow loginWindow = new LoginWindow();
+        if(result.isEmpty() || result.get() != ButtonType.OK) {
+            alert.close();
+        } else {
+            loginWindow.start(new Stage());
+            Stage stage = (Stage) listViewUsernames.getScene().getWindow();
+            stage.close();
+        }
     }
 }

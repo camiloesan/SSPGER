@@ -20,7 +20,6 @@ public class AddUserFormWindow extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setTitle("Añadir Nuevo Usuario");
         stage.setScene(scene);
-        stage.setAlwaysOnTop(true);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
     }
