@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import mx.uv.fei.dao.AccessAccountDAO;
 import mx.uv.fei.logic.AccessAccount;
 
@@ -24,7 +25,8 @@ public class ModifyUserFormController {
 
     @FXML
     void buttonCancelAction() {
-
+        Stage stage = (Stage) textFieldUsername.getScene().getWindow();
+        stage.close();
     }
 
     private void validarDatos() {
@@ -45,7 +47,6 @@ public class ModifyUserFormController {
         } catch(SQLException sqlException) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-
         }
     }
 
