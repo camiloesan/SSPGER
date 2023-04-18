@@ -36,8 +36,7 @@ class ProfessorDAOTest {
         Professor professor = new Professor();
 
         professor.setProfessorName("Jorge Octavio");
-        professor.setProfessorFirsLastName("Ocharan");
-        professor.setProfessorSecondLastName("Hernandez");
+        professor.setProfessorLastName("Ocharan Hernandez");
         professor.setProfessorEmail("jocharan@uv.mx");
         professor.setUserId(4);
 
