@@ -7,8 +7,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.AccessAccountDAO;
 
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Store;
+
+
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class LoginController {
     @FXML
@@ -18,9 +24,9 @@ public class LoginController {
     private PasswordField textFieldPassword;
 
     @FXML
-    private void onActionButtonContinue() throws SQLException, IOException {
+    private void onActionButtonContinue() throws SQLException, IOException, MessagingException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        if (accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText())) {
+        if (accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText()) || isExternalEmailValid()) {
             redirectToWindow();
             closeCurrentWindow();
         } else {
@@ -30,6 +36,17 @@ public class LoginController {
             alert.showAndWait();
         }
     }
+
+    public boolean isExternalEmailValid() throws MessagingException {
+        Properties props = new Properties();
+        props.setProperty("mail.pop3.starttls.enable", "true");
+        Session mailSession = Session.getInstance(props);
+        mailSession.setDebug(true);
+        Store mailStore = mailSession.getStore("pop3");
+        mailStore.connect("outlook.office365.com", textFieldUser.getText(), textFieldPassword.getText());
+        return mailStore.isConnected();
+    }
+
 
     private void redirectToWindow() throws SQLException, IOException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();

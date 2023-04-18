@@ -6,6 +6,7 @@ module mx.uv.fei.gui {
             requires com.dlsc.formsfx;
     requires java.logging;
     requires java.sql;
+    requires java.mail;
 
     opens mx.uv.fei.gui to javafx.fxml;
     exports mx.uv.fei.gui;
