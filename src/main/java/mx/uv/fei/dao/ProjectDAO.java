@@ -66,7 +66,7 @@ public class ProjectDAO implements IProject{
 
     @Override
     public ArrayList<DetailedProject> getProjectsByState(String projectState) throws SQLException {
-        String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional AS TrabajoRecepcional, P.nombreProyectoInvestigación AS 'ProyectoInvestigacion', CONCAT (P2.nombre, ' ',P2.apellidoPaterno, ' ', P2.apellidoMaterno) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = ?";
+        String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional AS TrabajoRecepcional, P.nombreProyectoInvestigación AS 'ProyectoInvestigacion', CONCAT (P2.nombre, ' ',P2.apellidos) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = ?";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -81,7 +81,7 @@ public class ProjectDAO implements IProject{
             DetailedProject detailedProject = new DetailedProject();
 
             detailedProject.setProjectID(resultSet.getInt("ID_proyecto"));
-            if (resultSet.getString("ProyectoInvestigacion") == null || Objects.equals(resultSet.getString("ProyectoInvestigacion"), " ")){
+            if (resultSet.getString("ProyectoInvestigacion") == null || Objects.equals(resultSet.getString("ProyectoInvestigacion"), "")){
                 detailedProject.setProjectTitle(resultSet.getString("TrabajoRecepcional"));
             } else {
                 detailedProject.setProjectTitle(resultSet.getString("ProyectoInvestigacion"));
@@ -97,13 +97,14 @@ public class ProjectDAO implements IProject{
     }
 
     @Override
-    public DetailedProject getProjectInfo(int projectID) throws SQLException{
-        String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, LC.nombre AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.nombre, ' ',PRF.apellidoPaterno, ' ', PRF.apellidoMaterno) AS 'Director', CONCAT (CD.nombre, ' ',CD.apellidoPaterno, ' ', CD.apellidoMaterno) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.clave LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR LEFT JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor LEFT JOIN CodirectoresProyecto COP ON P.ID_proyecto = COP.ID_proyecto LEFT JOIN Profesores CD ON COP.ID_profesor = CD.ID_profesor WHERE P.ID_proyecto = ?";
+    public DetailedProject getProjectInfo(String projectTitle) throws SQLException{
+        String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, LC.nombre AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.nombre, ' ',PRF.apellidos) AS 'Director', CONCAT (CD.nombre, ' ',CD.apellidos) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.clave LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR LEFT JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor LEFT JOIN CodirectoresProyecto COP ON P.ID_proyecto = COP.ID_proyecto LEFT JOIN Profesores CD ON COP.ID_profesor = CD.ID_profesor WHERE P.nombreProyectoInvestigación = ? OR P.nombreTrabajoRecepcional = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setInt(1,projectID);
+        preparedStatement.setString(1,projectTitle);
+        preparedStatement.setString(2,projectTitle);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 

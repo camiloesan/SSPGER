@@ -10,5 +10,5 @@ public interface IProject {
     int addProject(Project project) throws SQLException;
     int updateProjectState(int projectId, String state) throws SQLException;
     ArrayList<DetailedProject> getProjectsByState(String projectState) throws SQLException;
-    DetailedProject getProjectInfo(int projectID) throws SQLException;
+    DetailedProject getProjectInfo(String projectTitle) throws SQLException;
 }
