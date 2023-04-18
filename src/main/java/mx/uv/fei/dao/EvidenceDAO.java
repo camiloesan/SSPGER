@@ -12,7 +12,7 @@ import java.util.List;
 
 public class EvidenceDAO implements IEvidence {
     @Override
-    public void addEvidence(Evidence evidence) throws SQLException {
+    public int addEvidence(Evidence evidence) throws SQLException {
         String query = "insert into Evidencias(titulo, descripcion, ID_profesor, ID_avance, ID_proyecto, matriculaEstudiante) values (?,?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -24,9 +24,27 @@ public class EvidenceDAO implements IEvidence {
         preparedStatement.setInt(4, evidence.getAdvancementId());
         preparedStatement.setInt(5, evidence.getProjectId());
         preparedStatement.setString(6, evidence.getStudentId());
-        preparedStatement.executeUpdate();
+        int result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
+        return result;
+    }
+
+    @Override
+    public int modifyEvidence(int evidenceID, String evidenceTitle, String evidenceDescription) throws SQLException{
+        int result;
+        String query = "UPDATE Evidencias SET titulo=(?), descripcion=(?) WHERE ID_evidencia=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, evidenceTitle);
+        preparedStatement.setString(2, evidenceDescription);
+        preparedStatement.setInt(3, evidenceID);
+        result = preparedStatement.executeUpdate();
+
+        databaseManager.closeConnection();
+        return result;
     }
 
     @Override
