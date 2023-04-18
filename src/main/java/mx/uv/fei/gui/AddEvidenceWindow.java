@@ -17,7 +17,7 @@ public class AddEvidenceWindow extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(LoginWindow.class.getResource("addevidence-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        primaryStage.setTitle("Agregar Evidencia");
+        primaryStage.setTitle("Enviar Evidencia");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
