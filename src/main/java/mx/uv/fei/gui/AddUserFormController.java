@@ -37,6 +37,7 @@ public class AddUserFormController {
         if (areFieldsValid()) {
             try {
                 addUser();
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Éxito");
                 alert.setContentText("El usuario fue registrado exitosamente");
