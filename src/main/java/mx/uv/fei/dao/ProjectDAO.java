@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ProjectDAO implements IProject{
@@ -98,7 +99,7 @@ public class ProjectDAO implements IProject{
 
     @Override
     public DetailedProject getProjectInfo(String projectTitle) throws SQLException{
-        String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, LC.nombre AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.nombre, ' ',PRF.apellidos) AS 'Director', CONCAT (CD.nombre, ' ',CD.apellidos) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.clave LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR LEFT JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor LEFT JOIN CodirectoresProyecto COP ON P.ID_proyecto = COP.ID_proyecto LEFT JOIN Profesores CD ON COP.ID_profesor = CD.ID_profesor WHERE P.nombreProyectoInvestigación = ? OR P.nombreTrabajoRecepcional = ?";
+        String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, CONCAT(LC.nombre, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.nombre, ' ',PRF.apellidos) AS 'Director', CONCAT (CD.nombre, ' ',CD.apellidos) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.clave LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR LEFT JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor LEFT JOIN CodirectoresProyecto COP ON P.ID_proyecto = COP.ID_proyecto LEFT JOIN Profesores CD ON COP.ID_profesor = CD.ID_profesor WHERE P.nombreProyectoInvestigación = ? OR P.nombreTrabajoRecepcional = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -131,5 +132,25 @@ public class ProjectDAO implements IProject{
         databaseManager.closeConnection();
 
         return detailedProject;
+    }
+    
+    @Override
+    public List<String> getLgacList() throws SQLException {
+        String sqlQuery = "SELECT CONCAT (clave, '. ', nombre) AS ItemLGAC FROM LGAC";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<String> lgacList = new ArrayList<>();
+        while (resultSet.next()) {
+            DetailedProject LgacItem = new DetailedProject();
+            LgacItem.setLgacDescription(resultSet.getString("ItemLGAC"));
+            lgacList.add(LgacItem.getLgacDescription());
+        }
+        databaseManager.closeConnection();
+        
+        return lgacList;
     }
 }
