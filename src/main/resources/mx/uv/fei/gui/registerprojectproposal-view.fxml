@@ -1,11 +1,254 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="mx.uv.fei.gui.RegisterProjectProposalController" prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.RegisterProjectProposalController">
+ <content>
+    <VBox prefHeight="1850.0" prefWidth="676.0">
+       <children>
+          <HBox prefHeight="60.0" prefWidth="695.0">
+             <children>
+                <Label text="Datos del anteproyecto">
+                   <HBox.margin>
+                      <Insets left="20.0" top="20.0" />
+                   </HBox.margin>
+                     <font>
+                        <Font name="Liberation Serif" size="20.0" />
+                     </font>
+                </Label>
+             </children>
+          </HBox>
+          <GridPane prefHeight="475.0" prefWidth="636.0">
+            <columnConstraints>
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" prefWidth="242.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="436.0" minWidth="10.0" prefWidth="394.0" />
+            </columnConstraints>
+            <rowConstraints>
+              <RowConstraints maxHeight="141.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
+              <RowConstraints maxHeight="168.0" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+              <RowConstraints maxHeight="358.0" minHeight="0.0" prefHeight="133.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="296.0" minHeight="4.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="296.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="396.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="396.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+             <children>
+                <Label text="Nombre del proyecto de Investigación" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                   <GridPane.margin>
+                      <Insets left="5.0" top="5.0" />
+                   </GridPane.margin>
+                </Label>
+                <TextArea fx:id="textAreaInvestigationProjectName" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1">
+                   <GridPane.margin>
+                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                   </GridPane.margin>
+                </TextArea>
+                <Label text="LGAC que alimenta:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                   <VBox.margin>
+                      <Insets top="10.0" />
+                   </VBox.margin>
+                   <GridPane.margin>
+                      <Insets top="5.0" />
+                   </GridPane.margin>
+                </Label>
+                <ComboBox fx:id="comboLGAC" prefHeight="26.0" prefWidth="485.0" promptText="-- Seleccione un LGAC --" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                   <GridPane.margin>
+                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                   </GridPane.margin>
+                </ComboBox>
+                <Label text="Linea de Investigación:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                   <GridPane.margin>
+                      <Insets top="5.0" />
+                   </GridPane.margin>
+                </Label>
+                <TextArea fx:id="textAreaInvestigationLine" prefHeight="230.0" prefWidth="374.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                   <GridPane.margin>
+                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                   </GridPane.margin>
+                </TextArea>
+                <Label text="Duracion aproximada:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                   <GridPane.margin>
+                      <Insets top="5.0" />
+                   </GridPane.margin>
+                </Label>
+                <TextField fx:id="textFieldAproxDuration" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                   <GridPane.margin>
+                      <Insets left="5.0" right="5.0" />
+                   </GridPane.margin>
+                </TextField>
+                <Label text="Nombre del Trabajo Recepcional:" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                   <GridPane.margin>
+                      <Insets top="5.0" />
+                   </GridPane.margin>
+                </Label>
+                <TextArea fx:id="textAreaReceptionWorkName" prefHeight="201.0" prefWidth="361.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                   <GridPane.margin>
+                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                   </GridPane.margin>
+                </TextArea>
+                <Label text="VINULACION/PLADEA-FEI" GridPane.halignment="LEFT">
+                   <GridPane.margin>
+                      <Insets left="5.0" />
+                   </GridPane.margin>
+                </Label>
+                  <ComboBox fx:id="comboReecptionWorkModality" prefHeight="26.0" prefWidth="404.0" promptText="-- Seleccione una modalidad de Trabajo Recepcional --" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label text="Modalidad de Trabajo Recepcional:" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Requisitos:" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextArea fx:id="textAreaRequisites" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin>
+                  </TextArea>
+             </children>
+             <VBox.margin>
+                <Insets left="20.0" right="20.0" />
+             </VBox.margin>
+          </GridPane>
+          <HBox prefHeight="60.0" prefWidth="200.0">
+             <children>
+                <Label text="Responsables del Trabajo Recepcional">
+                   <HBox.margin>
+                      <Insets left="20.0" top="20.0" />
+                   </HBox.margin>
+                     <font>
+                        <Font name="Liberation Serif" size="20.0" />
+                     </font>
+                </Label>
+             </children>
+          </HBox>
+          <GridPane>
+            <columnConstraints>
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="325.0" minWidth="10.0" prefWidth="253.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="468.0" minWidth="10.0" prefWidth="408.0" />
+            </columnConstraints>
+            <rowConstraints>
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+             <children>
+                <Label text="Director:" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin></Label>
+                  <ComboBox fx:id="comboDirectors" prefHeight="26.0" prefWidth="427.0" promptText="-- Seleccione un profesor como director --" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label text="Codirector(es):" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin></Label>
+                  <ComboBox fx:id="comboCodirectors" prefHeight="26.0" prefWidth="407.0" promptText="-- Seleccione un profesor como codirector --" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin></ComboBox>
+                  <Label text="Estudiantes participantes:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin></Label>
+                  <TextField fx:id="textFieldNumerStudents" promptText="Número de estudiantes" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin>
+                  </TextField>
+             </children>
+             <VBox.margin>
+                <Insets left="20.0" right="20.0" />
+             </VBox.margin>
+          </GridPane>
+            <HBox prefHeight="70.0" prefWidth="676.0">
+               <children>
+                  <Label text="Descripcion del Proyecto de Investigación">
+                     <font>
+                        <Font name="Liberation Serif" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <TextArea fx:id="textAreaInvestigationProjectName" prefHeight="200.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="25.0" />
+               </VBox.margin>
+            </TextArea>
+            <HBox prefHeight="70.0" prefWidth="200.0">
+               <children>
+                  <Label text="Descripcion del Trabajo Recepcional">
+                     <font>
+                        <Font name="Liberation Serif" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <TextArea fx:id="textAreaReceptionWorkName" prefHeight="200.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="25.0" />
+               </VBox.margin>
+            </TextArea>
+            <HBox prefHeight="70.0" prefWidth="200.0">
+               <children>
+                  <Label text="Resultados esperados">
+                     <font>
+                        <Font name="Liberation Serif" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <TextArea fx:id="textAreaExpectedResults" prefHeight="200.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="25.0" />
+               </VBox.margin>
+            </TextArea>
+            <HBox prefHeight="70.0" prefWidth="200.0">
+               <children>
+                  <Label text="Bibliografa recomendada">
+                     <HBox.margin>
+                        <Insets left="20.0" top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Liberation Serif" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <TextArea fx:id="textAreaRecommendedBibliography" prefHeight="200.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets left="25.0" right="25.0" />
+               </VBox.margin></TextArea>
+       </children>
+    </VBox>
+ </content>
+</ScrollPane>
