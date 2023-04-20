@@ -2,22 +2,21 @@ package mx.uv.fei.logic;
 
 public class Professor {
     private int professorId;
+    private String professorDegree;
     private String professorName;
     private String professorLastName;
+    private String professorFullName;
     private String professorEmail;
     private int userId;
 
     public Professor() {}
-
-    public Professor(String professorName, String professorLastName, String professorEmail, int userId) {
-        this.professorName = professorName;
-        this.professorLastName = professorLastName;
-        this.professorEmail = professorEmail;
-        this.userId = userId;
-    }
-
+    
     public int getProfessorId() {
         return professorId;
+    }
+    
+    public String getProfessorDegree() {
+        return professorDegree;
     }
 
     public String getProfessorName() {
@@ -26,6 +25,10 @@ public class Professor {
 
     public String getProfessorLastName() {
         return professorLastName;
+    }
+    
+    public String getProfessorFullName() {
+        return professorFullName;
     }
     
     public String getProfessorEmail() {
@@ -39,13 +42,21 @@ public class Professor {
     public void setProfessorId(int professorId) {
         this.professorId = professorId;
     }
-
+    
+    public void setProfessorDegree(String professorDegree) {
+        this.professorDegree = professorDegree;
+    }
+    
     public void setProfessorName(String professorName) {
         this.professorName = professorName;
     }
 
     public void setProfessorLastName(String professorLastName) {
         this.professorLastName = professorLastName;
+    }
+    
+    public void setProfessorFullName(String professorFullName) {
+        this.professorFullName = professorFullName;
     }
     
     public void setProfessorEmail(String professorEmail) {

@@ -14,16 +14,17 @@ public class ProfessorDAO implements IProfessor {
     @Override
     public int addProfessor(Professor professor) throws SQLException{
         int result;
-        String sqlQuery = "INSERT INTO Profesores (nombre, apellidos, correoInstitucional, ID_usuario) VALUES (?,?,?,?)";
+        String sqlQuery = "INSERT INTO Profesores (grado, nombre, apellidos, correoInstitucional, ID_usuario) VALUES (?,?,?,?,?)";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-
-        preparedStatement.setString(1, professor.getProfessorName());
-        preparedStatement.setString(2,professor.getProfessorLastName());
-        preparedStatement.setString(3,professor.getProfessorEmail());
-        preparedStatement.setInt(4,professor.getUserId());
+        
+        preparedStatement.setString(1,professor.getProfessorDegree());
+        preparedStatement.setString(2, professor.getProfessorName());
+        preparedStatement.setString(3,professor.getProfessorLastName());
+        preparedStatement.setString(4,professor.getProfessorEmail());
+        preparedStatement.setInt(5,professor.getUserId());
 
         result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
@@ -33,17 +34,18 @@ public class ProfessorDAO implements IProfessor {
     @Override
     public int updateProfessorByName(Professor updatedProfessor, String professorNameToUpdate) throws SQLException {
         int result;
-        String sqlQuery = "UPDATE Profesores SET nombre = (?), apellidos = (?), correoInstitucional = (?) WHERE nombre = (?)";
+        String sqlQuery = "UPDATE Profesores SET grado = (?), nombre = (?), apellidos = (?), correoInstitucional = (?) WHERE nombre = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         
-        preparedStatement.setString(1,updatedProfessor.getProfessorName());
-        preparedStatement.setString(2,updatedProfessor.getProfessorLastName());
-        preparedStatement.setString(3,updatedProfessor.getProfessorEmail());
+        preparedStatement.setString(1,updatedProfessor.getProfessorDegree());
+        preparedStatement.setString(2,updatedProfessor.getProfessorName());
+        preparedStatement.setString(3,updatedProfessor.getProfessorLastName());
+        preparedStatement.setString(4,updatedProfessor.getProfessorEmail());
         
-        preparedStatement.setString(4, professorNameToUpdate);
+        preparedStatement.setString(5, professorNameToUpdate);
         
         result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
@@ -53,7 +55,7 @@ public class ProfessorDAO implements IProfessor {
     
     @Override
     public List<Professor> getAllProfessors() throws SQLException {
-        String sqlQuery = "SELECT nombre, apellidos, correoInstitucional FROM Profesores";
+        String sqlQuery = "SELECT grado, nombre, apellidos, correoInstitucional FROM Profesores";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -89,5 +91,26 @@ public class ProfessorDAO implements IProfessor {
         databaseManager.closeConnection();
         
         return result;
+    }
+    
+    @Override
+    public List<String> getProfessorsNames() throws SQLException {
+        String sqlQuery = "SELECT CONCAT(grado, ' ',nombre, ' ', apellidos) AS nombreCompleto FROM Profesores;";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<String> professorsNames = new ArrayList<>();
+        while (resultSet.next()) {
+            Professor professor = new Professor();
+            professor.setProfessorFullName(resultSet.getString("nombreCompleto"));
+            
+            professorsNames.add(professor.getProfessorFullName());
+        }
+        databaseManager.closeConnection();
+        
+        return professorsNames;
     }
 }
