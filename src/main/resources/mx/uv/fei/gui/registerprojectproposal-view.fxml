@@ -193,7 +193,7 @@
                   </Label>
                </children>
             </HBox>
-            <TextArea fx:id="textAreaInvestigationProjectName" prefHeight="200.0" prefWidth="200.0">
+            <TextArea fx:id="textAreaInvestigationProjectDescription" prefHeight="200.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="25.0" right="25.0" />
                </VBox.margin>
@@ -210,7 +210,7 @@
                   </Label>
                </children>
             </HBox>
-            <TextArea fx:id="textAreaReceptionWorkName" prefHeight="200.0" prefWidth="200.0">
+            <TextArea fx:id="textAreaReceptionWorkDescription" prefHeight="200.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="25.0" right="25.0" />
                </VBox.margin>
