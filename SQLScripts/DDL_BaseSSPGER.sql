@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS SSPGER;
+
 CREATE DATABASE SSPGER;
 USE SSPGER;
 
@@ -22,6 +24,7 @@ CREATE TABLE Estudiantes (
 
 CREATE TABLE Profesores (
 	ID_profesor int not null auto_increment,
+	grado enum('Dr.','Dra.', 'MCC.') not null ,
 	nombre varchar(30),
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
@@ -81,10 +84,11 @@ CREATE TABLE ModalidadesTR(
 );
 
 CREATE TABLE LGAC (
+    ID_lgac int not null auto_increment,
 	clave varchar(2) not null,
 	nombre varchar(50),
 	descripcion varchar(400),
-    PRIMARY KEY(clave)
+    PRIMARY KEY(ID_lgac)
 );
 
 CREATE TABLE Avances (
