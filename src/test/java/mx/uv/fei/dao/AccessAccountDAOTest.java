@@ -33,7 +33,17 @@ class AccessAccountDAOTest {
         accessAccountDAO.deleteAccessAccountByUsername("dummy");
         accessAccountDAO.deleteAccessAccountByUsername("dummy2");
     }
+    @Test
+    void testAddAccessAccountSucces() throws SQLException {
+        AccessAccount accessAccount = new AccessAccount();
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
 
+        accessAccount.setUsername("BDMG");
+        accessAccount.setUserPassword("contrasenaBDMG");
+        accessAccount.setUserType("Estudiante");
+
+        accessAccountDAO.addAccessAccount(accessAccount);
+    }
     @Test
     void testAddAccessAccountWrongUserType() {
         var accessAccountDAO = new AccessAccountDAO();

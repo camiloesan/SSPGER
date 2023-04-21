@@ -7,21 +7,28 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.AccessAccountDAO;
 
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Store;
+
+
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class LoginController {
     @FXML
     private TextField textFieldUser;
+
     @FXML
     private PasswordField textFieldPassword;
+
     @FXML
-    private void onActionButtonContinue() throws SQLException, IOException {
+    private void onActionButtonContinue() throws SQLException, IOException, MessagingException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        if (accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText())) {
+        if (accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText()) || isExternalEmailValid()) {
             redirectToWindow();
-            Stage stage = (Stage) textFieldUser.getScene().getWindow();
-            stage.close();
+            closeCurrentWindow();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("El usuario o contraseña no son válidos");
@@ -30,19 +37,35 @@ public class LoginController {
         }
     }
 
-    public void redirectToWindow() throws SQLException, IOException {
+    public boolean isExternalEmailValid() throws MessagingException {
+        Properties props = new Properties();
+        props.setProperty("mail.pop3.starttls.enable", "true");
+        Session mailSession = Session.getInstance(props);
+        mailSession.setDebug(true);
+        Store mailStore = mailSession.getStore("pop3");
+        mailStore.connect("outlook.office365.com", textFieldUser.getText(), textFieldPassword.getText());
+        return mailStore.isConnected();
+    }
+
+
+    private void redirectToWindow() throws SQLException, IOException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         switch (accessAccountDAO.getAccessAccountTypeByUsername(textFieldUser.getText())) {
-            case "administrador":
+            case "Administrador":
                 CRUDAccessAccountWindow crudAccessAccountWindow = new CRUDAccessAccountWindow();
                 crudAccessAccountWindow.start(new Stage());
                 break;
-            case "estudiante":
+            case "Estudiante":
                 break;
-            case "profesor":
+            case "Profesor":
                 break;
-            case "representanteCA":
+            case "RepresentanteCA":
                 break;
         }
+    }
+
+    private void closeCurrentWindow() {
+        Stage stage = (Stage) textFieldUser.getScene().getWindow();
+        stage.close();
     }
 }

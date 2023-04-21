@@ -8,8 +8,6 @@ public class AccessAccount {
     private String userPassword;
     private String userType;
 
-    public AccessAccount() {
-    }
     public String getUserType() {
         return userType;
     }

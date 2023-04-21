@@ -13,7 +13,7 @@ import java.util.List;
 public class AccessAccountDAO implements IAccessAccount {
     @Override
     public void addAccessAccount(AccessAccount accessAccount) throws SQLException {
-        String query = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,?,?)";
+        String query = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -28,7 +28,7 @@ public class AccessAccountDAO implements IAccessAccount {
 
     @Override
     public void modifyAccessAccountByUsername(String username, AccessAccount accessAccount) throws SQLException {
-        String query = "update CuentasAcceso set nombreUsuario=(?), contrasena=(?) where nombreUsuario=(?)";
+        String query = "update CuentasAcceso set nombreUsuario=(?), contrasena=(SHA2(?, 256)) where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -57,7 +57,7 @@ public class AccessAccountDAO implements IAccessAccount {
     @Override
     public boolean areCredentialsValid(String username, String password) throws SQLException {
         boolean isValid;
-        String query = "select 1 from CuentasAcceso where nombreUsuario=(?) and contrasena=(?)";
+        String query = "select 1 from CuentasAcceso where nombreUsuario=(?) and contrasena=(SHA2(?, 256))";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -101,9 +101,9 @@ public class AccessAccountDAO implements IAccessAccount {
         databaseManager.closeConnection();
 
         List<AccessAccount> accessAccountList = new ArrayList<>();
-        while (resultSet.next()) {
+        while(resultSet.next()) {
             AccessAccount accessAccount = new AccessAccount();
-            accessAccount.setUsername(resultSet.getString("userName"));
+            accessAccount.setUsername(resultSet.getString("nombreUsuario"));
             accessAccount.setUserType(resultSet.getString("tipoUsuario"));
             accessAccountList.add(accessAccount);
         }

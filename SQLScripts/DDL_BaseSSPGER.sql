@@ -5,8 +5,8 @@ USE SSPGER;
 
 CREATE TABLE CuentasAcceso (
 	ID_usuario int not null auto_increment,
-	nombreUsuario varchar(15) not null, 
-	contrasena nvarchar(16) not null,
+	nombreUsuario varchar(27) not null, 
+	contrasena nvarchar(64) not null,
     tipoUsuario enum('Administrador', 'Estudiante', 'Profesor', 'RepresentanteCA') not null,
     PRIMARY KEY(ID_usuario),
     UNIQUE (nombreUsuario)
