@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.DeleteEvidenceController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="90.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+      <Label layoutX="26.0" layoutY="36.0" text="Eliminar Evidencia" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="buttonDeleteEvidence" layoutX="245.0" layoutY="268.0" mnemonicParsing="false" onMouseClicked="#onActionDeleteEvidenceButton" text="Eliminar evidencia" />
+      <Label layoutX="107.0" layoutY="191.0" text="Titulo de la evidencia a eliminar:" />
+      <TextField fx:id="textFieldTitle" layoutX="310.0" layoutY="187.0" />
+   </children>
+</AnchorPane>
