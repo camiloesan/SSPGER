@@ -12,4 +12,6 @@ public interface IAccessAccount {
     boolean areCredentialsValid(String username, String password) throws SQLException;
     String getAccessAccountTypeByUsername(String username) throws SQLException;
     List<AccessAccount> getListAccessAccounts() throws SQLException;
+    List<AccessAccount> getUsernamesByUsertype(String userType) throws SQLException;
+    int modifyPasswordByUsername(AccessAccount accessAccount) throws SQLException;
 }

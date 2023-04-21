@@ -1,85 +1,79 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.shape.Rectangle;
 
-public class MainMenuStudentController {
+import java.io.IOException;
+import java.util.Optional;
+
+public class StudentAdvancementController {
     @FXML
     private Rectangle optionAdvancements;
-
     @FXML
     private Rectangle optionEvidences;
-
     @FXML
     private Rectangle optionProjects;
-
     @FXML
     private Rectangle optionRequest;
+    private static final double SELECTED_OPACITY = 0.16;
 
     @FXML
-    private TabPane paneAdvancements;
-
-    @FXML
-    private TabPane paneEvidences;
-
-    @FXML
-    private TabPane paneProjects;
-
-    @FXML
-    private TabPane paneRequest;
-
-    private void handleStyling(Rectangle rectangle) {
-        rectangle.setOpacity(0.16);
+    private void actionLogOut() throws IOException {
+        logOut();
     }
 
     @FXML
     private void actionAdvancements() {
-        handleStyling(optionAdvancements);
-        optionAdvancements.setOpacity(0.16);
+        optionAdvancements.setOpacity(SELECTED_OPACITY);
         optionEvidences.setOpacity(0);
         optionProjects.setOpacity(0);
         optionRequest.setOpacity(0);
-        paneAdvancements.toFront();
     }
 
     @FXML
     private void actionEvidences() {
-        handleStyling(optionEvidences);
         optionAdvancements.setOpacity(0);
-        optionEvidences.setOpacity(0.16);
+        optionEvidences.setOpacity(SELECTED_OPACITY);
         optionProjects.setOpacity(0);
         optionRequest.setOpacity(0);
-        paneEvidences.toFront();
     }
 
     @FXML
     private void actionProjects() {
-        handleStyling(optionProjects);
         optionAdvancements.setOpacity(0);
         optionEvidences.setOpacity(0);
-        optionProjects.setOpacity(0.16);
+        optionProjects.setOpacity(SELECTED_OPACITY);
         optionRequest.setOpacity(0);
-        paneProjects.toFront();
     }
 
     @FXML
     private void actionRequest() {
-        handleStyling(optionRequest);
         optionAdvancements.setOpacity(0);
         optionEvidences.setOpacity(0);
         optionProjects.setOpacity(0);
-        optionRequest.setOpacity(0.16);
-        paneRequest.toFront();
+        optionRequest.setOpacity(SELECTED_OPACITY);
     }
 
     @FXML
     private void initialize() {
-        optionAdvancements.setOpacity(0.16);
+        optionAdvancements.setOpacity(SELECTED_OPACITY);
         optionEvidences.setOpacity(0);
         optionProjects.setOpacity(0);
         optionRequest.setOpacity(0);
-        paneAdvancements.toFront();
+    }
+
+    private void logOut() throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isEmpty() || result.get() != ButtonType.OK) {
+            alert.close();
+        } else {
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+            //reset credentials
+        }
     }
 
 }

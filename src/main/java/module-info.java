@@ -7,6 +7,10 @@ module mx.uv.fei.gui {
     requires java.logging;
     requires java.sql;
     requires java.mail;
+    requires org.apache.commons.logging;
+    requires log4j;
+    requires org.apache.logging.log4j.core;
+    requires org.apache.logging.log4j;
 
     opens mx.uv.fei.gui to javafx.fxml;
     exports mx.uv.fei.gui;
