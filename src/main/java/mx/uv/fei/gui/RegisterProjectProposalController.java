@@ -26,6 +26,8 @@ public class RegisterProjectProposalController {
     @FXML
     private TextArea textAreaReceptionWorkName;
     @FXML
+    private ComboBox<String> comboRecptionWorkModality;
+    @FXML
     private ComboBox<String> comboDirectors;
     @FXML
     private ComboBox<String> comboCodirectors;
@@ -33,6 +35,7 @@ public class RegisterProjectProposalController {
     public void initialize() throws SQLException {
         fillLgacCombo();
         fillProfessorsCombos();
+        fillReceptionWorkModalityCombo();
     }
     
     public void fillLgacCombo() throws SQLException {
@@ -52,6 +55,16 @@ public class RegisterProjectProposalController {
         
         comboDirectors.setItems(professorsNames);
         comboCodirectors.setItems(professorsNames);
+    }
+    
+    public void fillReceptionWorkModalityCombo() throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        ObservableList<String> rwModalities = FXCollections.observableArrayList();
+        List<String> rwModalitiesList = new ArrayList<>(projectDAO.getRWModalitiesList());
+        rwModalities.addAll(rwModalitiesList);
+        
+        comboRecptionWorkModality.setItems(rwModalities);
+    
     }
     
     public void register() throws SQLException {
