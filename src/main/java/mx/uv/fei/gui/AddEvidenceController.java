@@ -10,7 +10,13 @@ import mx.uv.fei.dao.EvidenceDAO;
 import mx.uv.fei.logic.Evidence;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 public class AddEvidenceController {
     @FXML
@@ -31,11 +37,16 @@ public class AddEvidenceController {
     private Button addFileButton;
 
     @FXML
-    private void onActionAddFileButton(){
+    private void onActionAddFileButton() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Evidencia");
-        fileChooser.setInitialDirectory(new File("/home"));
         File evidenceFile = fileChooser.showOpenDialog(new Stage());
+        File file = new File("/home/danae/IdeaProjects/SSPGER/evidences/"+evidenceFile.getName());
+        try {
+            Files.copy(evidenceFile.toPath(), file.toPath());
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 
     @FXML
