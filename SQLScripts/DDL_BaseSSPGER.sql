@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS SSPGER;
 
-CREATE DATABASE SSPGER;
+CREATE DATABASE SSPGER DEFAULT CHARACTER SET utf8;
 USE SSPGER;
 
 CREATE TABLE CuentasAcceso (
@@ -48,24 +48,25 @@ CREATE TABLE ExperienciasEducativas (
     PRIMARY KEY(NRC)
 );
 
-CREATE TABLE CodirectoresProyecto (
-	ID_codirectorProyecto int not null auto_increment,
-	ID_proyecto int,
-	ID_profesor int,
-	PRIMARY KEY(ID_codirectorProyecto)
-);
+#CREATE TABLE CodirectoresProyecto (
+	#ID_codirectorProyecto int not null auto_increment,
+	#ID_proyecto int,
+	#ID_profesor int,
+	#PRIMARY KEY(ID_codirectorProyecto)
+#);
 
 CREATE TABLE Proyectos (
 	ID_proyecto int not null auto_increment,
 	claveCA varchar(10),
 	nombreProyectoInvestigación varchar(200), 
-	LGAC varchar(2),
+	LGAC int not null,
 	lineaInvestigacion varchar(300),
 	duracionAprox varchar(10),
 	ID_modalidadTR int,
 	nombreTrabajoRecepcional varchar(200),
 	requisitos varchar(500),
-	ID_director int not null,
+	ID_director int,
+	ID_codirector int,
 	alumnosParticipantes int,
 	descripcionProyectoInvestigacion nvarchar(2000),
 	descripcionTrabajoRecepcional nvarchar(2000),

@@ -14,14 +14,15 @@ ALTER TABLE CuerpoAcademico ADD
     CONSTRAINT FK_CuerpoAcademico_Profesores FOREIGN KEY (responsable) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE;
 
 ALTER TABLE Proyectos
-    ADD CONSTRAINT FK_Proyectos_LGAC FOREIGN KEY (ID_lgac) REFERENCES LGAC (ID_lgac) ON DELETE CASCADE,
+    ADD CONSTRAINT FK_Proyectos_LGAC FOREIGN KEY (LGAC) REFERENCES LGAC (ID_lgac) ON DELETE CASCADE,
     ADD CONSTRAINT FK_Proyectos_ModalidadesTR FOREIGN KEY (ID_modalidadTR) REFERENCES ModalidadesTR (ID_modalidadTR) ON DELETE CASCADE,
-    ADD CONSTRAINT FK_Proyectos_Profesores FOREIGN KEY (ID_director) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE,
+    ADD CONSTRAINT FK_Proyectos_Directores FOREIGN KEY (ID_director) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE,
+    ADD CONSTRAINT FK_Proyectos_Codirectores FOREIGN KEY (ID_codirector) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE,
     ADD CONSTRAINT FK_Proyectos_ExperienciasEducativas FOREIGN KEY (NRC) REFERENCES ExperienciasEducativas (NRC) ON DELETE CASCADE;
 
-ALTER TABLE CodirectoresProyecto
-    ADD CONSTRAINT FK_CodirectoresProyecto_Proyectos FOREIGN KEY (ID_proyecto) REFERENCES Proyectos (ID_proyecto) ON DELETE CASCADE,
-    ADD CONSTRAINT FK_CodirectoresProyecto_Profesores FOREIGN KEY (ID_profesor) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE;
+#ALTER TABLE CodirectoresProyecto
+#    ADD CONSTRAINT FK_CodirectoresProyecto_Proyectos FOREIGN KEY (ID_proyecto) REFERENCES Proyectos (ID_proyecto) ON DELETE CASCADE,
+#    ADD CONSTRAINT FK_CodirectoresProyecto_Profesores FOREIGN KEY (ID_profesor) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE;
 
 ALTER TABLE Avances
     ADD CONSTRAINT FK_Avances_Profesores FOREIGN KEY (ID_profesor) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE,
