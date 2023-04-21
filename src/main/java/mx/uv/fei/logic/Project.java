@@ -4,7 +4,7 @@ public class Project {
     private int projectId;
     private String academicBodyId;
     private String investigationProjectName;
-    private String LGAC_Id;
+    private int LGAC_Id;
     private String investigationLine;
     private String approximateDuration;
     private int modalityId;
@@ -47,11 +47,11 @@ public class Project {
         this.investigationProjectName = investigationProjectName;
     }
 
-    public String getLGAC_Id() {
+    public int getLGAC_Id() {
         return LGAC_Id;
     }
 
-    public void setLGAC_Id(String LGAC_Id) {
+    public void setLGAC_Id(int LGAC_Id) {
         this.LGAC_Id = LGAC_Id;
     }
 
