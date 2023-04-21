@@ -16,18 +16,17 @@ public class ProjectDAO implements IProject{
     @Override
     public int addProject(Project project) throws SQLException {
         int result = 0;
-        String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, duracionAprox, ID_modalidadTR, nombreTrabajoRecepcional, requisitos, ID_director, ID_codirector,alumnosParticipantes, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, bibliografiaRecomendada, etapa, NRC) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, duracionAprox, ID_modalidadTR, nombreTrabajoRecepcional, requisitos, ID_director, ID_codirector,alumnosParticipantes, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, bibliografiaRecomendada, NRC) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
         try {
-            
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
             
             preparedStatement.setString(1, project.getAcademicBodyId());
             preparedStatement.setString(2, project.getInvestigationProjectName());
-            preparedStatement.setString(3, project.getLGAC_Id());
+            preparedStatement.setInt(3, project.getLGAC_Id());
             preparedStatement.setString(4, project.getInvestigationLine());
             preparedStatement.setString(5, project.getApproximateDuration());
             preparedStatement.setInt(6, project.getModalityId());
@@ -35,12 +34,11 @@ public class ProjectDAO implements IProject{
             preparedStatement.setString(8, project.getRequisites());
             preparedStatement.setInt(9, project.getDirectorID());
             preparedStatement.setInt(10, project.getCodirectorID());
-            preparedStatement.setInt(10, project.getStudentsParticipating());
-            preparedStatement.setString(11, project.getInvestigationProjectDescription());
-            preparedStatement.setString(12, project.getReceptionWorkDescription());
-            preparedStatement.setString(13, project.getExpectedResults());
-            preparedStatement.setString(14, project.getRecommendedBibliography());
-            preparedStatement.setString(15, project.getStage());
+            preparedStatement.setInt(11, project.getStudentsParticipating());
+            preparedStatement.setString(12, project.getInvestigationProjectDescription());
+            preparedStatement.setString(13, project.getReceptionWorkDescription());
+            preparedStatement.setString(14, project.getExpectedResults());
+            preparedStatement.setString(15, project.getRecommendedBibliography());
             preparedStatement.setInt(16, project.getNRC());
             
             result = preparedStatement.executeUpdate();
@@ -224,4 +222,28 @@ public class ProjectDAO implements IProject{
         return academicBodyIDList;
     }
     
+    @Override
+    public List<Integer> getNRCs() throws SQLException {
+        String sqlQuery = "SELECT NRC FROM ExperienciasEducativas";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        List<Integer> NRCs = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            NRCs = new ArrayList<>();
+            while (resultSet.next()){
+                Project nrcItem = new Project();
+                nrcItem.setNRC(resultSet.getInt("NRC"));
+                NRCs.add(nrcItem.getNRC());
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            databaseManager.closeConnection();
+        }
+        
+        return NRCs;
+    }
 }
