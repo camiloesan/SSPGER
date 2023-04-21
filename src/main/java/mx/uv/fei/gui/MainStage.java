@@ -49,7 +49,6 @@ public class MainStage extends Application {
         scene = new Scene(loadFXML("login-view.fxml"), 600, 400);
         stage.setTitle("Gestión de Proyecto Guiado y Experiencia Recepcional");
         stage.setScene(scene);
-        stage.setResizable(false);
         stage.show();
     }
 }
