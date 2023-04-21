@@ -14,4 +14,5 @@ public interface IProject {
     DetailedProject getProjectInfo(String projectTitle) throws SQLException;
     List<String> getLgacList() throws SQLException;
     List<String> getRWModalitiesList() throws SQLException;
+    List<String> getAcademicBodyIDs() throws  SQLException;
 }

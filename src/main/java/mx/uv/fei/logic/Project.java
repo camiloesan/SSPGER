@@ -11,6 +11,7 @@ public class Project {
     private String receptionWorkName;
     private String requisites;
     private int directorID;
+    private int codirectorID;
     private int studentsParticipating;
     private String investigationProjectDescription;
     private String receptionWorkDescription;
@@ -21,26 +22,6 @@ public class Project {
     private int NRC;
 
     public Project() {}
-
-    public Project(String academicBodyId, String investigationProjectName, String LGAC_Id, String investigationLine, String approximateDuration, int modalityId, String receptionWorkName, String requisites, int directorID, int studentsParticipating, String investigationProjectDescription, String receptionWorkDescription, String expectedResults, String recommendedBibliography, String state, String stage, int NRC) {
-        this.academicBodyId = academicBodyId;
-        this.investigationProjectName = investigationProjectName;
-        this.LGAC_Id = LGAC_Id;
-        this.investigationLine = investigationLine;
-        this.approximateDuration = approximateDuration;
-        this.modalityId = modalityId;
-        this.receptionWorkName = receptionWorkName;
-        this.requisites = requisites;
-        this.directorID = directorID;
-        this.studentsParticipating = studentsParticipating;
-        this.investigationProjectDescription = investigationProjectDescription;
-        this.receptionWorkDescription = receptionWorkDescription;
-        this.expectedResults = expectedResults;
-        this.recommendedBibliography = recommendedBibliography;
-        this.state = state;
-        this.stage = stage;
-        this.NRC = NRC;
-    }
 
     public String getAcademicBodyId() {
         return academicBodyId;
@@ -121,7 +102,15 @@ public class Project {
     public void setDirectorID(int directorID) {
         this.directorID = directorID;
     }
-
+    
+    public int getCodirectorID() {
+        return codirectorID;
+    }
+    
+    public void setCodirectorID(int codirectorID) {
+        this.codirectorID = codirectorID;
+    }
+    
     public int getStudentsParticipating() {
         return studentsParticipating;
     }
