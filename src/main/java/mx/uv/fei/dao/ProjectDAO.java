@@ -145,12 +145,32 @@ public class ProjectDAO implements IProject{
         ResultSet resultSet = preparedStatement.executeQuery();
         List<String> lgacList = new ArrayList<>();
         while (resultSet.next()) {
-            DetailedProject LgacItem = new DetailedProject();
-            LgacItem.setLgacDescription(resultSet.getString("ItemLGAC"));
-            lgacList.add(LgacItem.getLgacDescription());
+            DetailedProject lgacItem = new DetailedProject();
+            lgacItem.setLgacDescription(resultSet.getString("ItemLGAC"));
+            lgacList.add(lgacItem.getLgacDescription());
         }
         databaseManager.closeConnection();
         
         return lgacList;
+    }
+    
+    @Override
+    public List<String> getRWModalitiesList() throws SQLException {
+        String sqlQuery = "SELECT modalidadTR FROM ModalidadesTR";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<String> rwModalityList = new ArrayList<>();
+        while (resultSet.next()) {
+            DetailedProject rwModalityItem = new DetailedProject();
+            rwModalityItem.setReceptionWorkModality(resultSet.getString("modalidadTR"));
+            rwModalityList.add(rwModalityItem.getReceptionWorkModality());
+        }
+        databaseManager.closeConnection();
+        
+        return rwModalityList;
     }
 }
