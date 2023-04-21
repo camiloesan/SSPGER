@@ -3,11 +3,13 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import mx.uv.fei.dao.ProfessorDAO;
 import mx.uv.fei.dao.ProjectDAO;
+import mx.uv.fei.logic.Project;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,6 +17,10 @@ import java.util.List;
 
 public class RegisterProjectProposalController {
     
+    @FXML
+    private ComboBox<String> comboAB;
+    @FXML
+    private ComboBox<Integer> comboNRC;
     @FXML
     private TextArea textAreaInvestigationProjectName;
     @FXML
@@ -24,18 +30,34 @@ public class RegisterProjectProposalController {
     @FXML
     private TextField textFieldAproxDuration;
     @FXML
+    private ComboBox<String> comboRecptionWorkModality;
+    @FXML
     private TextArea textAreaReceptionWorkName;
     @FXML
-    private ComboBox<String> comboRecptionWorkModality;
+    private TextArea textAreaRequisites;
     @FXML
     private ComboBox<String> comboDirectors;
     @FXML
     private ComboBox<String> comboCodirectors;
+    @FXML
+    private ComboBox<Integer> comboStudents;
+    @FXML
+    private TextArea textAreaInvestigationProjectDescription;
+    @FXML
+    private TextArea textAreaReceptionWorkDescription;
+    @FXML
+    private TextArea textAreaExpectedResults;
+    @FXML
+    private TextArea textAreaRecommendedBibliography;
+    
     
     public void initialize() throws SQLException {
         fillLgacCombo();
         fillProfessorsCombos();
         fillReceptionWorkModalityCombo();
+        fillStudentsCombo();
+        fillABcombo();
+        fillNrcCombo();
     }
     
     public void fillLgacCombo() throws SQLException {
@@ -67,7 +89,125 @@ public class RegisterProjectProposalController {
     
     }
     
-    public void register() throws SQLException {
+    public void fillStudentsCombo() {
+        ObservableList<Integer> numberOfStudents = FXCollections.observableArrayList(1, 2, 3, 4, 5);
+        comboStudents.setItems(numberOfStudents);
+    }
     
+    public void fillABcombo() throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        ObservableList<String> academicBodyID = FXCollections.observableArrayList();
+        List<String> academicBodyIDList = new ArrayList<>(projectDAO.getAcademicBodyIDs());
+        academicBodyID.addAll(academicBodyIDList);
+        
+        comboAB.setItems(academicBodyID);
+    }
+    
+    public void fillNrcCombo() throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        ObservableList<Integer> NRCs = FXCollections.observableArrayList();
+        List<Integer> NRCList = new ArrayList<>(projectDAO.getNRCs());
+        NRCs.addAll(NRCList);
+        
+        comboNRC.setItems(NRCs);
+    }
+    
+    public boolean emptyFields() {
+        return comboAB.getValue() == null || textAreaInvestigationProjectName.getText().isBlank() ||
+                comboLGAC.getValue() == null || textAreaInvestigationLine.getText().isBlank() ||
+                textFieldAproxDuration.getText().isBlank() || comboRecptionWorkModality.getValue() == null ||
+                textAreaReceptionWorkName.getText().isBlank() || textAreaRequisites.getText().isBlank() ||
+                comboDirectors.getValue() == null || comboCodirectors.getValue() == null ||
+                comboStudents.getValue() == null || textAreaInvestigationProjectDescription.getText().isBlank() ||
+                textAreaReceptionWorkDescription.getText().isBlank() || textAreaExpectedResults.getText().isBlank() ||
+                textAreaRecommendedBibliography.getText().isBlank() || comboNRC.getValue() == null;
+    }
+    
+    public boolean overSizeData() {
+        return textAreaInvestigationProjectName.getText().length() > 200 || textAreaInvestigationLine.getText().length() > 300 ||
+                textFieldAproxDuration.getText().length() > 10 || textAreaReceptionWorkName.getText().length() > 200 ||
+                textAreaRequisites.getText().length() > 500 || textAreaInvestigationProjectDescription.getText().length() > 2000 ||
+                textAreaReceptionWorkDescription.getText().length() > 2000 || textAreaExpectedResults.getText().length() > 2000 ||
+                textAreaRecommendedBibliography.getText().length() > 2000;
+    }
+    
+    public void clear() {
+        comboNRC.setValue(null);
+        comboAB.setValue(comboAB.getPromptText());
+        textAreaInvestigationProjectName.clear();
+        comboLGAC.setValue(comboLGAC.getPromptText());
+        textAreaInvestigationLine.clear();
+        textFieldAproxDuration.clear();
+        comboRecptionWorkModality.setValue(comboRecptionWorkModality.getPromptText());
+        textAreaRequisites.clear();
+        comboDirectors.setValue(comboDirectors.getPromptText());
+        comboCodirectors.setValue(comboCodirectors.getPromptText());
+        comboStudents.setValue(null);
+        textAreaInvestigationProjectDescription.clear();
+        textAreaReceptionWorkDescription.clear();
+        textAreaExpectedResults.clear();
+        textAreaRecommendedBibliography.clear();
+    }
+    
+    public boolean validFields() {
+        boolean flag;
+        
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        if (emptyFields()) {
+            alert.setTitle("Se deben llenar todos los campos.");
+            alert.showAndWait();
+            flag = false;
+        } else {
+            if (overSizeData()) {
+                alert.setTitle("La información sobrepasa el límite de caracteres");
+                alert.showAndWait();
+                flag = false;
+            } else {
+                flag = true;
+            }
+        }
+        
+        return flag;
+    }
+    
+    public void register() {
+        if (validFields()){
+            try {
+                registerProject();
+                
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Se registro el anteproyecto exitosamente");
+                alert.showAndWait();
+            } catch (SQLException sqlException) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error al registrar el anteproyecto, intentelo más tarde");
+                alert.showAndWait();
+                clear();
+                sqlException.printStackTrace();
+            }
+        }
+    }
+    
+    public void registerProject() throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        Project project = new Project();
+        
+        project.setAcademicBodyId(comboAB.getSelectionModel().getSelectedItem());
+        project.setInvestigationProjectName(textAreaInvestigationProjectName.getText());
+        project.setLGAC_Id(comboLGAC.getSelectionModel().getSelectedIndex() + 1);
+        project.setInvestigationProjectDescription(textAreaInvestigationLine.getText());
+        project.setApproximateDuration(textFieldAproxDuration.getText());
+        project.setModalityId(comboRecptionWorkModality.getSelectionModel().getSelectedIndex() + 1);
+        project.setReceptionWorkName(textAreaReceptionWorkName.getText());
+        project.setRequisites(textAreaRequisites.getText());
+        project.setDirectorID(comboDirectors.getSelectionModel().getSelectedIndex() + 1);
+        project.setCodirectorID(comboCodirectors.getSelectionModel().getSelectedIndex() + 1);
+        project.setStudentsParticipating(comboStudents.getSelectionModel().getSelectedItem());
+        project.setInvestigationProjectDescription(textAreaInvestigationProjectDescription.getText());
+        project.setReceptionWorkDescription(textAreaReceptionWorkDescription.getText());
+        project.setExpectedResults(textAreaExpectedResults.getText());
+        project.setRecommendedBibliography(textAreaRecommendedBibliography.getText());
+        project.setNRC(comboNRC.getSelectionModel().getSelectedItem());
+        projectDAO.addProject(project);
     }
 }
