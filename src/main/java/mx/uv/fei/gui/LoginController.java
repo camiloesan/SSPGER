@@ -10,7 +10,6 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 
-import mx.uv.fei.logic.TelegramMessenger;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -26,21 +25,20 @@ public class LoginController {
     private static final int HEIGHT_OFFSET = 44;
 
     @FXML
-    private void onActionButtonContinue() throws IOException, SQLException {
+    private void onActionButtonContinue() throws IOException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-
-        boolean isLoginValid = false;
         try {
-            isLoginValid = accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText());
+            continueLogin(accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText()));
         } catch (SQLException sqlException) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error con la base de datos");
             alert.setContentText("No se pudo conectar a la base de datos, inténtelo de nuevo más tarde");
             alert.show();
-            TelegramMessenger.sendToTelegram(sqlException + " " + sqlException.getMessage());
             logger.error("Error en login: " + sqlException);
         }
+    }
 
+    private void continueLogin(boolean isLoginValid) throws SQLException, IOException {
         if (isLoginValid) {
             redirectToWindow();
         } else {
@@ -49,16 +47,6 @@ public class LoginController {
             alert.setContentText("Inténtelo de nuevo");
             alert.showAndWait();
         }
-    }
-
-    public boolean isExternalEmailValid() throws MessagingException {
-        Properties props = new Properties();
-        props.setProperty("mail.pop3.starttls.enable", "true");
-        Session mailSession = Session.getInstance(props);
-        mailSession.setDebug(true);
-        Store mailStore = mailSession.getStore("pop3");
-        mailStore.connect("outlook.office365.com", textFieldUser.getText(), textFieldPassword.getText());
-        return mailStore.isConnected();
     }
 
     private void redirectToWindow() throws SQLException, IOException {
