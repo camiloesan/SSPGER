@@ -46,17 +46,17 @@
                   <Insets />
                </GridPane.margin>
             </Label>
-            <PasswordField fx:id="textFieldPassword" prefHeight="25.0" prefWidth="199.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <PasswordField fx:id="textFieldPassword" onAction="#onActionButtonContinue" prefHeight="25.0" prefWidth="199.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </PasswordField>
          </children>
       </GridPane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0e47a1" height="60.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="60.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
       <ButtonBar layoutX="3.0" layoutY="326.0" prefHeight="60.0" prefWidth="593.0">
         <buttons>
-          <Button fx:id="buttonContinue" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionButtonContinue" text="Continuar" />
+          <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionButtonContinue" text="Continuar" />
         </buttons>
          <padding>
             <Insets right="45.0" />

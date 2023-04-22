@@ -1,8 +1,10 @@
 package mx.uv.fei.gui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
 import mx.uv.fei.dao.AccessAccountDAO;
 import mx.uv.fei.logic.AccessAccount;
 
@@ -13,19 +15,31 @@ import java.util.Optional;
 public class CRUDAccessAccountController {
     @FXML
     private ListView<String> listViewUsernames;
+    @FXML
+    private ComboBox<String> comboBoxUserType;
+    @FXML
+    private PasswordField passwordFieldPassword;
+    @FXML
+    private TextField textFieldUsername;
+    @FXML
+    private Rectangle optionAccountsManagement;
+    @FXML
+    private ComboBox<String> comboBoxFilter;
+    @FXML
+    private ComboBox<String> comboBoxUserTypeModify;
+    @FXML
+    private TabPane tabPaneAccountManagement;
+    @FXML
+    private TextField textFieldUserToModify;
+    @FXML
+    private TextField textFieldNewPassword;
+    private static final double SELECTED_OPACITY = 0.16;
+    private final static ObservableList<String> observableListComboItemsUserType = FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
+    private final static ObservableList<String> observableListComboItemsFilter = FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
+    private static final int MAX_FIELD_LENGTH = 27;
 
     @FXML
-    private void buttonAddNewUserAction() throws IOException {
-        startAddUserWindow();
-    }
-
-    @FXML
-    private void buttonModifyUserAction() throws IOException {
-        startModifyUserWindow();
-    }
-
-    @FXML
-    private void buttonDeleteUserAction() throws SQLException {
+    private void buttonDeleteAction() throws SQLException {
         String username = listViewUsernames.getSelectionModel().getSelectedItem();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         if (username == null) {
@@ -45,8 +59,42 @@ public class CRUDAccessAccountController {
     }
 
     @FXML
-    private void buttonCancelAction() throws IOException {
-        returnToPreviousWindow();
+    private void buttonModifyAction() {
+        textFieldUserToModify.setText(listViewUsernames.getSelectionModel().getSelectedItem());
+        tabPaneAccountManagement.getSelectionModel().select(2);
+    }
+
+    @FXML
+    private void buttonConfirmModificationAction() throws SQLException {
+        if (areModifyUserFieldsValid()) {
+            modifyUserAttributesByUsername(textFieldUserToModify.getText(), textFieldNewPassword.getText(), comboBoxUserTypeModify.getValue());
+        } else {
+            //somealert
+        }
+    }
+
+    @FXML
+    private void buttonContinueAction() throws SQLException {
+        if (areAddUserFieldsValid()) {
+            try {
+                addUser();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Éxito");
+                alert.setContentText("El usuario fue registrado exitosamente");
+                alert.show();
+            } catch (SQLException sqlException) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Algo falló");
+                alert.setContentText("Revisa el contenido de tus campos o inténtalo más tarde");
+                alert.show();
+            }
+            updateListView();
+        }
+    }
+
+    @FXML
+    private void actionLogOut() throws IOException {
+        logOut();
     }
 
     @FXML
@@ -61,27 +109,69 @@ public class CRUDAccessAccountController {
     @FXML
     private void initialize() throws SQLException {
         updateListView();
+        comboBoxUserType.setItems(observableListComboItemsUserType);
+        optionAccountsManagement.setOpacity(SELECTED_OPACITY);
+        comboBoxFilter.setItems(observableListComboItemsFilter);
+        comboBoxUserTypeModify.setItems(observableListComboItemsUserType);
     }
 
-    private void startAddUserWindow() throws IOException {
-        AddUserFormWindow addUserFormWindow = new AddUserFormWindow();
-        Stage mainStage = (Stage) listViewUsernames.getScene().getWindow();
-        Stage subStage = new Stage();
-        subStage.initOwner(mainStage);
-        addUserFormWindow.start(subStage);
+    private boolean areAddUserFieldsValid() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        if (textFieldUsername.getText().isBlank() || passwordFieldPassword.getText().isBlank() || comboBoxUserType.getValue().isBlank()) {
+            alert.setTitle("Error en los campos");
+            alert.show();
+            return false;
+        } else {
+            if (textFieldUsername.getText().length() > MAX_FIELD_LENGTH || passwordFieldPassword.getText().length() > MAX_FIELD_LENGTH) {
+                alert.setTitle("Límite de caracteres sobrepasado");
+                alert.setContentText("El campo usuario y contraseña deben tener menos de " + MAX_FIELD_LENGTH + " caracteres");
+                alert.show();
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
-    private void startModifyUserWindow() throws IOException {
-        ModifyUserFormWindow modifyUserFormWindow = new ModifyUserFormWindow();
-        Stage mainStage = (Stage) listViewUsernames.getScene().getWindow();
-        Stage subStage = new Stage();
-        subStage.initOwner(mainStage);
-        modifyUserFormWindow.start(subStage);
+    private boolean areModifyUserFieldsValid() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        if (textFieldUserToModify.getText().isBlank() || textFieldNewPassword.getText().isBlank() || comboBoxUserTypeModify.getValue().isBlank()) {
+            alert.setTitle("Error en los campos");
+            alert.show();
+            return false;
+        } else {
+            if (textFieldUserToModify.getText().length() > MAX_FIELD_LENGTH || textFieldNewPassword.getText().length() > MAX_FIELD_LENGTH) {
+                alert.setTitle("Límite de caracteres sobrepasado");
+                alert.setContentText("El campo usuario y contraseña deben tener menos de " + MAX_FIELD_LENGTH + " caracteres");
+                alert.show();
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
     private boolean isUserAdmin(String username) throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("Administrador");
+    }
+
+    private void addUser() throws SQLException {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        accessAccount.setUsername(textFieldUsername.getText());
+        accessAccount.setUserPassword(passwordFieldPassword.getText());
+        accessAccount.setUserType(comboBoxUserType.getValue());
+        accessAccountDAO.addAccessAccount(accessAccount);
+    }
+
+    private void modifyUserAttributesByUsername(String username, String newPassword, String userType) throws SQLException {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        accessAccount.setUsername(username);
+        accessAccount.setUserPassword(newPassword);
+        accessAccount.setUserType(userType);
+        accessAccountDAO.modifyPasswordByUsername(accessAccount);
     }
 
     private void confirmDeletion() throws SQLException {
@@ -96,17 +186,14 @@ public class CRUDAccessAccountController {
         }
     }
 
-    private void returnToPreviousWindow() throws IOException {
+    private void logOut() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
         Optional<ButtonType> result = alert.showAndWait();
-        LoginWindow loginWindow = new LoginWindow();
         if(result.isEmpty() || result.get() != ButtonType.OK) {
             alert.close();
         } else {
-            loginWindow.start(new Stage());
-            Stage stage = (Stage) listViewUsernames.getScene().getWindow();
-            stage.close();
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
 }

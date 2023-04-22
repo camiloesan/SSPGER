@@ -110,4 +110,41 @@ public class AccessAccountDAO implements IAccessAccount {
 
         return accessAccountList;
     }
+
+    @Override
+    public List<AccessAccount> getUsernamesByUsertype(String userType) throws SQLException {
+        String query = "select nombreUsuario from CuentasAcceso where tipoUsuario=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, userType);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        List<AccessAccount> accessAccountList = new ArrayList<>();
+        while(resultSet.next()) {
+            AccessAccount accessAccount = new AccessAccount();
+            accessAccount.setUsername(resultSet.getString("nombreUsuario"));
+            accessAccount.setUserType(resultSet.getString("tipoUsuario"));
+            accessAccountList.add(accessAccount);
+        }
+        return accessAccountList;
+    }
+
+    @Override
+    public int modifyPasswordByUsername(AccessAccount accessAccount) throws SQLException {
+        String query = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, accessAccount.getUserPassword());
+        preparedStatement.setString(2, accessAccount.getUserType());
+        preparedStatement.setString(3, accessAccount.getUsername());
+        int result = preparedStatement.executeUpdate();
+
+        databaseManager.closeConnection();
+        return result;
+    }
 }
