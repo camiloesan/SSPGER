@@ -1,4 +1,6 @@
-CREATE DATABASE SSPGER;
+DROP DATABASE IF EXISTS SSPGER;
+
+CREATE DATABASE SSPGER DEFAULT CHARACTER SET utf8;
 USE SSPGER;
 
 CREATE TABLE CuentasAcceso (
@@ -22,6 +24,7 @@ CREATE TABLE Estudiantes (
 
 CREATE TABLE Profesores (
 	ID_profesor int not null auto_increment,
+	grado enum('Dr.','Dra.', 'MCC.') not null ,
 	nombre varchar(30),
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
@@ -45,31 +48,32 @@ CREATE TABLE ExperienciasEducativas (
     PRIMARY KEY(NRC)
 );
 
-CREATE TABLE CodirectoresProyecto (
-	ID_codirectorProyecto int not null auto_increment,
-	ID_proyecto int,
-	ID_profesor int,
-	PRIMARY KEY(ID_codirectorProyecto)
-);
+#CREATE TABLE CodirectoresProyecto (
+	#ID_codirectorProyecto int not null auto_increment,
+	#ID_proyecto int,
+	#ID_profesor int,
+	#PRIMARY KEY(ID_codirectorProyecto)
+#);
 
 CREATE TABLE Proyectos (
 	ID_proyecto int not null auto_increment,
 	claveCA varchar(10),
 	nombreProyectoInvestigación varchar(200), 
-	LGAC varchar(2),
+	LGAC int not null,
 	lineaInvestigacion varchar(300),
 	duracionAprox varchar(10),
 	ID_modalidadTR int,
 	nombreTrabajoRecepcional varchar(200),
 	requisitos varchar(500),
-	ID_director int not null,
+	ID_director int,
+	ID_codirector int,
 	alumnosParticipantes int,
 	descripcionProyectoInvestigacion nvarchar(2000),
 	descripcionTrabajoRecepcional nvarchar(2000),
 	resultadosEsperados nvarchar(2000),
 	bibliografiaRecomendada nvarchar(2000),
 	estado enum('Verificado','Por revisar','Declinado') default 'Por revisar',
-	etapa varchar(20),
+	etapa enum('Proyecto guiado', 'Trabajo Recepcional') default 'Proyecto guiado',
 	NRC int,
     PRIMARY KEY(ID_proyecto)
 );
@@ -81,10 +85,11 @@ CREATE TABLE ModalidadesTR(
 );
 
 CREATE TABLE LGAC (
+    ID_lgac int not null auto_increment,
 	clave varchar(2) not null,
 	nombre varchar(50),
 	descripcion varchar(400),
-    PRIMARY KEY(clave)
+    PRIMARY KEY(ID_lgac)
 );
 
 CREATE TABLE Avances (

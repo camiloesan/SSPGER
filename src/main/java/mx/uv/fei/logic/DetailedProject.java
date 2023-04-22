@@ -3,6 +3,7 @@ package mx.uv.fei.logic;
 public class DetailedProject {
     private int projectID;
     private String academicBodyName;
+    private String academicBodyID;
     private String projectTitle; //for List consults
     private String investigationProjectName;
     private String lgacDescription;
@@ -34,7 +35,15 @@ public class DetailedProject {
     public void setAcademicBodyName(String academicBodyName) {
         this.academicBodyName = academicBodyName;
     }
-
+    
+    public String getAcademicBodyID() {
+        return academicBodyID;
+    }
+    
+    public void setAcademicBodyID(String academicBodyID) {
+        this.academicBodyID = academicBodyID;
+    }
+    
     public String getProjectTitle() {
         return projectTitle;
     }

@@ -2,38 +2,35 @@ package mx.uv.fei.logic;
 
 public class Professor {
     private int professorId;
+    private String professorDegree;
     private String professorName;
-    private String professorFirsLastName;
-    private String professorSecondLastName;
+    private String professorLastName;
+    private String professorFullName;
     private String professorEmail;
     private int userId;
 
     public Professor() {}
-
-    public Professor(String professorName, String professorFirsLastName, String professorSecondLastName, String professorEmail, int userId) {
-        this.professorName = professorName;
-        this.professorFirsLastName = professorFirsLastName;
-        this.professorSecondLastName = professorSecondLastName;
-        this.professorEmail = professorEmail;
-        this.userId = userId;
-    }
-
+    
     public int getProfessorId() {
         return professorId;
+    }
+    
+    public String getProfessorDegree() {
+        return professorDegree;
     }
 
     public String getProfessorName() {
         return professorName;
     }
 
-    public String getProfessorFirsLastName() {
-        return professorFirsLastName;
+    public String getProfessorLastName() {
+        return professorLastName;
     }
-
-    public String getProfessorSecondLastName() {
-        return professorSecondLastName;
+    
+    public String getProfessorFullName() {
+        return professorFullName;
     }
-
+    
     public String getProfessorEmail() {
         return professorEmail;
     }
@@ -45,19 +42,23 @@ public class Professor {
     public void setProfessorId(int professorId) {
         this.professorId = professorId;
     }
-
+    
+    public void setProfessorDegree(String professorDegree) {
+        this.professorDegree = professorDegree;
+    }
+    
     public void setProfessorName(String professorName) {
         this.professorName = professorName;
     }
 
-    public void setProfessorFirsLastName(String professorFirsLastName) {
-        this.professorFirsLastName = professorFirsLastName;
+    public void setProfessorLastName(String professorLastName) {
+        this.professorLastName = professorLastName;
     }
-
-    public void setProfessorSecondLastName(String professorSecondLastName) {
-        this.professorSecondLastName = professorSecondLastName;
+    
+    public void setProfessorFullName(String professorFullName) {
+        this.professorFullName = professorFullName;
     }
-
+    
     public void setProfessorEmail(String professorEmail) {
         this.professorEmail = professorEmail;
     }
