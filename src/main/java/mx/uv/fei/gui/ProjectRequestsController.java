@@ -3,10 +3,14 @@ package mx.uv.fei.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.shape.Rectangle;
+
 import java.io.IOException;
 import java.util.Optional;
 
-public class StudentAdvancementController implements IStudentNavigationBar {
+public class ProjectRequestsController implements IProfessorNavigationBar {
+    @FXML
+    Rectangle optionRequests;
 
     @FXML
     private void initialize() {
@@ -14,22 +18,22 @@ public class StudentAdvancementController implements IStudentNavigationBar {
     }
 
     @Override
-    public void redirectToAdvancements() {
+    public void redirectToAdvancementManagement() throws IOException {
+        MainStage.changeView("advancementsmanagement-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+    }
+
+    @Override
+    public void redirectToProjectManagement() {
 
     }
 
     @Override
     public void redirectToEvidences() {
-        //change view
-    }
-
-    @Override
-    public void redirectToProjects() {
 
     }
 
     @Override
-    public void redirectToRequest() {
+    public void redirectToRequests() {
 
     }
 

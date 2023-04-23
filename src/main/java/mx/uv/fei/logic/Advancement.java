@@ -5,7 +5,7 @@ public class Advancement {
     private String advancementName;
     private String advancementDescription;
     private String advancementStartDate;
-    private String advancementEndDate;
+    private String advancementDeadline;
     private int professorId;
     private int projectId;
 
@@ -41,12 +41,12 @@ public class Advancement {
         this.advancementStartDate = advancementStartDate;
     }
 
-    public String getAdvancementEndDate() {
-        return advancementEndDate;
+    public String getAdvancementDeadline() {
+        return advancementDeadline;
     }
 
-    public void setAdvancementEndDate(String advancementEndDate) {
-        this.advancementEndDate = advancementEndDate;
+    public void setAdvancementDeadline(String advancementDeadline) {
+        this.advancementDeadline = advancementDeadline;
     }
 
     public int getProfessorId() {

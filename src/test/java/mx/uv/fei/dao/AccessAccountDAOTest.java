@@ -85,46 +85,6 @@ class AccessAccountDAOTest {
     }
 
     @Test
-    void testModifyAccessAccountByUsernameAlreadyExists() {
-        var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy");
-        accessAccount.setUserType("profesor");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("dummy2", accessAccount));
-    }
-
-    @Test
-    void testModifyAccessAccountByUsernameTooLong() {
-        var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount();
-        accessAccount.setUsername("1234567890123456");
-        accessAccount.setUserPassword("dummy");
-        accessAccount.setUserType("profesor");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("dummy2", accessAccount));
-    }
-
-    @Test
-    void testModifyAccessAccountByUsernamePasswordTooLong() {
-        var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("123456789012345678");
-        accessAccount.setUserType("profesor");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("dummy2", accessAccount));
-    }
-
-    @Test
-    void testModifyAccessAccountByUsernameWrongUserType() {
-        var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy");
-        accessAccount.setUserType("car");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("dummy2", accessAccount));
-    }
-
-    @Test
     void testAreCredentialsValid() {
         var accessAccountDAO = new AccessAccountDAO();
         assertDoesNotThrow(() -> accessAccountDAO.areCredentialsValid("dummy", "dummy"));

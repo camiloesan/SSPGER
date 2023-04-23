@@ -27,18 +27,20 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public void modifyAccessAccountByUsername(String username, AccessAccount accessAccount) throws SQLException {
-        String query = "update CuentasAcceso set nombreUsuario=(?), contrasena=(SHA2(?, 256)) where nombreUsuario=(?)";
+    public int modifyAccessAccountByUsername(String username, String password, String userType) throws SQLException {
+        String query = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, accessAccount.getUsername());
-        preparedStatement.setString(2, accessAccount.getUserPassword());
+        preparedStatement.setString(1, password);
+        preparedStatement.setString(2, userType);
         preparedStatement.setString(3, username);
-        preparedStatement.executeUpdate();
+        int result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
+
+        return result;
     }
 
     @Override
@@ -91,7 +93,7 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public List<AccessAccount> getListAccessAccounts() throws SQLException {
+    public List<String> getListAccessAccounts() throws SQLException {
         String query = "select nombreUsuario, tipoUsuario from CuentasAcceso";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -100,19 +102,16 @@ public class AccessAccountDAO implements IAccessAccount {
         ResultSet resultSet = preparedStatement.executeQuery();
         databaseManager.closeConnection();
 
-        List<AccessAccount> accessAccountList = new ArrayList<>();
+        List<String> accessAccountList = new ArrayList<>();
         while(resultSet.next()) {
-            AccessAccount accessAccount = new AccessAccount();
-            accessAccount.setUsername(resultSet.getString("nombreUsuario"));
-            accessAccount.setUserType(resultSet.getString("tipoUsuario"));
-            accessAccountList.add(accessAccount);
+            accessAccountList.add(resultSet.getString("nombreUsuario"));
         }
 
         return accessAccountList;
     }
 
     @Override
-    public List<AccessAccount> getUsernamesByUsertype(String userType) throws SQLException {
+    public List<String> getUsernamesByUsertype(String userType) throws SQLException {
         String query = "select nombreUsuario from CuentasAcceso where tipoUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -122,29 +121,11 @@ public class AccessAccountDAO implements IAccessAccount {
         ResultSet resultSet = preparedStatement.executeQuery();
         databaseManager.closeConnection();
 
-        List<AccessAccount> accessAccountList = new ArrayList<>();
+        List<String> accessAccountList = new ArrayList<>();
         while(resultSet.next()) {
-            AccessAccount accessAccount = new AccessAccount();
-            accessAccount.setUsername(resultSet.getString("nombreUsuario"));
-            accessAccount.setUserType(resultSet.getString("tipoUsuario"));
-            accessAccountList.add(accessAccount);
+            accessAccountList.add(resultSet.getString("nombreUsuario"));
         }
+
         return accessAccountList;
-    }
-
-    @Override
-    public int modifyPasswordByUsername(AccessAccount accessAccount) throws SQLException {
-        String query = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?)";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, accessAccount.getUserPassword());
-        preparedStatement.setString(2, accessAccount.getUserType());
-        preparedStatement.setString(3, accessAccount.getUsername());
-        int result = preparedStatement.executeUpdate();
-
-        databaseManager.closeConnection();
-        return result;
     }
 }

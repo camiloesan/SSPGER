@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class CRUDAccessAccountController {
+public class AccessAccountManagementController {
     @FXML
     private ListView<String> listViewUsernames;
     @FXML
@@ -33,9 +33,10 @@ public class CRUDAccessAccountController {
     private TextField textFieldUserToModify;
     @FXML
     private TextField textFieldNewPassword;
+
     private static final double SELECTED_OPACITY = 0.16;
     private final static ObservableList<String> observableListComboItemsUserType = FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
-    private final static ObservableList<String> observableListComboItemsFilter = FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
+    private final static ObservableList<String> observableListComboItemsFilter = FXCollections.observableArrayList("Todos" ,"Administrador", "Estudiante", "Profesor", "RepresentanteCA");
     private static final int MAX_FIELD_LENGTH = 27;
 
     @FXML
@@ -100,19 +101,27 @@ public class CRUDAccessAccountController {
     @FXML
     private void updateListView() throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        listViewUsernames.getItems().clear();
-        for(AccessAccount accessAccountObject : accessAccountDAO.getListAccessAccounts()) {
-            listViewUsernames.getItems().add(accessAccountObject.getUsername());
-        }
+        listViewUsernames.setItems(FXCollections.observableList(accessAccountDAO.getListAccessAccounts()));
     }
 
     @FXML
     private void initialize() throws SQLException {
+        System.out.println(LoginController.sessionDetails.getUsername());
         updateListView();
         comboBoxUserType.setItems(observableListComboItemsUserType);
         optionAccountsManagement.setOpacity(SELECTED_OPACITY);
         comboBoxFilter.setItems(observableListComboItemsFilter);
         comboBoxUserTypeModify.setItems(observableListComboItemsUserType);
+    }
+
+    @FXML
+    private void handleUserTypeFilter() throws SQLException {
+        if (comboBoxFilter.getValue().equals("Todos")) {
+            updateListView();
+        } else {
+            AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+            listViewUsernames.setItems(FXCollections.observableList(accessAccountDAO.getUsernamesByUsertype(comboBoxFilter.getValue())));
+        }
     }
 
     private boolean areAddUserFieldsValid() {
@@ -167,11 +176,7 @@ public class CRUDAccessAccountController {
 
     private void modifyUserAttributesByUsername(String username, String newPassword, String userType) throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        AccessAccount accessAccount = new AccessAccount();
-        accessAccount.setUsername(username);
-        accessAccount.setUserPassword(newPassword);
-        accessAccount.setUserType(userType);
-        accessAccountDAO.modifyPasswordByUsername(accessAccount);
+        accessAccountDAO.modifyAccessAccountByUsername(username, newPassword, userType);
     }
 
     private void confirmDeletion() throws SQLException {
@@ -187,6 +192,7 @@ public class CRUDAccessAccountController {
     }
 
     private void logOut() throws IOException {
+        LoginController.sessionDetails.cleanSessionDetails();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
         Optional<ButtonType> result = alert.showAndWait();
