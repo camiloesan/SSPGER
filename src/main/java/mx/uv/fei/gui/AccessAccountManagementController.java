@@ -106,6 +106,7 @@ public class AccessAccountManagementController {
 
     @FXML
     private void initialize() throws SQLException {
+        System.out.println(LoginController.sessionDetails.getUsername());
         updateListView();
         comboBoxUserType.setItems(observableListComboItemsUserType);
         optionAccountsManagement.setOpacity(SELECTED_OPACITY);
@@ -191,6 +192,7 @@ public class AccessAccountManagementController {
     }
 
     private void logOut() throws IOException {
+        LoginController.sessionDetails.cleanSessionDetails();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
         Optional<ButtonType> result = alert.showAndWait();

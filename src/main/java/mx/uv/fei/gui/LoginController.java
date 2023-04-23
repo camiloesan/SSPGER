@@ -6,8 +6,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import mx.uv.fei.dao.AccessAccountDAO;
 
+import mx.uv.fei.logic.SessionDetails;
 import org.apache.log4j.Logger;
-import org.apache.log4j.chainsaw.Main;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +19,7 @@ public class LoginController {
     private PasswordField textFieldPassword;
     private static final Logger logger = Logger.getLogger(LoginController.class);
     private static final int HEIGHT_OFFSET = 44;
+    static SessionDetails sessionDetails;
 
     @FXML
     private void onActionButtonContinue() throws IOException {
@@ -47,7 +48,11 @@ public class LoginController {
 
     private void redirectToWindow() throws SQLException, IOException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        switch (accessAccountDAO.getAccessAccountTypeByUsername(textFieldUser.getText())) {
+        String userType = accessAccountDAO.getAccessAccountTypeByUsername(textFieldUser.getText());
+        sessionDetails = SessionDetails.getInstance();
+        sessionDetails.setUsername(textFieldUser.getText());
+        sessionDetails.setUserType(userType);
+        switch (userType) {
             case "Administrador":
                 MainStage.changeView("accessaccountmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
                 break;
