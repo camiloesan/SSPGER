@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ProjectRequestsController">
+   <children>
+      <AnchorPane prefHeight="500.0" prefWidth="800.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" layoutX="-2.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Label layoutX="56.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Regular" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="32.0" layoutY="52.0" text="Nombre del profesor" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Regular" size="14.0" />
+               </font>
+            </Label>
+            <Line endX="89.0" layoutX="110.0" layoutY="83.0" startX="-110.99998474121094" stroke="#f8f9fa" />
+            <Label layoutX="74.0" layoutY="137.0" text="Avances" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Regular" size="14.0" />
+               </font>
+            </Label>
+            <Rectangle fx:id="optionAdvancements" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" onMouseClicked="#actionAdvancements" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+               <cursor>
+                  <Cursor fx:constant="CLOSED_HAND" />
+               </cursor>
+            </Rectangle>
+            <Line endX="49.00086975097656" layoutX="125.0" layoutY="179.0" startX="-100.0" stroke="#f8f9fa" />
+            <Label layoutX="67.0" layoutY="207.0" text="Evidencias" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Regular" size="14.0" />
+               </font>
+            </Label>
+            <Rectangle fx:id="optionEvidences" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="196.0" onMouseClicked="#actionEvidences" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+               <cursor>
+                  <Cursor fx:constant="CLOSED_HAND" />
+               </cursor>
+            </Rectangle>
+            <Line endX="49.00086975097656" layoutX="125.0" layoutY="248.0" startX="-100.0" stroke="#f8f9fa" />
+            <Label layoutX="67.0" layoutY="278.0" text="Proyectos" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Regular" size="14.0" />
+               </font>
+            </Label>
+            <Rectangle fx:id="optionProjects" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="267.0" onMouseClicked="#actionProjects" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+               <cursor>
+                  <Cursor fx:constant="CLOSED_HAND" />
+               </cursor>
+            </Rectangle>
+            <Line endX="49.00086975097656" layoutX="125.0" layoutY="319.0" startX="-100.0" stroke="#f8f9fa" />
+            <Label layoutX="67.0" layoutY="346.0" text="Peticiones" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Regular" size="14.0" />
+               </font>
+            </Label>
+            <Rectangle fx:id="optionRequests" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="335.0" onMouseClicked="#actionRequest" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+               <cursor>
+                  <Cursor fx:constant="CLOSED_HAND" />
+               </cursor>
+            </Rectangle>
+            <Line endX="49.00086975097656" layoutX="125.0" layoutY="387.0" startX="-100.0" stroke="#f8f9fa" />
+            <Label layoutX="14.0" layoutY="467.0" onMouseClicked="#actionLogOut" text="Cerrar Sesion" textFill="WHITE" underline="true">
+               <font>
+                  <Font name="Cantarell Regular" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="CLOSED_HAND" />
+               </cursor>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -65,7 +65,7 @@
                         </Label>
                         <TextField fx:id="textFieldSearch" layoutX="216.0" layoutY="72.0" prefHeight="26.0" prefWidth="125.0" promptText="Buscar" />
                         <Button layoutX="350.0" layoutY="72.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Buscar" />
-                        <ComboBox fx:id="comboBoxFilter" layoutX="88.0" layoutY="72.0" prefHeight="26.0" prefWidth="118.0" promptText="Filtrar" />
+                        <ComboBox fx:id="comboBoxFilter" layoutX="88.0" layoutY="72.0" onAction="#handleUserTypeFilter" prefHeight="26.0" prefWidth="118.0" promptText="Filtrar" />
                         <Button layoutX="415.0" layoutY="219.0" mnemonicParsing="false" onAction="#buttonDeleteAction" text="Eliminar" />
                         <Button layoutX="413.0" layoutY="262.0" mnemonicParsing="false" onAction="#buttonModifyAction" text="Modificar" />
                      </children>

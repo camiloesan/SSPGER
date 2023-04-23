@@ -8,34 +8,17 @@ import javafx.scene.shape.Rectangle;
 import java.io.IOException;
 import java.util.Optional;
 
-public class StudentAdvancementController implements IStudentNavigationBar {
+public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
-    private Rectangle optionAdvancements;
-
-    private static final double SELECTED_OPACITY = 0.16;
+    Rectangle optionRequests;
 
     @FXML
     private void initialize() {
-        optionAdvancements.setOpacity(SELECTED_OPACITY);
-    }
-
-    @Override
-    public void actionAdvancements() {
-        //nun
-    }
-
-    @Override
-    public void actionEvidences() {
-        //change view
-    }
-
-    @Override
-    public void actionProjects() {
 
     }
 
     @Override
-    public void actionRequest() {
+    public void actionRequests() {
 
     }
 
