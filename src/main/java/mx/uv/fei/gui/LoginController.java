@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import mx.uv.fei.dao.AccessAccountDAO;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.chainsaw.Main;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -54,6 +55,7 @@ public class LoginController {
                 MainStage.changeView("studentadvancement-view.fxml", 800, 500 + HEIGHT_OFFSET);
                 break;
             case "Profesor":
+                MainStage.changeView("advancementsmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
                 break;
             case "RepresentanteCA":
                 break;

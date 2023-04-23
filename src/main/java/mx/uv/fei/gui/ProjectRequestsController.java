@@ -18,8 +18,8 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     }
 
     @Override
-    public void redirectToAdvancementManagement() {
-
+    public void redirectToAdvancementManagement() throws IOException {
+        MainStage.changeView("advancementsmanagement-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
