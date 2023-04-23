@@ -18,7 +18,22 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     }
 
     @Override
-    public void actionRequests() {
+    public void redirectToAdvancementManagement() {
+
+    }
+
+    @Override
+    public void redirectToProjectManagement() {
+
+    }
+
+    @Override
+    public void redirectToEvidences() {
+
+    }
+
+    @Override
+    public void redirectToRequests() {
 
     }
 

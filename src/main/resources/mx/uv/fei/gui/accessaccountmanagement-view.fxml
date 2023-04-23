@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.CRUDAccessAccountController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.AccessAccountManagementController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" layoutX="-2.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
       <Label layoutX="56.0" layoutY="14.0" text="SSPGER" textFill="WHITE">

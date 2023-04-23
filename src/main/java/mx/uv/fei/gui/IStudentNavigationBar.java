@@ -6,13 +6,13 @@ import java.io.IOException;
 
 public interface IStudentNavigationBar {
     @FXML
-    void actionAdvancements();
+    void redirectToAdvancements();
     @FXML
-    void actionEvidences();
+    void redirectToEvidences();
     @FXML
-    void actionProjects();
+    void redirectToProjects();
     @FXML
-    void actionRequest();
+    void redirectToRequest();
     @FXML
     void actionLogOut() throws IOException;
 }

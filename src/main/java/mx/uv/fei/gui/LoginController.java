@@ -6,15 +6,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import mx.uv.fei.dao.AccessAccountDAO;
 
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Store;
-
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class LoginController {
     @FXML
@@ -53,7 +48,7 @@ public class LoginController {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         switch (accessAccountDAO.getAccessAccountTypeByUsername(textFieldUser.getText())) {
             case "Administrador":
-                MainStage.changeView("crudaccessaccount-view.fxml", 800, 500 + HEIGHT_OFFSET);
+                MainStage.changeView("accessaccountmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
                 break;
             case "Estudiante":
                 MainStage.changeView("studentadvancement-view.fxml", 800, 500 + HEIGHT_OFFSET);

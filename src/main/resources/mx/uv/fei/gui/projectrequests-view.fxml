@@ -23,12 +23,12 @@
                </font>
             </Label>
             <Line endX="89.0" layoutX="110.0" layoutY="83.0" startX="-110.99998474121094" stroke="#f8f9fa" />
-            <Label layoutX="74.0" layoutY="137.0" text="Avances" textFill="WHITE">
+            <Label layoutX="41.0" layoutY="137.0" text="Gestión de avances" textFill="WHITE">
                <font>
                   <Font name="Cantarell Regular" size="14.0" />
                </font>
             </Label>
-            <Rectangle fx:id="optionAdvancements" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" onMouseClicked="#actionAdvancements" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+            <Rectangle fx:id="optionAdvancements" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="6.0" layoutY="128.0" onMouseClicked="#redirectToAdvancementManagement" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
                <cursor>
                   <Cursor fx:constant="CLOSED_HAND" />
                </cursor>
@@ -61,7 +61,7 @@
                   <Font name="Cantarell Regular" size="14.0" />
                </font>
             </Label>
-            <Rectangle fx:id="optionRequests" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="335.0" onMouseClicked="#actionRequest" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+            <Rectangle fx:id="optionRequests" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="335.0" onMouseClicked="#actionRequests" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0">
                <cursor>
                   <Cursor fx:constant="CLOSED_HAND" />
                </cursor>

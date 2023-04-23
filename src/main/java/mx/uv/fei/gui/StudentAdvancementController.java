@@ -3,39 +3,33 @@ package mx.uv.fei.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.shape.Rectangle;
-
 import java.io.IOException;
 import java.util.Optional;
 
 public class StudentAdvancementController implements IStudentNavigationBar {
-    @FXML
-    private Rectangle optionAdvancements;
-
-    private static final double SELECTED_OPACITY = 0.16;
 
     @FXML
     private void initialize() {
-        optionAdvancements.setOpacity(SELECTED_OPACITY);
+
     }
 
     @Override
-    public void actionAdvancements() {
-        //nun
+    public void redirectToAdvancements() {
+
     }
 
     @Override
-    public void actionEvidences() {
+    public void redirectToEvidences() {
         //change view
     }
 
     @Override
-    public void actionProjects() {
+    public void redirectToProjects() {
 
     }
 
     @Override
-    public void actionRequest() {
+    public void redirectToRequest() {
 
     }
 

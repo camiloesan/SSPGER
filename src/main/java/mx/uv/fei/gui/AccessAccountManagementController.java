@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class CRUDAccessAccountController {
+public class AccessAccountManagementController {
     @FXML
     private ListView<String> listViewUsernames;
     @FXML
