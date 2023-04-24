@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdvancementDAO implements IAdvancement {
-
     @Override
     public int addAdvancement(Advancement advancement) throws SQLException {
         String query = "insert into Avances(nombre, descripcion, fechaInicio, fechaEntrega, ID_profesor, ID_proyecto) values (?,?,?,?,?,?)";
@@ -19,7 +18,7 @@ public class AdvancementDAO implements IAdvancement {
         preparedStatement.setString(1, advancement.getAdvancementName());
         preparedStatement.setString(2, advancement.getAdvancementDescription());
         preparedStatement.setString(3, advancement.getAdvancementStartDate());
-        preparedStatement.setString(4, advancement.getAdvancementEndDate());
+        preparedStatement.setString(4, advancement.getAdvancementDeadline());
         preparedStatement.setInt(5, advancement.getProfessorId());
         preparedStatement.setInt(6, advancement.getProjectId());
         int result = preparedStatement.executeUpdate();
@@ -42,11 +41,10 @@ public class AdvancementDAO implements IAdvancement {
         List<Advancement> advancementDetail = new ArrayList<>();
         while (resultSet.next()) {
             Advancement advancement = new Advancement();
-            advancement.setAdvancementId(resultSet.getInt("ID_avace"));
             advancement.setAdvancementName(resultSet.getString("nombre"));
             advancement.setAdvancementDescription(resultSet.getString("descripcion"));
             advancement.setAdvancementStartDate(resultSet.getString("fechainicio"));
-            advancement.setAdvancementEndDate(resultSet.getString("fechaEntrega"));
+            advancement.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
             advancement.setProfessorId(resultSet.getInt("ID_profesor"));
             advancement.setProjectId(resultSet.getInt("ID_proyecto"));
             advancementDetail.add(advancement);
@@ -68,11 +66,10 @@ public class AdvancementDAO implements IAdvancement {
         List<Advancement> advancementList = new ArrayList<>();
         while (resultSet.next()) {
             Advancement advancement = new Advancement();
-            advancement.setAdvancementId(resultSet.getInt("ID_avace"));
             advancement.setAdvancementName(resultSet.getString("nombre"));
             advancement.setAdvancementDescription(resultSet.getString("descripcion"));
             advancement.setAdvancementStartDate(resultSet.getString("fechainicio"));
-            advancement.setAdvancementEndDate(resultSet.getString("fechaEntrega"));
+            advancement.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
             advancement.setProfessorId(resultSet.getInt("ID_profesor"));
             advancement.setProjectId(resultSet.getInt("ID_proyecto"));
             advancementList.add(advancement);
@@ -111,7 +108,7 @@ public class AdvancementDAO implements IAdvancement {
         preparedStatement.setString(1, advancement.getAdvancementName());
         preparedStatement.setString(2, advancement.getAdvancementDescription());
         preparedStatement.setString(3, advancement.getAdvancementStartDate());
-        preparedStatement.setString(4, advancement.getAdvancementEndDate());
+        preparedStatement.setString(4, advancement.getAdvancementDeadline());
         preparedStatement.setInt(5, advancement.getProfessorId());
         preparedStatement.setInt(6, advancement.getProjectId());
         int result = preparedStatement.executeUpdate();
@@ -128,6 +125,20 @@ public class AdvancementDAO implements IAdvancement {
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, advancementName);
+        int result = preparedStatement.executeUpdate();
+        databaseManager.closeConnection();
+
+        return result;
+    }
+
+    @Override
+    public int getProfessorIdByUsername(String username) throws SQLException {
+        String query = "select ID_profesor from Profesores where nombre=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
         int result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
 

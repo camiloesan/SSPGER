@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface IAccessAccount {
     void addAccessAccount(AccessAccount accessAccount) throws SQLException;
-    void modifyAccessAccountByUsername(String username, AccessAccount accessAccount) throws SQLException;
+    int modifyAccessAccountByUsername(String username, String password, String userType) throws SQLException;
     void deleteAccessAccountByUsername(String username) throws SQLException;
     boolean areCredentialsValid(String username, String password) throws SQLException;
     String getAccessAccountTypeByUsername(String username) throws SQLException;
-    List<AccessAccount> getListAccessAccounts() throws SQLException;
+    List<String> getListAccessAccounts() throws SQLException;
+    List<String> getUsernamesByUsertype(String userType) throws SQLException;
 }

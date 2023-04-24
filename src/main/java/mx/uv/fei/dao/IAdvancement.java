@@ -14,4 +14,5 @@ public interface IAdvancement {
 
     int modifyAdvancementByName(String advancementName, Advancement advancement) throws SQLException;
     int deleteAdvancementByName(String advancement) throws SQLException;
+    int getProfessorIdByUsername(String username) throws SQLException;
 }
