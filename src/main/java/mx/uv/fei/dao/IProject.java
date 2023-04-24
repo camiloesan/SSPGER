@@ -10,7 +10,10 @@ import java.util.List;
 public interface IProject {
     int addProject(Project project) throws SQLException;
     int updateProjectState(int projectId, String state) throws SQLException;
+    
     ArrayList<DetailedProject> getProjectsByState(String projectState) throws SQLException;
+    
+    List<DetailedProject> getAllProjects() throws SQLException; //similar to getProjectsByState but to get all projects no matter the status of the project
     DetailedProject getProjectInfo(String projectTitle) throws SQLException;
     List<String> getLgacList() throws SQLException;
     List<String> getRWModalitiesList() throws SQLException;

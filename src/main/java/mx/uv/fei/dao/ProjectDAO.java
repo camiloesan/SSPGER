@@ -70,38 +70,67 @@ public class ProjectDAO implements IProject{
         return result;
     }
 
+
     @Override
     public ArrayList<DetailedProject> getProjectsByState(String projectState) throws SQLException {
-        String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional AS TrabajoRecepcional, P.nombreProyectoInvestigación AS 'ProyectoInvestigacion', CONCAT (P2.nombre, ' ',P2.apellidos) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = ?";
+        String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional, CONCAT (P2.nombre, ' ',P2.apellidos) AS 'Profesor' FROM Proyectos P INNER JOIN Profesores P2 ON P.ID_director = P2.ID_profesor WHERE P.estado = ?";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1,projectState);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        ArrayList<DetailedProject> detailedProjects = new ArrayList<>();
-        while (resultSet.next()) {
-            DetailedProject detailedProject = new DetailedProject();
-
-            detailedProject.setProjectID(resultSet.getInt("ID_proyecto"));
-            if (resultSet.getString("ProyectoInvestigacion") == null || Objects.equals(resultSet.getString("ProyectoInvestigacion"), "")){
-                detailedProject.setProjectTitle(resultSet.getString("TrabajoRecepcional"));
-            } else {
-                detailedProject.setProjectTitle(resultSet.getString("ProyectoInvestigacion"));
+        
+        ArrayList<DetailedProject> detailedProjects = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1,projectState);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            detailedProjects= new ArrayList<>();
+            while (resultSet.next()) {
+                DetailedProject itemSimpleProject = new DetailedProject();
+                
+                itemSimpleProject.setProjectID(resultSet.getInt("ID_proyecto"));
+                itemSimpleProject.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+                itemSimpleProject.setDirector(resultSet.getString("Profesor"));
+                
+                detailedProjects.add(itemSimpleProject);
             }
-            detailedProject.setDirector(resultSet.getString("Profesor"));
-
-            detailedProjects.add(detailedProject);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            databaseManager.closeConnection();
         }
-
-        databaseManager.closeConnection();
 
         return detailedProjects;
     }
-
+    
+    @Override
+    public List<DetailedProject> getAllProjects() throws SQLException {
+        String sqlQuery = "SELECT nombreTrabajoRecepcional FROM Proyectos";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        List<DetailedProject> projectTitles = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            projectTitles = new ArrayList<>();
+            while (resultSet.next()) {
+                DetailedProject itemProjectTitle = new DetailedProject();
+                itemProjectTitle.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+                projectTitles.add(itemProjectTitle);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            databaseManager.closeConnection();
+        }
+        
+        return projectTitles;
+    }
+    
     @Override
     public DetailedProject getProjectInfo(String projectTitle) throws SQLException{
         String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, CONCAT(LC.nombre, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.nombre, ' ',PRF.apellidos) AS 'Director', CONCAT (CD.nombre, ' ',CD.apellidos) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.clave LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR LEFT JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor LEFT JOIN CodirectoresProyecto COP ON P.ID_proyecto = COP.ID_proyecto LEFT JOIN Profesores CD ON COP.ID_profesor = CD.ID_profesor WHERE P.nombreProyectoInvestigación = ? OR P.nombreTrabajoRecepcional = ?";
