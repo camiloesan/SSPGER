@@ -113,7 +113,7 @@ public class RegisterProjectProposalController {
     }
     
     public boolean emptyFields() {
-        return comboAB.getValue() == null || textAreaInvestigationProjectName.getText().isBlank() ||
+        return comboAB.getValue() == null ||
                 comboLGAC.getValue() == null || textAreaInvestigationLine.getText().isBlank() ||
                 textFieldAproxDuration.getText().isBlank() || comboRecptionWorkModality.getValue() == null ||
                 textAreaReceptionWorkName.getText().isBlank() || textAreaRequisites.getText().isBlank() ||
