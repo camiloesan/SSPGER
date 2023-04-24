@@ -19,7 +19,7 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.AccessAccountManagementController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" layoutX="-2.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
       <Label layoutX="56.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
          <font>
             <Font name="Cantarell Regular" size="24.0" />
@@ -36,7 +36,7 @@
             <Font name="Cantarell Regular" size="14.0" />
          </font>
       </Label>
-      <Rectangle fx:id="optionAccountsManagement" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="11.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+      <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="11.0" layoutY="126.0" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0">
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
@@ -50,7 +50,18 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Label>
-      <TabPane fx:id="tabPaneAccountManagement" layoutX="198.0" prefHeight="502.0" prefWidth="604.0" tabClosingPolicy="UNAVAILABLE">
+      <Label layoutX="25.0" layoutY="210.0" text="Experiencias educativas" textFill="WHITE">
+         <font>
+            <Font name="Cantarell Regular" size="14.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="11.0" layoutY="199.0" onMouseClicked="#redirectToCourses" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Rectangle>
+      <Line endX="49.00086975097656" layoutX="125.0" layoutY="250.0" startX="-100.0" stroke="#f8f9fa" />
+      <TabPane fx:id="tabPaneAccountManagement" layoutX="198.0" prefHeight="501.0" prefWidth="604.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Cuentas de acceso">
             <content>
@@ -74,7 +85,7 @@
           </Tab>
           <Tab text="Añadir">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="456.0" prefWidth="604.0">
                      <children>
                         <GridPane layoutX="28.0" layoutY="67.0" prefHeight="135.0" prefWidth="548.0">
                           <columnConstraints>
@@ -108,13 +119,13 @@
                           </rowConstraints>
                            <children>
                               <Label text="Nombre del profesor: " />
-                              <TextField prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                              <TextField fx:id="textFieldProfessorName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
                               <Label text="Apellidos: " GridPane.rowIndex="1" />
-                              <TextField prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="textFieldProfessorLastName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Grado: " GridPane.rowIndex="2" />
                               <Label text="Correo institucional: " GridPane.rowIndex="3" />
-                              <TextField prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="textFieldProfessorEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <ComboBox fx:id="comboBoxDegree" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                         <GridPane fx:id="gridPaneStudent" layoutX="81.0" layoutY="202.0" prefHeight="156.0" prefWidth="466.0" visible="false">
@@ -135,11 +146,11 @@
                               <Label text="Apellidos: " GridPane.rowIndex="2" />
                               <Label text="Correo institucional: " GridPane.rowIndex="3" />
                               <Label text="NRC: " GridPane.rowIndex="4" />
-                              <TextField prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                              <TextField prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="textFieldStudentId" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                              <TextField fx:id="textFieldStudentName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="textFieldStudentLastName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="textFieldStudentEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="textFieldNRC" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#334b49" height="50.0" stroke="#334b49" strokeType="INSIDE" width="604.0" />
@@ -148,7 +159,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Button layoutX="454.0" layoutY="389.0" mnemonicParsing="false" onAction="#buttonContinueAction" prefHeight="26.0" prefWidth="75.0" text="Guardar" />
+                        <Button layoutX="454.0" layoutY="389.0" mnemonicParsing="false" onAction="#buttonSaveAction" prefHeight="26.0" prefWidth="75.0" text="Guardar" />
                      </children>
                   </AnchorPane>
             </content>

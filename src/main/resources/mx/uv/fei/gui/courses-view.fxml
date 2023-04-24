@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.CoursesController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+      <Label layoutX="58.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
+         <font>
+            <Font name="Cantarell Regular" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelStudentName" layoutX="55.0" layoutY="54.0" text="Administrador" textFill="WHITE">
+         <font>
+            <Font name="Cantarell Regular" size="14.0" />
+         </font>
+      </Label>
+      <Line endX="89.0" layoutX="112.0" layoutY="83.0" startX="-110.99998474121094" stroke="#f8f9fa" />
+      <Label layoutX="44.0" layoutY="137.0" text="Gestión de cuentas" textFill="WHITE">
+         <font>
+            <Font name="Cantarell Regular" size="14.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="13.0" layoutY="126.0" onMouseClicked="#redirectToAccountManagement" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Rectangle>
+      <Line endX="49.00086975097656" layoutX="127.0" layoutY="179.0" startX="-100.0" stroke="#f8f9fa" />
+      <Label fx:id="optionLogOut" layoutX="27.0" layoutY="459.0" onMouseClicked="#actionLogOut" text="Cerrar Sesion" textFill="WHITE" underline="true">
+         <font>
+            <Font name="Cantarell Regular" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Label>
+      <Label layoutX="27.0" layoutY="210.0" text="Experiencias educativas" textFill="WHITE">
+         <font>
+            <Font name="Cantarell Regular" size="14.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="13.0" layoutY="199.0" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0">
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Rectangle>
+      <Line endX="49.00086975097656" layoutX="127.0" layoutY="250.0" startX="-100.0" stroke="#f8f9fa" />
+      <TabPane layoutX="200.0" prefHeight="501.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Añadir Experiencia Educativa">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#334b49" height="50.0" layoutX="-2.0" stroke="#334b49" strokeType="INSIDE" width="604.0" />
+                        <Label layoutX="12.0" layoutY="16.0" text="Añadir Experiencia Educativa" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <GridPane layoutX="93.0" layoutY="173.0" prefHeight="122.0" prefWidth="413.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="199.9415821210777" minWidth="10.0" prefWidth="162.35370923972417" />
+                            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="289.35381356639016" minWidth="10.0" prefWidth="251.76592991903286" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="NRC: " />
+                              <TextField GridPane.columnIndex="1" />
+                              <Label text="Nombre: " GridPane.rowIndex="1" />
+                              <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Id del profesor: " GridPane.rowIndex="2" />
+                              <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                        <Button layoutX="421.0" layoutY="334.0" mnemonicParsing="false" text="Guardar" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
