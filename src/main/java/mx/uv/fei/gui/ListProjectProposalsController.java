@@ -10,28 +10,68 @@ import mx.uv.fei.logic.DetailedProject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ListProjectProposalsController {
-    
     @FXML
-    public Button buttonVerDetalles;
-    @FXML
-    private ListView<String> listViewProjectProposals;
+    private Label labelHeader;
     @FXML
     private Button buttonActualizar;
     @FXML
-    private Button buttonRegresar;
+    public Button buttonVerDetalles;
+    @FXML
+    private ComboBox<String> comboProjectStates;
+    @FXML
+    private ListView<String> listViewProjects;
     
+ 
     public void initialize() throws SQLException {
-        fillListView();
+        fillProjectStateCombo();
+        fillUnfilteredList();
     }
     
-    public void fillListView() throws SQLException {
+    public void fillUnfilteredList() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
-        listViewProjectProposals.getItems().clear();
+        listViewProjects.getItems().clear();
         
-        ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState("Por revisar"));
-        proposedProjects.forEach(element -> listViewProjectProposals.getItems().add(element.getProjectTitle()));
+        ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getAllProjects());
+        proposedProjects.forEach(element -> listViewProjects.getItems().add(element.getProjectTitle()));
+    }
+    
+    public void fillFilteredProjects(String projectState) throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        listViewProjects.getItems().clear();
+        
+        ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState(projectState));
+        proposedProjects.forEach(element -> listViewProjects.getItems().add(element.getProjectTitle()));
+    }
+    
+    public void fillProjectStateCombo() {
+        ObservableList<String > projectStates = FXCollections.observableArrayList("Todos","Por revisar","Verificados","Declinados");
+        comboProjectStates.setItems(projectStates);
+    }
+    
+    public boolean noFilterSelected() {
+        return comboProjectStates.getValue() == null;
+    }
+    
+    public void refreshFilteredList() throws SQLException{
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        
+        if (noFilterSelected()) {
+            alert.setTitle("Sin filtro");
+            alert.setContentText("Debe especificar un filtro");
+            alert.showAndWait();
+        } else if (Objects.equals(comboProjectStates.getSelectionModel().getSelectedItem(), "Todos")) {
+            fillUnfilteredList();
+        } else if (Objects.equals(comboProjectStates.getSelectionModel().getSelectedItem(), "Por revisar")){
+            fillFilteredProjects("Por revisar");
+        } else if (Objects.equals(comboProjectStates.getSelectionModel().getSelectedItem(), "Verificados")) {
+            fillFilteredProjects("Verificado");
+        } else {
+            fillFilteredProjects("Declinado");
+        }
+        labelHeader.setText(comboProjectStates.getSelectionModel().getSelectedItem());
     }
     
     public void openProjectDetails() throws SQLException {
