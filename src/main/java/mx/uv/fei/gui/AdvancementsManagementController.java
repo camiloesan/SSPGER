@@ -6,6 +6,7 @@ import mx.uv.fei.dao.AdvancementDAO;
 import mx.uv.fei.logic.Advancement;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class AdvancementsManagementController implements IProfessorNavigationBar {
@@ -33,25 +34,24 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private ComboBox<String> projectToAssign;
 
     @FXML
-    private void scheduleAdvancementButtonAction() {
+    private void scheduleAdvancementButtonAction() throws SQLException {
         scheduleAdvancement();
     }
 
-    private void scheduleAdvancement() {
+    private void scheduleAdvancement() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
         Advancement advancement = new Advancement();
         advancement.setAdvancementName(advancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(advancementStartDate.getValue()));
         advancement.setAdvancementDeadline(String.valueOf(advancementDeadline.getValue()));
-        //advancement.setAdvancementId();
-        //change advancement primary key and foreign to be the name
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-
+        //advancement.setProjectId();
+        advancement.setProfessorId(advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername()));
+        advancement.setAdvancementDescription(advancementDescription.getText());
+        advancementDAO.addAdvancement(advancement);
     }
 
     @FXML
     private void modifyAdvancementButtonAction() {
-        System.out.println(LoginController.sessionDetails.getUsername());
-        System.out.println(LoginController.sessionDetails.getUserType());
         modifyAdvancement();
     }
 

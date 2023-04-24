@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import mx.uv.fei.dao.AccessAccountDAO;
 import mx.uv.fei.logic.AccessAccount;
@@ -33,10 +34,18 @@ public class AccessAccountManagementController {
     private TextField textFieldUserToModify;
     @FXML
     private TextField textFieldNewPassword;
-
+    @FXML
+    private GridPane gridPaneProfessor;
+    @FXML
+    private GridPane gridPaneStudent;
     private static final double SELECTED_OPACITY = 0.16;
-    private final static ObservableList<String> observableListComboItemsUserType = FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
-    private final static ObservableList<String> observableListComboItemsFilter = FXCollections.observableArrayList("Todos" ,"Administrador", "Estudiante", "Profesor", "RepresentanteCA");
+    private final static ObservableList<String> observableListComboItemsUserType =
+            FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
+    private final static ObservableList<String> observableListComboItemsFilter =
+            FXCollections.observableArrayList("Todos" ,"Administrador", "Estudiante", "Profesor", "RepresentanteCA");
+    private final static ObservableList<String> observableListComboItemsDegree =
+            FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
+
     private static final int MAX_FIELD_LENGTH = 27;
 
     @FXML
@@ -71,6 +80,24 @@ public class AccessAccountManagementController {
             modifyUserAttributesByUsername(textFieldUserToModify.getText(), textFieldNewPassword.getText(), comboBoxUserTypeModify.getValue());
         } else {
             //somealert
+        }
+    }
+
+    @FXML
+    private void handleUserType() {
+        switch (comboBoxUserType.getValue()) {
+            case "Profesor", "RepresentanteCA" -> {
+                gridPaneStudent.setVisible(false);
+                gridPaneProfessor.setVisible(true);
+            }
+            case "Estudiante" -> {
+                gridPaneStudent.setVisible(true);
+                gridPaneProfessor.setVisible(false);
+            }
+            default -> {
+                gridPaneProfessor.setVisible(false);
+                gridPaneStudent.setVisible(false);
+            }
         }
     }
 
@@ -124,14 +151,24 @@ public class AccessAccountManagementController {
         }
     }
 
+    private void addStudent() {
+
+    }
+
+    private void addProfessor() {
+
+    }
+
     private boolean areAddUserFieldsValid() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        if (textFieldUsername.getText().isBlank() || passwordFieldPassword.getText().isBlank() || comboBoxUserType.getValue().isBlank()) {
+        if (textFieldUsername.getText().isBlank() || passwordFieldPassword.getText().isBlank()
+                || comboBoxUserType.getValue().isBlank()) {
             alert.setTitle("Error en los campos");
             alert.show();
             return false;
         } else {
-            if (textFieldUsername.getText().length() > MAX_FIELD_LENGTH || passwordFieldPassword.getText().length() > MAX_FIELD_LENGTH) {
+            if (textFieldUsername.getText().length() > MAX_FIELD_LENGTH
+                    || passwordFieldPassword.getText().length() > MAX_FIELD_LENGTH) {
                 alert.setTitle("Límite de caracteres sobrepasado");
                 alert.setContentText("El campo usuario y contraseña deben tener menos de " + MAX_FIELD_LENGTH + " caracteres");
                 alert.show();
