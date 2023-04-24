@@ -1,21 +1,12 @@
 package mx.uv.fei.logic;
 
 public class Advancement {
-    private int advancementId;
     private String advancementName;
     private String advancementDescription;
     private String advancementStartDate;
     private String advancementDeadline;
     private int professorId;
     private int projectId;
-
-    public int getAdvancementId() {
-        return advancementId;
-    }
-
-    public void setAdvancementId(int advancementId) {
-        this.advancementId = advancementId;
-    }
 
     public String getAdvancementName() {
         return advancementName;
