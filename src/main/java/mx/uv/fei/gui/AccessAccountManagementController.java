@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Rectangle;
 import mx.uv.fei.dao.AccessAccountDAO;
 import mx.uv.fei.dao.ProfessorDAO;
 import mx.uv.fei.dao.StudentDAO;
@@ -51,8 +50,6 @@ public class AccessAccountManagementController {
     @FXML
     private TextField textFieldStudentEmail;
     @FXML
-    private TextField textFieldNRC;
-    @FXML
     private TextField textFieldProfessorName;
     @FXML
     private TextField textFieldProfessorLastName;
@@ -64,12 +61,11 @@ public class AccessAccountManagementController {
             FXCollections.observableArrayList("Todos" ,"Administrador", "Estudiante", "Profesor", "RepresentanteCA");
     private final static ObservableList<String> observableListComboItemsDegree =
             FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
-    private static final int MAX_FIELD_LENGTH = 27;
+    private static final int MAX_FIELD_LENGTH = 28;
     private String userToRegister;
 
     @FXML
     private void initialize() throws SQLException {
-        System.out.println(LoginController.sessionDetails.getUsername());
         updateListView();
         comboBoxDegree.setItems(observableListComboItemsDegree);
         comboBoxUserType.setItems(observableListComboItemsUserType);
@@ -217,14 +213,14 @@ public class AccessAccountManagementController {
         accessAccountDAO.addAccessAccount(accessAccount);
     }
 
-    private void addStudent() {
+    private void addStudent() { // can be moved to logic
         StudentDAO studentDAO = new StudentDAO();
         Student student = new Student();
         student.setStudentID(textFieldStudentId.getText());
         student.setName(textFieldStudentName.getText());
         student.setLastName(textFieldStudentLastName.getText());
         student.setAcademicEmail(textFieldStudentEmail.getText());
-        //student.setNRC();
+        student.setUsername(textFieldUsername.getText());
         try {
             studentDAO.insertStudent(student);
         } catch (SQLException sqlException) {
@@ -232,7 +228,7 @@ public class AccessAccountManagementController {
         }
     }
 
-    private void addProfessor() {
+    private void addProfessor() { // can be moved to logic
         Professor professor = new Professor();
         ProfessorDAO professorDAO = new ProfessorDAO();
         professor.setProfessorName(textFieldProfessorName.getText());
@@ -248,11 +244,12 @@ public class AccessAccountManagementController {
     }
 
     private void modifyAccessAccountAttributesByUsername(String username, String newPassword, String userType) throws SQLException {
+        // can be moved to logic
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         accessAccountDAO.modifyAccessAccountByUsername(username, newPassword, userType);
     }
 
-    private void confirmDeletion() throws SQLException {
+    private void confirmDeletion() throws SQLException { // can be moved to logic somewhat
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText("¿Está seguro que desea eliminar al usuario " + listViewUsernames.getSelectionModel().getSelectedItem() + "?");
@@ -262,11 +259,6 @@ public class AccessAccountManagementController {
         } else {
             accessAccountDAO.deleteAccessAccountByUsername(listViewUsernames.getSelectionModel().getSelectedItem());
         }
-    }
-
-    @FXML
-    private void redirectToCourses() throws IOException {
-        MainStage.changeView("courses-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
     }
 
     private void logOut() throws IOException {

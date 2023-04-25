@@ -20,7 +20,7 @@
 <AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.AccessAccountManagementController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-      <Label layoutX="56.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
+      <Label layoutX="54.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
          <font>
             <Font name="Cantarell Regular" size="24.0" />
          </font>
@@ -50,35 +50,22 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Label>
-      <Label layoutX="25.0" layoutY="210.0" text="Experiencias educativas" textFill="WHITE">
-         <font>
-            <Font name="Cantarell Regular" size="14.0" />
-         </font>
-      </Label>
-      <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="11.0" layoutY="199.0" onMouseClicked="#redirectToCourses" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Rectangle>
-      <Line endX="49.00086975097656" layoutX="125.0" layoutY="250.0" startX="-100.0" stroke="#f8f9fa" />
       <TabPane fx:id="tabPaneAccountManagement" layoutX="198.0" prefHeight="501.0" prefWidth="604.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Cuentas de acceso">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="318.0">
                      <children>
-                        <ListView fx:id="listViewUsernames" layoutX="134.0" layoutY="113.0" prefHeight="282.0" prefWidth="240.0" />
+                        <ListView fx:id="listViewUsernames" layoutX="125.0" layoutY="113.0" prefHeight="282.0" prefWidth="240.0" />
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#334b49" height="50.0" stroke="#334b49" strokeType="INSIDE" width="604.0" />
                         <Label layoutX="14.0" layoutY="16.0" text="Vista general" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="textFieldSearch" layoutX="216.0" layoutY="72.0" prefHeight="26.0" prefWidth="125.0" promptText="Buscar" />
-                        <Button layoutX="350.0" layoutY="72.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Buscar" />
-                        <ComboBox fx:id="comboBoxFilter" layoutX="88.0" layoutY="72.0" onAction="#handleUserTypeFilter" prefHeight="26.0" prefWidth="118.0" promptText="Filtrar" />
-                        <Button layoutX="415.0" layoutY="219.0" mnemonicParsing="false" onAction="#buttonDeleteAction" text="Eliminar" />
-                        <Button layoutX="413.0" layoutY="262.0" mnemonicParsing="false" onAction="#buttonModifyAction" text="Modificar" />
+                        <ComboBox fx:id="comboBoxFilter" layoutX="186.0" layoutY="74.0" onAction="#handleUserTypeFilter" prefHeight="26.0" prefWidth="118.0" promptText="Filtrar" />
+                        <Button layoutX="406.0" layoutY="219.0" mnemonicParsing="false" onAction="#buttonDeleteAction" prefHeight="26.0" prefWidth="75.0" text="Eliminar" />
+                        <Button layoutX="406.0" layoutY="261.0" mnemonicParsing="false" onAction="#buttonModifyAction" text="Modificar" />
                      </children>
                   </AnchorPane>
             </content>
@@ -138,19 +125,16 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label text="Matrícula: " />
                               <Label text="Nombre: " GridPane.rowIndex="1" />
                               <Label text="Apellidos: " GridPane.rowIndex="2" />
                               <Label text="Correo institucional: " GridPane.rowIndex="3" />
-                              <Label text="NRC: " GridPane.rowIndex="4" />
                               <TextField fx:id="textFieldStudentId" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
                               <TextField fx:id="textFieldStudentName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <TextField fx:id="textFieldStudentLastName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <TextField fx:id="textFieldStudentEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField fx:id="textFieldNRC" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#334b49" height="50.0" stroke="#334b49" strokeType="INSIDE" width="604.0" />
