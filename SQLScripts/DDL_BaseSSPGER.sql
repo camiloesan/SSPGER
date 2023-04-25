@@ -82,7 +82,6 @@ CREATE TABLE Avances (
 	descripcion nvarchar(800),
 	fechaInicio date not null,
 	fechaEntrega date not null,
-	ID_profesor int,
 	ID_proyecto int,
     UNIQUE(nombre),
     PRIMARY KEY(ID_avance)
@@ -94,9 +93,7 @@ CREATE TABLE Evidencias (
 	estado enum('Por revisar', 'Revisado') default 'Por revisar',
 	calificacion int,
 	descripcion varchar(100),
-	ID_profesor int,
 	ID_avance int,
-	ID_proyecto int,
 	matriculaEstudiante varchar(10),
     CHECK (calificacion>=0 and calificacion<=10),
     PRIMARY KEY(ID_Evidencia)

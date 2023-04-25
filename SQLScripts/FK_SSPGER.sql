@@ -16,13 +16,10 @@ ALTER TABLE Proyectos
     ADD CONSTRAINT FK_Proyectos_Codirectores FOREIGN KEY (ID_codirector) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE;
 
 ALTER TABLE Avances
-    ADD CONSTRAINT FK_Avances_Profesores FOREIGN KEY (ID_profesor) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE,
     ADD CONSTRAINT FK_Avances_Proyectos FOREIGN KEY (ID_proyecto) REFERENCES Proyectos (ID_proyecto) ON DELETE CASCADE;
 
 ALTER TABLE Evidencias
     ADD CONSTRAINT FK_Evidencias_Profesores FOREIGN KEY (ID_profesor) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE,
-    ADD CONSTRAINT FK_Evidencias_Avances FOREIGN KEY (ID_avance) REFERENCES Avances (ID_avance) ON DELETE CASCADE,
-    ADD CONSTRAINT FK_Evidencias_Proyectos FOREIGN KEY (ID_proyecto) REFERENCES Proyectos (ID_proyecto) ON DELETE CASCADE,
     ADD CONSTRAINT FK_Evidencias_Estudiantes FOREIGN KEY (matriculaEstudiante) REFERENCES Estudiantes (matricula) ON DELETE CASCADE;
 
 ALTER TABLE SolicitudesProyecto
