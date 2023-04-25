@@ -17,7 +17,6 @@ CREATE TABLE Estudiantes (
 	nombre varchar(30),
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
-	NRC int,
 	ID_usuario int,
     PRIMARY KEY(matricula)
 );
@@ -41,20 +40,6 @@ CREATE TABLE CuerpoAcademico (
     PRIMARY KEY (claveCA)
 );
 
-CREATE TABLE ExperienciasEducativas (
-	NRC int not null,
-	nombre enum('Proyecto Guiado','Experiencia Recepcional'),
-	ID_profesor int,
-    PRIMARY KEY(NRC)
-);
-
-#CREATE TABLE CodirectoresProyecto (
-	#ID_codirectorProyecto int not null auto_increment,
-	#ID_proyecto int,
-	#ID_profesor int,
-	#PRIMARY KEY(ID_codirectorProyecto)
-#);
-
 CREATE TABLE Proyectos (
 	ID_proyecto int not null auto_increment,
 	claveCA varchar(10),
@@ -74,7 +59,6 @@ CREATE TABLE Proyectos (
 	bibliografiaRecomendada nvarchar(2000),
 	estado enum('Verificado','Por revisar','Declinado') default 'Por revisar',
 	etapa enum('Proyecto guiado', 'Trabajo Recepcional') default 'Proyecto guiado',
-	NRC int,
     PRIMARY KEY(ID_proyecto)
 );
 
