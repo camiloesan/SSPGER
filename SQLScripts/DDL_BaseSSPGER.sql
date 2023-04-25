@@ -5,7 +5,7 @@ USE SSPGER;
 
 CREATE TABLE CuentasAcceso (
 	ID_usuario int not null auto_increment,
-	nombreUsuario varchar(27) not null, 
+	nombreUsuario varchar(28) not null, 
 	contrasena nvarchar(64) not null,
     tipoUsuario enum('Administrador', 'Estudiante', 'Profesor', 'RepresentanteCA') not null,
     PRIMARY KEY(ID_usuario),
@@ -17,7 +17,7 @@ CREATE TABLE Estudiantes (
 	nombre varchar(30),
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
-	ID_usuario int,
+	nombreUsuario varchar(28),
     PRIMARY KEY(matricula)
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE Profesores (
 	nombre varchar(30),
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
-	ID_usuario int,
+	nombreUsuario varchar(28),
     PRIMARY KEY(ID_profesor)
 );
 

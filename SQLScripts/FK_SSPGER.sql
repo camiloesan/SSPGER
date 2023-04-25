@@ -1,10 +1,10 @@
 USE SSPGER;
 
 ALTER TABLE Estudiantes
-    ADD CONSTRAINT FK_Estudiantes_CuentasAcceso FOREIGN KEY (ID_usuario) REFERENCES CuentasAcceso (ID_usuario) ON DELETE CASCADE;
+    ADD CONSTRAINT FK_Estudiantes_CuentasAcceso FOREIGN KEY (nombreUsuario) REFERENCES CuentasAcceso (nombreUsuario) ON DELETE CASCADE;
 
 ALTER TABLE Profesores ADD
-    CONSTRAINT FK_Profesores_CuentasAcceso FOREIGN KEY (ID_usuario) REFERENCES CuentasAcceso (ID_usuario) ON DELETE CASCADE;
+    CONSTRAINT FK_Profesores_CuentasAcceso FOREIGN KEY (nombreUsuario) REFERENCES CuentasAcceso (nombreUsuario) ON DELETE CASCADE;
 
 ALTER TABLE CuerpoAcademico ADD
     CONSTRAINT FK_CuerpoAcademico_Profesores FOREIGN KEY (responsable) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE;
