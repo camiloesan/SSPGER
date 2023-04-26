@@ -91,6 +91,7 @@ public class AdvancementDAO implements IAdvancement {
         preparedStatement.setString(4, advancement.getAdvancementDeadline());
         preparedStatement.setInt(5, advancement.getProfessorId());
         preparedStatement.setInt(6, advancement.getProjectId());
+        preparedStatement.setString(7, advancementName);
         int result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
 

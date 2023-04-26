@@ -163,7 +163,7 @@
                               <Label text="Fecha de entrega: " GridPane.rowIndex="3" />
                               <DatePicker fx:id="newAdvancementDeadline" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Proyecto: " GridPane.rowIndex="4" />
-                              <ComboBox fx:id="newProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <ComboBox fx:id="comboNewProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                               <Label text="Descripción: " GridPane.rowIndex="5" />
                               <TextArea fx:id="newAdvancementDescription" prefHeight="92.0" prefWidth="279.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                            </children>
