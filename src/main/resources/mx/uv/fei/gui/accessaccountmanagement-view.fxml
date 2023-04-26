@@ -167,14 +167,17 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
                               <Label text="Usuario a modificar: " />
                               <TextField fx:id="textFieldUserToModify" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                              <Label text="Nueva contraseña: " GridPane.rowIndex="1" />
-                              <PasswordField fx:id="textFieldNewPassword" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label text="Tipo de usuario: " GridPane.rowIndex="2" />
-                              <ComboBox fx:id="comboBoxUserTypeModify" prefWidth="150.0" promptText="Tipo de usuario" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Nueva contraseña: " GridPane.rowIndex="2" />
+                              <PasswordField fx:id="textFieldNewPassword" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Tipo de usuario: " GridPane.rowIndex="3" />
+                              <ComboBox fx:id="comboBoxUserTypeModify" prefWidth="150.0" promptText="Tipo de usuario" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label text="Nuevo nombre de usuario: " GridPane.rowIndex="1" />
+                              <TextField fx:id="textFieldNewUsername" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <Button layoutX="451.0" layoutY="305.0" mnemonicParsing="false" onAction="#buttonConfirmModificationAction" text="Confirmar" />

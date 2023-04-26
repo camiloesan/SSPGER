@@ -55,6 +55,8 @@ public class AccessAccountManagementController {
     private TextField textFieldProfessorLastName;
     @FXML
     private TextField textFieldProfessorEmail;
+    @FXML
+    private TextField textFieldNewUsername;
     private final static ObservableList<String> observableListComboItemsUserType =
             FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
     private final static ObservableList<String> observableListComboItemsFilter =
@@ -98,7 +100,12 @@ public class AccessAccountManagementController {
     @FXML
     private void buttonConfirmModificationAction() throws SQLException {
         if (areModifyUserFieldsValid()) {
-            modifyAccessAccountAttributesByUsername(textFieldUserToModify.getText(), textFieldNewPassword.getText(), comboBoxUserTypeModify.getValue());
+            AccessAccount accessAccount = new AccessAccount();
+            accessAccount.setUsername(textFieldNewUsername.getText());
+            accessAccount.setUserPassword(textFieldNewPassword.getText());
+            accessAccount.setUserType(comboBoxUserTypeModify.getValue());
+            modifyAccessAccountAttributesByUsername(textFieldUserToModify.getText(), accessAccount);
+            //make it change on the foreign key
         } else {
             //somealert
         }
@@ -243,10 +250,10 @@ public class AccessAccountManagementController {
         }
     }
 
-    private void modifyAccessAccountAttributesByUsername(String username, String newPassword, String userType) throws SQLException {
+    private void modifyAccessAccountAttributesByUsername(String username, AccessAccount accessAccount) throws SQLException {
         // can be moved to logic
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        accessAccountDAO.modifyAccessAccountByUsername(username, newPassword, userType);
+        accessAccountDAO.modifyAccessAccountByUsername(username, accessAccount);
     }
 
     private void confirmDeletion() throws SQLException { // can be moved to logic somewhat

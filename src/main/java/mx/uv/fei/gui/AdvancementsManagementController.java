@@ -1,8 +1,10 @@
 package mx.uv.fei.gui;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import mx.uv.fei.dao.AdvancementDAO;
+import mx.uv.fei.dao.ProjectDAO;
 import mx.uv.fei.logic.Advancement;
 
 import java.io.IOException;
@@ -31,21 +33,29 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private DatePicker advancementStartDate;
     @FXML
-    private ComboBox<String> projectToAssign;
+    private ComboBox<String> comboProjectToAssign;
+    @FXML
+    private Label labelUsername;
+    private int professorId;
 
     @FXML
-    private void scheduleAdvancementButtonAction() throws SQLException {
-        scheduleAdvancement();
+    private void scheduleAdvancementButtonAction() {
+        try {
+            scheduleAdvancement();
+        } catch (SQLException sqlException) {
+            //alert
+            System.out.println("something went wrong");
+        }
     }
 
     private void scheduleAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         Advancement advancement = new Advancement();
         advancement.setAdvancementName(advancementName.getText());
-        advancement.setAdvancementStartDate(String.valueOf(advancementStartDate.getValue()));
-        advancement.setAdvancementDeadline(String.valueOf(advancementDeadline.getValue()));
-        //advancement.setProjectId();
-        advancement.setProfessorId(advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername()));
+        advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(advancementStartDate.getValue())));
+        advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(advancementDeadline.getValue())));
+        advancement.setProjectId(advancementDAO.getProjectIdByName(comboProjectToAssign.getValue()));
+        advancement.setProfessorId(professorId);
         advancement.setAdvancementDescription(advancementDescription.getText());
         advancementDAO.addAdvancement(advancement);
     }
@@ -59,9 +69,18 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
     }
 
+    private void fillComboBoxProjectToAssign() throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        comboProjectToAssign.setItems((FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId))));
+    }
+
     @FXML
-    private void initialize() {
-        System.out.println(LoginController.sessionDetails.getUsername());
+    private void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        professorId = advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
+        System.out.println(professorId);
+        fillComboBoxProjectToAssign();
     }
 
     @Override
