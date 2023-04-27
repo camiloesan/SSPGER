@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 
 import mx.uv.fei.dao.ProjectDAO;
 import mx.uv.fei.logic.DetailedProject;
+import mx.uv.fei.logic.TransferProject;
 
 import java.sql.SQLException;
 import java.io.IOException;
@@ -89,7 +90,28 @@ public class ViewProjectProposalsController {
         }
     }
     
-    public void openProjectDetails() throws IOException {
-        ViewProjectProposalsApp.changeView("viewprojectdetails-view.fxml",800,600);
+    public void openProjectDetails() throws IOException{
+        if (listViewProjects.getSelectionModel().getSelectedItem() != null) {
+            String receptionWorkName = listViewProjects.getSelectionModel().getSelectedItem();
+            TransferProject.setReceptionWorkName(receptionWorkName);
+            
+            ViewProjectProposalsApp.changeView("viewprojectdetails-view.fxml",1000,600);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No selecciono un proyecto");
+            alert.setContentText("Seleccione un proyecto para ver los detalles");
+            alert.showAndWait();
+        }
+        
     }
+    /*
+    public void openProjectDetails() throws IOException {
+        try {
+            ViewProjectDetailsController viewProjectDetailsController = (ViewProjectProposalsApp) fxmlLoader.getController();
+            ViewProjectProposalsApp.changeView("viewprojectdetails-view.fxml",800,600);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    */
 }
