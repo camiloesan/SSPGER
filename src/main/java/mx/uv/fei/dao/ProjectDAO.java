@@ -132,7 +132,7 @@ public class ProjectDAO implements IProject{
     
     @Override
     public DetailedProject getProjectInfo(String projectTitle) throws SQLException{
-        String sqlQuery = "SELECT CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, CONCAT(LC.clave, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.nombre, ' ',PRF.apellidos) AS 'Director', CONCAT (CD.nombre, ' ',CD.apellidos) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.ID_lgac LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR INNER JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor INNER JOIN Profesores CD ON CD.ID_profesor = P.ID_codirector WHERE P.nombreTrabajoRecepcional LIKE ?";
+        String sqlQuery = "SELECT CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, CONCAT(LC.clave, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.grado,' ',PRF.nombre, ' ',PRF.apellidos) AS 'Director', CONCAT (CD.grado,' ',CD.nombre, ' ',CD.apellidos) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.ID_lgac LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR INNER JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor WHERE P.nombreTrabajoRecepcional = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
@@ -156,6 +156,7 @@ public class ProjectDAO implements IProject{
                 detailedProject.setReceptionWorkName(resultSet.getString("nombreTrabajorecepcional"));
                 detailedProject.setRequisites(resultSet.getString("requisitos"));
                 detailedProject.setDirector(resultSet.getString("Director"));
+                detailedProject.setCoDirector(resultSet.getString("Co-Director"));
                 detailedProject.setNumberStudents(resultSet.getInt("alumnosParticipantes"));
                 detailedProject.setInvestigationDescription(resultSet.getString("descripcionProyectoInvestigacion"));
                 detailedProject.setReceptionWorkDescription(resultSet.getString("descripcionTrabajoRecepcional"));
@@ -246,30 +247,5 @@ public class ProjectDAO implements IProject{
         }
         
         return academicBodyIDList;
-    }
-    
-    @Override
-    public List<Integer> getNRCs() throws SQLException {
-        String sqlQuery = "SELECT NRC FROM ExperienciasEducativas";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        
-        List<Integer> NRCs = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            NRCs = new ArrayList<>();
-            while (resultSet.next()){
-                Project nrcItem = new Project();
-                nrcItem.setNRC(resultSet.getInt("NRC"));
-                NRCs.add(nrcItem.getNRC());
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        } finally {
-            databaseManager.closeConnection();
-        }
-        
-        return NRCs;
     }
 }
