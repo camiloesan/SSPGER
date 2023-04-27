@@ -87,6 +87,7 @@ public class ViewProjectDetailsController {
         
         labelDirector.setText(detailedProject.getDirector());
         labelCodirector.setText(detailedProject.getCoDirector());
+        labelStudents.setText(String.valueOf(detailedProject.getNumberStudents()));
         
         Text investigationDescription = new Text(detailedProject.getInvestigationDescription());
         textInvestigationDescription.getChildren().add(investigationDescription);
@@ -108,7 +109,7 @@ public class ViewProjectDetailsController {
     }
     
     public void actionProjects(MouseEvent mouseEvent) throws IOException {
-        ViewProjectProposalsApp.changeView("viewprojectproposals-view.fxml",900,600);
+        ViewProjectProposalsApp.changeView("viewprojectproposals-view.fxml",800,600);
     }
     
     public void actionProfessors(MouseEvent mouseEvent) {
