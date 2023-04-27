@@ -2,6 +2,8 @@ package mx.uv.fei.dao;
 
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.AccessAccount;
+import mx.uv.fei.logic.Professor;
+import mx.uv.fei.logic.Student;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,15 +29,16 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public int modifyAccessAccountByUsername(String username, String password, String userType) throws SQLException {
-        String query = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?)";
+    public int modifyAccessAccountByUsername(String username, AccessAccount accessAccount) throws SQLException {
+        String query = "update CuentasAcceso set nombreUsuario=(?), contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, password);
-        preparedStatement.setString(2, userType);
-        preparedStatement.setString(3, username);
+        preparedStatement.setString(1, accessAccount.getUsername());
+        preparedStatement.setString(2, accessAccount.getUserPassword());
+        preparedStatement.setString(3, accessAccount.getUserType());
+        preparedStatement.setString(4, username);
         int result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
@@ -127,6 +130,16 @@ public class AccessAccountDAO implements IAccessAccount {
         }
 
         return accessAccountList;
+    }
+
+    @Override
+    public int addUserTransaction(AccessAccount accessAccount, Student student) {
+        return 0;
+    }
+
+    @Override
+    public int addUserTransaction(AccessAccount accessAccount, Professor professor) {
+        return 0;
     }
 
 

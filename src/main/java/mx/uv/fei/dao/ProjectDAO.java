@@ -246,4 +246,23 @@ public class ProjectDAO implements IProject{
         
         return NRCs;
     }
+
+    @Override
+    public List<String> getProjectNamesByIdDirector(int directorId) throws SQLException {
+        String query = "select nombreProyectoInvestigación from Proyectos where ID_director=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, directorId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        List<String> projectNamesList = new ArrayList<>();
+        while (resultSet.next()) {
+            projectNamesList.add(resultSet.getString("nombreProyectoInvestigación"));
+        }
+        databaseManager.closeConnection();
+
+        return projectNamesList;
+    }
 }

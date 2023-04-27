@@ -111,6 +111,7 @@ public class AdvancementDAO implements IAdvancement {
         preparedStatement.setString(4, advancement.getAdvancementDeadline());
         preparedStatement.setInt(5, advancement.getProfessorId());
         preparedStatement.setInt(6, advancement.getProjectId());
+        preparedStatement.setString(7, advancementName);
         int result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
 
@@ -133,15 +134,42 @@ public class AdvancementDAO implements IAdvancement {
 
     @Override
     public int getProfessorIdByUsername(String username) throws SQLException {
-        String query = "select ID_profesor from Profesores where nombre=(?)";
+        String query = "select ID_profesor from Profesores where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, username);
-        int result = preparedStatement.executeUpdate();
+
+        int result = 0;
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            result = resultSet.getInt("ID_profesor");
+        }
+
         databaseManager.closeConnection();
 
         return result;
     }
+
+    @Override
+    public int getProjectIdByName(String projectName) throws SQLException {
+        String query = "select ID_proyecto from Proyectos where nombreProyectoInvestigación=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, projectName);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        int result = 0;
+        while (resultSet.next()) {
+            result = resultSet.getInt("ID_proyecto");
+        }
+        databaseManager.closeConnection();
+
+        return result;
+    }
+
+
 }

@@ -25,7 +25,7 @@
             <Font name="Cantarell Regular" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="32.0" layoutY="52.0" text="Nombre del profesor" textFill="WHITE">
+      <Label fx:id="labelUsername" layoutX="32.0" layoutY="52.0" text="Nombre del profesor" textFill="WHITE">
          <font>
             <Font name="Cantarell Regular" size="14.0" />
          </font>
@@ -120,9 +120,9 @@
                               <Label text="Fecha de entrega: " GridPane.rowIndex="2" />
                               <DatePicker fx:id="advancementDeadline" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="Proyecto: " GridPane.rowIndex="3" />
-                              <ComboBox fx:id="projectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <ComboBox fx:id="comboProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Descripción: " GridPane.rowIndex="4" />
-                              <TextArea fx:id="advancementDescription" prefHeight="92.0" prefWidth="279.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextArea fx:id="advancementDescription" prefHeight="92.0" prefWidth="279.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                         <Button layoutX="440.0" layoutY="400.0" mnemonicParsing="false" onAction="#scheduleAdvancementButtonAction" text="Programar" />
@@ -154,7 +154,7 @@
                               <RowConstraints maxHeight="112.00043294217306" minHeight="10.0" prefHeight="112.00043294217306" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="Avance a modificar: " underline="true" />
+                              <Label text="Avance a modificar: " />
                               <TextField fx:id="advancementToModify" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" />
                               <Label text="Nombre del avance: " GridPane.rowIndex="1" />
                               <TextField fx:id="newAdvancementName" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -163,9 +163,9 @@
                               <Label text="Fecha de entrega: " GridPane.rowIndex="3" />
                               <DatePicker fx:id="newAdvancementDeadline" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Proyecto: " GridPane.rowIndex="4" />
-                              <ComboBox fx:id="newProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <ComboBox fx:id="comboNewProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                               <Label text="Descripción: " GridPane.rowIndex="5" />
-                              <TextArea fx:id="newAdvancementDescription" prefHeight="92.0" prefWidth="279.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <TextArea fx:id="newAdvancementDescription" prefHeight="92.0" prefWidth="279.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                            </children>
                         </GridPane>
                         <Button layoutX="440.0" layoutY="400.0" mnemonicParsing="false" onAction="#modifyAdvancementButtonAction" text="Modificar" />

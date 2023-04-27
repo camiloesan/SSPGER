@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Rectangle;
 import mx.uv.fei.dao.AccessAccountDAO;
 import mx.uv.fei.dao.ProfessorDAO;
 import mx.uv.fei.dao.StudentDAO;
@@ -51,34 +50,34 @@ public class AccessAccountManagementController {
     @FXML
     private TextField textFieldStudentEmail;
     @FXML
-    private TextField textFieldNRC;
-    @FXML
     private TextField textFieldProfessorName;
     @FXML
     private TextField textFieldProfessorLastName;
     @FXML
     private TextField textFieldProfessorEmail;
+    @FXML
+    private TextField textFieldNewUsername;
     private final static ObservableList<String> observableListComboItemsUserType =
             FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
     private final static ObservableList<String> observableListComboItemsFilter =
             FXCollections.observableArrayList("Todos" ,"Administrador", "Estudiante", "Profesor", "RepresentanteCA");
     private final static ObservableList<String> observableListComboItemsDegree =
             FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
-    private static final int MAX_FIELD_LENGTH = 27;
-    private String userToRegister;
 
     @FXML
     private void initialize() throws SQLException {
-        System.out.println(LoginController.sessionDetails.getUsername());
         updateListView();
         comboBoxDegree.setItems(observableListComboItemsDegree);
         comboBoxUserType.setItems(observableListComboItemsUserType);
         comboBoxFilter.setItems(observableListComboItemsFilter);
         comboBoxUserTypeModify.setItems(observableListComboItemsUserType);
     }
+
     @FXML
     private void buttonSaveAction() throws SQLException {
+        System.out.println("entra");
         if (areAddUserFieldsValid()) {
+            System.out.println("son validos");
             if (gridPaneStudent.isVisible()) {
                 addAccessAccount();
                 addStudent();
@@ -94,19 +93,27 @@ public class AccessAccountManagementController {
             updateListView();
         }
     }
+
     @FXML
     private void buttonModifyAction() {
         textFieldUserToModify.setText(listViewUsernames.getSelectionModel().getSelectedItem());
         tabPaneAccountManagement.getSelectionModel().select(2);
     }
+
     @FXML
     private void buttonConfirmModificationAction() throws SQLException {
         if (areModifyUserFieldsValid()) {
-            modifyAccessAccountAttributesByUsername(textFieldUserToModify.getText(), textFieldNewPassword.getText(), comboBoxUserTypeModify.getValue());
+            AccessAccount accessAccount = new AccessAccount();
+            accessAccount.setUsername(textFieldNewUsername.getText());
+            accessAccount.setUserPassword(textFieldNewPassword.getText());
+            accessAccount.setUserType(comboBoxUserTypeModify.getValue());
+            modifyAccessAccountAttributesByUsername(textFieldUserToModify.getText(), accessAccount);
+            //make it change on the foreign key
         } else {
             //somealert
         }
     }
+
     @FXML
     private void buttonDeleteAction() throws SQLException {
         String username = listViewUsernames.getSelectionModel().getSelectedItem();
@@ -121,40 +128,41 @@ public class AccessAccountManagementController {
                 alert.setContentText("No se pueden eliminar los usuarios administrador");
                 alert.show();
             } else {
-                confirmDeletion();
+                deleteUser();
                 updateListView();
             }
         }
     }
+
     @FXML
-    private void handleUserType() {
+    private void handleUserTypeSelection() {
         switch (comboBoxUserType.getValue()) {
             case "Profesor", "RepresentanteCA" -> {
                 gridPaneStudent.setVisible(false);
                 gridPaneProfessor.setVisible(true);
-                userToRegister = "Profesor";
             }
             case "Estudiante" -> {
                 gridPaneStudent.setVisible(true);
                 gridPaneProfessor.setVisible(false);
-                userToRegister = "Estudiante";
             }
             default -> {
                 gridPaneProfessor.setVisible(false);
                 gridPaneStudent.setVisible(false);
-                userToRegister = "Administrador";
             }
         }
     }
+
     @FXML
     private void actionLogOut() throws IOException {
         logOut();
     }
+
     @FXML
     private void updateListView() throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         listViewUsernames.setItems(FXCollections.observableList(accessAccountDAO.getListAccessAccounts()));
     }
+
     @FXML
     private void handleUserTypeFilter() throws SQLException {
         if (comboBoxFilter.getValue().equals("Todos")) {
@@ -165,23 +173,57 @@ public class AccessAccountManagementController {
         }
     }
 
+    private static final int MAX_LENGTH_USERNAME = 28;
+    private static final int MAX_LENGTH_PASSWORD = 64;
+    private static final int MAX_LENGTH_NAME = 30;
+    private static final int MAX_LENGTH_LASTNAME = 80;
+    private static final int MAX_LENGTH_EMAIL = 30;
+    private static final int MAX_LENGTH_STUDENT_ID = 10;
     private boolean areAddUserFieldsValid() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        if (textFieldUsername.getText().isBlank() || passwordFieldPassword.getText().isBlank()
-                || comboBoxUserType.getValue().isBlank()) {
-            alert.setTitle("Error en los campos");
-            alert.show();
-            return false;
-        } else {
-            if (textFieldUsername.getText().length() > MAX_FIELD_LENGTH
-                    || passwordFieldPassword.getText().length() > MAX_FIELD_LENGTH) {
-                alert.setTitle("Límite de caracteres sobrepasado");
-                alert.setContentText("El campo usuario y contraseña deben tener menos de " + MAX_FIELD_LENGTH + " caracteres");
-                alert.show();
+        if (gridPaneProfessor.isVisible()) {
+            if (textFieldUsername.getText().isBlank()
+                    || passwordFieldPassword.getText().isBlank()
+                    || comboBoxUserType.getValue().isBlank()
+                    || textFieldProfessorName.getText().isBlank()
+                    || textFieldProfessorLastName.getText().isBlank()
+                    || comboBoxDegree.getValue().isBlank()
+                    || textFieldProfessorEmail.getText().isBlank()) {
+                //alert todos los campos deben estar llenos
+                return false;
+            } else if (textFieldUsername.getText().length() >= MAX_LENGTH_USERNAME
+                    || passwordFieldPassword.getText().length() >= MAX_LENGTH_PASSWORD
+                    || textFieldProfessorName.getText().length() >= MAX_LENGTH_NAME
+                    || textFieldProfessorLastName.getText().length() >= MAX_LENGTH_LASTNAME
+                    || textFieldProfessorEmail.getText().length() >= MAX_LENGTH_EMAIL) {
+                //alert has sobrepasado el límite de caracteres, revisa los campos de nuevo
                 return false;
             } else {
                 return true;
             }
+        } else if (gridPaneStudent.isVisible()) {
+            if (textFieldUsername.getText().isBlank()
+                    || passwordFieldPassword.getText().isBlank()
+                    || comboBoxUserType.getValue().isBlank()
+                    || textFieldStudentId.getText().isBlank()
+                    || textFieldStudentName.getText().isBlank()
+                    || textFieldStudentLastName.getText().isBlank()
+                    || textFieldStudentEmail.getText().isBlank()) {
+                //alert todos los campos deben estar llenos
+                return false;
+            } else if (textFieldUsername.getText().length() >= MAX_LENGTH_USERNAME
+                    || passwordFieldPassword.getText().length() >= MAX_LENGTH_PASSWORD
+                    || textFieldStudentId.getText().length() >= MAX_LENGTH_STUDENT_ID
+                    || textFieldStudentName.getText().length() >= MAX_LENGTH_NAME
+                    || textFieldStudentLastName.getText().length() >= MAX_LENGTH_LASTNAME
+                    || textFieldStudentEmail.getText().length() >= MAX_LENGTH_EMAIL) {
+                //alert has sobrepasado el límite de caracteres
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            //alert debes seleccionar un tipo de usuario
+            return false;
         }
     }
 
@@ -192,9 +234,9 @@ public class AccessAccountManagementController {
             alert.show();
             return false;
         } else {
-            if (textFieldUserToModify.getText().length() > MAX_FIELD_LENGTH || textFieldNewPassword.getText().length() > MAX_FIELD_LENGTH) {
+            if (textFieldUserToModify.getText().length() > MAX_LENGTH_USERNAME || textFieldNewPassword.getText().length() > MAX_LENGTH_PASSWORD) {
                 alert.setTitle("Límite de caracteres sobrepasado");
-                alert.setContentText("El campo usuario y contraseña deben tener menos de " + MAX_FIELD_LENGTH + " caracteres");
+                alert.setContentText("El campo usuario y contraseña deben tener menos de " + MAX_LENGTH_USERNAME + " caracteres");
                 alert.show();
                 return false;
             } else {
@@ -217,14 +259,14 @@ public class AccessAccountManagementController {
         accessAccountDAO.addAccessAccount(accessAccount);
     }
 
-    private void addStudent() {
+    private void addStudent() { // can be moved to logic
         StudentDAO studentDAO = new StudentDAO();
         Student student = new Student();
         student.setStudentID(textFieldStudentId.getText());
         student.setName(textFieldStudentName.getText());
         student.setLastName(textFieldStudentLastName.getText());
         student.setAcademicEmail(textFieldStudentEmail.getText());
-        //student.setNRC();
+        student.setUsername(textFieldUsername.getText());
         try {
             studentDAO.insertStudent(student);
         } catch (SQLException sqlException) {
@@ -232,7 +274,7 @@ public class AccessAccountManagementController {
         }
     }
 
-    private void addProfessor() {
+    private void addProfessor() { // can be moved to logic
         Professor professor = new Professor();
         ProfessorDAO professorDAO = new ProfessorDAO();
         professor.setProfessorName(textFieldProfessorName.getText());
@@ -247,12 +289,13 @@ public class AccessAccountManagementController {
         }
     }
 
-    private void modifyAccessAccountAttributesByUsername(String username, String newPassword, String userType) throws SQLException {
+    private void modifyAccessAccountAttributesByUsername(String username, AccessAccount accessAccount) throws SQLException {
+        // can be moved to logic
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        accessAccountDAO.modifyAccessAccountByUsername(username, newPassword, userType);
+        accessAccountDAO.modifyAccessAccountByUsername(username, accessAccount);
     }
 
-    private void confirmDeletion() throws SQLException {
+    private void deleteUser() throws SQLException { // can be moved to logic somewhat
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText("¿Está seguro que desea eliminar al usuario " + listViewUsernames.getSelectionModel().getSelectedItem() + "?");
@@ -262,11 +305,6 @@ public class AccessAccountManagementController {
         } else {
             accessAccountDAO.deleteAccessAccountByUsername(listViewUsernames.getSelectionModel().getSelectedItem());
         }
-    }
-
-    @FXML
-    private void redirectToCourses() throws IOException {
-        MainStage.changeView("courses-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
     }
 
     private void logOut() throws IOException {

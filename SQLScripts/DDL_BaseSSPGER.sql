@@ -5,7 +5,7 @@ USE SSPGER;
 
 CREATE TABLE CuentasAcceso (
 	ID_usuario int not null auto_increment,
-	nombreUsuario varchar(27) not null, 
+	nombreUsuario varchar(28) not null, 
 	contrasena nvarchar(64) not null,
     tipoUsuario enum('Administrador', 'Estudiante', 'Profesor', 'RepresentanteCA') not null,
     PRIMARY KEY(ID_usuario),
@@ -17,8 +17,7 @@ CREATE TABLE Estudiantes (
 	nombre varchar(30),
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
-	NRC int,
-	ID_usuario int,
+	nombreUsuario varchar(28),
     PRIMARY KEY(matricula)
 );
 
@@ -28,7 +27,7 @@ CREATE TABLE Profesores (
 	nombre varchar(30),
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
-	ID_usuario int,
+	nombreUsuario varchar(28),
     PRIMARY KEY(ID_profesor)
 );
 
@@ -40,20 +39,6 @@ CREATE TABLE CuerpoAcademico (
     responsable int,
     PRIMARY KEY (claveCA)
 );
-
-CREATE TABLE ExperienciasEducativas (
-	NRC int not null,
-	nombre enum('Proyecto Guiado','Experiencia Recepcional'),
-	ID_profesor int,
-    PRIMARY KEY(NRC)
-);
-
-#CREATE TABLE CodirectoresProyecto (
-	#ID_codirectorProyecto int not null auto_increment,
-	#ID_proyecto int,
-	#ID_profesor int,
-	#PRIMARY KEY(ID_codirectorProyecto)
-#);
 
 CREATE TABLE Proyectos (
 	ID_proyecto int not null auto_increment,
@@ -74,7 +59,6 @@ CREATE TABLE Proyectos (
 	bibliografiaRecomendada nvarchar(2000),
 	estado enum('Verificado','Por revisar','Declinado') default 'Por revisar',
 	etapa enum('Proyecto guiado', 'Trabajo Recepcional') default 'Proyecto guiado',
-	NRC int,
     PRIMARY KEY(ID_proyecto)
 );
 
@@ -98,7 +82,6 @@ CREATE TABLE Avances (
 	descripcion nvarchar(800),
 	fechaInicio date not null,
 	fechaEntrega date not null,
-	ID_profesor int,
 	ID_proyecto int,
     UNIQUE(nombre),
     PRIMARY KEY(ID_avance)
@@ -110,9 +93,7 @@ CREATE TABLE Evidencias (
 	estado enum('Por revisar', 'Revisado') default 'Por revisar',
 	calificacion int,
 	descripcion varchar(100),
-	ID_profesor int,
 	ID_avance int,
-	ID_proyecto int,
 	matriculaEstudiante varchar(10),
     CHECK (calificacion>=0 and calificacion<=10),
     PRIMARY KEY(ID_Evidencia)
