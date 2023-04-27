@@ -6,9 +6,9 @@ import java.io.IOException;
 
 public interface IStudentNavigationBar {
     @FXML
-    void redirectToAdvancements();
+    void redirectToAdvancements() throws IOException;
     @FXML
-    void redirectToEvidences();
+    void redirectToEvidences() throws IOException;
     @FXML
     void redirectToProjects();
     @FXML

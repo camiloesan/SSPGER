@@ -19,8 +19,8 @@ public class StudentAdvancementController implements IStudentNavigationBar {
     }
 
     @Override
-    public void redirectToEvidences() {
-        //change view
+    public void redirectToEvidences() throws  IOException {
+            MainStage.changeView("studentevidences-view.fxml", 800, 500);
     }
 
     @Override

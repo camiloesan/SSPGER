@@ -102,4 +102,23 @@ public class EvidenceDAO implements IEvidence {
 
         return result;
     }
+
+    public List<Evidence> getListEvidenceName() throws SQLException {
+        String query = "SELECT titulo FROM Evidencias";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        List<Evidence> advancementNameList = new ArrayList<>();
+        while(resultSet.next()) {
+            Evidence evidence = new Evidence();
+            evidence.setEvidenceTitle(resultSet.getString("titulo"));
+            advancementNameList.add(evidence);
+        }
+
+        return advancementNameList;
+    }
 }
