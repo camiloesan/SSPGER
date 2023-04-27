@@ -90,7 +90,7 @@
                               <Label text="Tipo de usuario: " GridPane.rowIndex="2" />
                               <TextField fx:id="textFieldUsername" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
                               <PasswordField fx:id="passwordFieldPassword" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <ComboBox fx:id="comboBoxUserType" onAction="#handleUserType" prefWidth="150.0" promptText="Tipo de usuario" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <ComboBox fx:id="comboBoxUserType" onAction="#handleUserTypeSelection" prefWidth="150.0" promptText="Tipo de usuario" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                         <GridPane fx:id="gridPaneProfessor" layoutX="46.0" layoutY="202.0" prefHeight="160.0" prefWidth="511.0" visible="false">

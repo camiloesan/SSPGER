@@ -37,14 +37,19 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private Label labelUsername;
     private int professorId;
+    private static final int MAX_LENGTH_NAME = 30;
+    private static final int MAX_LENGTH_DESCRIPTION = 800;
 
     @FXML
     private void scheduleAdvancementButtonAction() {
-        try {
-            scheduleAdvancement();
-        } catch (SQLException sqlException) {
-            //alert
-            System.out.println("something went wrong");
+        if (areScheduleAdvancementFieldsValid()) {
+            try {
+                scheduleAdvancement();
+            } catch (SQLException sqlException) {
+                //alert
+            }
+        } else {
+            //alert: todos los campos deben estar llenos
         }
     }
 
@@ -60,9 +65,50 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancementDAO.addAdvancement(advancement);
     }
 
+    private boolean areScheduleAdvancementFieldsValid() {
+        if (advancementName.getText().isBlank()
+                || advancementStartDate.getValue().toString().isBlank()
+                || advancementDeadline.getValue().toString().isBlank()
+                || comboProjectToAssign.getValue().isBlank()
+                || advancementDescription.getText().isBlank()) {
+            //alert all fields must be filled
+            return false;
+        } else if (advancementName.getText().length() >= MAX_LENGTH_NAME
+                || advancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
+            //alert el limite de caracteres fue sobrepasado
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     @FXML
-    private void modifyAdvancementButtonAction() throws SQLException {
-        modifyAdvancement();
+    private void modifyAdvancementButtonAction() {
+        if (areModifyAdvancementFieldsValid()) {
+            try {
+                modifyAdvancement();
+            } catch (SQLException sqlException) {
+                //alert error bd
+            }
+        }
+    }
+
+    private boolean areModifyAdvancementFieldsValid() {
+        if (advancementToModify.getText().isBlank()
+                || newAdvancementName.getText().isBlank()
+                || newAdvancementStartDate.getValue().toString().isBlank()
+                || newAdvancementDeadline.getValue().toString().isBlank()
+                || newAdvancementDescription.getText().isBlank()
+                || comboNewProjectToAssign.getValue().isBlank()) {
+            //alert
+            return false;
+        } else if (newAdvancementName.getText().length() >= MAX_LENGTH_NAME
+                || newAdvancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
+            //alert
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void modifyAdvancement() throws SQLException {

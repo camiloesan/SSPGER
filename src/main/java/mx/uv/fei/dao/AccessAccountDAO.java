@@ -2,6 +2,8 @@ package mx.uv.fei.dao;
 
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.AccessAccount;
+import mx.uv.fei.logic.Professor;
+import mx.uv.fei.logic.Student;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -128,6 +130,16 @@ public class AccessAccountDAO implements IAccessAccount {
         }
 
         return accessAccountList;
+    }
+
+    @Override
+    public int addUserTransaction(AccessAccount accessAccount, Student student) {
+        return 0;
+    }
+
+    @Override
+    public int addUserTransaction(AccessAccount accessAccount, Professor professor) {
+        return 0;
     }
 
 
