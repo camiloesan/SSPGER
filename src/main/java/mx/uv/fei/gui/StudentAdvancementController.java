@@ -180,27 +180,41 @@ public class StudentAdvancementController implements IStudentNavigationBar {
     @FXML
     private void onActionAddEvidenceButton(){
         Evidence evidence = new Evidence();
-        evidence.setEvidenceTitle(textFieldTitle.getText());
-        evidence.setEvidenceDescription(textAreaDescription.getText());
-        evidence.setAdvancementId(Integer.parseInt(textFieldAdvancement.getText()));
-        evidence.setStudentId(textFieldStudent.getText());
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        try{
-            evidenceDAO.addEvidence(evidence);
-        } catch(SQLException exceptionAdd){
-            exceptionAdd.getErrorCode();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("¿Estás seguro que deseas añadir la evidencia?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isEmpty() || result.get() != ButtonType.OK) {
+            alert.close();
+        } else {
+            evidence.setEvidenceTitle(textFieldTitle.getText());
+            evidence.setEvidenceDescription(textAreaDescription.getText());
+            evidence.setAdvancementId(Integer.parseInt(textFieldAdvancement.getText()));
+            evidence.setStudentId(textFieldStudent.getText());
+            EvidenceDAO evidenceDAO = new EvidenceDAO();
+            try {
+                evidenceDAO.addEvidence(evidence);
+            } catch (SQLException exceptionAdd) {
+                exceptionAdd.getErrorCode();
+            }
         }
     }
     @FXML
     private void onActionButtonModify(){
-        int evidenceID = Integer.parseInt(textFieldEvidenceID.getText());
-        String evidenceTitle = textFieldEvidenceTitle.getText();
-        String evidenceDescription = textFieldEvidenceDescription.getText();
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        try{
-            evidenceDAO.modifyEvidence(evidenceID,evidenceTitle,evidenceDescription);
-        } catch(SQLException exceptionModify){
-            exceptionModify.getErrorCode();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("¿Estás seguro que deseas modificar la evidencia?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isEmpty() || result.get() != ButtonType.OK) {
+            alert.close();
+        } else {
+            int evidenceID = Integer.parseInt(textFieldEvidenceID.getText());
+            String evidenceTitle = textFieldEvidenceTitle.getText();
+            String evidenceDescription = textFieldEvidenceDescription.getText();
+            EvidenceDAO evidenceDAO = new EvidenceDAO();
+            try {
+                evidenceDAO.modifyEvidence(evidenceID, evidenceTitle, evidenceDescription);
+            } catch (SQLException exceptionModify) {
+                exceptionModify.getErrorCode();
+            }
         }
     }
     @FXML
