@@ -86,12 +86,12 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <ListView fx:id="listViewEvidencesName" layoutX="14.0" layoutY="85.0" prefHeight="300.0" prefWidth="315.0" />
-                        <Label fx:id="labelTitleEvidence" layoutX="480.0" layoutY="116.0" text="Label" />
-                        <Label fx:id="labelStatusEvidence" layoutX="480.0" layoutY="165.0" text="Label" />
-                        <Label fx:id="labelGradeEvidence" layoutX="480.0" layoutY="207.0" text="Label" />
-                        <Label fx:id="labelDescriptionEvidence" layoutX="480.0" layoutY="254.0" text="Label" />
-                        <Label fx:id="labelAdvancementEvidence" layoutX="480.0" layoutY="294.0" text="Label" />
-                        <Label fx:id="labelStudentEvidence" layoutX="480.0" layoutY="339.0" text="Label" />
+                        <Label fx:id="labelTitleEvidence" layoutX="480.0" layoutY="116.0" opacity="0.0" text="Label" />
+                        <Label fx:id="labelStatusEvidence" layoutX="480.0" layoutY="165.0" opacity="0.0" text="Label" />
+                        <Label fx:id="labelGradeEvidence" layoutX="480.0" layoutY="207.0" opacity="0.0" text="Label" />
+                        <Label fx:id="labelDescriptionEvidence" layoutX="480.0" layoutY="254.0" opacity="0.0" text="Label" />
+                        <Label fx:id="labelAdvancementEvidence" layoutX="480.0" layoutY="294.0" opacity="0.0" text="Label" />
+                        <Label fx:id="labelStudentEvidence" layoutX="480.0" layoutY="339.0" opacity="0.0" text="Label" />
                         <Button layoutX="368.0" layoutY="28.0" mnemonicParsing="false" onMouseClicked="#fillEvidence" text="Mostrar evidencia" />
                         <Button layoutX="118.0" layoutY="28.0" mnemonicParsing="false" onMouseClicked="#updateListViewEvidences" text="Actualizar lista" />
                         <Label layoutX="368.0" layoutY="116.0" text="Titulo:">
@@ -154,7 +154,7 @@
                         <Button layoutX="171.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#onActionAddFileButton" text="Agregar archivo" />
                         <Label layoutX="155.0" layoutY="177.0" text="Numero de la evidencia:" />
                         <Label layoutX="212.0" layoutY="257.0" text="Titulo:" />
-                        <Label layoutX="192.0" layoutY="347.0" text="Descripccin:" />
+                        <Label layoutX="192.0" layoutY="347.0" text="Descripccion:" />
                         <TextField fx:id="textFieldEvidenceID" layoutX="364.0" layoutY="173.0" />
                         <TextField fx:id="textFieldEvidenceTitle" layoutX="364.0" layoutY="253.0" />
                         <TextField fx:id="textFieldEvidenceDescription" layoutX="364.0" layoutY="343.0" />
@@ -169,6 +169,7 @@
                      <children>
                         <ListView fx:id="listViewEvidencesNamesToDelete" layoutX="39.0" layoutY="121.0" prefHeight="200.0" prefWidth="200.0" />
                         <Button layoutX="86.0" layoutY="44.0" mnemonicParsing="false" onMouseClicked="#updateListViewEvidencesToDelete" text="Actualizar lista" />
+                        <Button layoutX="344.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#deleteEvidence" text="Eliminar" />
                      </children></AnchorPane>
               </content>
             </Tab>

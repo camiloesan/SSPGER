@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import mx.uv.fei.dao.AccessAccountDAO;
 import mx.uv.fei.dao.AdvancementDAO;
 import mx.uv.fei.dao.EvidenceDAO;
 import mx.uv.fei.dao.StudentDAO;
@@ -47,18 +48,18 @@ public class StudentAdvancementController implements IStudentNavigationBar {
     @FXML
     private ListView<String> listViewEvidencesNamesToDelete;
     @FXML
-    private void initialize() throws SQLException {
+    private void initialize() {
 
     }
 
     @Override
     public void redirectToAdvancements() throws IOException {
-        MainStage.changeView("studentadvancement-view.fxml", 800, 500);
+        MainStage.changeView("studentadvancement-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
     public void redirectToEvidences() throws  IOException, SQLException {
-        MainStage.changeView("studentevidences-view.fxml", 800, 500);
+        MainStage.changeView("studentevidences-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
@@ -70,9 +71,8 @@ public class StudentAdvancementController implements IStudentNavigationBar {
     public void redirectToRequest() {
 
     }
-
     @FXML
-    public void fillEvidence() {
+    public void fillTitleStatusGradeDescriptionEvidence() {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         try {
             Evidence evidence = evidenceDAO.getEvidenceByEvidenceTitle(listViewEvidencesName
@@ -85,6 +85,11 @@ public class StudentAdvancementController implements IStudentNavigationBar {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+
+    }
+    @FXML
+    public void fillAdvancementEvidence() {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
         AdvancementDAO advancementDAO = new AdvancementDAO();
         try {
             int advancementID = evidenceDAO.getAdvancementIDByEvidenceTitle(listViewEvidencesName
@@ -97,7 +102,14 @@ public class StudentAdvancementController implements IStudentNavigationBar {
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
             }
-            StudentDAO studentDAO = new StudentDAO();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+    }
+    @FXML
+    public void fillStudentEvidence() {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        StudentDAO studentDAO = new StudentDAO();
         try {
             String studentID = evidenceDAO.getStudentIDByEvidenceTitle(listViewEvidencesName
                     .getSelectionModel()
@@ -111,8 +123,35 @@ public class StudentAdvancementController implements IStudentNavigationBar {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+    }
+    @FXML
+    public void fillEvidence() {
+        fillTitleStatusGradeDescriptionEvidence();
+        labelTitleEvidence.setOpacity(1);
+        labelStatusEvidence.setOpacity(1);
+        labelGradeEvidence.setOpacity(1);
+        labelDescriptionEvidence.setOpacity(1);
+        fillAdvancementEvidence();
+        labelAdvancementEvidence.setOpacity(1);
+        fillStudentEvidence();
+        labelStudentEvidence.setOpacity(1);
+    }
+
+    @FXML
+    public void deleteEvidence() {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        String evidenceName = listViewEvidencesNamesToDelete.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("¿Está seguro que desea eliminar la evidencia " + evidenceName + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isEmpty() || result.get() != ButtonType.OK) {
+            alert.close();
+        } else {
+            try {
+                evidenceDAO.deleteEvidenceByName(evidenceName);
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
         }
     }
 
