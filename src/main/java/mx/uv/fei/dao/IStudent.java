@@ -8,4 +8,6 @@ import java.util.List;
 public interface IStudent {
     int insertStudent(Student student) throws SQLException;
     int  deleteStudent(String studentID) throws  SQLException;
+
+    String getNamebyStudentID(String studentID) throws SQLException;
 }

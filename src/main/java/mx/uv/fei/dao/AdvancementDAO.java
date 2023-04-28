@@ -133,6 +133,26 @@ public class AdvancementDAO implements IAdvancement {
     }
 
     @Override
+    public String getAdvancementNameByID(int id) throws SQLException {
+        String query = "SELECT nombre FROM Avances WHERE ID_avance = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, id);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        String result = "";
+        while (resultSet.next()) {
+            result = resultSet.getString("nombre");
+        }
+
+        databaseManager.closeConnection();
+
+        return result;
+    }
+
+    @Override
     public int getProfessorIdByUsername(String username) throws SQLException {
         String query = "select ID_profesor from Profesores where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();

@@ -5,6 +5,7 @@ import mx.uv.fei.logic.Student;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentDAO implements IStudent {
@@ -39,6 +40,25 @@ public class StudentDAO implements IStudent {
         result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
+        return result;
+    }
+
+    @Override
+    public String getNamebyStudentID(String studentID) throws SQLException {
+        String query = "SELECT nombre FROM Estudiantes WHERE matricula = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, studentID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        String result = "";
+        while (resultSet.next()) {
+            result = resultSet.getString("nombre");
+        }
+
+        databaseManager.closeConnection();
+
         return result;
     }
 

@@ -13,17 +13,15 @@ import java.util.List;
 public class EvidenceDAO implements IEvidence {
     @Override
     public int addEvidence(Evidence evidence) throws SQLException {
-        String query = "insert into Evidencias(titulo, descripcion, ID_profesor, ID_avance, ID_proyecto, matriculaEstudiante) values (?,?,?,?,?,?)";
+        String query = "insert into Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante) values (?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, evidence.getEvidenceTitle());
         preparedStatement.setString(2, evidence.getEvidenceDescription());
-        preparedStatement.setInt(3, evidence.getProfessorId());
-        preparedStatement.setInt(4, evidence.getAdvancementId());
-        preparedStatement.setInt(5, evidence.getProjectId());
-        preparedStatement.setString(6, evidence.getStudentId());
+        preparedStatement.setInt(3, evidence.getAdvancementId());
+        preparedStatement.setString(4, evidence.getStudentId());
         int result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
@@ -88,6 +86,63 @@ public class EvidenceDAO implements IEvidence {
         }
 
         return evidenceList;
+    }
+
+    @Override
+    public Evidence getEvidenceByEvidenceTitle(String evidenceTitle) throws SQLException {
+        String query = "SELECT titulo, estado, calificacion, descripcion FROM Evidencias WHERE titulo=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, evidenceTitle);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        Evidence evidence = new Evidence();
+        while (resultSet.next()) {
+            evidence.setEvidenceTitle(resultSet.getString("titulo"));
+            evidence.setEvidenceStatus(resultSet.getString("estado"));
+            evidence.setEvidenceGrade(resultSet.getInt("calificacion"));
+            evidence.setEvidenceDescription(resultSet.getString("descripcion"));
+        }
+        return evidence;
+    }
+    @Override
+    public int getAdvancementIDByEvidenceTitle(String evidenceTitle) throws SQLException {
+        String query = "SELECT ID_avance FROM Evidencias WHERE titulo=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, evidenceTitle);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        int result = 0;
+        while (resultSet.next()) {
+            result = resultSet.getInt("ID_avance");
+        }
+
+        databaseManager.closeConnection();
+
+        return result;
+    }
+    @Override
+    public String getStudentIDByEvidenceTitle(String evidenceTitle) throws SQLException {
+        String query = "SELECT matriculaEstudiante FROM Evidencias WHERE titulo=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, evidenceTitle);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        String result = "";
+        while (resultSet.next()) {
+            result = resultSet.getString("matriculaEstudiante");
+        }
+
+        databaseManager.closeConnection();
+
+        return result;
     }
 
     public int deleteEvidenceByName(String evidenceName) throws SQLException {
