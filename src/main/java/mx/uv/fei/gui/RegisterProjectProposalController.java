@@ -7,8 +7,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import mx.uv.fei.dao.ProfessorDAO;
-import mx.uv.fei.dao.ProjectDAO;
+import mx.uv.fei.dao.implementations.ProfessorDAO;
+import mx.uv.fei.dao.implementations.ProjectDAO;
+import mx.uv.fei.logic.Professor;
 import mx.uv.fei.logic.Project;
 
 import java.sql.SQLException;
@@ -126,6 +127,7 @@ public class RegisterProjectProposalController {
         textAreaInvestigationLine.clear();
         textFieldAproxDuration.clear();
         comboRecptionWorkModality.setValue(comboRecptionWorkModality.getPromptText());
+        textAreaReceptionWorkName.clear();
         textAreaRequisites.clear();
         comboDirectors.setValue(comboDirectors.getPromptText());
         comboCodirectors.setValue(comboCodirectors.getPromptText());
@@ -187,13 +189,16 @@ public class RegisterProjectProposalController {
         project.setModalityId(comboRecptionWorkModality.getSelectionModel().getSelectedIndex() + 1);
         project.setReceptionWorkName(textAreaReceptionWorkName.getText());
         project.setRequisites(textAreaRequisites.getText());
-        project.setDirectorID(comboDirectors.getSelectionModel().getSelectedIndex() + 1);
-        project.setCodirectorID(comboCodirectors.getSelectionModel().getSelectedIndex() + 1);
+        project.setDirectorName(comboDirectors.getSelectionModel().getSelectedItem());
+        project.setCodirectorName(comboCodirectors.getSelectionModel().getSelectedItem());
         project.setStudentsParticipating(comboStudents.getSelectionModel().getSelectedItem());
         project.setInvestigationProjectDescription(textAreaInvestigationProjectDescription.getText());
         project.setReceptionWorkDescription(textAreaReceptionWorkDescription.getText());
         project.setExpectedResults(textAreaExpectedResults.getText());
         project.setRecommendedBibliography(textAreaRecommendedBibliography.getText());
+        
         projectDAO.addProject(project);
+        projectDAO.setDirectorIDtoProject(project);
+        projectDAO.setCodirectorIDtoProject(project);
     }
 }

@@ -11,7 +11,9 @@ public class Project {
     private String receptionWorkName;
     private String requisites;
     private int directorID;
+    private String directorName;
     private int codirectorID;
+    private String codirectorName;
     private int studentsParticipating;
     private String investigationProjectDescription;
     private String receptionWorkDescription;
@@ -19,8 +21,7 @@ public class Project {
     private String recommendedBibliography;
     private String state;
     private String stage;
-    private int NRC;
-
+    
     public Project() {}
 
     public String getAcademicBodyId() {
@@ -103,12 +104,28 @@ public class Project {
         this.directorID = directorID;
     }
     
+    public String getDirectorName() {
+        return directorName;
+    }
+    
+    public void setDirectorName(String directorName) {
+        this.directorName = directorName;
+    }
+    
     public int getCodirectorID() {
         return codirectorID;
     }
     
     public void setCodirectorID(int codirectorID) {
         this.codirectorID = codirectorID;
+    }
+    
+    public String getCodirectorName() {
+        return codirectorName;
+    }
+    
+    public void setCodirectorName(String codirectorName) {
+        this.codirectorName = codirectorName;
     }
     
     public int getStudentsParticipating() {
@@ -166,12 +183,5 @@ public class Project {
     public void setStage(String stage) {
         this.stage = stage;
     }
-
-    public int getNRC() {
-        return NRC;
-    }
-
-    public void setNRC(int NRC) {
-        this.NRC = NRC;
-    }
+    
 }
