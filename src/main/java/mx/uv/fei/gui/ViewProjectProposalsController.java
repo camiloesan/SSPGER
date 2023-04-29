@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert;
 
-import mx.uv.fei.dao.ProjectDAO;
+import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.DetailedProject;
 import mx.uv.fei.logic.TransferProject;
 
@@ -34,7 +34,6 @@ public class ViewProjectProposalsController {
     private static final String UNVERIFIED_COMBO_OPTION = "Por revisar";
     private static final String VERIFIED_COMBO_OPTION = "Verificados";
     private static final String DECLINED_COMBO_OPTION = "Declinados";
-    
     private static final String UNVERIFIED_PROJECT_STATE = "Por revisar";
     private static final String VERIFIED_PROJECT_STATE = "Verificado";
     private static final String DECLINED_PROJECT_STATE = "Declinado";
