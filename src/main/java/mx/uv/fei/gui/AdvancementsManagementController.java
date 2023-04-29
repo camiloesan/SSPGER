@@ -138,7 +138,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         AdvancementDAO advancementDAO = new AdvancementDAO();
         professorId = advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
-        System.out.println(professorId);
         fillComboBoxProjectToAssign();
         fillComboBoxNewProjectToAssign();
     }

@@ -19,7 +19,7 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.AdvancementsManagementController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" layoutX="-3.0" stroke="BLACK" strokeType="INSIDE" width="201.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" stroke="BLACK" strokeType="INSIDE" width="201.0" />
       <Label layoutX="56.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
          <font>
             <Font name="Cantarell Regular" size="24.0" />
@@ -83,7 +83,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Label>
-      <TabPane layoutX="198.0" prefHeight="501.0" prefWidth="604.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="201.0" prefHeight="501.0" prefWidth="604.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="Visualizar Avances">
                <content>
@@ -119,7 +119,7 @@
                               <DatePicker fx:id="advancementStartDate" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Fecha de entrega: " GridPane.rowIndex="2" />
                               <DatePicker fx:id="advancementDeadline" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label text="Proyecto: " GridPane.rowIndex="3" />
+                              <Label text="Asignar proyecto: " GridPane.rowIndex="3" />
                               <ComboBox fx:id="comboProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Descripción: " GridPane.rowIndex="4" />
                               <TextArea fx:id="advancementDescription" prefHeight="92.0" prefWidth="279.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -140,7 +140,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <GridPane layoutX="77.0" layoutY="87.0" prefHeight="295.0" prefWidth="450.0">
+                        <GridPane layoutX="48.0" layoutY="87.0" prefHeight="295.0" prefWidth="507.0">
                            <columnConstraints>
                               <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="199.7063526288902" minWidth="10.0" prefWidth="151.17721074836888" />
                               <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="310.58973073621394" minWidth="10.0" prefWidth="298.23671583869134" />
@@ -156,34 +156,21 @@
                            <children>
                               <Label text="Avance a modificar: " />
                               <TextField fx:id="advancementToModify" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" />
-                              <Label text="Nombre del avance: " GridPane.rowIndex="1" />
+                              <Label text="Nuevo nombre del avance: " GridPane.rowIndex="1" />
                               <TextField fx:id="newAdvancementName" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label text="Fecha de inicio: " GridPane.rowIndex="2" />
+                              <Label text="Nueva fecha de inicio: " GridPane.rowIndex="2" />
                               <DatePicker fx:id="newAdvancementStartDate" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label text="Fecha de entrega: " GridPane.rowIndex="3" />
+                              <Label text="Nueva fecha de entrega: " GridPane.rowIndex="3" />
                               <DatePicker fx:id="newAdvancementDeadline" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Label text="Proyecto: " GridPane.rowIndex="4" />
+                              <Label text="Asignar proyecto: " GridPane.rowIndex="4" />
                               <ComboBox fx:id="comboNewProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <Label text="Descripción: " GridPane.rowIndex="5" />
+                              <Label text="Nueva descripción: " GridPane.rowIndex="5" />
                               <TextArea fx:id="newAdvancementDescription" prefHeight="92.0" prefWidth="279.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                            </children>
                         </GridPane>
                         <Button layoutX="440.0" layoutY="400.0" mnemonicParsing="false" onAction="#modifyAdvancementButtonAction" text="Modificar" />
                      </children>
                   </AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Cronogramas">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#334b49" height="50.0" stroke="#334b49" strokeType="INSIDE" width="604.0" />
-                        <Label layoutX="14.0" layoutY="16.0" text="Cronogramas de avance" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                     </children></AnchorPane>
                </content>
             </Tab>
          </tabs>

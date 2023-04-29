@@ -3,17 +3,20 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.AccessAccountDAO;
-import mx.uv.fei.dao.ProfessorDAO;
-import mx.uv.fei.dao.StudentDAO;
 import mx.uv.fei.logic.AccessAccount;
 import mx.uv.fei.logic.Professor;
 import mx.uv.fei.logic.Student;
 
 import java.io.IOException;
+import java.security.Timestamp;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 public class AccessAccountManagementController {
@@ -40,6 +43,10 @@ public class AccessAccountManagementController {
     @FXML
     private GridPane gridPaneStudent;
     @FXML
+    private GridPane gridPaneNewProfessor;
+    @FXML
+    private GridPane gridPaneNewStudent;
+    @FXML
     private ComboBox<String> comboBoxDegree;
     @FXML
     private TextField textFieldStudentId;
@@ -57,6 +64,22 @@ public class AccessAccountManagementController {
     private TextField textFieldProfessorEmail;
     @FXML
     private TextField textFieldNewUsername;
+    @FXML
+    private TextField textFieldNewStudentId;
+    @FXML
+    private TextField textFieldNewStudentName;
+    @FXML
+    private TextField textFieldNewStudentLastName;
+    @FXML
+    private TextField textFieldNewStudentEmail;
+    @FXML
+    private TextField textFieldNewProfessorName;
+    @FXML
+    private TextField textFieldNewProfessorLastName;
+    @FXML
+    private ComboBox<String> comboBoxNewProfessorDegree;
+    @FXML
+    private TextField textFieldNewProfessorEmail;
     private final static ObservableList<String> observableListComboItemsUserType =
             FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
     private final static ObservableList<String> observableListComboItemsFilter =
@@ -75,19 +98,27 @@ public class AccessAccountManagementController {
 
     @FXML
     private void buttonSaveAction() throws SQLException {
-        System.out.println("entra");
         if (areAddUserFieldsValid()) {
-            System.out.println("son validos");
+            AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+            AccessAccount accessAccount = new AccessAccount();
+            accessAccount.setUsername(textFieldUsername.getText());
+            accessAccount.setUserPassword(passwordFieldPassword.getText());
+            accessAccount.setUserType(comboBoxUserType.getValue());
             if (gridPaneStudent.isVisible()) {
-                addAccessAccount();
-                addStudent();
+                Student student = new Student();
+                student.setStudentID(textFieldNewStudentId.getText());
+                student.setName(textFieldNewStudentName.getText());
+                student.setLastName(textFieldNewStudentLastName.getText());
+                student.setAcademicEmail(textFieldNewStudentEmail.getText());
+                accessAccountDAO.addStudentUserTransaction(accessAccount, student);
                 //try and alert
             } else if (gridPaneProfessor.isVisible()) {
-                addAccessAccount();
-                addProfessor();
-                //try and alert
-            } else {
-                addAccessAccount();
+                Professor professor = new Professor();
+                professor.setProfessorName(textFieldProfessorName.getText());
+                professor.setProfessorLastName(textFieldProfessorLastName.getText());
+                professor.setProfessorDegree(comboBoxDegree.getValue());
+                professor.setProfessorEmail(textFieldProfessorEmail.getText());
+                accessAccountDAO.addProfessorUserTransaction(accessAccount, professor);
                 //try and alert
             }
             updateListView();
@@ -102,15 +133,32 @@ public class AccessAccountManagementController {
 
     @FXML
     private void buttonConfirmModificationAction() throws SQLException {
-        if (areModifyUserFieldsValid()) {
+        if (!areModifyUserFieldsValid()) {
+            //some alert
+        } else {
             AccessAccount accessAccount = new AccessAccount();
+            AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+            String usernameToModify = textFieldUserToModify.getText();
             accessAccount.setUsername(textFieldNewUsername.getText());
             accessAccount.setUserPassword(textFieldNewPassword.getText());
             accessAccount.setUserType(comboBoxUserTypeModify.getValue());
-            modifyAccessAccountAttributesByUsername(textFieldUserToModify.getText(), accessAccount);
-            //make it change on the foreign key
-        } else {
-            //somealert
+            if (gridPaneNewStudent.isVisible()) {
+                Student student = new Student();
+                student.setStudentID(textFieldNewStudentId.getText());
+                student.setName(textFieldNewStudentName.getText());
+                student.setLastName(textFieldNewStudentLastName.getText());
+                student.setAcademicEmail(textFieldNewStudentEmail.getText());
+                accessAccountDAO.modifyStudentUserTransaction(usernameToModify, accessAccount, student);
+            } else if (gridPaneNewProfessor.isVisible()) {
+                Professor professor = new Professor();
+                professor.setProfessorName(textFieldNewProfessorName.getText());
+                professor.setProfessorLastName(textFieldNewProfessorLastName.getText());
+                professor.setProfessorDegree(comboBoxNewProfessorDegree.getValue());
+                professor.setProfessorEmail(textFieldNewProfessorEmail.getText());
+                accessAccountDAO.modifyProfessorUserTransaction(usernameToModify, accessAccount, professor);
+            } else {
+                addAdminAccessAccount();
+            }
         }
     }
 
@@ -128,14 +176,14 @@ public class AccessAccountManagementController {
                 alert.setContentText("No se pueden eliminar los usuarios administrador");
                 alert.show();
             } else {
-                deleteUser();
+                deleteUser(username);
                 updateListView();
             }
         }
     }
 
     @FXML
-    private void handleUserTypeSelection() {
+    private void handleAddUserTypeSelection() {
         switch (comboBoxUserType.getValue()) {
             case "Profesor", "RepresentanteCA" -> {
                 gridPaneStudent.setVisible(false);
@@ -148,6 +196,24 @@ public class AccessAccountManagementController {
             default -> {
                 gridPaneProfessor.setVisible(false);
                 gridPaneStudent.setVisible(false);
+            }
+        }
+    }
+
+    @FXML
+    private void handleModifyUserTypeSelection() {
+        switch (comboBoxUserTypeModify.getValue()) {
+            case "Profesor", "RepresentanteCA" -> {
+                gridPaneNewProfessor.setVisible(true);
+                gridPaneNewStudent.setVisible(false);
+            }
+            case "Estudiante" -> {
+                gridPaneNewProfessor.setVisible(false);
+                gridPaneNewStudent.setVisible(true);
+            }
+            default -> {
+                gridPaneNewProfessor.setVisible(false);
+                gridPaneNewStudent.setVisible(false);
             }
         }
     }
@@ -228,20 +294,48 @@ public class AccessAccountManagementController {
     }
 
     private boolean areModifyUserFieldsValid() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        if (textFieldUserToModify.getText().isBlank() || textFieldNewPassword.getText().isBlank() || comboBoxUserTypeModify.getValue().isBlank()) {
-            alert.setTitle("Error en los campos");
-            alert.show();
-            return false;
-        } else {
-            if (textFieldUserToModify.getText().length() > MAX_LENGTH_USERNAME || textFieldNewPassword.getText().length() > MAX_LENGTH_PASSWORD) {
-                alert.setTitle("Límite de caracteres sobrepasado");
-                alert.setContentText("El campo usuario y contraseña deben tener menos de " + MAX_LENGTH_USERNAME + " caracteres");
-                alert.show();
+        if (gridPaneNewProfessor.isVisible()) {
+            if (textFieldUserToModify.getText().isBlank()
+                    || textFieldNewPassword.getText().isBlank()
+                    || comboBoxUserTypeModify.getValue().isBlank()
+                    || textFieldNewProfessorName.getText().isBlank()
+                    || textFieldNewProfessorLastName.getText().isBlank()
+                    || comboBoxNewProfessorDegree.getValue().isBlank()
+                    || textFieldNewProfessorEmail.getText().isBlank()) {
+                //alert campos vacios
+                return false;
+            } else if (textFieldUserToModify.getText().length() >= MAX_LENGTH_USERNAME
+                    || textFieldNewPassword.getText().length() >= MAX_LENGTH_PASSWORD
+                    || textFieldNewProfessorName.getText().length() >= MAX_LENGTH_NAME
+                    || textFieldNewProfessorLastName.getText().length() >= MAX_LENGTH_NAME
+                    || textFieldNewProfessorEmail.getText().length() >= MAX_LENGTH_EMAIL) {
+                //alert se sobrepaso el límite de caracteres
                 return false;
             } else {
                 return true;
             }
+        } else if (gridPaneNewStudent.isVisible()) {
+            if (textFieldUserToModify.getText().isBlank()
+                    || textFieldNewPassword.getText().isBlank()
+                    || comboBoxUserTypeModify.getValue().isBlank()
+                    || textFieldNewProfessorName.getText().isBlank()
+                    || textFieldNewProfessorLastName.getText().isBlank()
+                    || comboBoxNewProfessorDegree.getValue().isBlank()
+                    || textFieldNewProfessorEmail.getText().isBlank()) {
+                //alert campos vacios
+                return false;
+            } else if (textFieldUserToModify.getText().length() >= MAX_LENGTH_USERNAME
+                    || textFieldNewPassword.getText().length() >= MAX_LENGTH_PASSWORD
+                    || textFieldNewProfessorName.getText().length() >= MAX_LENGTH_NAME
+                    || textFieldNewProfessorLastName.getText().length() >= MAX_LENGTH_LASTNAME
+                    || textFieldNewProfessorEmail.getText().length() >= MAX_LENGTH_EMAIL) {
+                //alert limite sobrepasado
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
         }
     }
 
@@ -250,60 +344,24 @@ public class AccessAccountManagementController {
         return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("Administrador");
     }
 
-    private void addAccessAccount() throws SQLException {
+    private void addAdminAccessAccount() throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         AccessAccount accessAccount = new AccessAccount();
         accessAccount.setUsername(textFieldUsername.getText());
         accessAccount.setUserPassword(passwordFieldPassword.getText());
         accessAccount.setUserType(comboBoxUserType.getValue());
-        accessAccountDAO.addAccessAccount(accessAccount);
+        accessAccountDAO.addAdminAccessAccount(accessAccount);
     }
 
-    private void addStudent() { // can be moved to logic
-        StudentDAO studentDAO = new StudentDAO();
-        Student student = new Student();
-        student.setStudentID(textFieldStudentId.getText());
-        student.setName(textFieldStudentName.getText());
-        student.setLastName(textFieldStudentLastName.getText());
-        student.setAcademicEmail(textFieldStudentEmail.getText());
-        student.setUsername(textFieldUsername.getText());
-        try {
-            studentDAO.insertStudent(student);
-        } catch (SQLException sqlException) {
-            //some
-        }
-    }
-
-    private void addProfessor() { // can be moved to logic
-        Professor professor = new Professor();
-        ProfessorDAO professorDAO = new ProfessorDAO();
-        professor.setProfessorName(textFieldProfessorName.getText());
-        professor.setProfessorLastName(textFieldProfessorLastName.getText());
-        professor.setProfessorEmail(textFieldProfessorEmail.getText());
-        professor.setProfessorDegree(comboBoxDegree.getValue());
-        professor.setUsername(textFieldUsername.getText());
-        try {
-            professorDAO.addProfessor(professor);
-        } catch (SQLException sqlException) {
-            //some alert
-        }
-    }
-
-    private void modifyAccessAccountAttributesByUsername(String username, AccessAccount accessAccount) throws SQLException {
-        // can be moved to logic
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        accessAccountDAO.modifyAccessAccountByUsername(username, accessAccount);
-    }
-
-    private void deleteUser() throws SQLException { // can be moved to logic somewhat
+    private void deleteUser(String username) throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("¿Está seguro que desea eliminar al usuario " + listViewUsernames.getSelectionModel().getSelectedItem() + "?");
+        alert.setContentText("¿Está seguro que desea eliminar al usuario " + username + "?");
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isEmpty() || result.get() != ButtonType.OK) {
             alert.close();
         } else {
-            accessAccountDAO.deleteAccessAccountByUsername(listViewUsernames.getSelectionModel().getSelectedItem());
+            accessAccountDAO.deleteAccessAccountByUsername(username);
         }
     }
 

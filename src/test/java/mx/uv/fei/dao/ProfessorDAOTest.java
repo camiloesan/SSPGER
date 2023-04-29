@@ -21,7 +21,7 @@ class ProfessorDAOTest {
         accessAccount.setUserPassword("contrasenaJOOH");
         accessAccount.setUserType("profesor");
 
-        accessAccountDAO.addAccessAccount(accessAccount);
+        accessAccountDAO.addAdminAccessAccount(accessAccount);
     }
 
     @AfterEach
@@ -39,7 +39,6 @@ class ProfessorDAOTest {
         professor.setProfessorName("Jorge Octavio");
         professor.setProfessorLastName("Ocharan Hernandez");
         professor.setProfessorEmail("jocharan@uv.mx");
-        professor.setUserId(4);
 
         ProfessorDAO instance = new ProfessorDAO();
         int expectedResult = 1;
