@@ -12,7 +12,6 @@ import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 public class ViewProjectDetailsController {
     @FXML
@@ -45,17 +44,7 @@ public class ViewProjectDetailsController {
     private TextFlow textExpectedResults;
     @FXML
     private TextFlow textBibliography;
-    
-    private List<DetailedProject> detailedProject;
-    
-    //String transferReceptionWorkName = TransferProject.getReceptionWorkName();
-    
-    public void setDetailedProjectToSearch() {
-        
-        //Text RWName = new Text(transferReceptionWorkName);
-        //textReceptionWorkName.getChildren().add(RWName);
-    }
-    
+
     public String getReceptionWorkName() {
         return TransferProject.getReceptionWorkName();
     }
@@ -103,9 +92,7 @@ public class ViewProjectDetailsController {
     }
 
     public void initialize() throws SQLException {
-        //getReceptionWorkName();
         getDetailedProject();
-        setDetailedProjectToSearch();
     }
     
     public void actionProjects(MouseEvent mouseEvent) throws IOException {
