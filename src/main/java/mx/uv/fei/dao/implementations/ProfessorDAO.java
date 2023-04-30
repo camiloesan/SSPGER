@@ -15,7 +15,7 @@ public class ProfessorDAO implements IProfessor {
     @Override
     public int addProfessor(Professor professor) throws SQLException{
         int result;
-        String sqlQuery = "INSERT INTO Profesores (grado, nombre, apellidos, correoInstitucional, ID_usuario) VALUES (?,?,?,?,?)";
+        String sqlQuery = "INSERT INTO Profesores (grado, nombre, apellidos, correoInstitucional, nombreUsuario) VALUES (?,?,?,?,?)";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -25,7 +25,7 @@ public class ProfessorDAO implements IProfessor {
         preparedStatement.setString(2, professor.getProfessorName());
         preparedStatement.setString(3,professor.getProfessorLastName());
         preparedStatement.setString(4,professor.getProfessorEmail());
-        preparedStatement.setInt(5,professor.getUserId());
+        preparedStatement.setString(5, professor.getUsername());
 
         result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();

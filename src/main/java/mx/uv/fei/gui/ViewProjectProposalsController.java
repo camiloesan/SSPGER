@@ -103,14 +103,4 @@ public class ViewProjectProposalsController {
         }
         
     }
-    /*
-    public void openProjectDetails() throws IOException {
-        try {
-            ViewProjectDetailsController viewProjectDetailsController = (ViewProjectProposalsApp) fxmlLoader.getController();
-            ViewProjectProposalsApp.changeView("viewprojectdetails-view.fxml",800,600);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
-    */
 }

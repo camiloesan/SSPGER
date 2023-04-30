@@ -1,6 +1,5 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.AccessAccountDAO;
 import mx.uv.fei.logic.AccessAccount;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,12 +18,12 @@ class AccessAccountDAOTest {
         accessAccount.setUsername("dummy");
         accessAccount.setUserPassword("dummy");
         accessAccount.setUserType("profesor");
-        accessAccountDAO.addAccessAccount(accessAccount);
+        accessAccountDAO.addAdminAccessAccount(accessAccount);
         var accessAccount2 = new AccessAccount();
         accessAccount2.setUsername("dummy2");
         accessAccount2.setUserPassword("dummy2");
         accessAccount2.setUserType("profesor");
-        accessAccountDAO.addAccessAccount(accessAccount2);
+        accessAccountDAO.addAdminAccessAccount(accessAccount2);
     }
 
     @AfterEach
@@ -42,7 +41,7 @@ class AccessAccountDAOTest {
         accessAccount.setUserPassword("contrasenaBDMG");
         accessAccount.setUserType("Estudiante");
 
-        accessAccountDAO.addAccessAccount(accessAccount);
+        accessAccountDAO.addAdminAccessAccount(accessAccount);
     }
     @Test
     void testAddAccessAccountWrongUserType() {
@@ -51,7 +50,7 @@ class AccessAccountDAOTest {
         accessAccount.setUsername("dummy");
         accessAccount.setUserPassword("dummy");
         accessAccount.setUserType("car");
-        assertThrows(SQLTransientConnectionException.class, () -> accessAccountDAO.addAccessAccount(accessAccount));
+        assertThrows(SQLTransientConnectionException.class, () -> accessAccountDAO.addAdminAccessAccount(accessAccount));
     }
 
     @Test
@@ -61,7 +60,7 @@ class AccessAccountDAOTest {
         accessAccount.setUsername("dummy");
         accessAccount.setUserPassword("dummy");
         accessAccount.setUserType("profesor");
-        assertThrows(SQLException.class, () -> accessAccountDAO.addAccessAccount(accessAccount));
+        assertThrows(SQLException.class, () -> accessAccountDAO.addAdminAccessAccount(accessAccount));
     }
 
     @Test
@@ -71,7 +70,7 @@ class AccessAccountDAOTest {
         accessAccount.setUsername("1234567890123456");
         accessAccount.setUserPassword("12345");
         accessAccount.setUserType("administrador");
-        assertThrows(SQLException.class, () -> accessAccountDAO.addAccessAccount(accessAccount));
+        assertThrows(SQLException.class, () -> accessAccountDAO.addAdminAccessAccount(accessAccount));
     }
 
     @Test
@@ -81,47 +80,7 @@ class AccessAccountDAOTest {
         accessAccount.setUsername("dummy");
         accessAccount.setUserPassword("123456789012345678");
         accessAccount.setUserType("administrador");
-        assertThrows(SQLException.class, () -> accessAccountDAO.addAccessAccount(accessAccount));
-    }
-
-    @Test
-    void testModifyAccessAccountByUsernameAlreadyExists() {
-        var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy");
-        accessAccount.setUserType("profesor");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("dummy2", accessAccount));
-    }
-
-    @Test
-    void testModifyAccessAccountByUsernameTooLong() {
-        var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount();
-        accessAccount.setUsername("1234567890123456");
-        accessAccount.setUserPassword("dummy");
-        accessAccount.setUserType("profesor");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("dummy2", accessAccount));
-    }
-
-    @Test
-    void testModifyAccessAccountByUsernamePasswordTooLong() {
-        var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("123456789012345678");
-        accessAccount.setUserType("profesor");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("dummy2", accessAccount));
-    }
-
-    @Test
-    void testModifyAccessAccountByUsernameWrongUserType() {
-        var accessAccountDAO = new AccessAccountDAO();
-        var accessAccount = new AccessAccount();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy");
-        accessAccount.setUserType("car");
-        assertThrows(SQLException.class, () -> accessAccountDAO.modifyAccessAccountByUsername("dummy2", accessAccount));
+        assertThrows(SQLException.class, () -> accessAccountDAO.addAdminAccessAccount(accessAccount));
     }
 
     @Test
