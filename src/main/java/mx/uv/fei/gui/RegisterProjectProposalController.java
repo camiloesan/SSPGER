@@ -20,8 +20,6 @@ public class RegisterProjectProposalController {
     @FXML
     private ComboBox<String> comboAB;
     @FXML
-    private ComboBox<Integer> comboNRC;
-    @FXML
     private TextArea textAreaInvestigationProjectName;
     @FXML
     private ComboBox<String> comboLGAC;
@@ -57,7 +55,6 @@ public class RegisterProjectProposalController {
         fillReceptionWorkModalityCombo();
         fillStudentsCombo();
         fillABcombo();
-        fillNrcCombo();
     }
     
     public void fillLgacCombo() throws SQLException {
@@ -103,24 +100,15 @@ public class RegisterProjectProposalController {
         comboAB.setItems(academicBodyID);
     }
     
-    public void fillNrcCombo() throws SQLException {
-        ProjectDAO projectDAO = new ProjectDAO();
-        ObservableList<Integer> NRCs = FXCollections.observableArrayList();
-        List<Integer> NRCList = new ArrayList<>(projectDAO.getNRCs());
-        NRCs.addAll(NRCList);
-        
-        comboNRC.setItems(NRCs);
-    }
-    
     public boolean emptyFields() {
-        return comboAB.getValue() == null || textAreaInvestigationProjectName.getText().isBlank() ||
+        return comboAB.getValue() == null ||
                 comboLGAC.getValue() == null || textAreaInvestigationLine.getText().isBlank() ||
                 textFieldAproxDuration.getText().isBlank() || comboRecptionWorkModality.getValue() == null ||
                 textAreaReceptionWorkName.getText().isBlank() || textAreaRequisites.getText().isBlank() ||
                 comboDirectors.getValue() == null || comboCodirectors.getValue() == null ||
                 comboStudents.getValue() == null || textAreaInvestigationProjectDescription.getText().isBlank() ||
                 textAreaReceptionWorkDescription.getText().isBlank() || textAreaExpectedResults.getText().isBlank() ||
-                textAreaRecommendedBibliography.getText().isBlank() || comboNRC.getValue() == null;
+                textAreaRecommendedBibliography.getText().isBlank();
     }
     
     public boolean overSizeData() {
@@ -132,13 +120,13 @@ public class RegisterProjectProposalController {
     }
     
     public void clear() {
-        comboNRC.setValue(null);
         comboAB.setValue(comboAB.getPromptText());
         textAreaInvestigationProjectName.clear();
         comboLGAC.setValue(comboLGAC.getPromptText());
         textAreaInvestigationLine.clear();
         textFieldAproxDuration.clear();
         comboRecptionWorkModality.setValue(comboRecptionWorkModality.getPromptText());
+        textAreaReceptionWorkName.clear();
         textAreaRequisites.clear();
         comboDirectors.setValue(comboDirectors.getPromptText());
         comboCodirectors.setValue(comboCodirectors.getPromptText());
@@ -195,19 +183,21 @@ public class RegisterProjectProposalController {
         project.setAcademicBodyId(comboAB.getSelectionModel().getSelectedItem());
         project.setInvestigationProjectName(textAreaInvestigationProjectName.getText());
         project.setLGAC_Id(comboLGAC.getSelectionModel().getSelectedIndex() + 1);
-        project.setInvestigationProjectDescription(textAreaInvestigationLine.getText());
+        project.setInvestigationLine(textAreaInvestigationLine.getText());
         project.setApproximateDuration(textFieldAproxDuration.getText());
         project.setModalityId(comboRecptionWorkModality.getSelectionModel().getSelectedIndex() + 1);
         project.setReceptionWorkName(textAreaReceptionWorkName.getText());
         project.setRequisites(textAreaRequisites.getText());
-        project.setDirectorID(comboDirectors.getSelectionModel().getSelectedIndex() + 1);
-        project.setCodirectorID(comboCodirectors.getSelectionModel().getSelectedIndex() + 1);
+        project.setDirectorName(comboDirectors.getSelectionModel().getSelectedItem());
+        project.setCodirectorName(comboCodirectors.getSelectionModel().getSelectedItem());
         project.setStudentsParticipating(comboStudents.getSelectionModel().getSelectedItem());
         project.setInvestigationProjectDescription(textAreaInvestigationProjectDescription.getText());
         project.setReceptionWorkDescription(textAreaReceptionWorkDescription.getText());
         project.setExpectedResults(textAreaExpectedResults.getText());
         project.setRecommendedBibliography(textAreaRecommendedBibliography.getText());
-        project.setNRC(comboNRC.getSelectionModel().getSelectedItem());
+        
         projectDAO.addProject(project);
+        projectDAO.setDirectorIDtoProject(project);
+        projectDAO.setCodirectorIDtoProject(project);
     }
 }
