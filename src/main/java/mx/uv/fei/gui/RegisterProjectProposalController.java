@@ -9,7 +9,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
-import mx.uv.fei.logic.Professor;
 import mx.uv.fei.logic.Project;
 
 import java.sql.SQLException;
