@@ -1,5 +1,6 @@
-package mx.uv.fei.dao;
+package mx.uv.fei.dao.implementations;
 
+import mx.uv.fei.dao.contracts.IProject;
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.Project;
 import mx.uv.fei.logic.DetailedProject;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ProjectDAO implements IProject{
+public class ProjectDAO implements IProject {
     @Override
     public int addProject(Project project) throws SQLException {
         int result = 0;

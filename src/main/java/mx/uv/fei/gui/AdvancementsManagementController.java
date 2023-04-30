@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import mx.uv.fei.dao.AdvancementDAO;
-import mx.uv.fei.dao.ProjectDAO;
+import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.Advancement;
 
 import java.io.IOException;

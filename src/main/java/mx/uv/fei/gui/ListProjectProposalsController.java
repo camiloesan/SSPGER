@@ -1,11 +1,9 @@
 package mx.uv.fei.gui;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import mx.uv.fei.dao.ProjectDAO;
+import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.DetailedProject;
 
 import java.sql.SQLException;

@@ -1,5 +1,6 @@
 package mx.uv.fei.dao;
 
+import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.logic.Professor;
 import mx.uv.fei.logic.AccessAccount;
 import org.junit.jupiter.api.AfterEach;
