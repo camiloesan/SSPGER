@@ -63,6 +63,7 @@ public class LoginController {
                 MainStage.changeView("advancementsmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
                 break;
             case "RepresentanteCA":
+                MainStage.changeView("viewprojectproposals-view.fxml",800,600);
                 break;
         }
     }
