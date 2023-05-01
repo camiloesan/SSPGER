@@ -1,6 +1,5 @@
 package mx.uv.fei.gui;
 
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
