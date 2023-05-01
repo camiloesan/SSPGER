@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
+import javafx.stage.Modality;
 
 import mx.uv.fei.logic.AlertMessage;
 
@@ -32,6 +33,7 @@ public class DialogGenerator {
         }
         alert.setTitle("");
         alert.setContentText(alertMessage.getContent());
+        alert.initModality(Modality.APPLICATION_MODAL);
         alert.showAndWait();
     }
     
