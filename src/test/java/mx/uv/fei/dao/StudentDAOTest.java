@@ -1,5 +1,6 @@
 package mx.uv.fei.dao;
 
+import mx.uv.fei.dao.implementations.AccessAccountDAO;
 import mx.uv.fei.logic.AccessAccount;
 import mx.uv.fei.logic.Student;
 import org.junit.jupiter.api.AfterEach;
@@ -29,7 +30,7 @@ class StudentDAOTest {
        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         StudentDAO studentDAO = new StudentDAO();
 
-        accessAccountDAO.deleteAccessAccountByUsername("BDMG");
+        accessAccountDAO.deleteUserByUsername("BDMG");
         studentDAO.deleteStudent("ZS21013865");
     }
 

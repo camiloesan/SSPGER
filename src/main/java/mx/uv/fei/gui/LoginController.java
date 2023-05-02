@@ -4,8 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import mx.uv.fei.dao.AccessAccountDAO;
+import mx.uv.fei.dao.implementations.AccessAccountDAO;
 
+import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.logic.SessionDetails;
 import org.apache.log4j.Logger;
 
@@ -31,6 +32,7 @@ public class LoginController {
             alert.setTitle("Error con la base de datos");
             alert.setContentText("No se pudo conectar a la base de datos, inténtelo de nuevo más tarde");
             alert.show();
+            sqlException.printStackTrace();
             logger.error("Error en login: " + sqlException);
         }
     }

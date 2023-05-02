@@ -3,7 +3,7 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import mx.uv.fei.dao.AdvancementDAO;
+import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.Advancement;
 
@@ -159,7 +159,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
     @Override
     public void redirectToRequests() throws IOException {
-        MainStage.changeView("projectrequests-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override

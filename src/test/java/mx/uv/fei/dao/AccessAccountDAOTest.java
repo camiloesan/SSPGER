@@ -1,5 +1,6 @@
 package mx.uv.fei.dao;
 
+import mx.uv.fei.dao.implementations.AccessAccountDAO;
 import mx.uv.fei.logic.AccessAccount;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +30,8 @@ class AccessAccountDAOTest {
     @AfterEach
     void tearDown() throws SQLException {
         var accessAccountDAO = new AccessAccountDAO();
-        accessAccountDAO.deleteAccessAccountByUsername("dummy");
-        accessAccountDAO.deleteAccessAccountByUsername("dummy2");
+        accessAccountDAO.deleteUserByUsername("dummy");
+        accessAccountDAO.deleteUserByUsername("dummy2");
     }
     @Test
     void testAddAccessAccountSucces() throws SQLException {

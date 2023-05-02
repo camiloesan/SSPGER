@@ -1,6 +1,6 @@
-package mx.uv.fei.dao;
+package mx.uv.fei.dao.implementations;
 
-import javafx.scene.chart.PieChart;
+import mx.uv.fei.dao.contracts.IAccessAccount;
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.AccessAccount;
 import mx.uv.fei.logic.Professor;
@@ -27,6 +27,66 @@ public class AccessAccountDAO implements IAccessAccount {
         preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
+    }
+
+    @Override
+    public int transactionAddStudentUser(AccessAccount accessAccount, Student student) throws SQLException {
+        String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
+        String secondQuery = "insert into Estudiantes(matricula, nombre, apellidos, correoInstitucional, nombreUsuario) values (?,?,?,?,?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement firstPreparedStatement = connection.prepareStatement(firstQuery);
+            firstPreparedStatement.setString(1, accessAccount.getUsername());
+            firstPreparedStatement.setString(2, accessAccount.getUserPassword());
+            firstPreparedStatement.setString(3, accessAccount.getUserType());
+            PreparedStatement secondPreparedStatement = connection.prepareStatement(secondQuery);
+            secondPreparedStatement.setString(1, student.getStudentID());
+            secondPreparedStatement.setString(2, student.getName());
+            secondPreparedStatement.setString(3, student.getLastName());
+            secondPreparedStatement.setString(4, student.getAcademicEmail());
+            secondPreparedStatement.setString(5, accessAccount.getUsername());
+            firstPreparedStatement.executeUpdate();
+            secondPreparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException sqlException) {
+            connection.rollback();
+        } finally {
+            databaseManager.closeConnection();
+        }
+        return 0;
+    }
+
+    @Override
+    public int transactionAddProfessorUser(AccessAccount accessAccount, Professor professor) throws SQLException {
+        String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
+        String secondQuery = "insert into Profesores(nombre, apellidos, grado, correoInstitucional, nombreUsuario) values (?,?,?,?,?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement firstPreparedStatement = connection.prepareStatement(firstQuery);
+            firstPreparedStatement.setString(1, accessAccount.getUsername());
+            firstPreparedStatement.setString(2, accessAccount.getUserPassword());
+            firstPreparedStatement.setString(3, accessAccount.getUserType());
+            PreparedStatement secondPreparedStatement = connection.prepareStatement(secondQuery);
+            secondPreparedStatement.setString(1, professor.getProfessorName());
+            secondPreparedStatement.setString(2, professor.getProfessorLastName());
+            secondPreparedStatement.setString(3, professor.getProfessorDegree());
+            secondPreparedStatement.setString(4, professor.getProfessorEmail());
+            secondPreparedStatement.setString(5, accessAccount.getUsername());
+            firstPreparedStatement.executeUpdate();
+            secondPreparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException sqlException) {
+            connection.rollback();
+        } finally {
+            databaseManager.closeConnection();
+        }
+        return 0;
     }
 
     @Override
@@ -88,7 +148,7 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public void deleteAccessAccountByUsername(String username) throws SQLException {
+    public void deleteUserByUsername(String username) throws SQLException {
         String query = "delete from CuentasAcceso where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -137,8 +197,8 @@ public class AccessAccountDAO implements IAccessAccount {
     }
 
     @Override
-    public List<String> getListAccessAccounts() throws SQLException {
-        String query = "select nombreUsuario, tipoUsuario from CuentasAcceso";
+    public List<AccessAccount> getAccessAccountsList() throws SQLException {
+        String query = "select ID_usuario, nombreUsuario, tipoUsuario from CuentasAcceso";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -146,9 +206,13 @@ public class AccessAccountDAO implements IAccessAccount {
         ResultSet resultSet = preparedStatement.executeQuery();
         databaseManager.closeConnection();
 
-        List<String> accessAccountList = new ArrayList<>();
+        List<AccessAccount> accessAccountList = new ArrayList<>();
         while(resultSet.next()) {
-            accessAccountList.add(resultSet.getString("nombreUsuario"));
+            AccessAccount accessAccount = new AccessAccount();
+            accessAccount.setUserId(resultSet.getInt("ID_usuario"));
+            accessAccount.setUsername(resultSet.getString("nombreUsuario"));
+            accessAccount.setUserType(resultSet.getString("tipoUsuario"));
+            accessAccountList.add(accessAccount);
         }
 
         return accessAccountList;
@@ -171,67 +235,5 @@ public class AccessAccountDAO implements IAccessAccount {
         }
 
         return accessAccountList;
-    }
-
-    @Override
-    public int addStudentUserTransaction(AccessAccount accessAccount, Student student) throws SQLException {
-        String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
-        String secondQuery = "insert into Estudiantes(matricula, nombre, apellidos, correoInstitucional, nombreUsuario) values (?,?,?,?,?)";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement firstPreparedStatement = connection.prepareStatement(firstQuery);
-            firstPreparedStatement.setString(1, accessAccount.getUsername());
-            firstPreparedStatement.setString(2, accessAccount.getUserPassword());
-            firstPreparedStatement.setString(3, accessAccount.getUserType());
-            System.out.println("it does");
-            PreparedStatement secondPreparedStatement = connection.prepareStatement(secondQuery);
-            secondPreparedStatement.setString(1, student.getStudentID());
-            secondPreparedStatement.setString(2, student.getName());
-            secondPreparedStatement.setString(3, student.getLastName());
-            secondPreparedStatement.setString(4, student.getAcademicEmail());
-            secondPreparedStatement.setString(5, accessAccount.getUsername());
-            firstPreparedStatement.executeUpdate();
-            secondPreparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException sqlException) {
-            connection.rollback();
-        } finally {
-            databaseManager.closeConnection();
-        }
-        return 0;
-    }
-
-    @Override
-    public int addProfessorUserTransaction(AccessAccount accessAccount, Professor professor) throws SQLException {
-        String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
-        String secondQuery = "insert into Profesores(nombre, apellidos, grado, correoInstitucional, nombreUsuario) values (?,?,?,?,?)";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement firstPreparedStatement = connection.prepareStatement(firstQuery);
-            firstPreparedStatement.setString(1, accessAccount.getUsername());
-            firstPreparedStatement.setString(2, accessAccount.getUserPassword());
-            firstPreparedStatement.setString(3, accessAccount.getUserType());
-            System.out.println("it does");
-            PreparedStatement secondPreparedStatement = connection.prepareStatement(secondQuery);
-            secondPreparedStatement.setString(1, professor.getProfessorName());
-            secondPreparedStatement.setString(2, professor.getProfessorLastName());
-            secondPreparedStatement.setString(3, professor.getProfessorDegree());
-            secondPreparedStatement.setString(4, professor.getProfessorEmail());
-            secondPreparedStatement.setString(5, accessAccount.getUsername());
-            firstPreparedStatement.executeUpdate();
-            secondPreparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException sqlException) {
-            connection.rollback();
-        } finally {
-            databaseManager.closeConnection();
-        }
-        return 0;
     }
 }

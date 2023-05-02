@@ -90,7 +90,6 @@ public class ViewProjectProposalsController {
         if (listViewProjects.getSelectionModel().getSelectedItem() != null) {
             String receptionWorkName = listViewProjects.getSelectionModel().getSelectedItem();
             TransferProject.setReceptionWorkName(receptionWorkName);
-            
             MainStage.changeView("viewprojectdetails-view.fxml",1000,600);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));

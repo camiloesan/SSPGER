@@ -4,6 +4,7 @@ public class SessionDetails {
     private static SessionDetails instance;
     private String username;
     private String userType;
+    private String id;
     public static SessionDetails getInstance() {
         if (instance == null) {
             instance = new SessionDetails();
@@ -12,6 +13,7 @@ public class SessionDetails {
     }
     public SessionDetails(){}
     public void cleanSessionDetails() {
+        id = "";
         username = "";
         userType = "";
     }
@@ -30,5 +32,13 @@ public class SessionDetails {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

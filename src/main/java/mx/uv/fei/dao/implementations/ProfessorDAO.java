@@ -114,4 +114,22 @@ public class ProfessorDAO implements IProfessor {
         
         return professorsNames;
     }
+
+    @Override
+    public int getProfessorIdByUsername(String username) throws SQLException {
+        String query = "select ID_profesor from Profesores where nombreUsuario=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        int id = 0;
+        while (resultSet.next()) {
+            id = resultSet.getInt("ID_profesor");
+        }
+        databaseManager.closeConnection();
+
+        return id;
+    }
 }
