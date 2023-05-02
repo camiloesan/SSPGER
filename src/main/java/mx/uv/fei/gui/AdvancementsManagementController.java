@@ -153,8 +153,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
 
     @Override
-    public void redirectToEvidences() {
-
+    public void redirectToEvidences() throws IOException {
+        MainStage.changeView("professorevidences-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
