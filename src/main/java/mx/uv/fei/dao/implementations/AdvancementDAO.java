@@ -80,6 +80,26 @@ public class AdvancementDAO implements IAdvancement {
     }
 
     @Override
+    public List<Advancement> getListAdvancementName() throws SQLException {
+        String query = "SELECT nombre FROM Avances";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        List<Advancement> advancementNameList = new ArrayList<>();
+        while(resultSet.next()) {
+            Advancement advancement = new Advancement();
+            advancement.setAdvancementName(resultSet.getString("nombre"));
+            advancementNameList.add(advancement);
+        }
+
+        return advancementNameList;
+    }
+
+    @Override
     public int modifyAdvancementByName(String advancementName, Advancement advancement) throws SQLException {
         String query = "update Avances set nombre=(?), descripcion=(?), fechaInicio=(?), fechaEntrega=(?), ID_profesor=(?), ID_proyecto=(?) where nombre=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -108,6 +128,26 @@ public class AdvancementDAO implements IAdvancement {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, advancementName);
         int result = preparedStatement.executeUpdate();
+        databaseManager.closeConnection();
+
+        return result;
+    }
+
+    @Override
+    public String getAdvancementNameByID(int id) throws SQLException {
+        String query = "SELECT nombre FROM Avances WHERE ID_avance = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, id);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        String result = "";
+        while (resultSet.next()) {
+            result = resultSet.getString("nombre");
+        }
+
         databaseManager.closeConnection();
 
         return result;

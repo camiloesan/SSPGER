@@ -1,13 +1,12 @@
 package mx.uv.fei.dao;
 
+import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.logic.Evidence;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class EvidenceDAOTest {
 

@@ -1,4 +1,4 @@
-package mx.uv.fei.dao;
+package mx.uv.fei.dao.contracts;
 
 import mx.uv.fei.logic.Student;
 
@@ -8,4 +8,6 @@ import java.util.List;
 public interface IStudent {
     int insertStudent(Student student) throws SQLException;
     int  deleteStudent(String studentID) throws  SQLException;
+
+    String getNamebyStudentID(String studentID) throws SQLException;
 }

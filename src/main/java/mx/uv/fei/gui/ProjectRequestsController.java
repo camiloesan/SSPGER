@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import mx.uv.fei.dao.ProjectRequestDAO;
+import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.ProjectRequest;
 
 import java.io.IOException;

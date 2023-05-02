@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ProfessorEvidencesController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" layoutX="-3.0" stroke="BLACK" strokeType="INSIDE" width="201.0" />
+        <Label layoutX="56.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
+            <font>
+                <Font name="Cantarell Regular" size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="labelUsername" layoutX="32.0" layoutY="52.0" text="Nombre del profesor" textFill="WHITE">
+            <font>
+                <Font name="Cantarell Regular" size="14.0" />
+            </font>
+        </Label>
+        <Line endX="89.0" layoutX="110.0" layoutY="83.0" startX="-110.99998474121094" stroke="#f8f9fa" />
+        <Label layoutX="41.0" layoutY="137.0" text="Gestión de avances" textFill="WHITE">
+            <font>
+                <Font name="Cantarell Regular" size="14.0" />
+            </font>
+        </Label>
+        <Rectangle fx:id="optionAdvancements" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="6.0" layoutY="128.0" onMouseClicked="#redirectToAdvancementManagement" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+            <cursor>
+                <Cursor fx:constant="CLOSED_HAND" />
+            </cursor>
+        </Rectangle>
+        <Line endX="49.00086975097656" layoutX="125.0" layoutY="179.0" startX="-100.0" stroke="#f8f9fa" />
+        <Label layoutX="67.0" layoutY="207.0" text="Evidencias" textFill="WHITE">
+            <font>
+                <Font name="Cantarell Regular" size="14.0" />
+            </font>
+        </Label>
+        <Rectangle fx:id="optionEvidences" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="196.0" onMouseClicked="#redirectToEvidences" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0">
+            <cursor>
+                <Cursor fx:constant="CLOSED_HAND" />
+            </cursor>
+        </Rectangle>
+        <Line endX="49.00086975097656" layoutX="125.0" layoutY="248.0" startX="-100.0" stroke="#f8f9fa" />
+        <Label layoutX="67.0" layoutY="278.0" text="Proyectos" textFill="WHITE">
+            <font>
+                <Font name="Cantarell Regular" size="14.0" />
+            </font>
+        </Label>
+        <Rectangle fx:id="optionProjects" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="267.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+            <cursor>
+                <Cursor fx:constant="CLOSED_HAND" />
+            </cursor>
+        </Rectangle>
+        <Line endX="49.00086975097656" layoutX="125.0" layoutY="319.0" startX="-100.0" stroke="#f8f9fa" />
+        <Label layoutX="67.0" layoutY="346.0" text="Peticiones" textFill="WHITE">
+            <font>
+                <Font name="Cantarell Regular" size="14.0" />
+            </font>
+        </Label>
+        <Rectangle fx:id="optionRequests" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="335.0" onMouseClicked="#redirectToRequests" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
+            <cursor>
+                <Cursor fx:constant="CLOSED_HAND" />
+            </cursor>
+        </Rectangle>
+        <Line endX="49.00086975097656" layoutX="125.0" layoutY="387.0" startX="-100.0" stroke="#f8f9fa" />
+        <Label layoutX="14.0" layoutY="467.0" onMouseClicked="#actionLogOut" text="Cerrar Sesion" textFill="WHITE" underline="true">
+            <font>
+                <Font name="Cantarell Regular" size="14.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="CLOSED_HAND" />
+            </cursor>
+        </Label>
+        <TabPane layoutX="198.0" prefHeight="501.0" prefWidth="604.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Lista de Evidencias">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="412.0">
+                     <children>
+                        <Button layoutX="98.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#updateListViewEvidences" text="Actualizar lista" />
+                        <Button layoutX="384.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#fillEvidence" text="Mostrar Evidencia" />
+                        <ListView fx:id="listViewEvidencesName" layoutX="52.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Label layoutX="286.0" layoutY="141.0" text="Titulo:" />
+                        <Label layoutX="286.0" layoutY="174.0" text="Estado:" />
+                        <Label layoutX="286.0" layoutY="210.0" text="Calificacion:" />
+                        <Label layoutX="286.0" layoutY="243.0" text="Descripcion:" />
+                        <Label layoutX="286.0" layoutY="279.0" text="Avance:" />
+                        <Label layoutX="286.0" layoutY="317.0" text="Estudiante:" />
+                        <Label fx:id="labelTitleEvidence" layoutX="432.0" layoutY="141.0" opacity="0.0" text="titulo" />
+                        <Label fx:id="labelStatusEvidence" layoutX="432.0" layoutY="174.0" opacity="0.0" text="estado" />
+                        <Label fx:id="labelGradeEvidence" layoutX="432.0" layoutY="210.0" opacity="0.0" text="calificacion" />
+                        <Label fx:id="labelDescriptionEvidence" layoutX="432.0" layoutY="243.0" opacity="0.0" text="descripcion" />
+                        <Label fx:id="labelAdvancementEvidence" layoutX="432.0" layoutY="279.0" opacity="0.0" text="avance" />
+                        <Label fx:id="labelStudentEvidence" layoutX="432.0" layoutY="317.0" opacity="0.0" text="estudiante" />
+                     </children></AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Calificar evidencias">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>
