@@ -85,7 +85,6 @@ public class StudentAdvancementController implements IStudentNavigationBar {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-
     }
     @FXML
     public void fillAdvancementEvidence() {

@@ -137,7 +137,7 @@
                         <Label layoutX="41.0" layoutY="289.0" text="Numero de avance:" />
                         <Label layoutX="31.0" layoutY="356.0" text="Matricula estudiante:" />
                         <TextField fx:id="textFieldTitle" layoutX="221.0" layoutY="123.0" />
-                        <TextArea fx:id="textAreaDescription" layoutX="198.0" layoutY="178.0" prefHeight="90.0" prefWidth="370.0" />
+                        <TextArea fx:id="textAreaDescription" layoutX="198.0" layoutY="178.0" prefHeight="90.0" prefWidth="370.0" wrapText="true" />
                         <TextField fx:id="textFieldAdvancement" layoutX="221.0" layoutY="285.0" />
                         <TextField fx:id="textFieldStudent" layoutX="221.0" layoutY="352.0" />
                         <Button fx:id="addFileButton" layoutX="131.0" layoutY="55.0" mnemonicParsing="false" onMouseClicked="#onActionAddFileButton" text="Agregar archivo" />
