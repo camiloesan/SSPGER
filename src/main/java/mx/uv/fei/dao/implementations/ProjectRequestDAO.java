@@ -1,7 +1,7 @@
-package mx.uv.fei.dao;
+package mx.uv.fei.dao.implementations;
 
+import mx.uv.fei.dao.contracts.IProjectRequest;
 import mx.uv.fei.dataaccess.DatabaseManager;
-import mx.uv.fei.logic.Evidence;
 import mx.uv.fei.logic.ProjectRequest;
 
 import java.sql.Connection;

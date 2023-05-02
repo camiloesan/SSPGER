@@ -1,6 +1,7 @@
 package mx.uv.fei.dao;
 
 import mx.uv.fei.dao.implementations.AccessAccountDAO;
+import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.AccessAccount;
 import mx.uv.fei.logic.Student;
 import org.junit.jupiter.api.AfterEach;

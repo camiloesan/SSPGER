@@ -345,7 +345,7 @@ public class AccessAccountManagementController {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
 
         if(confirmedDeleteUser(username)) {
-            accessAccountDAO.deleteAccessAccountByUsername(username);
+            accessAccountDAO.deleteUserByUsername(username);
         }
     }
     

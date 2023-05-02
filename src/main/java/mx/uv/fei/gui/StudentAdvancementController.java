@@ -4,10 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import mx.uv.fei.dao.AccessAccountDAO;
-import mx.uv.fei.dao.AdvancementDAO;
-import mx.uv.fei.dao.EvidenceDAO;
-import mx.uv.fei.dao.StudentDAO;
+import mx.uv.fei.dao.implementations.AdvancementDAO;
+import mx.uv.fei.dao.implementations.EvidenceDAO;
+import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.Evidence;
 
 import java.io.File;

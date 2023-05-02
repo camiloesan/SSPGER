@@ -5,9 +5,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import mx.uv.fei.dao.AdvancementDAO;
-import mx.uv.fei.dao.EvidenceDAO;
-import mx.uv.fei.dao.StudentDAO;
+import mx.uv.fei.dao.implementations.AdvancementDAO;
+import mx.uv.fei.dao.implementations.EvidenceDAO;
+import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.Evidence;
 
 import java.io.IOException;
