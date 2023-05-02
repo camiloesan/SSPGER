@@ -7,9 +7,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Alert;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.DetailedProject;
 import mx.uv.fei.logic.TransferProject;
 
@@ -68,13 +69,9 @@ public class ViewProjectProposalsController {
         return comboProjectStates.getValue() == null;
     }
     
-    public void refreshFilteredList() throws SQLException{
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        
+    public void refreshFilteredList() throws SQLException {
         if (noFilterSelected()) {
-            alert.setTitle("Sin filtro");
-            alert.setContentText("Debe especificar un filtro");
-            alert.showAndWait();
+            DialogGenerator.getDialog(new AlertMessage("Se debe especificar un filtro", AlertStatus.WARNING));
         } else{
             if (Objects.equals(comboProjectStates.getSelectionModel().getSelectedItem(), ALL_COMBO_OPTION)) {
                 fillUnfilteredList();
@@ -89,18 +86,14 @@ public class ViewProjectProposalsController {
         }
     }
     
-    public void openProjectDetails() throws IOException{
+    public void openProjectDetails() throws IOException {
         if (listViewProjects.getSelectionModel().getSelectedItem() != null) {
             String receptionWorkName = listViewProjects.getSelectionModel().getSelectedItem();
             TransferProject.setReceptionWorkName(receptionWorkName);
             
-            ViewProjectProposalsApp.changeView("viewprojectdetails-view.fxml",1000,600);
+            MainStage.changeView("viewprojectdetails-view.fxml",1000,600);
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No selecciono un proyecto");
-            alert.setContentText("Seleccione un proyecto para ver los detalles");
-            alert.showAndWait();
+            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
         }
-        
     }
 }
