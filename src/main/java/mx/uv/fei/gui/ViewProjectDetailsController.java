@@ -1,6 +1,5 @@
 package mx.uv.fei.gui;
 
-import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
@@ -95,10 +94,10 @@ public class ViewProjectDetailsController {
         getDetailedProject();
     }
     
-    public void actionProjects(MouseEvent mouseEvent) throws IOException {
-        //ViewProjectProposalsApp.changeView("viewprojectproposals-view.fxml",800,600);
+    public void actionProjects() throws IOException {
+        MainStage.changeView("viewprojectproposals-view.fxml",800,600);
     }
     
-    public void actionProfessors(MouseEvent mouseEvent) {
+    public void actionProfessors() {
     }
 }
