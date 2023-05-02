@@ -1,4 +1,4 @@
-package mx.uv.fei.dao;
+package mx.uv.fei.dao.contracts;
 
 import mx.uv.fei.logic.Advancement;
 

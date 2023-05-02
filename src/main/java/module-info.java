@@ -12,6 +12,8 @@ module mx.uv.fei.gui {
     requires org.apache.logging.log4j.core;
     requires org.apache.logging.log4j;
 
+    opens mx.uv.fei.logic to javafx.fxml;
     opens mx.uv.fei.gui to javafx.fxml;
     exports mx.uv.fei.gui;
+    exports mx.uv.fei.logic;
 }
