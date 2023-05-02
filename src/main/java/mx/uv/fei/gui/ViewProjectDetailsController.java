@@ -96,7 +96,7 @@ public class ViewProjectDetailsController {
     }
     
     public void actionProjects(MouseEvent mouseEvent) throws IOException {
-        ViewProjectProposalsApp.changeView("viewprojectproposals-view.fxml",800,600);
+        //ViewProjectProposalsApp.changeView("viewprojectproposals-view.fxml",800,600);
     }
     
     public void actionProfessors(MouseEvent mouseEvent) {

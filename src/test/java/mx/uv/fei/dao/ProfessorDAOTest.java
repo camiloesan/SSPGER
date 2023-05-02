@@ -1,5 +1,6 @@
 package mx.uv.fei.dao;
 
+import mx.uv.fei.dao.implementations.AccessAccountDAO;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.logic.Professor;
 import mx.uv.fei.logic.AccessAccount;
@@ -29,7 +30,7 @@ class ProfessorDAOTest {
     void tearDown() throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
 
-        accessAccountDAO.deleteAccessAccountByUsername("ocharanJorgeO");
+        accessAccountDAO.deleteUserByUsername("ocharanJorgeO");
     }
 
     @Test

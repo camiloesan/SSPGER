@@ -1,20 +1,54 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
+import mx.uv.fei.dao.ProjectRequestDAO;
+import mx.uv.fei.logic.ProjectRequest;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
-    Rectangle optionRequests;
+    Label labelDescription;
+    @FXML
+    Text textMotive;
+    @FXML
+    TableView<ProjectRequest> tableViewRequests;
+    @FXML
+    Button buttonAccept;
+    @FXML
+    Button buttonReject;
 
     @FXML
     private void initialize() {
+        try {
+            fillTableViewProjectRequests();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+    }
 
+    @FXML
+    private void handleItemClick() {
+        labelDescription.setVisible(true);
+        buttonAccept.setVisible(true);
+        buttonReject.setVisible(true);
+        ProjectRequest projectRequest = tableViewRequests.getSelectionModel().getSelectedItem();
+        textMotive.setText(projectRequest.getDescription());
+    }
+
+    private void fillTableViewProjectRequests() throws SQLException {
+        TableColumn<ProjectRequest, String> studentIdColumn = new TableColumn<>("Matrícula");
+        studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        TableColumn<ProjectRequest, String> projectColumn = new TableColumn<>("Estado");
+        projectColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tableViewRequests.getColumns().addAll(studentIdColumn, projectColumn);
+        ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+        tableViewRequests.getItems().addAll(projectRequestDAO.getProjectRequestsListByProfessorId(Integer.parseInt(LoginController.sessionDetails.getId())));
     }
 
     @Override

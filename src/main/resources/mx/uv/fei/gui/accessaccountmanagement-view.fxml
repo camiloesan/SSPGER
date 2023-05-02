@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -59,16 +56,19 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="318.0">
                      <children>
-                        <ListView fx:id="listViewUsernames" layoutX="125.0" layoutY="113.0" prefHeight="282.0" prefWidth="240.0" />
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#334b49" height="50.0" stroke="#334b49" strokeType="INSIDE" width="604.0" />
                         <Label layoutX="14.0" layoutY="16.0" text="Vista general" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="comboBoxFilter" layoutX="186.0" layoutY="74.0" onAction="#handleUserTypeFilter" prefHeight="26.0" prefWidth="118.0" promptText="Filtrar" />
-                        <Button layoutX="406.0" layoutY="219.0" mnemonicParsing="false" onAction="#buttonDeleteAction" prefHeight="26.0" prefWidth="75.0" text="Eliminar" />
-                        <Button layoutX="406.0" layoutY="261.0" mnemonicParsing="false" onAction="#buttonModifyAction" text="Modificar" />
+                        <Button layoutX="443.0" layoutY="222.0" mnemonicParsing="false" onAction="#buttonDeleteAction" prefHeight="26.0" prefWidth="75.0" text="Eliminar" />
+                        <Button layoutX="443.0" layoutY="278.0" mnemonicParsing="false" onAction="#buttonModifyAction" text="Modificar" />
+                        <TableView fx:id="tableViewAccessAccounts" layoutX="14.0" layoutY="60.0" prefHeight="397.0" prefWidth="360.0">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
                      </children>
                   </AnchorPane>
             </content>
@@ -178,7 +178,7 @@
                               <Label text="Nueva contraseña: " GridPane.rowIndex="2" />
                               <PasswordField fx:id="textFieldNewPassword" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="Tipo de usuario: " GridPane.rowIndex="3" />
-                              <ComboBox fx:id="comboBoxUserTypeModify" onAction="#handleModifyUserTypeSelection" prefWidth="150.0" promptText="Tipo de usuario" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <ComboBox fx:id="comboBoxUserTypeToModify" onAction="#handleModifyUserTypeSelection" prefWidth="150.0" promptText="Tipo de usuario" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Nuevo nombre de usuario: " GridPane.rowIndex="1" />
                               <TextField fx:id="textFieldNewUsername" disable="true" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
@@ -228,29 +228,6 @@
                            </children>
                         </GridPane>
                         <Button layoutX="454.0" layoutY="405.0" mnemonicParsing="false" onAction="#buttonConfirmModificationAction" text="Confirmar" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab text="Usuarios">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#334b49" height="50.0" stroke="#334b49" strokeType="INSIDE" width="604.0" />
-                        <Label layoutX="14.0" layoutY="16.0" text="Usuarios" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <ScrollPane layoutY="50.0" prefHeight="421.0" prefWidth="604.0">
-                           <content>
-                              <VBox fx:id="vBoxUsers" alignment="CENTER_LEFT" fillWidth="false" prefHeight="418.0" prefWidth="583.0" spacing="35.0">
-                                 <padding>
-                                    <Insets bottom="50.0" left="50.0" top="50.0" />
-                                 </padding>
-                              </VBox>
-                           </content>
-                        </ScrollPane>
                      </children>
                   </AnchorPane>
               </content>

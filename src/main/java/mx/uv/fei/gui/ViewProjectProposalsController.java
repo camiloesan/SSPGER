@@ -94,7 +94,7 @@ public class ViewProjectProposalsController {
             String receptionWorkName = listViewProjects.getSelectionModel().getSelectedItem();
             TransferProject.setReceptionWorkName(receptionWorkName);
             
-            ViewProjectProposalsApp.changeView("viewprojectdetails-view.fxml",1000,600);
+            //ViewProjectProposalsApp.changeView("viewprojectdetails-view.fxml",1000,600);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No selecciono un proyecto");
