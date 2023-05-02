@@ -55,19 +55,10 @@ public class LoginController {
         sessionDetails.setUsername(textFieldUser.getText());
         sessionDetails.setUserType(userType);
         switch (userType) {
-            case "Administrador":
-                MainStage.changeView("accessaccountmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
-                break;
-            case "Estudiante":
-                MainStage.changeView("studentadvancement-view.fxml", 800, 500 + HEIGHT_OFFSET);
-                break;
-            case "Profesor":
-                ProfessorDAO professorDAO = new ProfessorDAO();
-                sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
-                MainStage.changeView("advancementsmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
-                break;
-            case "RepresentanteCA":
-                break;
+            case "Administrador" -> MainStage.changeView("accessaccountmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
+            case "Estudiante" -> MainStage.changeView("studentadvancement-view.fxml", 800, 500 + HEIGHT_OFFSET);
+            case "Profesor" -> MainStage.changeView("advancementsmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
+            case "RepresentanteCA" -> MainStage.changeView("viewprojectproposals-view.fxml", 800, 600);
         }
     }
 }
