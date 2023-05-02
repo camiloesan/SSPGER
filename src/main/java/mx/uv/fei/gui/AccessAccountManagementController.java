@@ -343,7 +343,6 @@ public class AccessAccountManagementController {
 
     private void deleteUser(String username) throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-
         if(confirmedDeleteUser(username)) {
             accessAccountDAO.deleteUserByUsername(username);
         }
