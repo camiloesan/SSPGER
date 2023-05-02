@@ -3,7 +3,7 @@ package mx.uv.fei.logic;
 public class ProjectRequest {
     private int projectPetitionID;
     private int projectID;
-    private String studentTuition;
+    private String studentId;
     private String status;
     private String description;
 
@@ -23,12 +23,12 @@ public class ProjectRequest {
         this.projectID = projectID;
     }
 
-    public String getStudentTuition() {
-        return studentTuition;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudentTuition(String studentTuition) {
-        this.studentTuition = studentTuition;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getStatus() {

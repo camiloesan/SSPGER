@@ -1,5 +1,6 @@
 package mx.uv.fei.dao;
 
+import mx.uv.fei.dao.implementations.AccessAccountDAO;
 import mx.uv.fei.logic.AccessAccount;
 import mx.uv.fei.logic.Student;
 import org.junit.jupiter.api.AfterEach;
@@ -21,7 +22,7 @@ class StudentDAOTest {
         accessAccount.setUserPassword("contrasenaBDMG");
         accessAccount.setUserType("Estudiante");
 
-        accessAccountDAO.addAccessAccount(accessAccount);
+        accessAccountDAO.addAdminAccessAccount(accessAccount);
     }
 
     @AfterEach
@@ -29,7 +30,7 @@ class StudentDAOTest {
        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
         StudentDAO studentDAO = new StudentDAO();
 
-        accessAccountDAO.deleteAccessAccountByUsername("BDMG");
+        accessAccountDAO.deleteUserByUsername("BDMG");
         studentDAO.deleteStudent("ZS21013865");
     }
 
@@ -42,8 +43,6 @@ class StudentDAOTest {
         student.setName("Bryam Danae");
         student.setLastName("Morales García");
         student.setAcademicEmail("zs21013865@estudiantes.uv.mx");
-        student.setNRC(74293);
-        student.setUserID(5);
 
         int expectedResult = 1;
         int result = studentDAO.insertStudent(student);

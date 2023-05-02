@@ -1,5 +1,6 @@
 package mx.uv.fei.dao;
 
+import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.logic.Advancement;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ class AdvancementDAOTest {
         advancement.setAdvancementName("Avance1");
         advancement.setAdvancementDescription("descripcion");
         advancement.setAdvancementStartDate("2023-04-16");
-        advancement.setAdvancementEndDate("2023-05-16");
+        advancement.setAdvancementDeadline("2023-05-16");
         advancement.setProfessorId(1);
         advancement.setProjectId(1);
         int expectedResult = 1;

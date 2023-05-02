@@ -1,4 +1,4 @@
-package mx.uv.fei.dao;
+package mx.uv.fei.dao.contracts;
 
 import mx.uv.fei.logic.Professor;
 
@@ -11,4 +11,5 @@ public interface IProfessor {
     List<Professor> getAllProfessors() throws SQLException;
     int deleteProfessorByName(String professorNameToDelete) throws SQLException;
     List<String> getProfessorsNames() throws SQLException;
+    int getProfessorIdByUsername(String username) throws SQLException;
 }

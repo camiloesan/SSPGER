@@ -1,6 +1,5 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.IProjectRequest;
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.Evidence;
 import mx.uv.fei.logic.ProjectRequest;
@@ -22,7 +21,7 @@ public class ProjectRequestDAO implements IProjectRequest {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setInt(1, projectPetition.getProjectID());
-        preparedStatement.setString(2, projectPetition.getStudentTuition());
+        preparedStatement.setString(2, projectPetition.getStudentId());
         preparedStatement.setString(3, projectPetition.getDescription());
         result = preparedStatement.executeUpdate();
 
@@ -59,6 +58,32 @@ public class ProjectRequestDAO implements IProjectRequest {
 
         databaseManager.closeConnection();
         return result;
+    }
+
+    @Override
+    public List<ProjectRequest> getProjectRequestsListByProfessorId(int professorID) throws SQLException {
+        String query = "select Soli.ID_solicitudProyecto, Soli.matriculaEstudiante, Soli.estado, Soli.motivos, Soli.ID_proyecto from " +
+                "SolicitudesProyecto Soli JOIN Proyectos Proy Join Profesores Prof " +
+                "on Proy.ID_proyecto = Soli.ID_proyecto and Proy.ID_director = Prof.ID_profesor " +
+                "where ID_profesor = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, professorID);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<ProjectRequest> projectRequestList = new ArrayList<>();
+        while (resultSet.next()) {
+            ProjectRequest projectRequest = new ProjectRequest();
+            projectRequest.setProjectPetitionID(resultSet.getInt("ID_solicitudProyecto"));
+            projectRequest.setStudentId(resultSet.getString("matriculaEstudiante"));
+            projectRequest.setStatus(resultSet.getString("estado"));
+            projectRequest.setDescription(resultSet.getString("motivos"));
+            projectRequest.setProjectID(resultSet.getInt("ID_proyecto"));
+            projectRequestList.add(projectRequest);
+        }
+
+        return projectRequestList;
     }
 
 }
