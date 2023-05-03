@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.AdvancementsManagementController">
+<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.AdvancementsManagementController">
    <children>
       <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
          <children>
@@ -120,11 +120,27 @@
             </HBox>
          </children>
       </VBox>
-      <TabPane HBox.hgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE">
+      <TabPane tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
          <tabs>
             <Tab text="Visualizar Avances">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="412.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Visualizar avances" textFill="WHITE">
+                                 <font>
+                                    <Font name="Cantarell" size="13.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="16.0" top="14.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
                </content>
             </Tab>
             <Tab text="Programar Avance">
