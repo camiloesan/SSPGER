@@ -1,6 +1,7 @@
 package mx.uv.fei.gui;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -15,6 +16,8 @@ import mx.uv.fei.logic.AlertStatus;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.List;
+import java.util.ArrayList;
 
 public class AdvancementsManagementController implements IProfessorNavigationBar {
     @FXML
@@ -43,9 +46,23 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private Label labelUsername;
     @FXML
     private HBox hboxLogOutLabel;
+    @FXML
+    private ListView<String> listViewAdvancements;
     private int professorId;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_DESCRIPTION = 800;
+    
+    @FXML
+    private void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        professorId = advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
+        fillComboBoxProjectToAssign();
+        fillComboBoxNewProjectToAssign();
+        fillListViewAdvancements();
+        
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
 
     @FXML
     private void scheduleAdvancementButtonAction() {
@@ -138,16 +155,14 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         ProjectDAO projectDAO = new ProjectDAO();
         comboNewProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
     }
-
-    @FXML
-    private void initialize() throws SQLException {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+    
+    public void fillListViewAdvancements() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
+        listViewAdvancements.getItems().clear();
         professorId = advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
-        fillComboBoxProjectToAssign();
-        fillComboBoxNewProjectToAssign();
         
-        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+        List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementName(professorId));
+        advancementList.forEach(element -> listViewAdvancements.getItems().add(element.getAdvancementName()));
     }
 
     @Override
