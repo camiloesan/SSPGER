@@ -116,16 +116,28 @@
                               <Label text="Nombre del avance: " />
                               <TextField fx:id="advancementName" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" />
                               <Label text="Fecha de inicio: " GridPane.rowIndex="1" />
-                              <DatePicker fx:id="advancementStartDate" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="advancementStartDate" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></DatePicker>
                               <Label text="Fecha de entrega: " GridPane.rowIndex="2" />
-                              <DatePicker fx:id="advancementDeadline" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <DatePicker fx:id="advancementDeadline" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></DatePicker>
                               <Label text="Asignar proyecto: " GridPane.rowIndex="3" />
-                              <ComboBox fx:id="comboProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <ComboBox fx:id="comboProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></ComboBox>
                               <Label text="Descripción: " GridPane.rowIndex="4" />
                               <TextArea fx:id="advancementDescription" prefHeight="92.0" prefWidth="279.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
-                        <Button layoutX="440.0" layoutY="400.0" mnemonicParsing="false" onAction="#scheduleAdvancementButtonAction" text="Programar" />
+                        <Button layoutX="440.0" layoutY="400.0" mnemonicParsing="false" onAction="#scheduleAdvancementButtonAction" text="Programar">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                      </children>
                   </AnchorPane>
                </content>
@@ -159,16 +171,28 @@
                               <Label text="Nuevo nombre del avance: " GridPane.rowIndex="1" />
                               <TextField fx:id="newAdvancementName" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Nueva fecha de inicio: " GridPane.rowIndex="2" />
-                              <DatePicker fx:id="newAdvancementStartDate" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <DatePicker fx:id="newAdvancementStartDate" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></DatePicker>
                               <Label text="Nueva fecha de entrega: " GridPane.rowIndex="3" />
-                              <DatePicker fx:id="newAdvancementDeadline" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <DatePicker fx:id="newAdvancementDeadline" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></DatePicker>
                               <Label text="Asignar proyecto: " GridPane.rowIndex="4" />
-                              <ComboBox fx:id="comboNewProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <ComboBox fx:id="comboNewProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></ComboBox>
                               <Label text="Nueva descripción: " GridPane.rowIndex="5" />
                               <TextArea fx:id="newAdvancementDescription" prefHeight="92.0" prefWidth="279.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                            </children>
                         </GridPane>
-                        <Button layoutX="440.0" layoutY="400.0" mnemonicParsing="false" onAction="#modifyAdvancementButtonAction" text="Modificar" />
+                        <Button layoutX="440.0" layoutY="400.0" mnemonicParsing="false" onAction="#modifyAdvancementButtonAction" text="Modificar">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                      </children>
                   </AnchorPane>
                </content>
