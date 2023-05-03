@@ -11,7 +11,7 @@ import java.util.List;
 public class AdvancementDAO implements IAdvancement {
     @Override
     public int addAdvancement(Advancement advancement) throws SQLException {
-        String query = "insert into Avances(nombre, descripcion, fechaInicio, fechaEntrega, ID_profesor, ID_proyecto) values (?,?,?,?,?,?)";
+        String query = "insert into Avances(nombre, descripcion, fechaInicio, fechaEntrega, ID_proyecto) values (?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -20,8 +20,7 @@ public class AdvancementDAO implements IAdvancement {
         preparedStatement.setString(2, advancement.getAdvancementDescription());
         preparedStatement.setString(3, advancement.getAdvancementStartDate());
         preparedStatement.setString(4, advancement.getAdvancementDeadline());
-        preparedStatement.setInt(5, advancement.getProfessorId());
-        preparedStatement.setInt(6, advancement.getProjectId());
+        preparedStatement.setInt(5, advancement.getProjectId());
         int result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
 
@@ -46,7 +45,6 @@ public class AdvancementDAO implements IAdvancement {
             advancement.setAdvancementDescription(resultSet.getString("descripcion"));
             advancement.setAdvancementStartDate(resultSet.getString("fechainicio"));
             advancement.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
-            advancement.setProfessorId(resultSet.getInt("ID_profesor"));
             advancement.setProjectId(resultSet.getInt("ID_proyecto"));
             advancementDetail.add(advancement);
         }
@@ -71,7 +69,6 @@ public class AdvancementDAO implements IAdvancement {
             advancement.setAdvancementDescription(resultSet.getString("descripcion"));
             advancement.setAdvancementStartDate(resultSet.getString("fechainicio"));
             advancement.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
-            advancement.setProfessorId(resultSet.getInt("ID_profesor"));
             advancement.setProjectId(resultSet.getInt("ID_proyecto"));
             advancementList.add(advancement);
         }
@@ -110,7 +107,6 @@ public class AdvancementDAO implements IAdvancement {
         preparedStatement.setString(2, advancement.getAdvancementDescription());
         preparedStatement.setString(3, advancement.getAdvancementStartDate());
         preparedStatement.setString(4, advancement.getAdvancementDeadline());
-        preparedStatement.setInt(5, advancement.getProfessorId());
         preparedStatement.setInt(6, advancement.getProjectId());
         preparedStatement.setString(7, advancementName);
         int result = preparedStatement.executeUpdate();
