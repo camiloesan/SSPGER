@@ -104,8 +104,8 @@
                   <Text fx:id="textMotive" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="JUSTIFY" wrappingWidth="391.33477783203125" />
                   <HBox alignment="CENTER" prefHeight="47.0" prefWidth="457.0" spacing="30.0">
                      <children>
-                        <Button fx:id="buttonAccept" mnemonicParsing="false" text="Aceptar" visible="false" />
-                        <Button fx:id="buttonReject" mnemonicParsing="false" text="Rechazar" visible="false" />
+                        <Button fx:id="buttonAccept" mnemonicParsing="false" onMouseClicked="#acceptRequest" text="Aceptar" visible="false" />
+                        <Button fx:id="buttonReject" mnemonicParsing="false" onMouseClicked="#rejectRequest" text="Rechazar" visible="false" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="25.0" />
