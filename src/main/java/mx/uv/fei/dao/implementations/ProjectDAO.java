@@ -307,4 +307,22 @@ public class ProjectDAO implements IProject {
 
         return projectNamesList;
     }
+
+    public int getProjectIdByName(String projectName) throws SQLException {
+        String query = "select ID_proyecto from Proyectos where nombreProyectoInvestigación=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, projectName);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        int result = 0;
+        while (resultSet.next()) {
+            result = resultSet.getInt("ID_proyecto");
+        }
+        databaseManager.closeConnection();
+
+        return result;
+    }
 }

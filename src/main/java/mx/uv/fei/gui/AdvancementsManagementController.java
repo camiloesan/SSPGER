@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
+import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.Advancement;
 import mx.uv.fei.logic.AlertMessage;
@@ -67,18 +68,20 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private void scheduleAdvancementButtonAction() {
         if (areScheduleAdvancementFieldsValid()) {
-            try {
-                scheduleAdvancement();
-            } catch (SQLException sqlException) {
-                //alert
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea modificar el avance?");
+            if (response.get() == DialogGenerator.BUTTON_YES) {
+                try {
+                    scheduleAdvancement();
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage("No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
+                }
             }
-        } else {
-            //alert: todos los campos deben estar llenos
         }
     }
 
     private void scheduleAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
+        ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement = new Advancement();
         advancement.setAdvancementName(advancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(advancementStartDate.getValue())));
@@ -90,15 +93,15 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
     private boolean areScheduleAdvancementFieldsValid() {
         if (advancementName.getText().isBlank()
-                || advancementStartDate.getValue().toString().isBlank()
-                || advancementDeadline.getValue().toString().isBlank()
+                || advancementStartDate.getValue() == null
+                || advancementDeadline.getValue() == null
                 || comboProjectToAssign.getValue().isBlank()
                 || advancementDescription.getText().isBlank()) {
-            //alert all fields must be filled
+            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if (advancementName.getText().length() >= MAX_LENGTH_NAME
                 || advancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
-            //alert el limite de caracteres fue sobrepasado
+            DialogGenerator.getDialog(new AlertMessage("El límite de caracteres fue sobrepasado, inténtalo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;
@@ -111,8 +114,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             try {
                 modifyAdvancement();
             } catch (SQLException sqlException) {
-                //alert error bd
-                DialogGenerator.getDialog(new AlertMessage("Ha ocurrido un error con la base de datos", AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage("No se pudo modificar el avance", AlertStatus.ERROR));
             }
         }
     }
@@ -120,15 +122,15 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private boolean areModifyAdvancementFieldsValid() {
         if (advancementToModify.getText().isBlank()
                 || newAdvancementName.getText().isBlank()
-                || newAdvancementStartDate.getValue().toString().isBlank()
-                || newAdvancementDeadline.getValue().toString().isBlank()
+                || newAdvancementStartDate.getValue() == null
+                || newAdvancementDeadline.getValue() == null
                 || newAdvancementDescription.getText().isBlank()
                 || comboNewProjectToAssign.getValue().isBlank()) {
-            //alert
+            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if (newAdvancementName.getText().length() >= MAX_LENGTH_NAME
                 || newAdvancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
-            //alert
+            DialogGenerator.getDialog(new AlertMessage("El límite de caracteres fue sobrepasado, inténtalo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;
@@ -137,6 +139,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
     private void modifyAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
+        ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement = new Advancement();
         advancement.setAdvancementName(newAdvancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(newAdvancementStartDate.getValue())));
@@ -146,14 +149,22 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancementDAO.modifyAdvancementByName(advancementToModify.getText(), advancement);
     }
 
-    private void fillComboBoxProjectToAssign() throws SQLException {
+    private void fillComboBoxProjectToAssign() {
         ProjectDAO projectDAO = new ProjectDAO();
-        comboProjectToAssign.setItems((FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId))));
+        try {
+            comboProjectToAssign.setItems((FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId))));
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
+        }
     }
 
-    private void fillComboBoxNewProjectToAssign() throws SQLException {
+    private void fillComboBoxNewProjectToAssign() {
         ProjectDAO projectDAO = new ProjectDAO();
-        comboNewProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
+        try {
+            comboNewProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
+        }
     }
     
     public void fillListViewAdvancements() throws SQLException {
