@@ -12,6 +12,9 @@ public interface IProject {
     int setDirectorIDtoProject(Project projectDirectorName) throws SQLException;
     int setCodirectorIDtoProject(Project projectCodirectorName) throws SQLException;
     int updateProjectState(int projectId, String state) throws SQLException;
+
+    int getProjectIDByTitle(String title) throws SQLException;
+
     ArrayList<DetailedProject> getProjectsByState(String projectState) throws SQLException;
     List<DetailedProject> getAllProjects() throws SQLException; //similar to getProjectsByState but to get all projects no matter the status of the project
     DetailedProject getProjectInfo(String projectTitle) throws SQLException;

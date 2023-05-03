@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="700" minWidth="800" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ViewProjectProposalsController">
+<AnchorPane minHeight="700" minWidth="800" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ViewProjectProposalsController">
    <children>
        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="600.0" layoutX="-2.0" stroke="BLACK" strokeType="INSIDE" width="200.0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0" />
        <Label layoutX="56.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
@@ -90,6 +97,16 @@
             <Button fx:id="buttonActualizar" mnemonicParsing="false" onAction="#refreshFilteredList" text="Actualizar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="10.0" top="30.0" />
+               </GridPane.margin>
+            </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#acceptProject" prefHeight="26.0" prefWidth="145.0" text="Aceptar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="90.0" />
+               </GridPane.margin>
+            </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#declineProject" prefHeight="26.0" prefWidth="145.0" text="Rechazar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="150.0" />
                </GridPane.margin>
             </Button>
          </children>
