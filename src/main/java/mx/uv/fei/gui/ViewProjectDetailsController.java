@@ -1,7 +1,11 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -11,8 +15,11 @@ import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class ViewProjectDetailsController {
+    @FXML
+    private HBox hboxLogOutLabel;
     @FXML
     private Label labelAcademicBody;
     @FXML
@@ -92,6 +99,7 @@ public class ViewProjectDetailsController {
 
     public void initialize() throws SQLException {
         getDetailedProject();
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
     public void actionProjects() throws IOException {
@@ -99,5 +107,17 @@ public class ViewProjectDetailsController {
     }
     
     public void actionProfessors() {
+    }
+    
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+    
+    public void logOut() throws IOException {
+        if (confirmedLogOut()) {
+            LoginController.sessionDetails.cleanSessionDetails();
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+        }
     }
 }
