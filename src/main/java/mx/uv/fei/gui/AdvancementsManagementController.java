@@ -3,9 +3,14 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.Advancement;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -36,6 +41,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private ComboBox<String> comboProjectToAssign;
     @FXML
     private Label labelUsername;
+    @FXML
+    private HBox hboxLogOutLabel;
     private int professorId;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_DESCRIPTION = 800;
@@ -89,6 +96,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
                 modifyAdvancement();
             } catch (SQLException sqlException) {
                 //alert error bd
+                DialogGenerator.getDialog(new AlertMessage("Ha ocurrido un error con la base de datos", AlertStatus.ERROR));
             }
         }
     }
@@ -140,6 +148,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         professorId = advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
         fillComboBoxProjectToAssign();
         fillComboBoxNewProjectToAssign();
+        
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
 
     @Override
@@ -161,16 +171,17 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     public void redirectToRequests() throws IOException {
         MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
-
+    @Override
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+    
     @Override
     public void actionLogOut() throws IOException {
         LoginController.sessionDetails.cleanSessionDetails();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            alert.close();
-        } else {
+        if (confirmedLogOut()) {
+            LoginController.sessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
