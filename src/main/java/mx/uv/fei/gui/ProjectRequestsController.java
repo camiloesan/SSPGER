@@ -23,6 +23,8 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
     Button buttonReject;
 
+    private static String VALIDATION_REQUEST;
+
     @FXML
     private void initialize() {
         try {
@@ -41,6 +43,44 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         textMotive.setText(projectRequest.getDescription());
     }
 
+    @FXML
+    private void acceptRequest() {
+        ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+        VALIDATION_REQUEST = "Aceptado";
+        try {
+            projectRequestDAO.validateProjectRequest(VALIDATION_REQUEST, tableViewRequests
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getProjectPetitionID());
+        } catch (SQLException requestException) {
+            requestException.printStackTrace();
+        }
+        tableViewRequests.getItems().clear();
+        try {
+            fillTableViewProjectRequests();
+        } catch (SQLException tableException) {
+            tableException.printStackTrace();
+        }
+    }
+    @FXML
+    private void rejectRequest() {
+        ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+        VALIDATION_REQUEST = "Rechazado";
+        try {
+            projectRequestDAO.validateProjectRequest(VALIDATION_REQUEST,tableViewRequests
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getProjectPetitionID());
+        } catch (SQLException requestException) {
+            requestException.printStackTrace();
+        }
+        tableViewRequests.getItems().clear();
+        try {
+            fillTableViewProjectRequests();
+        } catch (SQLException tableException) {
+            tableException.printStackTrace();
+        }
+    }
     private void fillTableViewProjectRequests() throws SQLException {
         TableColumn<ProjectRequest, String> studentIdColumn = new TableColumn<>("Matrícula");
         studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("studentId"));
