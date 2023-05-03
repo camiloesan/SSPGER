@@ -169,7 +169,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     public void redirectToRequests() throws IOException {
         MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
-    @Override
+
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
