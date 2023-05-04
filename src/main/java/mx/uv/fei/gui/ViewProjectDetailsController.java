@@ -97,6 +97,16 @@ public class ViewProjectDetailsController {
         textBibliography.getChildren().add(bibliography);
     }
 
+    @FXML
+    public void deleteProject() {
+        ProjectDAO projectDAO = new ProjectDAO();
+        try {
+            projectDAO.deleteProjectByTitle(textReceptionWorkName.getAccessibleText());
+        } catch (SQLException deleteException) {
+            deleteException.printStackTrace();
+        }
+    }
+
     public void initialize() throws SQLException {
         getDetailedProject();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
