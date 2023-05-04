@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import mx.uv.fei.dao.implementations.AccessAccountDAO;
 
 import mx.uv.fei.dao.implementations.ProfessorDAO;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.SessionDetails;
 import org.apache.log4j.Logger;
 
@@ -41,10 +43,7 @@ public class LoginController {
         if (isLoginValid) {
             redirectToWindow();
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("El usuario o contraseña no son válidos");
-            alert.setContentText("Inténtelo de nuevo");
-            alert.showAndWait();
+            DialogGenerator.getDialog(new AlertMessage("El usuario o contraseña no son válidos", AlertStatus.WARNING));
         }
     }
 
@@ -56,11 +55,11 @@ public class LoginController {
         sessionDetails.setUserType(userType);
         switch (userType) {
             case "Administrador" -> MainStage.changeView("accessaccountmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
-            case "Estudiante" -> MainStage.changeView("studentadvancement-view.fxml", 800, 500 + HEIGHT_OFFSET);
+            case "Estudiante" -> MainStage.changeView("studentadvancement-view.fxml", 900, 600 + HEIGHT_OFFSET);
             case "Profesor" -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
-                MainStage.changeView("advancementsmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
+                MainStage.changeView("advancementsmanagement-view.fxml", 800, 600 + HEIGHT_OFFSET);
             }
             case "RepresentanteCA" -> MainStage.changeView("viewprojectproposals-view.fxml", 800, 600);
         }

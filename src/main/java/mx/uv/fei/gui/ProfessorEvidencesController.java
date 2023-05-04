@@ -122,7 +122,7 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
 
     @Override
     public void redirectToRequests() throws IOException {
-        MainStage.changeView("projectrequests-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override

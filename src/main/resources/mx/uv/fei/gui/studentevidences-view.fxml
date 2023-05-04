@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.StudentAdvancementController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.StudentEvidencesController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" layoutX="-2.0" stroke="BLACK" strokeType="INSIDE" width="201.0" />
       <Label layoutX="56.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
@@ -34,7 +34,7 @@
       </Label>
       <Rectangle fx:id="optionAdvancements" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" onMouseClicked="#redirectToAdvancements" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
          <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Rectangle>
       <Line endX="49.00086975097656" layoutX="125.0" layoutY="179.0" startX="-100.0" stroke="#f8f9fa" />
@@ -45,7 +45,7 @@
       </Label>
       <Rectangle fx:id="optionEvidences" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="196.0" onMouseClicked="#redirectToEvidences" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0">
          <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Rectangle>
       <Line endX="49.00086975097656" layoutX="125.0" layoutY="248.0" startX="-100.0" stroke="#f8f9fa" />
@@ -56,7 +56,7 @@
       </Label>
       <Rectangle fx:id="optionProjects" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="267.0" onMouseClicked="#redirectToProjects" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
          <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Rectangle>
       <Line endX="49.00086975097656" layoutX="125.0" layoutY="319.0" startX="-100.0" stroke="#f8f9fa" />
@@ -67,7 +67,7 @@
       </Label>
       <Rectangle fx:id="optionRequest" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="335.0" onMouseClicked="#redirectToRequest" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
          <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Rectangle>
       <Line endX="49.00086975097656" layoutX="125.0" layoutY="387.0" startX="-100.0" stroke="#f8f9fa" />
@@ -76,7 +76,7 @@
             <Font name="Cantarell Regular" size="14.0" />
          </font>
          <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
       <TabPane layoutX="198.0" prefHeight="501.0" prefWidth="603.0" tabClosingPolicy="UNAVAILABLE">

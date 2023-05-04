@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.ProjectRequest;
 
 import java.io.IOException;
@@ -22,25 +24,31 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     Button buttonAccept;
     @FXML
     Button buttonReject;
-
     private static String VALIDATION_REQUEST;
 
     @FXML
     private void initialize() {
+        TableColumn<ProjectRequest, String> studentIdColumn = new TableColumn<>("Matrícula");
+        studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        TableColumn<ProjectRequest, String> projectColumn = new TableColumn<>("Estado");
+        projectColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tableViewRequests.getColumns().addAll(studentIdColumn, projectColumn);
         try {
             fillTableViewProjectRequests();
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
     }
 
     @FXML
     private void handleItemClick() {
-        labelDescription.setVisible(true);
-        buttonAccept.setVisible(true);
-        buttonReject.setVisible(true);
-        ProjectRequest projectRequest = tableViewRequests.getSelectionModel().getSelectedItem();
-        textMotive.setText(projectRequest.getDescription());
+        if (tableViewRequests.getSelectionModel().getSelectedItem() != null) {
+            labelDescription.setVisible(true);
+            buttonAccept.setVisible(true);
+            buttonReject.setVisible(true);
+            ProjectRequest projectRequest = tableViewRequests.getSelectionModel().getSelectedItem();
+            textMotive.setText(projectRequest.getDescription());
+        }
     }
 
     @FXML
@@ -62,6 +70,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
             tableException.printStackTrace();
         }
     }
+
     @FXML
     private void rejectRequest() {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
@@ -81,12 +90,8 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
             tableException.printStackTrace();
         }
     }
+
     private void fillTableViewProjectRequests() throws SQLException {
-        TableColumn<ProjectRequest, String> studentIdColumn = new TableColumn<>("Matrícula");
-        studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("studentId"));
-        TableColumn<ProjectRequest, String> projectColumn = new TableColumn<>("Estado");
-        projectColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        tableViewRequests.getColumns().addAll(studentIdColumn, projectColumn);
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         tableViewRequests.getItems().addAll(projectRequestDAO.getProjectRequestsListByProfessorId(Integer.parseInt(LoginController.sessionDetails.getId())));
     }
@@ -102,8 +107,8 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     }
 
     @Override
-    public void redirectToEvidences() {
-
+    public void redirectToEvidences() throws IOException {
+        MainStage.changeView("professorevidences-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
@@ -111,16 +116,16 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     }
 
+    private boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+
     @Override
     public void actionLogOut() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            alert.close();
-        } else {
+        if(confirmedLogOut()) {
+            LoginController.sessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
-            //reset credentials
         }
     }
 }
