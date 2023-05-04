@@ -175,7 +175,7 @@
                                                 <Insets top="20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" text="Elimnar">
+                                          <Button mnemonicParsing="false" onAction="#deleteAdvancementButtonAction" text="Eliminar">
                                              <VBox.margin>
                                                 <Insets top="20.0" />
                                              </VBox.margin>

@@ -61,14 +61,35 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         fillComboBoxProjectToAssign();
         fillComboBoxNewProjectToAssign();
         fillListViewAdvancements();
-        
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+
+    @FXML
+    private void deleteAdvancementButtonAction() {
+        if (listViewAdvancements.getSelectionModel().getSelectedItem() != null) {
+            String advancementName = listViewAdvancements.getSelectionModel().getSelectedItem();
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
+            if (response.get() == DialogGenerator.BUTTON_YES) {
+                deleteAdvancement(listViewAdvancements.getSelectionModel().getSelectedItem());
+            }
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un avance para eliminarlo", AlertStatus.WARNING));
+        }
+    }
+
+    private void deleteAdvancement(String advancementName) {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        try {
+            advancementDAO.deleteAdvancementByName(advancementName);
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo eliminar el avance, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+        }
     }
 
     @FXML
     private void scheduleAdvancementButtonAction() {
         if (areScheduleAdvancementFieldsValid()) {
-            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea modificar el avance?");
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea añadir el avance?");
             if (response.get() == DialogGenerator.BUTTON_YES) {
                 try {
                     scheduleAdvancement();
@@ -111,10 +132,13 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private void modifyAdvancementButtonAction() {
         if (areModifyAdvancementFieldsValid()) {
-            try {
-                modifyAdvancement();
-            } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo modificar el avance", AlertStatus.ERROR));
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea modificar el avance?");
+            if (response.get() == DialogGenerator.BUTTON_YES) {
+                try {
+                    modifyAdvancement();
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage("Ocurrió un error, no se pudo modificar el avance", AlertStatus.ERROR));
+                }
             }
         }
     }
@@ -183,8 +207,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
 
     @Override
-    public void redirectToProjectManagement() {
-
+    public void redirectToProjectManagement() throws IOException {
+        MainStage.changeView("timeline-view.fxml", 700, 500 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
