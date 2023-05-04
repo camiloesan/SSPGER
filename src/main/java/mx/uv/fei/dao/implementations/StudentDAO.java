@@ -62,5 +62,27 @@ public class StudentDAO implements IStudent {
 
         return result;
     }
-
+    
+    @Override
+    public String getStudentIdByUsername(String username) throws SQLException {
+        String sqlQuery = "SELECT matricula FROM Estudiantes WHERE nombreUsuario = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        String studentID = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1,username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                studentID = resultSet.getString("matricula");
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            databaseManager.closeConnection();
+        }
+        return studentID;
+    }
 }

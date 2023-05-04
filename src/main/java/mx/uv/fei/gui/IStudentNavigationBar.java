@@ -11,7 +11,7 @@ public interface IStudentNavigationBar {
     @FXML
     void redirectToEvidences() throws IOException, SQLException;
     @FXML
-    void redirectToProjects();
+    void redirectToProjects() throws  IOException;
     @FXML
     void redirectToRequest();
     @FXML

@@ -24,3 +24,7 @@ ALTER TABLE Evidencias
 ALTER TABLE SolicitudesProyecto
     ADD CONSTRAINT FK_SolicitudesProyecto_Proyectos FOREIGN KEY (ID_proyecto) REFERENCES Proyectos (ID_proyecto) ON DELETE CASCADE,
     ADD CONSTRAINT FK_SolicitudesProyecto_Estudiantes FOREIGN KEY (matriculaEstudiante) REFERENCES Estudiantes (matricula) ON DELETE CASCADE;
+
+ALTER TABLE ProyectosEstudiantes
+    ADD CONSTRAINT FK_ProyectosEstudiantes_Proyectos FOREIGN KEY(ID_proyecto) REFERENCES Proyectos(ID_proyecto),
+    ADD CONSTRAINT FK_ProyectosEstudiantes_Estudiantes FOREIGN KEY(matriculaEstudiante) REFERENCES Estudiantes(matricula);

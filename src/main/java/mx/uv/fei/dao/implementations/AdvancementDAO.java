@@ -100,10 +100,35 @@ public class AdvancementDAO implements IAdvancement {
             databaseManager.closeConnection();
         }
         
-        //advancementNameList.forEach(element -> System.out.println(element.getAdvancementName()));
         return advancementNameList;
     }
-
+    
+    @Override
+    public List<Advancement> getListAdvancementNameStudent(String studentID) throws SQLException {
+        String sqlQuery = "SELECT A.nombre FROM Avances A INNER JOIN Proyectos P ON A.ID_proyecto = P.ID_proyecto INNER JOIN ProyectosEstudiantes PE ON PE.ID_proyecto = P.ID_proyecto WHERE PE.matriculaEstudiante = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        List<Advancement> advancementList = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1,studentID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            advancementList = new ArrayList<>();
+            while (resultSet.next()) {
+                Advancement advancementItem = new Advancement();
+                advancementItem.setAdvancementName(resultSet.getString("nombre"));
+                advancementList.add(advancementItem);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            databaseManager.closeConnection();
+        }
+        return advancementList;
+    }
+    
     @Override
     public int modifyAdvancementByName(String advancementName, Advancement advancement) throws SQLException {
         String query = "update Avances set nombre=(?), descripcion=(?), fechaInicio=(?), fechaEntrega=(?), ID_proyecto=(?) where nombre=(?)";
