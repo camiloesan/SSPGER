@@ -1,22 +1,23 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import mx.uv.fei.dao.implementations.AdvancementDAO;
-import mx.uv.fei.dao.implementations.StudentDAO;
-import mx.uv.fei.logic.Advancement;
+import mx.uv.fei.dao.implementations.ProjectDAO;
+import mx.uv.fei.logic.DetailedProject;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-public class StudentAdvancementsController implements IStudentNavigationBar{
+
+public class StudentViewProjectsController implements IStudentNavigationBar{
     @FXML
-    private ListView<String> listViewAdvancementsNames;
+    private ListView<String> listViewVerifiedProjects;
     @FXML
     private Button buttonActualizar;
     @FXML
@@ -24,24 +25,19 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     @FXML
     private HBox hboxLogOutLabel;
     
-    @FXML
-    private void initialize() throws SQLException {
-        fillListViewAdvancements();
+    private static final String VERIFIED_PROJECT_STATUS = "Verificado";
+    
+    public void initialize() throws SQLException {
+        fillListViewProjects();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    public void fillListViewAdvancements() throws SQLException {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        StudentDAO studentDAO = new StudentDAO();
-        String studentId = studentDAO.getStudentIdByUsername(LoginController.sessionDetails.getUsername());
+    public void fillListViewProjects() throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        listViewVerifiedProjects.getItems().clear();
         
-        listViewAdvancementsNames.getItems().clear();
-        List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNameStudent(studentId));
-        advancementList.forEach(element -> listViewAdvancementsNames.getItems().add(element.getAdvancementName()));
-    }
-    
-    public void viewAdvanvementDetails() {
-    
+        ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
+        proposedProjects.forEach(element -> listViewVerifiedProjects.getItems().add(element.getProjectTitle()));
     }
     
     @Override
@@ -50,13 +46,13 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     }
     
     @Override
-    public void redirectToEvidences() throws  IOException, SQLException {
+    public void redirectToEvidences() throws  IOException {
         MainStage.changeView("studentevidences-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
-    public void redirectToProjects() throws IOException{
-        MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
+    public void redirectToProjects() {
+    
     }
     
     @Override
