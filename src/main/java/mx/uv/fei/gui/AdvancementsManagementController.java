@@ -56,8 +56,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        professorId = advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
+        ProfessorDAO professorDAO = new ProfessorDAO();
+        professorId = professorDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
         fillComboBoxProjectToAssign();
         fillComboBoxNewProjectToAssign();
         fillListViewAdvancements();
@@ -86,7 +86,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancement.setAdvancementName(advancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(advancementStartDate.getValue())));
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(advancementDeadline.getValue())));
-        advancement.setProjectId(advancementDAO.getProjectIdByName(comboProjectToAssign.getValue()));
+        advancement.setProjectId(projectDAO.getProjectIdByName(comboProjectToAssign.getValue()));
         advancement.setAdvancementDescription(advancementDescription.getText());
         advancementDAO.addAdvancement(advancement);
     }
@@ -144,7 +144,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancement.setAdvancementName(newAdvancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(newAdvancementStartDate.getValue())));
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(newAdvancementDeadline.getValue())));
-        advancement.setProjectId(advancementDAO.getProjectIdByName(comboNewProjectToAssign.getValue()));
+        advancement.setProjectId(projectDAO.getProjectIdByName(comboNewProjectToAssign.getValue()));
         advancement.setAdvancementDescription(newAdvancementDescription.getText());
         advancementDAO.modifyAdvancementByName(advancementToModify.getText(), advancement);
     }
@@ -169,8 +169,9 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     
     public void fillListViewAdvancements() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
+        ProfessorDAO professorDAO = new ProfessorDAO();
         listViewAdvancements.getItems().clear();
-        professorId = advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
+        professorId = professorDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
         
         List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementName(professorId));
         advancementList.forEach(element -> listViewAdvancements.getItems().add(element.getAdvancementName()));
