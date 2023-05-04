@@ -325,4 +325,16 @@ public class ProjectDAO implements IProject {
 
         return projectNamesList;
     }
+    @Override
+    public int deleteProjectByTitle(String title) throws SQLException {
+        String query = "DELETE FROM Proyectos WHERE nombreTrabajoRecepcional=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, title);
+        int result = preparedStatement.executeUpdate();
+        databaseManager.closeConnection();
+        return result;
+    }
 }
