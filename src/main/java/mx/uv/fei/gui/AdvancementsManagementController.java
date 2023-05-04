@@ -1,8 +1,9 @@
 package mx.uv.fei.gui;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -13,9 +14,11 @@ import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.Advancement;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
+import mx.uv.fei.logic.TransferAdvancement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.List;
 import java.util.ArrayList;
@@ -49,6 +52,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private HBox hboxLogOutLabel;
     @FXML
     private ListView<String> listViewAdvancements;
+    @FXML
+    private Tab tabViewAdvancements;
     private int professorId;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_DESCRIPTION = 800;
@@ -200,10 +205,23 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementName(professorId));
         advancementList.forEach(element -> listViewAdvancements.getItems().add(element.getAdvancementName()));
     }
+    
+    public void openAdvancementDetails() throws IOException {
+        if (listViewAdvancements.getSelectionModel().getSelectedItem() != null) {
+            String advancementName = listViewAdvancements.getSelectionModel().getSelectedItem();
+            TransferAdvancement.setAdvancementName(advancementName);
+            
+            Parent detailsVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("paneadvancementdetails-view.fxml")));
+            
+            tabViewAdvancements.setContent(detailsVbox);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Selecciones un avance para ver los detalles.", AlertStatus.WARNING));
+        }
+    }
 
     @Override
-    public void redirectToAdvancementManagement() {
-
+    public void redirectToAdvancementManagement() throws IOException {
+        MainStage.changeView("advancementsmanagement-view.fxml",900,600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
