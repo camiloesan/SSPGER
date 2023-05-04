@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.TextFlow?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<HBox minHeight="600" minWidth="900.0" prefHeight="2000.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ViewProjectDetailsController">
+<HBox minHeight="600" minWidth="900.0" prefHeight="2000.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ViewProjectDetailsController">
    <children>
-      <VBox alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
+      <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
          <children>
             <Label text="SSPGER" textFill="WHITE">
                <font>
@@ -72,7 +64,24 @@
                   <Insets top="12.0" />
                </VBox.margin>
             </Line>
-         </children></VBox>
+            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT">
+               <Label fx:id="labelLogOut" alignment="BOTTOM_LEFT" onMouseClicked="#logOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
+                  <font>
+                     <Font name="Cantarell Regular" size="14.0" />
+                  </font>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
+                  <HBox.margin>
+                     <Insets bottom="10.0" left="10.0" />
+                  </HBox.margin>
+               </Label>
+            </HBox>
+         </children>
+      </VBox>
       <ScrollPane hbarPolicy="AS_NEEDED" HBox.hgrow="ALWAYS">
          <content>
             <VBox prefHeight="2100.0" prefWidth="700.0">
@@ -118,7 +127,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Nombre del proyecto de Investigación" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                        <Label text="Nombre del proyecto de Investigación VINCULACION/PLADEA-FEI:" textAlignment="RIGHT" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -127,11 +136,6 @@
                            <GridPane.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </GridPane.margin></TextFlow>
-                        <Label text="VINULACION/PLADEA-FEI" GridPane.halignment="LEFT" GridPane.rowIndex="1">
-                           <GridPane.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </GridPane.margin>
-                        </Label>
                         <Label text="LGAC que alimenta:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                            <VBox.margin>
                               <Insets top="10.0" />
