@@ -62,6 +62,13 @@ CREATE TABLE Proyectos (
     PRIMARY KEY(ID_proyecto)
 );
 
+CREATE TABLE ProyectosEstudiantes (
+	ID_ProyectoEstudiante int not null auto_increment,
+	ID_proyecto int not null,
+	matriculaEstudiante varchar(10) not null,
+	PRIMARY KEY(ID_ProyectoEstudiante)
+);
+
 CREATE TABLE ModalidadesTR(
 	ID_modalidadTR int not null auto_increment,
 	modalidadTR enum('Monografía','Revisión Multivocal de la Literatura','Revisión Sistemática de la Literatura','Tesis','Trabajo Práctico-Técnico'),
