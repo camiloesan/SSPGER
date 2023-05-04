@@ -15,7 +15,7 @@ import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class StudentAdvancementController implements IStudentNavigationBar {
+public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
     private Label labelTitleEvidence;
     @FXML
@@ -53,7 +53,7 @@ public class StudentAdvancementController implements IStudentNavigationBar {
 
     @Override
     public void redirectToAdvancements() throws IOException {
-        MainStage.changeView("studentadvancement-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
@@ -231,18 +231,18 @@ public class StudentAdvancementController implements IStudentNavigationBar {
             listViewEvidencesNamesToDelete.getItems().add(evidenceObject.getEvidenceTitle());
         }
     }
-
-
+    
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+    
     @Override
     public void actionLogOut() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            alert.close();
-        } else {
+        LoginController.sessionDetails.cleanSessionDetails();
+        if (confirmedLogOut()) {
+            LoginController.sessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
-            //reset credentials
         }
     }
 }
