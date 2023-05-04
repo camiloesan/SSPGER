@@ -8,7 +8,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.ProjectDAO;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.DetailedProject;
+import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,6 +41,16 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
         
         ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
         proposedProjects.forEach(element -> listViewVerifiedProjects.getItems().add(element.getProjectTitle()));
+    }
+    
+    public void openProjectDetails() throws IOException {
+        if (listViewVerifiedProjects.getSelectionModel().getSelectedItem() != null) {
+            String receptionWorkName = listViewVerifiedProjects.getSelectionModel().getSelectedItem();
+            TransferProject.setReceptionWorkName(receptionWorkName);
+            MainStage.changeView("studentviewprojectdetails-view.fxml",1000,600);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
+        }
     }
     
     @Override
