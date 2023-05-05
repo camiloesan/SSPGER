@@ -8,7 +8,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.DetailedProject;
 import mx.uv.fei.logic.TransferProject;
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class ViewProjectDetailsController {
+public class StudentViewProjectDetailsController implements IStudentNavigationBar{
     @FXML
     private HBox hboxLogOutLabel;
     @FXML
@@ -50,7 +49,12 @@ public class ViewProjectDetailsController {
     private TextFlow textExpectedResults;
     @FXML
     private TextFlow textBibliography;
-
+    
+    public void initialize() throws SQLException {
+        getDetailedProject();
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+    
     public String getReceptionWorkName() {
         return TransferProject.getReceptionWorkName();
     }
@@ -96,27 +100,25 @@ public class ViewProjectDetailsController {
         Text bibliography = new Text(detailedProject.getBibliography());
         textBibliography.getChildren().add(bibliography);
     }
-
-    @FXML
-    public void deleteProject() {
-        ProjectDAO projectDAO = new ProjectDAO();
-        try {
-            projectDAO.deleteProjectByTitle(textReceptionWorkName.getAccessibleText());
-        } catch (SQLException deleteException) {
-            deleteException.printStackTrace();
-        }
-    }
-
-    public void initialize() throws SQLException {
-        getDetailedProject();
-        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    
+    @Override
+    public void redirectToAdvancements() throws IOException {
+        MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
     }
     
-    public void actionProjects() throws IOException {
-        MainStage.changeView("viewprojectproposals-view.fxml",800,600);
+    @Override
+    public void redirectToEvidences() throws  IOException, SQLException {
+        MainStage.changeView("studentevidences-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
     }
     
-    public void actionProfessors() {
+    @Override
+    public void redirectToProjects() throws IOException{
+        MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
+    }
+    
+    @Override
+    public void redirectToRequest() {
+    
     }
     
     public boolean confirmedLogOut() {
@@ -124,7 +126,9 @@ public class ViewProjectDetailsController {
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     
-    public void logOut() throws IOException {
+    @Override
+    public void actionLogOut() throws IOException {
+        LoginController.sessionDetails.cleanSessionDetails();
         if (confirmedLogOut()) {
             LoginController.sessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);

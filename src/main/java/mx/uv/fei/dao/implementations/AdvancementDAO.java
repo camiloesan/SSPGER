@@ -28,25 +28,29 @@ public class AdvancementDAO implements IAdvancement {
     }
 
     @Override
-    public List<Advancement> getAdvancementDetailByName(String advancementName) throws SQLException {
-        String query = "select * from Avances where nombre=(?)";
+    public Advancement getAdvancementDetailByName(String advancementName) throws SQLException {
+        String query = "select nombre, descripcion, fechaInicio, fechaEntrega from Avances where nombre=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, advancementName);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        databaseManager.closeConnection();
-
-        List<Advancement> advancementDetail = new ArrayList<>();
-        while (resultSet.next()) {
-            Advancement advancement = new Advancement();
-            advancement.setAdvancementName(resultSet.getString("nombre"));
-            advancement.setAdvancementDescription(resultSet.getString("descripcion"));
-            advancement.setAdvancementStartDate(resultSet.getString("fechainicio"));
-            advancement.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
-            advancement.setProjectId(resultSet.getInt("ID_proyecto"));
-            advancementDetail.add(advancement);
+        
+        Advancement advancementDetail = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, advancementName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            advancementDetail = new Advancement();
+            if (resultSet.next()) {
+                advancementDetail.setAdvancementName(resultSet.getString("nombre"));
+                advancementDetail.setAdvancementDescription(resultSet.getString("descripcion"));
+                advancementDetail.setAdvancementStartDate(resultSet.getString("fechaInicio"));
+                advancementDetail.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            databaseManager.closeConnection();
         }
 
         return advancementDetail;
@@ -54,7 +58,7 @@ public class AdvancementDAO implements IAdvancement {
 
     @Override
     public List<Advancement> getAdvancementListByProjectName(String projectName) throws SQLException {
-        String query = "select nombre, fechaInicio, fechaEntrega from Avances where ID_proyecto";
+        String query = "select nombre, descripcion, fechaInicio, fechaEntrega, ID_proyecto from Avances where ID_proyecto";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -100,10 +104,35 @@ public class AdvancementDAO implements IAdvancement {
             databaseManager.closeConnection();
         }
         
-        //advancementNameList.forEach(element -> System.out.println(element.getAdvancementName()));
         return advancementNameList;
     }
-
+    
+    @Override
+    public List<Advancement> getListAdvancementNameStudent(String studentID) throws SQLException {
+        String sqlQuery = "SELECT A.nombre FROM Avances A INNER JOIN Proyectos P ON A.ID_proyecto = P.ID_proyecto INNER JOIN ProyectosEstudiantes PE ON PE.ID_proyecto = P.ID_proyecto WHERE PE.matriculaEstudiante = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        List<Advancement> advancementList = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1,studentID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            advancementList = new ArrayList<>();
+            while (resultSet.next()) {
+                Advancement advancementItem = new Advancement();
+                advancementItem.setAdvancementName(resultSet.getString("nombre"));
+                advancementList.add(advancementItem);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            databaseManager.closeConnection();
+        }
+        return advancementList;
+    }
+    
     @Override
     public int modifyAdvancementByName(String advancementName, Advancement advancement) throws SQLException {
         String query = "update Avances set nombre=(?), descripcion=(?), fechaInicio=(?), fechaEntrega=(?), ID_proyecto=(?) where nombre=(?)";

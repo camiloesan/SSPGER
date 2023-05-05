@@ -1,8 +1,9 @@
 package mx.uv.fei.gui;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -13,9 +14,11 @@ import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.Advancement;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
+import mx.uv.fei.logic.TransferAdvancement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.List;
 import java.util.ArrayList;
@@ -49,6 +52,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private HBox hboxLogOutLabel;
     @FXML
     private ListView<String> listViewAdvancements;
+    @FXML
+    private Tab tabViewAdvancements;
     private int professorId;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_DESCRIPTION = 800;
@@ -56,19 +61,40 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        professorId = advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
+        ProfessorDAO professorDAO = new ProfessorDAO();
+        professorId = professorDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
         fillComboBoxProjectToAssign();
         fillComboBoxNewProjectToAssign();
         fillListViewAdvancements();
-        
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+
+    @FXML
+    private void deleteAdvancementButtonAction() {
+        if (listViewAdvancements.getSelectionModel().getSelectedItem() != null) {
+            String advancementName = listViewAdvancements.getSelectionModel().getSelectedItem();
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
+            if (response.get() == DialogGenerator.BUTTON_YES) {
+                deleteAdvancement(listViewAdvancements.getSelectionModel().getSelectedItem());
+            }
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un avance para eliminarlo", AlertStatus.WARNING));
+        }
+    }
+
+    private void deleteAdvancement(String advancementName) {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        try {
+            advancementDAO.deleteAdvancementByName(advancementName);
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo eliminar el avance, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+        }
     }
 
     @FXML
     private void scheduleAdvancementButtonAction() {
         if (areScheduleAdvancementFieldsValid()) {
-            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea modificar el avance?");
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea añadir el avance?");
             if (response.get() == DialogGenerator.BUTTON_YES) {
                 try {
                     scheduleAdvancement();
@@ -86,7 +112,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancement.setAdvancementName(advancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(advancementStartDate.getValue())));
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(advancementDeadline.getValue())));
-        advancement.setProjectId(advancementDAO.getProjectIdByName(comboProjectToAssign.getValue()));
+        advancement.setProjectId(projectDAO.getProjectIDByTitle(comboProjectToAssign.getValue()));
         advancement.setAdvancementDescription(advancementDescription.getText());
         advancementDAO.addAdvancement(advancement);
     }
@@ -111,10 +137,13 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private void modifyAdvancementButtonAction() {
         if (areModifyAdvancementFieldsValid()) {
-            try {
-                modifyAdvancement();
-            } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo modificar el avance", AlertStatus.ERROR));
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea modificar el avance?");
+            if (response.get() == DialogGenerator.BUTTON_YES) {
+                try {
+                    modifyAdvancement();
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage("Ocurrió un error, no se pudo modificar el avance", AlertStatus.ERROR));
+                }
             }
         }
     }
@@ -144,7 +173,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancement.setAdvancementName(newAdvancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(newAdvancementStartDate.getValue())));
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(newAdvancementDeadline.getValue())));
-        advancement.setProjectId(advancementDAO.getProjectIdByName(comboNewProjectToAssign.getValue()));
+        advancement.setProjectId(projectDAO.getProjectIDByTitle(comboNewProjectToAssign.getValue()));
         advancement.setAdvancementDescription(newAdvancementDescription.getText());
         advancementDAO.modifyAdvancementByName(advancementToModify.getText(), advancement);
     }
@@ -169,21 +198,35 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     
     public void fillListViewAdvancements() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
+        ProfessorDAO professorDAO = new ProfessorDAO();
         listViewAdvancements.getItems().clear();
-        professorId = advancementDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
+        professorId = professorDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
         
         List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementName(professorId));
         advancementList.forEach(element -> listViewAdvancements.getItems().add(element.getAdvancementName()));
     }
-
-    @Override
-    public void redirectToAdvancementManagement() {
-
+    
+    public void openAdvancementDetails() throws IOException {
+        if (listViewAdvancements.getSelectionModel().getSelectedItem() != null) {
+            String advancementName = listViewAdvancements.getSelectionModel().getSelectedItem();
+            TransferAdvancement.setAdvancementName(advancementName);
+            
+            Parent detailsVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("paneadvancementdetails-view.fxml")));
+            
+            tabViewAdvancements.setContent(detailsVbox);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Selecciones un avance para ver los detalles.", AlertStatus.WARNING));
+        }
     }
 
     @Override
-    public void redirectToProjectManagement() {
+    public void redirectToAdvancementManagement() throws IOException {
+        MainStage.changeView("advancementsmanagement-view.fxml",900,600 + MainStage.HEIGHT_OFFSET);
+    }
 
+    @Override
+    public void redirectToProjectManagement() throws IOException {
+        MainStage.changeView("timeline-view.fxml", 700, 500 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override

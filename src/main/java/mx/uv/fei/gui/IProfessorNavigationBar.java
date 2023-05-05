@@ -8,7 +8,7 @@ public interface IProfessorNavigationBar {
     @FXML
     void redirectToAdvancementManagement() throws IOException;
     @FXML
-    void redirectToProjectManagement();
+    void redirectToProjectManagement() throws IOException;
     @FXML
     void redirectToEvidences() throws IOException;
     @FXML

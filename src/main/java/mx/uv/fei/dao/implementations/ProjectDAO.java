@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ProjectDAO implements IProject {
     @Override
@@ -104,6 +103,25 @@ public class ProjectDAO implements IProject {
         preparedStatement.setInt(2,projectId);
 
         result = preparedStatement.executeUpdate();
+        databaseManager.closeConnection();
+
+        return result;
+    }
+
+    @Override
+    public int getProjectIDByTitle(String title) throws SQLException {
+        String query = "SELECT ID_proyecto FROM Proyectos WHERE nombreTrabajoRecepcional = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, title);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        int result = 0;
+        while (resultSet.next()) {
+            result = resultSet.getInt("ID_proyecto");
+        }
+
         databaseManager.closeConnection();
 
         return result;
@@ -307,22 +325,16 @@ public class ProjectDAO implements IProject {
 
         return projectNamesList;
     }
-
-    public int getProjectIdByName(String projectName) throws SQLException {
-        String query = "select ID_proyecto from Proyectos where nombreProyectoInvestigación=(?)";
+    @Override
+    public int deleteProjectByTitle(String title) throws SQLException {
+        String query = "DELETE FROM Proyectos WHERE nombreTrabajoRecepcional=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, projectName);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        int result = 0;
-        while (resultSet.next()) {
-            result = resultSet.getInt("ID_proyecto");
-        }
+        preparedStatement.setString(1, title);
+        int result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
-
         return result;
     }
 }

@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
+import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.DetailedProject;
@@ -38,6 +39,7 @@ public class ViewProjectProposalsController {
     private static final String UNVERIFIED_PROJECT_STATE = "Por revisar";
     private static final String VERIFIED_PROJECT_STATE = "Verificado";
     private static final String DECLINED_PROJECT_STATE = "Declinado";
+    private static String PROJECT_VALIDATION;
  
     public void initialize() throws SQLException {
         fillProjectStateCombo();
@@ -93,6 +95,34 @@ public class ViewProjectProposalsController {
             MainStage.changeView("viewprojectdetails-view.fxml",1000,600);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
+        }
+    }
+
+    @FXML
+    private void acceptProject() {
+        ProjectDAO projectDAO = new ProjectDAO();
+        PROJECT_VALIDATION = "Verificado";
+        try {
+            projectDAO.updateProjectState(projectDAO.getProjectIDByTitle(listViewProjects
+                    .getSelectionModel()
+                    .getSelectedItem())
+                    , PROJECT_VALIDATION);
+        } catch (SQLException requestException) {
+            requestException.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void declineProject() {
+        ProjectDAO projectDAO = new ProjectDAO();
+        PROJECT_VALIDATION = "Declinado";
+        try {
+            projectDAO.updateProjectState(projectDAO.getProjectIDByTitle(listViewProjects
+                            .getSelectionModel()
+                            .getSelectedItem())
+                    , PROJECT_VALIDATION);
+        } catch (SQLException requestException) {
+            requestException.printStackTrace();
         }
     }
 }

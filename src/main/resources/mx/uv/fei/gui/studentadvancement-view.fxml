@@ -1,77 +1,180 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.StudentAdvancementController">
+<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.StudentAdvancementsController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="501.0" layoutX="-2.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-      <Label layoutX="56.0" layoutY="14.0" text="SSPGER" textFill="WHITE">
-         <font>
-            <Font name="Cantarell Regular" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="29.0" layoutY="52.0" text="Nombre del estudiante" textFill="WHITE">
-         <font>
-            <Font name="Cantarell Regular" size="14.0" />
-         </font>
-      </Label>
-      <Line endX="89.0" layoutX="110.0" layoutY="83.0" startX="-110.99998474121094" stroke="#f8f9fa" />
-      <Label layoutX="74.0" layoutY="137.0" text="Avances" textFill="WHITE">
-         <font>
-            <Font name="Cantarell Regular" size="14.0" />
-         </font>
-      </Label>
-      <Rectangle fx:id="optionAdvancements" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" onMouseClicked="#redirectToAdvancements" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0">
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Rectangle>
-      <Line endX="49.00086975097656" layoutX="125.0" layoutY="179.0" startX="-100.0" stroke="#f8f9fa" />
-      <Label layoutX="67.0" layoutY="207.0" text="Evidencias" textFill="WHITE">
-         <font>
-            <Font name="Cantarell Regular" size="14.0" />
-         </font>
-      </Label>
-      <Rectangle fx:id="optionEvidences" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="196.0" onMouseClicked="#redirectToEvidences" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Rectangle>
-      <Line endX="49.00086975097656" layoutX="125.0" layoutY="248.0" startX="-100.0" stroke="#f8f9fa" />
-      <Label layoutX="67.0" layoutY="278.0" text="Proyectos" textFill="WHITE">
-         <font>
-            <Font name="Cantarell Regular" size="14.0" />
-         </font>
-      </Label>
-      <Rectangle fx:id="optionProjects" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="267.0" onMouseClicked="#redirectToProjects" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Rectangle>
-      <Line endX="49.00086975097656" layoutX="125.0" layoutY="319.0" startX="-100.0" stroke="#f8f9fa" />
-      <Label layoutX="67.0" layoutY="346.0" text="Mi petición" textFill="WHITE">
-         <font>
-            <Font name="Cantarell Regular" size="14.0" />
-         </font>
-      </Label>
-      <Rectangle fx:id="optionRequest" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="335.0" onMouseClicked="#redirectToRequest" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Rectangle>
-      <Line endX="49.00086975097656" layoutX="125.0" layoutY="387.0" startX="-100.0" stroke="#f8f9fa" />
-      <Label layoutX="14.0" layoutY="467.0" onMouseClicked="#actionLogOut" text="Cerrar Sesion" textFill="WHITE" underline="true">
-         <font>
-            <Font name="Cantarell Regular" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Label>
+      <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
+         <children>
+            <Label text="SSPGER" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Regular" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin></Label>
+            <Label fx:id="labelUsername" text="Nombre del estudiante" textFill="WHITE">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></Label>
+            <Line endX="100.0" fill="#f8f9fa" startX="-100.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Line>
+            <StackPane fx:id="optionAdvancements" onMouseClicked="#redirectToAdvancements" prefHeight="40.0" prefWidth="180.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0" />
+               <Label layoutX="67.0" layoutY="207.0" text="Avances" textFill="WHITE">
+                  <font>
+                     <Font name="Cantarell Regular" size="14.0" />
+                  </font>
+               </Label>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </StackPane>
+            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </Line>
+            <StackPane fx:id="optionEvidences" onMouseClicked="#redirectToEvidences" prefHeight="40.0" prefWidth="180.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
+               <Label layoutX="67.0" layoutY="207.0" text="Evidencias" textFill="WHITE">
+                  <font>
+                     <Font name="Cantarell Regular" size="14.0" />
+                  </font>
+               </Label>
+               <VBox.margin>
+                  <Insets top="18.0" />
+               </VBox.margin>
+            </StackPane>
+            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </Line>
+            <StackPane fx:id="optionProjects" onMouseClicked="#redirectToProjects" prefHeight="40.0" prefWidth="180.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
+               <Label layoutX="67.0" layoutY="207.0" text="Proyectos" textFill="WHITE">
+                  <font>
+                     <Font name="Cantarell Regular" size="14.0" />
+                  </font>
+               </Label>
+               <VBox.margin>
+                  <Insets top="18.0" />
+               </VBox.margin>
+            </StackPane>
+            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </Line>
+            <StackPane fx:id="optionRequest" onMouseClicked="#redirectToRequest" prefHeight="40.0" prefWidth="180.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
+               <Label layoutX="67.0" layoutY="207.0" text="Mi Petición" textFill="WHITE">
+                  <font>
+                     <Font name="Cantarell Regular" size="14.0" />
+                  </font>
+               </Label>
+               <VBox.margin>
+                  <Insets top="18.0" />
+               </VBox.margin>
+            </StackPane>
+            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </Line>
+            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT">
+               <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
+                  <font>
+                     <Font name="Cantarell Regular" size="14.0" />
+                  </font>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
+                  <HBox.margin>
+                     <Insets bottom="10.0" left="10.0" />
+                  </HBox.margin>
+               </Label>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+         <children>
+            <HBox minHeight="76.0" prefHeight="76.0" prefWidth="699.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Avances" textFill="WHITE">
+                     <font>
+                        <Font name="Cantarell Regular" size="30.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="16.0" top="16.0" />
+                     </HBox.margin>
+                  </Label>
+               </children></HBox>
+            <GridPane VBox.vgrow="ALWAYS">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="0.0" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="490.0" prefWidth="490.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="400.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="60.0" minHeight="60.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Lista de avances" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Liberation Serif" size="19.0" />
+                     </font>
+                  </Label>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                     <children>
+                        <Button onAction="#fillListViewAdvancements" fx:id="buttonActualizar" minWidth="90.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Actualizar">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="buttonVerDetalles" minWidth="90.0" mnemonicParsing="false" text="Ver detalles">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <ListView fx:id="listViewAdvancementsNames" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children></VBox>
    </children>
-</AnchorPane>
+</HBox>
