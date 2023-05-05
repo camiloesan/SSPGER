@@ -1,6 +1,7 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -10,6 +11,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.DetailedProject;
 import mx.uv.fei.logic.TransferProject;
 
@@ -99,6 +102,7 @@ public class ViewProjectDetailsController {
 
     @FXML
     public void deleteProject() {
+
         ProjectDAO projectDAO = new ProjectDAO();
         try {
             projectDAO.deleteProjectByTitle(textReceptionWorkName.getAccessibleText());
