@@ -8,6 +8,9 @@ import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.Advancement;
+import mx.uv.fei.logic.TransferAdvancement;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,10 +20,6 @@ import java.util.Optional;
 public class StudentAdvancementsController implements IStudentNavigationBar{
     @FXML
     private ListView<String> listViewAdvancementsNames;
-    @FXML
-    private Button buttonActualizar;
-    @FXML
-    private Button buttonVerDetalles;
     @FXML
     private HBox hboxLogOutLabel;
     
@@ -40,8 +39,14 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
         advancementList.forEach(element -> listViewAdvancementsNames.getItems().add(element.getAdvancementName()));
     }
     
-    public void viewAdvanvementDetails() {
-    
+    public void viewAdvanvementDetails() throws IOException {
+        if (listViewAdvancementsNames.getSelectionModel().getSelectedItem() != null) {
+            String advancementName = listViewAdvancementsNames.getSelectionModel().getSelectedItem();
+            TransferAdvancement.setAdvancementName(advancementName);
+            MainStage.changeView("studentviewadvancementdetails-view.fxml",900,600);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Seleccione un avance para ver los detalles.", AlertStatus.WARNING));
+        }
     }
     
     @Override

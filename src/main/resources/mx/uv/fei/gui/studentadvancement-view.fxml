@@ -165,7 +165,7 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="buttonVerDetalles" minWidth="90.0" mnemonicParsing="false" text="Ver detalles">
+                        <Button onAction="#viewAdvanvementDetails" fx:id="buttonVerDetalles" minWidth="90.0" mnemonicParsing="false" text="Ver detalles">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
