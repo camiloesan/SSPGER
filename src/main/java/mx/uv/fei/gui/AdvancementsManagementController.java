@@ -76,6 +76,11 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
             if (response.get() == DialogGenerator.BUTTON_YES) {
                 deleteAdvancement(listViewAdvancements.getSelectionModel().getSelectedItem());
+                try {
+                    fillListViewAdvancements();
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la tabla", AlertStatus.WARNING));
+                }
             }
         } else {
             DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un avance para eliminarlo", AlertStatus.WARNING));
@@ -99,8 +104,14 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             if (response.get() == DialogGenerator.BUTTON_YES) {
                 try {
                     scheduleAdvancement();
+                    DialogGenerator.getDialog(new AlertMessage("Se ha programado el avance", AlertStatus.SUCCESS));
                 } catch (SQLException sqlException) {
                     DialogGenerator.getDialog(new AlertMessage("No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
+                }
+                try {
+                    fillListViewAdvancements();
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la tabla, inténtelo más tarde", AlertStatus.WARNING));
                 }
             }
         }
@@ -142,8 +153,14 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             if (response.get() == DialogGenerator.BUTTON_YES) {
                 try {
                     modifyAdvancement();
+                    DialogGenerator.getDialog(new AlertMessage("Se modificó el avance exitosamente", AlertStatus.SUCCESS));
                 } catch (SQLException sqlException) {
                     DialogGenerator.getDialog(new AlertMessage("Ocurrió un error, no se pudo modificar el avance", AlertStatus.ERROR));
+                }
+                try {
+                    fillListViewAdvancements();
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la tabla, inténtelo más tarde", AlertStatus.WARNING));
                 }
             }
         }
