@@ -107,7 +107,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancement.setAdvancementName(advancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(advancementStartDate.getValue())));
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(advancementDeadline.getValue())));
-        advancement.setProjectId(projectDAO.getProjectIdByName(comboProjectToAssign.getValue()));
+        advancement.setProjectId(projectDAO.getProjectIDByTitle(comboProjectToAssign.getValue()));
         advancement.setAdvancementDescription(advancementDescription.getText());
         advancementDAO.addAdvancement(advancement);
     }
@@ -168,7 +168,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancement.setAdvancementName(newAdvancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(newAdvancementStartDate.getValue())));
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(newAdvancementDeadline.getValue())));
-        advancement.setProjectId(projectDAO.getProjectIdByName(comboNewProjectToAssign.getValue()));
+        advancement.setProjectId(projectDAO.getProjectIDByTitle(comboNewProjectToAssign.getValue()));
         advancement.setAdvancementDescription(newAdvancementDescription.getText());
         advancementDAO.modifyAdvancementByName(advancementToModify.getText(), advancement);
     }

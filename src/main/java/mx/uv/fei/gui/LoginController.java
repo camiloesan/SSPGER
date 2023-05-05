@@ -7,9 +7,11 @@ import javafx.scene.control.TextField;
 import mx.uv.fei.dao.implementations.AccessAccountDAO;
 
 import mx.uv.fei.dao.implementations.ProfessorDAO;
+import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.SessionDetails;
+import mx.uv.fei.logic.Student;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -55,7 +57,11 @@ public class LoginController {
         sessionDetails.setUserType(userType);
         switch (userType) {
             case "Administrador" -> MainStage.changeView("accessaccountmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
-            case "Estudiante" -> MainStage.changeView("studentadvancement-view.fxml", 900, 600 + HEIGHT_OFFSET);
+            case "Estudiante" -> {
+                StudentDAO studentDAO = new StudentDAO();
+                sessionDetails.setId(studentDAO.getStudentIdByUsername(textFieldUser.getText()));
+                MainStage.changeView("studentadvancement-view.fxml", 900, 600 + HEIGHT_OFFSET);
+            }
             case "Profesor" -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));

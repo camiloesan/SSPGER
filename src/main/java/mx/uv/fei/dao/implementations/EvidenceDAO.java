@@ -177,4 +177,24 @@ public class EvidenceDAO implements IEvidence {
 
         return advancementNameList;
     }
+
+    @Override
+    public List<Evidence> getEvidenceListByStudent(String studentID) throws SQLException {
+        String query = "SELECT titulo, estado FROM Evidencias WHERE matriculaEstudiante = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, studentID);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Evidence> evidenceList = new ArrayList<>();
+        while (resultSet.next()) {
+            Evidence evidence = new Evidence();
+            evidence.setEvidenceTitle(resultSet.getString("titulo"));
+            evidence.setEvidenceStatus(resultSet.getString("estado"));
+            evidenceList.add(evidence);
+        }
+
+        return evidenceList;
+    }
 }

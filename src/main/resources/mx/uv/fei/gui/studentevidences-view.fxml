@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -34,7 +35,7 @@
       </Label>
       <Rectangle fx:id="optionAdvancements" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" onMouseClicked="#redirectToAdvancements" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Rectangle>
       <Line endX="49.00086975097656" layoutX="125.0" layoutY="179.0" startX="-100.0" stroke="#f8f9fa" />
@@ -45,7 +46,7 @@
       </Label>
       <Rectangle fx:id="optionEvidences" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="196.0" onMouseClicked="#redirectToEvidences" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0">
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Rectangle>
       <Line endX="49.00086975097656" layoutX="125.0" layoutY="248.0" startX="-100.0" stroke="#f8f9fa" />
@@ -56,7 +57,7 @@
       </Label>
       <Rectangle fx:id="optionProjects" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="267.0" onMouseClicked="#redirectToProjects" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Rectangle>
       <Line endX="49.00086975097656" layoutX="125.0" layoutY="319.0" startX="-100.0" stroke="#f8f9fa" />
@@ -67,7 +68,7 @@
       </Label>
       <Rectangle fx:id="optionRequest" arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="335.0" onMouseClicked="#redirectToRequest" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0">
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Rectangle>
       <Line endX="49.00086975097656" layoutX="125.0" layoutY="387.0" startX="-100.0" stroke="#f8f9fa" />
@@ -76,16 +77,15 @@
             <Font name="Cantarell Regular" size="14.0" />
          </font>
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Label>
       <TabPane layoutX="198.0" prefHeight="501.0" prefWidth="603.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
+         <tabs>
             <Tab text="Lista de evidencias">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ListView fx:id="listViewEvidencesName" layoutX="14.0" layoutY="85.0" prefHeight="300.0" prefWidth="315.0" />
                         <Label fx:id="labelTitleEvidence" layoutX="480.0" layoutY="116.0" opacity="0.0" text="Label" />
                         <Label fx:id="labelStatusEvidence" layoutX="480.0" layoutY="165.0" opacity="0.0" text="Label" />
                         <Label fx:id="labelGradeEvidence" layoutX="480.0" layoutY="207.0" opacity="0.0" text="Label" />
@@ -93,7 +93,7 @@
                         <Label fx:id="labelAdvancementEvidence" layoutX="480.0" layoutY="294.0" opacity="0.0" text="Label" />
                         <Label fx:id="labelStudentEvidence" layoutX="480.0" layoutY="339.0" opacity="0.0" text="Label" />
                         <Button layoutX="368.0" layoutY="28.0" mnemonicParsing="false" onMouseClicked="#fillEvidence" text="Mostrar evidencia" />
-                        <Button layoutX="118.0" layoutY="28.0" mnemonicParsing="false" onMouseClicked="#updateListViewEvidences" text="Actualizar lista" />
+                        <Button layoutX="118.0" layoutY="28.0" mnemonicParsing="false" onMouseClicked="#fillTableViewEvidence" text="Actualizar lista" />
                         <Label layoutX="368.0" layoutY="116.0" text="Titulo:">
                            <font>
                               <Font name="System Bold" size="13.0" />
@@ -124,13 +124,14 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
+                        <TableView fx:id="tableViewEvidence" layoutX="17.0" layoutY="84.0" prefHeight="247.0" prefWidth="309.0" />
                      </children>
                   </AnchorPane>
-              </content>
+               </content>
             </Tab>
-          <Tab text="Añadir evidencias">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <Tab text="Añadir evidencias">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Label layoutX="126.0" layoutY="127.0" text="Ttulo:" />
                         <Label layoutX="86.0" layoutY="178.0" text="Descripcion:" />
@@ -144,11 +145,11 @@
                         <Button fx:id="addEvidenceButton" layoutX="353.0" layoutY="55.0" mnemonicParsing="false" onMouseClicked="#onActionAddEvidenceButton" text="Aceptar" />
                      </children>
                   </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Modificar evidencias">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               </content>
+            </Tab>
+            <Tab text="Modificar evidencias">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Button layoutX="407.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#onActionButtonModify" text="Modificar" />
                         <Button layoutX="171.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#onActionAddFileButton" text="Agregar archivo" />
@@ -161,19 +162,20 @@
                         <Button layoutX="171.0" layoutY="112.0" mnemonicParsing="false" onMouseClicked="#onActionDeleteFileButton" text="Eliminar archivo" />
                      </children>
                   </AnchorPane>
-            </content>
-          </Tab>
+               </content>
+            </Tab>
             <Tab text="Eliminar evidencias">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <ListView fx:id="listViewEvidencesNamesToDelete" layoutX="39.0" layoutY="121.0" prefHeight="200.0" prefWidth="200.0" />
                         <Button layoutX="86.0" layoutY="44.0" mnemonicParsing="false" onMouseClicked="#updateListViewEvidencesToDelete" text="Actualizar lista" />
                         <Button layoutX="344.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#deleteEvidence" text="Eliminar" />
-                     </children></AnchorPane>
-              </content>
+                     </children>
+                  </AnchorPane>
+               </content>
             </Tab>
-        </tabs>
+         </tabs>
       </TabPane>
       <Label layoutX="-33.0" layoutY="-41.0" text="Label" />
    </children>
