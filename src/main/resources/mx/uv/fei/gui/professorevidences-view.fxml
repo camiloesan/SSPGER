@@ -3,9 +3,9 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -87,9 +87,8 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="412.0">
                      <children>
-                        <Button layoutX="98.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#updateListViewEvidences" text="Actualizar lista" />
+                        <Button layoutX="98.0" layoutY="50.0" mnemonicParsing="false" text="Actualizar lista" />
                         <Button layoutX="384.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#fillEvidence" text="Mostrar Evidencia" />
-                        <ListView fx:id="listViewEvidencesName" layoutX="52.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
                         <Label layoutX="286.0" layoutY="141.0" text="Titulo:" />
                         <Label layoutX="286.0" layoutY="174.0" text="Estado:" />
                         <Label layoutX="286.0" layoutY="210.0" text="Calificacion:" />
@@ -102,6 +101,7 @@
                         <Label fx:id="labelDescriptionEvidence" layoutX="432.0" layoutY="243.0" opacity="0.0" text="descripcion" />
                         <Label fx:id="labelAdvancementEvidence" layoutX="432.0" layoutY="279.0" opacity="0.0" text="avance" />
                         <Label fx:id="labelStudentEvidence" layoutX="432.0" layoutY="317.0" opacity="0.0" text="estudiante" />
+                        <TableView fx:id="tableViewEvidence" layoutX="52.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
                      </children></AnchorPane>
                     </content>
                 </Tab>

@@ -89,7 +89,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
     private void fillTableViewEvidence() throws SQLException {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
-        tableViewEvidence.getItems().addAll(evidenceDAO.getEvidenceListByStudent(LoginController.sessionDetails.getId()));
+        tableViewEvidence.getItems().addAll(evidenceDAO
+                .getEvidenceListByStudent(LoginController.sessionDetails.getId()));
     }
     @FXML
     public void fillTitleStatusGradeDescriptionEvidence() {
