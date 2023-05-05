@@ -2,12 +2,17 @@ package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
+import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.Evidence;
+import mx.uv.fei.logic.ProjectRequest;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,12 +48,22 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
     private TextField textFieldStudent;
     @FXML
-    private ListView<String> listViewEvidencesName;
+    private TableView<Evidence> tableViewEvidence;
     @FXML
     private ListView<String> listViewEvidencesNamesToDelete;
     @FXML
     private void initialize() {
-
+        TableColumn<Evidence, String> titleEvidence = new TableColumn<>("Título");
+        titleEvidence.setCellValueFactory(new PropertyValueFactory<>("evidenceTitle"));
+        TableColumn<Evidence, String> statusEvidence = new TableColumn<>("Estado");
+        statusEvidence.setCellValueFactory(new PropertyValueFactory<>("evidenceStatus"));
+        tableViewEvidence.getColumns().addAll(titleEvidence, statusEvidence);
+        try {
+            fillTableViewEvidence();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            sqlException.printStackTrace();
+        }
     }
 
     @Override
@@ -70,13 +85,20 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     public void redirectToRequest() {
 
     }
+
+    @FXML
+    private void fillTableViewEvidence() throws SQLException {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        tableViewEvidence.getItems().addAll(evidenceDAO
+                .getEvidenceListByStudent(LoginController.sessionDetails.getId()));
+    }
     @FXML
     public void fillTitleStatusGradeDescriptionEvidence() {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         try {
-            Evidence evidence = evidenceDAO.getEvidenceByEvidenceTitle(listViewEvidencesName
+            Evidence evidence = evidenceDAO.getEvidenceByEvidenceTitle(tableViewEvidence
                     .getSelectionModel()
-                    .getSelectedItem());
+                    .getSelectedItem().getEvidenceTitle());
             labelTitleEvidence.setText(evidence.getEvidenceTitle());
             labelStatusEvidence.setText(evidence.getEvidenceStatus());
             labelGradeEvidence.setText(String.valueOf(evidence.getEvidenceGrade()));
@@ -90,9 +112,10 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         AdvancementDAO advancementDAO = new AdvancementDAO();
         try {
-            int advancementID = evidenceDAO.getAdvancementIDByEvidenceTitle(listViewEvidencesName
-                    .getSelectionModel()
-                    .getSelectedItem());
+            int advancementID = evidenceDAO.getAdvancementIDByEvidenceTitle(tableViewEvidence
+                            .getSelectionModel()
+                    .getSelectedItem()
+                    .getEvidenceTitle());
             labelAdvancementEvidence.setText("");
             try {
                 String advancementName = advancementDAO.getAdvancementNameByID(advancementID);
@@ -109,9 +132,10 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         StudentDAO studentDAO = new StudentDAO();
         try {
-            String studentID = evidenceDAO.getStudentIDByEvidenceTitle(listViewEvidencesName
+            String studentID = evidenceDAO.getStudentIDByEvidenceTitle(tableViewEvidence
                     .getSelectionModel()
-                    .getSelectedItem());
+                    .getSelectedItem()
+                    .getEvidenceTitle());
             try {
                 String nameStudent = studentDAO.getNamebyStudentID(studentID);
                 labelStudentEvidence.setText(nameStudent);
@@ -215,14 +239,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
             }
         }
     }
-    @FXML
-    private void updateListViewEvidences() throws SQLException {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        listViewEvidencesName.getItems().clear();
-        for(Evidence evidenceObject : evidenceDAO.getListEvidenceName()) {
-            listViewEvidencesName.getItems().add(evidenceObject.getEvidenceTitle());
-        }
-    }
+
     @FXML
     private void updateListViewEvidencesToDelete() throws SQLException {
         EvidenceDAO evidenceDAO = new EvidenceDAO();

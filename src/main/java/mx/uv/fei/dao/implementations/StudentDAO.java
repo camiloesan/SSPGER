@@ -85,4 +85,26 @@ public class StudentDAO implements IStudent {
         }
         return studentID;
     }
+
+    @Override
+    public String getStudentIDByProfessorID(int professorID) throws SQLException {
+        String query = "SELECT Estudiantes.matricula " +
+                "FROM Estudiantes " +
+                "INNER JOIN SolicitudesProyecto ON Estudiantes.matricula = SolicitudesProyecto.matriculaEstudiante " +
+                "INNER JOIN Proyectos ON SolicitudesProyecto.ID_proyecto = Proyectos.ID_proyecto " +
+                "INNER JOIN Profesores ON Proyectos.ID_director = Profesores.ID_profesor " +
+                "WHERE SolicitudesProyecto.estado = 'Aceptado' AND Profesores.ID_profesor = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, professorID);
+
+        String studentID = "";
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            studentID = resultSet.getString("matricula");
+        }
+        databaseManager.closeConnection();
+        return studentID;
+    }
 }
