@@ -88,6 +88,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             advancementDAO.deleteAdvancementByName(advancementName);
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo eliminar el avance, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            sqlException.printStackTrace();
         }
     }
 

@@ -41,6 +41,7 @@ public class TimelineController {
         anchorPane.setPadding(new Insets(40, 20, 20, 40));
         for (Advancement advancementObject : advancementList) {
             textDates = advancementObject.getAdvancementStartDate() + "/" + advancementObject.getAdvancementDeadline();
+
             Label labelDate = new Label(textDates);
             labelDate.setLayoutX(labelDatesX);
             labelDate.setLayoutY(labelDatesY);

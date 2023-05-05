@@ -309,7 +309,7 @@ public class ProjectDAO implements IProject {
 
     @Override
     public List<String> getProjectNamesByIdDirector(int directorId) throws SQLException {
-        String query = "select nombreProyectoInvestigación from Proyectos where ID_director=(?)";
+        String query = "select nombreTrabajoRecepcional from Proyectos where ID_director=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -319,7 +319,7 @@ public class ProjectDAO implements IProject {
 
         List<String> projectNamesList = new ArrayList<>();
         while (resultSet.next()) {
-            projectNamesList.add(resultSet.getString("nombreProyectoInvestigación"));
+            projectNamesList.add(resultSet.getString("nombreTrabajoRecepcional"));
         }
         databaseManager.closeConnection();
 
