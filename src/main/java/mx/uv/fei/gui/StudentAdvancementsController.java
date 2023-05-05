@@ -19,12 +19,15 @@ import java.util.List;
 import java.util.Optional;
 public class StudentAdvancementsController implements IStudentNavigationBar{
     @FXML
+    private Label labelUsername;
+    @FXML
     private ListView<String> listViewAdvancementsNames;
     @FXML
     private HBox hboxLogOutLabel;
     
     @FXML
     private void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         fillListViewAdvancements();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }

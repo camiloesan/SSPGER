@@ -18,6 +18,8 @@ import java.util.Optional;
 
 public class StudentViewAdvancementDetailsController implements IStudentNavigationBar{
     @FXML
+    private Label labelUsername;
+    @FXML
     private Label labelAdvancementName;
     @FXML
     private TextFlow textAdvancementDescription;
@@ -29,6 +31,7 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     private HBox hboxLogOutLabel;
     
     public void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         getDetailedAdvancement();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
