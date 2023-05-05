@@ -1,55 +1,61 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
-import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.Advancement;
 import mx.uv.fei.logic.TransferAdvancement;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-public class StudentAdvancementsController implements IStudentNavigationBar{
+
+public class StudentViewAdvancementDetailsController implements IStudentNavigationBar{
     @FXML
     private Label labelUsername;
     @FXML
-    private ListView<String> listViewAdvancementsNames;
+    private Label labelAdvancementName;
+    @FXML
+    private TextFlow textAdvancementDescription;
+    @FXML
+    private Label labelStartDate;
+    @FXML
+    private Label labelDeadline;
     @FXML
     private HBox hboxLogOutLabel;
     
-    @FXML
-    private void initialize() throws SQLException {
+    public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        fillListViewAdvancements();
+        getDetailedAdvancement();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    public void fillListViewAdvancements() throws SQLException {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        StudentDAO studentDAO = new StudentDAO();
-        String studentId = studentDAO.getStudentIdByUsername(LoginController.sessionDetails.getUsername());
-        
-        listViewAdvancementsNames.getItems().clear();
-        List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNameStudent(studentId));
-        advancementList.forEach(element -> listViewAdvancementsNames.getItems().add(element.getAdvancementName()));
+    public String getAdvancementName() {
+        return TransferAdvancement.getAdvancementName();
     }
     
-    public void viewAdvanvementDetails() throws IOException {
-        if (listViewAdvancementsNames.getSelectionModel().getSelectedItem() != null) {
-            String advancementName = listViewAdvancementsNames.getSelectionModel().getSelectedItem();
-            TransferAdvancement.setAdvancementName(advancementName);
-            MainStage.changeView("studentviewadvancementdetails-view.fxml",900,600);
-        } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un avance para ver los detalles.", AlertStatus.WARNING));
-        }
+    public void getDetailedAdvancement() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        Advancement detaildedAdvancement = (advancementDAO.getAdvancementDetailByName(getAdvancementName()));
+        
+        labelAdvancementName.setText(detaildedAdvancement.getAdvancementName());
+        
+        Text advancementDescription = new Text(detaildedAdvancement.getAdvancementDescription());
+        textAdvancementDescription.getChildren().add(advancementDescription);
+        
+        labelStartDate.setText(detaildedAdvancement.getAdvancementStartDate());
+        
+        labelDeadline.setText(detaildedAdvancement.getAdvancementDeadline());
+    }
+    
+    public void returnToAdvancementList() throws IOException {
+        MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
