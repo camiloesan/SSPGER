@@ -111,7 +111,7 @@ public class AccessAccountManagementController {
             accessAccount.setUsername(textFieldUsername.getText());
             accessAccount.setUserPassword(passwordFieldPassword.getText());
             accessAccount.setUserType(comboBoxUserType.getValue());
-            if (gridPaneStudent.isVisible()) {
+            if (comboBoxUserType.getValue().equals("Estudiante")) {
                 Student student = new Student();
                 student.setStudentID(textFieldNewStudentId.getText());
                 student.setName(textFieldNewStudentName.getText());
@@ -119,10 +119,11 @@ public class AccessAccountManagementController {
                 student.setAcademicEmail(textFieldNewStudentEmail.getText());
                 try {
                     accessAccountDAO.transactionAddStudentUser(accessAccount, student);
+                    DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
                 } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo acceder a la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+                    DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
                 }
-            } else if (gridPaneProfessor.isVisible()) {
+            } else if (comboBoxUserType.getValue().equals("Profesor") || comboBoxUserType.getValue().equals("RepresentanteCA")) {
                 Professor professor = new Professor();
                 professor.setProfessorName(textFieldProfessorName.getText());
                 professor.setProfessorLastName(textFieldProfessorLastName.getText());
@@ -130,8 +131,15 @@ public class AccessAccountManagementController {
                 professor.setProfessorEmail(textFieldProfessorEmail.getText());
                 try {
                     accessAccountDAO.transactionAddProfessorUser(accessAccount, professor);
+                    DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
                 } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo acceder a la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+                    DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+                }
+            } else if (comboBoxUserType.getValue().equals("Administrador")) {
+                try {
+                    addAdminAccessAccount();
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage("No se pudo acceder añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
                 }
             }
             tableViewAccessAccounts.getItems().clear();
