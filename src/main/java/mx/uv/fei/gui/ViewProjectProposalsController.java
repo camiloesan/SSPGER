@@ -100,29 +100,37 @@ public class ViewProjectProposalsController {
 
     @FXML
     private void acceptProject() {
-        ProjectDAO projectDAO = new ProjectDAO();
-        PROJECT_VALIDATION = "Verificado";
-        try {
-            projectDAO.updateProjectState(projectDAO.getProjectIDByTitle(listViewProjects
-                    .getSelectionModel()
-                    .getSelectedItem())
-                    , PROJECT_VALIDATION);
-        } catch (SQLException requestException) {
-            requestException.printStackTrace();
+        if (listViewProjects.getSelectionModel().getSelectedItem() != null) {
+            ProjectDAO projectDAO = new ProjectDAO();
+            PROJECT_VALIDATION = "Verificado";
+            try {
+                projectDAO.updateProjectState(projectDAO.getProjectIDByTitle(listViewProjects
+                                .getSelectionModel()
+                                .getSelectedItem())
+                        , PROJECT_VALIDATION);
+            } catch (SQLException requestException) {
+                requestException.printStackTrace();
+            }
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para Aceptarlo", AlertStatus.WARNING));
         }
     }
 
     @FXML
     private void declineProject() {
-        ProjectDAO projectDAO = new ProjectDAO();
-        PROJECT_VALIDATION = "Declinado";
-        try {
-            projectDAO.updateProjectState(projectDAO.getProjectIDByTitle(listViewProjects
-                            .getSelectionModel()
-                            .getSelectedItem())
-                    , PROJECT_VALIDATION);
-        } catch (SQLException requestException) {
-            requestException.printStackTrace();
+        if (listViewProjects.getSelectionModel().getSelectedItem() != null) {
+            ProjectDAO projectDAO = new ProjectDAO();
+            PROJECT_VALIDATION = "Declinado";
+            try {
+                projectDAO.updateProjectState(projectDAO.getProjectIDByTitle(listViewProjects
+                                .getSelectionModel()
+                                .getSelectedItem())
+                        , PROJECT_VALIDATION);
+            } catch (SQLException requestException) {
+                requestException.printStackTrace();
+            }
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para Rchazarlo", AlertStatus.WARNING));
         }
     }
 }
