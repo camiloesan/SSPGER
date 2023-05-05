@@ -1,6 +1,7 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -102,12 +103,26 @@ public class ViewProjectDetailsController {
 
     @FXML
     public void deleteProject() {
-
-        ProjectDAO projectDAO = new ProjectDAO();
-        try {
-            projectDAO.deleteProjectByTitle(textReceptionWorkName.getAccessibleText());
-        } catch (SQLException deleteException) {
-            deleteException.printStackTrace();
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar este Proyecto para siempre?");
+        if (response.get() == DialogGenerator.BUTTON_YES) {
+            ProjectDAO projectDAO = new ProjectDAO();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (Node node : textReceptionWorkName.getChildren()) {
+                if (node instanceof Text) {
+                    Text textNode = (Text) node;
+                    stringBuilder.append(textNode.getText());
+                }
+            }
+            try {
+                projectDAO.deleteProjectByTitle(stringBuilder.toString());
+            } catch (SQLException deleteException) {
+                deleteException.printStackTrace();
+            }
+            try {
+                actionProjects();
+            } catch (IOException changeException) {
+                changeException.printStackTrace();
+            }
         }
     }
 
