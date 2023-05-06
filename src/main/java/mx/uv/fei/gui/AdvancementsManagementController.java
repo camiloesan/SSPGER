@@ -18,6 +18,7 @@ import mx.uv.fei.logic.TransferAdvancement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.List;
@@ -52,8 +53,27 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         ProfessorDAO professorDAO = new ProfessorDAO();
         professorId = professorDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
         fillComboBoxProjectToAssign();
+        formatDatePickers();
         fillListViewAdvancements();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+
+    private void formatDatePickers() {
+        advancementStartDate.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(empty || date.isBefore(today));
+            }
+        });
+
+        advancementDeadline.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(empty || date.isBefore(today));
+            }
+        });
     }
 
     @FXML

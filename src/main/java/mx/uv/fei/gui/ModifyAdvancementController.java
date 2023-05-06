@@ -12,6 +12,7 @@ import mx.uv.fei.logic.TransferAdvancement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class ModifyAdvancementController {
@@ -34,6 +35,25 @@ public class ModifyAdvancementController {
     private void initialize() {
         labelHeader.setText("Modificar evidencia [" + TransferAdvancement.getAdvancementName() + "]");
         fillComboBoxNewProjectToAssign();
+        formatDatePickers();
+    }
+
+    private void formatDatePickers() {
+        newAdvancementStartDate.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(empty || date.isBefore(today));
+            }
+        });
+
+        newAdvancementDeadline.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(empty || date.isBefore(today));
+            }
+        });
     }
 
     private void fillComboBoxNewProjectToAssign() {
