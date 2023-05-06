@@ -1,11 +1,8 @@
 package mx.uv.fei.gui;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
@@ -16,39 +13,46 @@ import java.sql.SQLException;
 
 public class GradeEvidenceController {
     @FXML
-    private Button buttonReturn;
-
-    @FXML
     private Label labelEvidenceToGrade;
-
     @FXML
     private TextField textFieldGrade;
-
-    @FXML
-    private VBox vboxAdvancementDetails;
 
     @FXML
     private void initialize() {
         labelEvidenceToGrade.setText(TransferEvidence.getEvidenceName());
     }
 
-    private void validate() {
+    private boolean isGradeValid() {
         if (textFieldGrade.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage("Debes escribir la calificación", AlertStatus.WARNING));
+            return false;
         } else {
-            updateGrade();
+            int grade;
+            try {
+                grade = Integer.parseInt(textFieldGrade.getText());
+            } catch (Exception e) {
+                DialogGenerator.getDialog(new AlertMessage("El formato no es válido, inténtalo de nuevo", AlertStatus.WARNING));
+                return false;
+            }
+            if (grade >= 0 && grade <= 10) {
+                return true;
+            } else {
+                DialogGenerator.getDialog(new AlertMessage("El rango de calificación es del 0 al 10", AlertStatus.WARNING));
+                return false;
+            }
         }
     }
 
     @FXML
     private void updateGrade() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        int grade = Integer.parseInt(textFieldGrade.getText());
-        System.out.println(TransferEvidence.getEvidenceId());
-        try {
-            evidenceDAO.updateEvidenceGradeById(TransferEvidence.getEvidenceId(), grade);
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la calificación, inténtelo más tarde", AlertStatus.ERROR));
+        if (isGradeValid()) {
+            EvidenceDAO evidenceDAO = new EvidenceDAO();
+            int grade = Integer.parseInt(textFieldGrade.getText());
+            try {
+                evidenceDAO.updateEvidenceGradeById(TransferEvidence.getEvidenceId(), grade);
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la calificación, inténtelo más tarde", AlertStatus.ERROR));
+            }
         }
     }
 

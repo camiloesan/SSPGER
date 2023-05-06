@@ -3,7 +3,6 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.Advancement;
@@ -95,5 +94,4 @@ public class ModifyAdvancementController {
             return true;
         }
     }
-
 }
