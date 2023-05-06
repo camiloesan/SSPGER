@@ -28,7 +28,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     @FXML
     private void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        fillListViewAdvancements();
+        //fillListViewAdvancements();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     

@@ -1,6 +1,8 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -10,6 +12,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.DetailedProject;
 import mx.uv.fei.logic.TransferProject;
 
@@ -97,13 +101,36 @@ public class ViewProjectDetailsController {
         textBibliography.getChildren().add(bibliography);
     }
 
+    private String getTextWorkReceptionName() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Node node : textReceptionWorkName.getChildren()) {
+            if (node instanceof Text) {
+                Text textWorkReceptionName = (Text) node;
+                stringBuilder.append(textWorkReceptionName.getText());
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private boolean confirmedDeleteProject() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar este Proyecto para siempre?");
+        return response.get() == DialogGenerator.BUTTON_YES;
+    }
+
     @FXML
     public void deleteProject() {
-        ProjectDAO projectDAO = new ProjectDAO();
-        try {
-            projectDAO.deleteProjectByTitle(textReceptionWorkName.getAccessibleText());
-        } catch (SQLException deleteException) {
-            deleteException.printStackTrace();
+        if (confirmedDeleteProject()) {
+            ProjectDAO projectDAO = new ProjectDAO();
+            try {
+                projectDAO.deleteProjectByTitle(getTextWorkReceptionName());
+            } catch (SQLException deleteException) {
+                deleteException.printStackTrace();
+            }
+            try {
+                actionProjects();
+            } catch (IOException changeException) {
+                changeException.printStackTrace();
+            }
         }
     }
 
