@@ -101,20 +101,28 @@ public class ViewProjectDetailsController {
         textBibliography.getChildren().add(bibliography);
     }
 
+    private String getTextWorkReceptionName() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Node node : textReceptionWorkName.getChildren()) {
+            if (node instanceof Text) {
+                Text textWorkReceptionName = (Text) node;
+                stringBuilder.append(textWorkReceptionName.getText());
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private boolean confirmedDeleteProject() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar este Proyecto para siempre?");
+        return response.get() == DialogGenerator.BUTTON_YES;
+    }
+
     @FXML
     public void deleteProject() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar este Proyecto para siempre?");
-        if (response.get() == DialogGenerator.BUTTON_YES) {
+        if (confirmedDeleteProject()) {
             ProjectDAO projectDAO = new ProjectDAO();
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Node node : textReceptionWorkName.getChildren()) {
-                if (node instanceof Text) {
-                    Text textNode = (Text) node;
-                    stringBuilder.append(textNode.getText());
-                }
-            }
             try {
-                projectDAO.deleteProjectByTitle(stringBuilder.toString());
+                projectDAO.deleteProjectByTitle(getTextWorkReceptionName());
             } catch (SQLException deleteException) {
                 deleteException.printStackTrace();
             }
