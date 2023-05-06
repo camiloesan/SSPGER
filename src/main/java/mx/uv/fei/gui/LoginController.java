@@ -56,7 +56,7 @@ public class LoginController {
         sessionDetails.setUsername(textFieldUser.getText());
         sessionDetails.setUserType(userType);
         switch (userType) {
-            case "Administrador" -> MainStage.changeView("accessaccountmanagement-view.fxml", 800, 500 + HEIGHT_OFFSET);
+            case "Administrador" -> MainStage.changeView("accessaccountmanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
             case "Estudiante" -> {
                 StudentDAO studentDAO = new StudentDAO();
                 sessionDetails.setId(studentDAO.getStudentIdByUsername(textFieldUser.getText()));

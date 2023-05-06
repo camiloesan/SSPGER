@@ -204,7 +204,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
     @Override
     public void redirectToProjectManagement() throws IOException {
-        MainStage.changeView("timeline-view.fxml", 700, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("timeline-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override

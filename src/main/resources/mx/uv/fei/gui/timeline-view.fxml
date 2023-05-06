@@ -1,19 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.TimelineController">
+
+<VBox minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.TimelineController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#334b49" height="50.0" stroke="#334b49" strokeType="INSIDE" width="700.0" />
-      <Label fx:id="labelTitle" layoutX="14.0" layoutY="16.0" text="Cronograma de avances []" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <ScrollPane fx:id="scrollPaneTimeline" layoutY="50.0" prefHeight="450.0" prefWidth="700.0" />
+      <HBox prefHeight="45.0" prefWidth="1000.0" style="-fx-background-color: #334b49;">
+         <children>
+            <Label onMouseClicked="#returnToPreviousWindow" prefHeight="18.0" prefWidth="19.0" text="&lt;" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="16.0" top="14.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="labelTitle" text="Cronograma de avances []" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="16.0" top="14.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <AnchorPane prefHeight="555.0" prefWidth="1000.0">
+         <children>
+            <ScrollPane fx:id="scrollPaneTimeline" prefHeight="555.0" prefWidth="1000.0" />
+         </children>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</VBox>

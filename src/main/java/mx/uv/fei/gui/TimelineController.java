@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.logic.Advancement;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -61,5 +62,10 @@ public class TimelineController {
             labelDatesX += 200;
         }
         scrollPaneTimeline.setContent(anchorPane);
+    }
+
+    @FXML
+    private void returnToPreviousWindow() throws IOException {
+        MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
 }

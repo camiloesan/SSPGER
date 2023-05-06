@@ -3,6 +3,8 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
@@ -11,6 +13,7 @@ import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 
 public class AccessAccountManagementController {
@@ -21,21 +24,11 @@ public class AccessAccountManagementController {
     @FXML
     private TextField textFieldUsername;
     @FXML
-    private ComboBox<String> comboBoxUserTypeToModify;
-    @FXML
-    private TabPane tabPaneAccountManagement;
-    @FXML
-    private TextField textFieldUserToModify;
-    @FXML
-    private TextField textFieldNewPassword;
+    private Tab tabUsers;
     @FXML
     private GridPane gridPaneProfessor;
     @FXML
     private GridPane gridPaneStudent;
-    @FXML
-    private GridPane gridPaneNewProfessor;
-    @FXML
-    private GridPane gridPaneNewStudent;
     @FXML
     private ComboBox<String> comboBoxDegree;
     @FXML
@@ -53,38 +46,12 @@ public class AccessAccountManagementController {
     @FXML
     private TextField textFieldProfessorEmail;
     @FXML
-    private TextField textFieldNewUsername;
-    @FXML
-    private TextField textFieldNewStudentId;
-    @FXML
-    private TextField textFieldNewStudentName;
-    @FXML
-    private TextField textFieldNewStudentLastName;
-    @FXML
-    private TextField textFieldNewStudentEmail;
-    @FXML
-    private TextField textFieldNewProfessorName;
-    @FXML
-    private TextField textFieldNewProfessorLastName;
-    @FXML
-    private ComboBox<String> comboBoxNewProfessorDegree;
-    @FXML
-    private TextField textFieldNewProfessorEmail;
-    @FXML
     private TableView<AccessAccount> tableViewAccessAccounts;
     private final static ObservableList<String> observableListComboItemsUserType =
             FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
     private final static ObservableList<String> observableListComboItemsDegree =
             FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
-
-    private void fillTableViewAccessAccounts() {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        try {
-            tableViewAccessAccounts.getItems().addAll(accessAccountDAO.getAccessAccountsList());
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuparar la informaicón de la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
-        }
-    }
+    private static String username;
 
     @FXML
     private void initialize() {
@@ -100,92 +67,98 @@ public class AccessAccountManagementController {
         fillTableViewAccessAccounts();
         comboBoxDegree.setItems(observableListComboItemsDegree);
         comboBoxUserType.setItems(observableListComboItemsUserType);
-        comboBoxUserTypeToModify.setItems(observableListComboItemsUserType);
+    }
+
+    private void fillTableViewAccessAccounts() {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        try {
+            tableViewAccessAccounts.getItems().addAll(accessAccountDAO.getAccessAccountsList());
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuparar la informaicón de la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+        }
     }
 
     @FXML
     private void buttonSaveAction() {
-        if (areAddUserFieldsValid()) {
-            AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-            AccessAccount accessAccount = new AccessAccount();
-            accessAccount.setUsername(textFieldUsername.getText());
-            accessAccount.setUserPassword(passwordFieldPassword.getText());
-            accessAccount.setUserType(comboBoxUserType.getValue());
-            if (comboBoxUserType.getValue().equals("Estudiante")) {
-                Student student = new Student();
-                student.setStudentID(textFieldStudentId.getText());
-                student.setName(textFieldStudentName.getText());
-                student.setLastName(textFieldStudentLastName.getText());
-                student.setAcademicEmail(textFieldStudentEmail.getText());
-                try {
-                    accessAccountDAO.transactionAddStudentUser(accessAccount, student);
-                    DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
-                } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+        if (areAccessAccountFieldsValid()) {
+            switch (comboBoxUserType.getValue()) {
+                case "Profesor", "RepresentanteCA" -> {
+                    if (areProfessorFieldsValid()) {
+                        addProfessorUser();
+                    }
                 }
-            } else if (comboBoxUserType.getValue().equals("Profesor") || comboBoxUserType.getValue().equals("RepresentanteCA")) {
-                Professor professor = new Professor();
-                professor.setProfessorName(textFieldProfessorName.getText());
-                professor.setProfessorLastName(textFieldProfessorLastName.getText());
-                professor.setProfessorDegree(comboBoxDegree.getValue());
-                professor.setProfessorEmail(textFieldProfessorEmail.getText());
-                try {
-                    accessAccountDAO.transactionAddProfessorUser(accessAccount, professor);
-                    DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
-                } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+                case "Estudiante" -> {
+                    if (areStudentFieldsValid()) {
+                        addStudentUser();
+                    }
                 }
-            } else if (comboBoxUserType.getValue().equals("Administrador")) {
-                try {
-                    addAdminAccessAccount();
-                } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo acceder añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
-                }
+                case "Administrador" -> addAdminUser();
+                default -> DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
             }
-            tableViewAccessAccounts.getItems().clear();
-            fillTableViewAccessAccounts();
+        }
+        tableViewAccessAccounts.getItems().clear();
+        fillTableViewAccessAccounts();
+    }
+
+    private void addProfessorUser() {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        accessAccount.setUsername(textFieldUsername.getText());
+        accessAccount.setUserPassword(passwordFieldPassword.getText());
+        accessAccount.setUserType(comboBoxUserType.getValue());
+        Professor professor = new Professor();
+        professor.setProfessorName(textFieldProfessorName.getText());
+        professor.setProfessorLastName(textFieldProfessorLastName.getText());
+        professor.setProfessorDegree(comboBoxDegree.getValue());
+        professor.setProfessorEmail(textFieldProfessorEmail.getText());
+        try {
+            accessAccountDAO.transactionAddProfessorUser(accessAccount, professor);
+            DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+        }
+    }
+
+    private void addStudentUser() {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        accessAccount.setUsername(textFieldUsername.getText());
+        accessAccount.setUserPassword(passwordFieldPassword.getText());
+        accessAccount.setUserType(comboBoxUserType.getValue());
+        Student student = new Student();
+        student.setStudentID(textFieldStudentId.getText());
+        student.setName(textFieldStudentName.getText());
+        student.setLastName(textFieldStudentLastName.getText());
+        student.setAcademicEmail(textFieldStudentEmail.getText());
+        try {
+            accessAccountDAO.transactionAddStudentUser(accessAccount, student);
+            DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+        }
+    }
+
+    private void addAdminUser() {
+        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        accessAccount.setUsername(textFieldUsername.getText());
+        accessAccount.setUserPassword(passwordFieldPassword.getText());
+        accessAccount.setUserType(comboBoxUserType.getValue());
+        try {
+            accessAccountDAO.addAdminAccessAccount(accessAccount);
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo agregar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
     }
 
     @FXML
-    private void buttonModifyAction() {
+    private void buttonModifyAction() throws IOException {
         if (tableViewAccessAccounts.getSelectionModel().getSelectedItem() != null) {
-            textFieldUserToModify.setText(tableViewAccessAccounts.getSelectionModel().getSelectedItem().getUsername());
-            String userType = tableViewAccessAccounts.getSelectionModel().getSelectedItem().getUserType();
-            comboBoxUserTypeToModify.getSelectionModel().select(userType);
-            tabPaneAccountManagement.getSelectionModel().select(2);
+            setUsername(tableViewAccessAccounts.getSelectionModel().getSelectedItem().getUsername());
+            Parent modifyUser = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("panemodifyuser-view.fxml")));
+            tabUsers.setContent(modifyUser);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Debes seleccionar a un usuario para modificarlo", AlertStatus.WARNING));
-        }
-    }
-
-    @FXML
-    private void buttonConfirmModificationAction() throws SQLException {
-        if (areModifyUserFieldsValid()) {
-            AccessAccount accessAccount = new AccessAccount();
-            AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-            String usernameToModify = textFieldUserToModify.getText();
-            accessAccount.setUsername(textFieldNewUsername.getText());
-            accessAccount.setUserPassword(textFieldNewPassword.getText());
-            accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
-            if (gridPaneNewStudent.isVisible()) {
-                Student student = new Student();
-                student.setStudentID(textFieldNewStudentId.getText());
-                student.setName(textFieldNewStudentName.getText());
-                student.setLastName(textFieldNewStudentLastName.getText());
-                student.setAcademicEmail(textFieldNewStudentEmail.getText());
-                accessAccountDAO.modifyStudentUserTransaction(usernameToModify, accessAccount, student);
-            } else if (gridPaneNewProfessor.isVisible()) {
-                Professor professor = new Professor();
-                professor.setProfessorName(textFieldNewProfessorName.getText());
-                professor.setProfessorLastName(textFieldNewProfessorLastName.getText());
-                professor.setProfessorDegree(comboBoxNewProfessorDegree.getValue());
-                professor.setProfessorEmail(textFieldNewProfessorEmail.getText());
-                accessAccountDAO.modifyProfessorUserTransaction(usernameToModify, accessAccount, professor);
-            } else {
-                addAdminAccessAccount();
-                tableViewAccessAccounts.getItems().add(accessAccount);
-            }
         }
     }
 
@@ -224,24 +197,6 @@ public class AccessAccountManagementController {
     }
 
     @FXML
-    private void handleModifyUserTypeSelection() {
-        switch (comboBoxUserTypeToModify.getValue()) {
-            case "Profesor", "RepresentanteCA" -> {
-                gridPaneNewProfessor.setVisible(true);
-                gridPaneNewStudent.setVisible(false);
-            }
-            case "Estudiante" -> {
-                gridPaneNewProfessor.setVisible(false);
-                gridPaneNewStudent.setVisible(true);
-            }
-            default -> {
-                gridPaneNewProfessor.setVisible(false);
-                gridPaneNewStudent.setVisible(false);
-            }
-        }
-    }
-
-    @FXML
     private void actionLogOut() throws IOException {
         logOut();
     }
@@ -252,75 +207,52 @@ public class AccessAccountManagementController {
     private static final int MAX_LENGTH_LASTNAME = 80;
     private static final int MAX_LENGTH_EMAIL = 30;
     private static final int MAX_LENGTH_STUDENT_ID = 10;
-    private boolean areAddUserFieldsValid() {
-        if (gridPaneProfessor.isVisible()) {
-            if (textFieldUsername.getText().isBlank()
-                    || passwordFieldPassword.getText().isBlank()
-                    || comboBoxUserType.getValue().isBlank()
-                    || textFieldProfessorName.getText().isBlank()
-                    || textFieldProfessorLastName.getText().isBlank()
-                    || comboBoxDegree.getValue().isBlank()
-                    || textFieldProfessorEmail.getText().isBlank()) {
-                DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
-                return false;
-            } else return textFieldUsername.getText().length() < MAX_LENGTH_USERNAME
-                    && passwordFieldPassword.getText().length() < MAX_LENGTH_PASSWORD
-                    && textFieldProfessorName.getText().length() < MAX_LENGTH_NAME
-                    && textFieldProfessorLastName.getText().length() < MAX_LENGTH_LASTNAME
-                    && textFieldProfessorEmail.getText().length() < MAX_LENGTH_EMAIL;
-        } else if (gridPaneStudent.isVisible()) {
-            if (textFieldUsername.getText().isBlank()
-                    || passwordFieldPassword.getText().isBlank()
-                    || comboBoxUserType.getValue().isBlank()
-                    || textFieldStudentId.getText().isBlank()
-                    || textFieldStudentName.getText().isBlank()
-                    || textFieldStudentLastName.getText().isBlank()
-                    || textFieldStudentEmail.getText().isBlank()) {
-                DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
-                return false;
-            } else return textFieldUsername.getText().length() < MAX_LENGTH_USERNAME
-                    && passwordFieldPassword.getText().length() < MAX_LENGTH_PASSWORD
-                    && textFieldStudentId.getText().length() < MAX_LENGTH_STUDENT_ID
-                    && textFieldStudentName.getText().length() < MAX_LENGTH_NAME
-                    && textFieldStudentLastName.getText().length() < MAX_LENGTH_LASTNAME
-                    && textFieldStudentEmail.getText().length() < MAX_LENGTH_EMAIL;
-        } else {
+
+    private boolean areAccessAccountFieldsValid() {
+        if (textFieldUsername.getText().isBlank()
+                || passwordFieldPassword.getText().isBlank()
+                || comboBoxUserType.getValue() == null) {
+            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
+        } else if (textFieldUsername.getText().length() > MAX_LENGTH_USERNAME
+                || passwordFieldPassword.getText().length() > MAX_LENGTH_PASSWORD){
+            DialogGenerator.getDialog(new AlertMessage("Has sobrepasado el límite de caracteres, inténtalo de nuevo", AlertStatus.WARNING));
+            return false;
+        } else {
+            return true;
         }
     }
 
-    private boolean areModifyUserFieldsValid() {
-        if (gridPaneNewProfessor.isVisible()) {
-            if (textFieldUserToModify.getText().isBlank()
-                    || textFieldNewPassword.getText().isBlank()
-                    || comboBoxUserTypeToModify.getValue().isBlank()
-                    || textFieldNewProfessorName.getText().isBlank()
-                    || textFieldNewProfessorLastName.getText().isBlank()
-                    || comboBoxNewProfessorDegree.getValue().isBlank()
-                    || textFieldNewProfessorEmail.getText().isBlank()) {
-                DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
-                return false;
-            } else return textFieldUserToModify.getText().length() < MAX_LENGTH_USERNAME
-                    && textFieldNewPassword.getText().length() < MAX_LENGTH_PASSWORD
-                    && textFieldNewProfessorName.getText().length() < MAX_LENGTH_NAME
-                    && textFieldNewProfessorLastName.getText().length() < MAX_LENGTH_LASTNAME
-                    && textFieldNewProfessorEmail.getText().length() < MAX_LENGTH_EMAIL;
-        } else if (gridPaneNewStudent.isVisible()) {
-            if (textFieldUserToModify.getText().isBlank()
-                    || textFieldNewPassword.getText().isBlank()
-                    || comboBoxUserTypeToModify.getValue().isBlank()
-                    || textFieldNewStudentId.getText().isBlank()
-                    || textFieldNewStudentName.getText().isBlank()
-                    || textFieldNewStudentLastName.getText().isBlank()
-                    || textFieldNewStudentEmail.getText().isBlank()) {
-                DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
-                return false;
-            } else return textFieldUserToModify.getText().length() < MAX_LENGTH_USERNAME
-                    && textFieldNewPassword.getText().length() < MAX_LENGTH_PASSWORD
-                    && textFieldNewStudentId.getText().length() < MAX_LENGTH_STUDENT_ID
-                    && textFieldNewStudentName.getText().length() < MAX_LENGTH_NAME
-                    && textFieldNewStudentLastName.getText().length() < MAX_LENGTH_LASTNAME
-                    && textFieldNewStudentEmail.getText().length() < MAX_LENGTH_EMAIL;
+    private boolean areProfessorFieldsValid() {
+        if (textFieldProfessorName.getText().isBlank()
+                || textFieldProfessorLastName.getText().isBlank()
+                || comboBoxDegree.getValue() == null
+                || textFieldProfessorEmail.getText().isBlank()) {
+            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            return false;
+        } else if(textFieldProfessorName.getText().length() > MAX_LENGTH_NAME
+                || textFieldProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME
+                || textFieldProfessorEmail.getText().length() > MAX_LENGTH_EMAIL) {
+            DialogGenerator.getDialog(new AlertMessage("Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean areStudentFieldsValid() {
+        if (textFieldStudentId.getText().isBlank()
+                || textFieldStudentName.getText().isBlank()
+                || textFieldStudentLastName.getText().isBlank()
+                || textFieldStudentEmail.getText().isBlank()) {
+            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            return false;
+        } else if (textFieldStudentId.getText().length() > MAX_LENGTH_STUDENT_ID
+                || textFieldStudentName.getText().length() > MAX_LENGTH_NAME
+                || textFieldStudentLastName.getText().length() > MAX_LENGTH_LASTNAME
+                || textFieldStudentEmail.getText().length() > MAX_LENGTH_EMAIL) {
+            DialogGenerator.getDialog(new AlertMessage("Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+            return false;
         } else {
             return true;
         }
@@ -331,15 +263,6 @@ public class AccessAccountManagementController {
         return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("Administrador");
     }
 
-    private void addAdminAccessAccount() throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        AccessAccount accessAccount = new AccessAccount();
-        accessAccount.setUsername(textFieldUsername.getText());
-        accessAccount.setUserPassword(passwordFieldPassword.getText());
-        accessAccount.setUserType(comboBoxUserType.getValue());
-        accessAccountDAO.addAdminAccessAccount(accessAccount);
-    }
-    
     public boolean confirmedDeleteUser(String displayUsername) {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar al usuario " + displayUsername + "?");
         return (response.get() == DialogGenerator.BUTTON_YES);
@@ -351,7 +274,15 @@ public class AccessAccountManagementController {
             accessAccountDAO.deleteUserByUsername(username);
         }
     }
-    
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        AccessAccountManagementController.username = username;
+    }
+
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
