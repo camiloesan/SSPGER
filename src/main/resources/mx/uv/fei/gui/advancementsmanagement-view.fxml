@@ -180,6 +180,11 @@
                                                 <Insets top="20.0" />
                                              </VBox.margin>
                                           </Button>
+                                          <Button mnemonicParsing="false" onAction="#openModifyAdvancement" text="Modificar">
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Button>
                                        </children></VBox>
                                     <Label text="Lista de avances" GridPane.columnIndex="1">
                                        <font>
@@ -261,85 +266,6 @@
                                  </cursor>
                               </Button>
                            </buttons>
-                        </ButtonBar>
-                     </children>
-                  </VBox>
-               </content>
-            </Tab>
-            <Tab text="Modificar Avance">
-               <content>
-                  <VBox prefHeight="569.0" prefWidth="698.0">
-                     <children>
-                        <HBox prefHeight="45.0" prefWidth="698.0" style="-fx-background-color: #334b49;">
-                           <children>
-                              <Label text="Modificar avance" textFill="WHITE">
-                                 <HBox.margin>
-                                    <Insets left="16.0" top="14.0" />
-                                 </HBox.margin>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="TOP_CENTER" fillHeight="false" prefHeight="440.0" prefWidth="698.0">
-                           <children>
-                              <GridPane prefHeight="340.0" prefWidth="545.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="209.66805390101985" minWidth="10.0" prefWidth="198.66796351382658" />
-                                    <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="347.00231262272024" minWidth="10.0" prefWidth="346.6690536763486" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="112.00043294217306" minHeight="10.0" prefHeight="112.00043294217306" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <Label text="Nombre del avance a modificar: " />
-                                    <TextField fx:id="advancementToModify" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" />
-                                    <Label text="Nuevo nombre del avance: " GridPane.rowIndex="1" />
-                                    <TextField fx:id="newAdvancementName" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Nueva fecha de inicio: " GridPane.rowIndex="2" />
-                                    <DatePicker fx:id="newAdvancementStartDate" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                    </DatePicker>
-                                    <Label text="Nueva fecha de entrega: " GridPane.rowIndex="3" />
-                                    <DatePicker fx:id="newAdvancementDeadline" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                    </DatePicker>
-                                    <Label text="Asignar proyecto: " GridPane.rowIndex="4" />
-                                    <ComboBox fx:id="comboNewProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                    </ComboBox>
-                                    <Label text="Nueva descripción: " GridPane.rowIndex="5" />
-                                    <TextArea fx:id="newAdvancementDescription" prefHeight="92.0" prefWidth="279.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets top="25.0" />
-                                 </HBox.margin>
-                              </GridPane>
-                           </children>
-                        </HBox>
-                        <ButtonBar prefHeight="40.0" prefWidth="200.0">
-                           <buttons>
-                              <Button mnemonicParsing="false" onAction="#modifyAdvancementButtonAction" text="Modificar">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                           </buttons>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <padding>
-                              <Insets right="40.0" />
-                           </padding>
                         </ButtonBar>
                      </children>
                   </VBox>

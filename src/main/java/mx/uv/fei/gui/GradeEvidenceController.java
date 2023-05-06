@@ -30,7 +30,6 @@ public class GradeEvidenceController {
     @FXML
     private void initialize() {
         labelEvidenceToGrade.setText(TransferEvidence.getEvidenceName());
-        System.out.println(TransferEvidence.getEvidenceId());
     }
 
     private void validate() {
