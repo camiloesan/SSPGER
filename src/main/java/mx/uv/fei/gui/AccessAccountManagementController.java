@@ -113,10 +113,10 @@ public class AccessAccountManagementController {
             accessAccount.setUserType(comboBoxUserType.getValue());
             if (comboBoxUserType.getValue().equals("Estudiante")) {
                 Student student = new Student();
-                student.setStudentID(textFieldNewStudentId.getText());
-                student.setName(textFieldNewStudentName.getText());
-                student.setLastName(textFieldNewStudentLastName.getText());
-                student.setAcademicEmail(textFieldNewStudentEmail.getText());
+                student.setStudentID(textFieldStudentId.getText());
+                student.setName(textFieldStudentName.getText());
+                student.setLastName(textFieldStudentLastName.getText());
+                student.setAcademicEmail(textFieldStudentEmail.getText());
                 try {
                     accessAccountDAO.transactionAddStudentUser(accessAccount, student);
                     DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));

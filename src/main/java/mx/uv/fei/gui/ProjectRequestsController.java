@@ -17,6 +17,8 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
     Label labelDescription;
     @FXML
+    Label labelUsername;
+    @FXML
     Text textMotive;
     @FXML
     TableView<ProjectRequest> tableViewRequests;
@@ -28,6 +30,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     @FXML
     private void initialize() {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         TableColumn<ProjectRequest, String> studentIdColumn = new TableColumn<>("Matrícula");
         studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         TableColumn<ProjectRequest, String> projectColumn = new TableColumn<>("Estado");
@@ -98,7 +101,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     @Override
     public void redirectToAdvancementManagement() throws IOException {
-        MainStage.changeView("advancementsmanagement-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
@@ -108,7 +111,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     @Override
     public void redirectToEvidences() throws IOException {
-        MainStage.changeView("professorevidences-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override

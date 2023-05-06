@@ -49,7 +49,7 @@ public class PaneAdvancementDetailsController {
     
     @FXML
     public void returnToAdvancementList() throws IOException {
-        MainStage.changeView("advancementsmanagement-view.fxml",900,600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     public void deleteAdvancement(){

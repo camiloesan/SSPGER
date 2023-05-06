@@ -1,6 +1,8 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
@@ -9,9 +11,11 @@ import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.Evidence;
+import mx.uv.fei.logic.TransferEvidence;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ProfessorEvidencesController implements IProfessorNavigationBar {
@@ -29,7 +33,8 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     private Label labelStudentEvidence;
     @FXML
     private TableView<Evidence> tableViewEvidence;
-
+    @FXML
+    Tab tabEvidenceList;
 
     @FXML
     private void initialize() {
@@ -43,6 +48,22 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
             sqlException.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void gradeEvidenceButtonAction() throws IOException {
+        if (tableViewEvidence.getSelectionModel().getSelectedItem() != null) {
+            int evidenceId = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceId(); //?????????????????????????
+            String evidenceName = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceTitle();
+
+            TransferEvidence.setEvidenceId(evidenceId);
+            TransferEvidence.setEvidenceName(evidenceName);
+
+            Parent gradeEvidenceVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("panegradeevidence-view.fxml")));
+            tabEvidenceList.setContent(gradeEvidenceVbox);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar una evidencia", AlertStatus.WARNING));
         }
     }
 
@@ -122,7 +143,7 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
 
     @Override
     public void redirectToAdvancementManagement() throws IOException {
-        MainStage.changeView("advancementsmanagement-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
@@ -132,7 +153,7 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
 
     @Override
     public void redirectToEvidences() throws IOException {
-        MainStage.changeView("professorevidences-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override

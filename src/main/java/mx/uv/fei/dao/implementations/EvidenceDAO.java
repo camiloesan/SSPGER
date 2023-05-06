@@ -47,14 +47,16 @@ public class EvidenceDAO implements IEvidence {
     }
 
     @Override
-    public void updateEvidenceGradeById(String id, int grade) throws SQLException {
-        String query = "update Evidencias set calificacion=(?) where matriculaEstudiante=(?)";
+    public void updateEvidenceGradeById(int id, int grade) throws SQLException {
+        String query = "update Evidencias set calificacion=(?), estado=(?) where ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, grade);
-        preparedStatement.setString(2, id);
+        preparedStatement.setString(2, "Revisado");
+        preparedStatement.setInt(3, id);
+
         preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
@@ -180,7 +182,7 @@ public class EvidenceDAO implements IEvidence {
 
     @Override
     public List<Evidence> getEvidenceListByStudent(String studentID) throws SQLException {
-        String query = "SELECT titulo, estado FROM Evidencias WHERE matriculaEstudiante = (?)";
+        String query = "SELECT ID_evidencia, titulo, estado FROM Evidencias WHERE matriculaEstudiante = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -190,6 +192,7 @@ public class EvidenceDAO implements IEvidence {
         List<Evidence> evidenceList = new ArrayList<>();
         while (resultSet.next()) {
             Evidence evidence = new Evidence();
+            evidence.setEvidenceId(resultSet.getInt("ID_evidencia"));
             evidence.setEvidenceTitle(resultSet.getString("titulo"));
             evidence.setEvidenceStatus(resultSet.getString("estado"));
             evidenceList.add(evidence);
