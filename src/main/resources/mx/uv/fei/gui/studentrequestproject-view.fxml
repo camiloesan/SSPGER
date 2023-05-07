@@ -163,8 +163,9 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="413.0" minHeight="80.0" prefHeight="111.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="369.0" minHeight="60.0" prefHeight="205.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="413.0" minHeight="80.0" prefHeight="122.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="369.0" minHeight="9.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="369.0" minHeight="60.0" prefHeight="332.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <Label text="Solicitar proyecto" GridPane.columnIndex="1">
@@ -186,8 +187,9 @@
                         </Button>
                      </children>
                   </VBox>
-                  <Label fx:id="labelProjectTitle" layoutX="100.0" text="Proyecto a solicitar: " GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextArea fx:id="textAreaDescription" prefHeight="200.0" prefWidth="200.0" promptText="Escriba aquí sus motivos para solicitar el proyecto sleccionado" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="labelProjectTitle" layoutX="100.0" text="Proyecto a solicitar: " wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextArea fx:id="textAreaDescription" maxHeight="265.0" maxWidth="495.0" prefHeight="265.0" prefWidth="490.0" promptText="Escriba aquí sus motivos para solicitar el proyecto sleccionado" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label text="Motivos de solicitud:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>
