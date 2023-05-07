@@ -9,6 +9,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.logic.Advancement;
+import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,14 +28,14 @@ public class TimelineController {
     @FXML
     private void initialize() throws SQLException {
         String projectName;
-        projectName = "Hacia un Modelo de Campus Accsesible: Facultad de Estadística e Informática";
+        projectName = TransferProject.getReceptionWorkName();
         labelTitle.setText("Cronograma de avances [" +  projectName + "]");
         generateTimeline();
     }
 
     private void generateTimeline() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        List<Advancement> advancementList = advancementDAO.getAdvancementListByProjectName("Hacia un Modelo de Campus Accsesible: Facultad de Estadística e Informática");
+        List<Advancement> advancementList = advancementDAO.getAdvancementListByProjectId(TransferProject.getProjectID());
 
         int labelDatesX = 220;
         int labelProjectNameX = 30;
@@ -50,7 +51,6 @@ public class TimelineController {
         anchorPane.getChildren().add(dateLine);
 
         //draw months
-        //for (int i = 0; i < 12; i++) {}
 
         int i = 0;
         for (Advancement advancementObject : advancementList) {

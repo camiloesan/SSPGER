@@ -16,6 +16,7 @@ public class DatabaseManager {
     private static String DATABASE_NAME;
     private static String DATABASE_USER;
     private static String DATABASE_PASSWORD;
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(DatabaseManager.class);
 
     public DatabaseManager() {
         String configFilePath = "src/main/java/mx/uv/fei/config.properties";
@@ -37,11 +38,15 @@ public class DatabaseManager {
         DATABASE_PASSWORD = (String) prop.get("DATABASE_PASSWORD");
     }
 
-    private void connect() throws SQLException {
-        connection = DriverManager.getConnection(DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD);
+    private void connect() {
+        try {
+            connection = DriverManager.getConnection(DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD);
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
+        }
     }
 
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() {
         connect();
         return connection;
     }

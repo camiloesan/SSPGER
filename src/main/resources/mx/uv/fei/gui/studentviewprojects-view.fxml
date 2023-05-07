@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.StudentViewProjectsController">
+<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.StudentViewProjectsController">
     <children>
         <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
             <children>
@@ -165,11 +165,16 @@
                                         <Insets top="20.0" />
                                     </VBox.margin>
                                 </Button>
-                                <Button fx:id="buttonVerDetalles" onAction="#openProjectDetails" minWidth="90.0" mnemonicParsing="false" text="Ver detalles">
+                                <Button fx:id="buttonVerDetalles" minWidth="90.0" mnemonicParsing="false" onAction="#openProjectDetails" text="Ver detalles">
                                     <VBox.margin>
                                         <Insets top="20.0" />
                                     </VBox.margin>
                                 </Button>
+                        <Button mnemonicParsing="false" onAction="#openProjectTimeline" text="Ver Cronograma">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Button>
                             </children>
                         </VBox>
                         <ListView fx:id="listViewVerifiedProjects" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />

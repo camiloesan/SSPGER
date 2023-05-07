@@ -107,19 +107,16 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private void scheduleAdvancementButtonAction() {
         if (areScheduleAdvancementFieldsValid()) {
-            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea añadir el avance?");
-            if (response.get() == DialogGenerator.BUTTON_YES) {
-                try {
-                    scheduleAdvancement();
-                    DialogGenerator.getDialog(new AlertMessage("Se ha programado el avance", AlertStatus.SUCCESS));
-                } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
-                }
-                try {
-                    fillListViewAdvancements();
-                } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la tabla, inténtelo más tarde", AlertStatus.WARNING));
-                }
+            try {
+                scheduleAdvancement();
+                DialogGenerator.getDialog(new AlertMessage("Se ha programado el avance", AlertStatus.SUCCESS));
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
+            }
+            try {
+                fillListViewAdvancements();
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la tabla, inténtelo más tarde", AlertStatus.WARNING));
             }
         }
     }
@@ -204,7 +201,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
     @Override
     public void redirectToProjectManagement() throws IOException {
-        MainStage.changeView("timeline-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+
     }
 
     @Override
