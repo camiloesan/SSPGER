@@ -49,6 +49,7 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     private TextFlow textExpectedResults;
     @FXML
     private TextFlow textBibliography;
+    private int projectID;
     
     public void initialize() throws SQLException {
         getDetailedProject();
@@ -62,6 +63,8 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     public void getDetailedProject() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         DetailedProject detailedProject = (projectDAO.getProjectInfo(getReceptionWorkName()));
+
+        projectID = detailedProject.getProjectID();
         
         labelAcademicBody.setText(detailedProject.getAcademicBodyName());
         
@@ -99,6 +102,13 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
         
         Text bibliography = new Text(detailedProject.getBibliography());
         textBibliography.getChildren().add(bibliography);
+    }
+
+
+    @FXML
+    private void redirectToProjectRequest() throws IOException {
+        TransferProject.setProjectID(projectID);
+        MainStage.changeView("studentrequestproject-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override

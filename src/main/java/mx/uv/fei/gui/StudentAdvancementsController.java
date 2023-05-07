@@ -42,7 +42,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
         advancementList.forEach(element -> listViewAdvancementsNames.getItems().add(element.getAdvancementName()));
     }
     
-    public void viewAdvanvementDetails() throws IOException {
+    public void viewAdvancementDetails() throws IOException {
         if (listViewAdvancementsNames.getSelectionModel().getSelectedItem() != null) {
             String advancementName = listViewAdvancementsNames.getSelectionModel().getSelectedItem();
             TransferAdvancement.setAdvancementName(advancementName);
