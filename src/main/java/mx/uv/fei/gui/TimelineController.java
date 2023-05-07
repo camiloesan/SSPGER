@@ -1,17 +1,21 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.logic.Advancement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TimelineController {
@@ -32,34 +36,50 @@ public class TimelineController {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         List<Advancement> advancementList = advancementDAO.getAdvancementListByProjectName("Hacia un Modelo de Campus Accsesible: Facultad de Estadística e Informática");
 
-        int labelDatesX = 150;
-        int labelDatesY = 50;
-        int labelProjectNameX = 20;
+        int labelDatesX = 220;
+        int labelProjectNameX = 30;
         int labelProjectNameY = 100;
 
-        String textDates;
         AnchorPane anchorPane = new AnchorPane();
-        anchorPane.setPadding(new Insets(40, 20, 20, 40));
-        for (Advancement advancementObject : advancementList) {
-            textDates = advancementObject.getAdvancementStartDate() + "/" + advancementObject.getAdvancementDeadline();
+        Line dateLine = new Line();
+        dateLine.setStartX(labelDatesX);
+        dateLine.setStartY(50);
+        dateLine.setEndX(labelDatesX);
+        dateLine.setEndY(labelProjectNameY + 350);
+        dateLine.setStroke(Color.web("#61192C"));
+        anchorPane.getChildren().add(dateLine);
 
-            Label labelDate = new Label(textDates);
-            labelDate.setLayoutX(labelDatesX);
-            labelDate.setLayoutY(labelDatesY);
-            anchorPane.getChildren().add(labelDate);
+        //draw months
+        //for (int i = 0; i < 12; i++) {}
+
+        int i = 0;
+        for (Advancement advancementObject : advancementList) {
+            i++;
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDateTime dateStart = LocalDate.parse(advancementObject.getAdvancementStartDate(), dateTimeFormatter).atStartOfDay();
+            LocalDateTime dateEnd = LocalDate.parse(advancementObject.getAdvancementDeadline(), dateTimeFormatter).atStartOfDay();
+            long daysBetween = Duration.between(dateStart, dateEnd).toDays();
+            //LocalDateTime testDate = LocalDate.parse("2023-05-29", dateTimeFormatter).atStartOfDay();
+            long offsetDays = Duration.between(LocalDate.now().atStartOfDay(), dateStart).toDays();
 
             Label labelProjectName = new Label(advancementObject.getAdvancementName());
             labelProjectName.setLayoutX(labelProjectNameX);
             labelProjectName.setLayoutY(labelProjectNameY);
             anchorPane.getChildren().add(labelProjectName);
 
-            Rectangle rectangle = new Rectangle(170, 50, Color.RED);
-            rectangle.setLayoutX(labelDatesX);
-            rectangle.setLayoutY(labelProjectNameY-15);
-            anchorPane.getChildren().add(rectangle);
+            Rectangle advancementRectangle = new Rectangle(daysBetween * 4, 30);
+            if (i % 2 == 0) {
+                advancementRectangle.setFill(Color.web("#D7A319"));
+            } else {
+                advancementRectangle.setFill(Color.web("#003466"));
+            }
+            advancementRectangle.setArcHeight(10);
+            advancementRectangle.setArcWidth(10);
+            advancementRectangle.setLayoutX(labelDatesX + offsetDays);
+            advancementRectangle.setLayoutY(labelProjectNameY-5);
+            anchorPane.getChildren().add(advancementRectangle);
 
             labelProjectNameY += 70;
-            labelDatesX += 200;
         }
         scrollPaneTimeline.setContent(anchorPane);
     }

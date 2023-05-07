@@ -9,10 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.TimelineController">
    <children>
-      <HBox prefHeight="45.0" prefWidth="1000.0" style="-fx-background-color: #334b49;">
+      <HBox minHeight="45.0" prefHeight="45.0" prefWidth="1000.0" style="-fx-background-color: #334b49;">
          <children>
             <Label onMouseClicked="#returnToPreviousWindow" prefHeight="18.0" prefWidth="19.0" text="&lt;" textFill="WHITE">
                <HBox.margin>
@@ -37,8 +36,11 @@
       </HBox>
       <AnchorPane prefHeight="555.0" prefWidth="1000.0">
          <children>
-            <ScrollPane fx:id="scrollPaneTimeline" prefHeight="555.0" prefWidth="1000.0" />
+            <ScrollPane fx:id="scrollPaneTimeline" fitToHeight="true" fitToWidth="true" prefHeight="555.0" prefWidth="1000.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
       </AnchorPane>
    </children>
 </VBox>
