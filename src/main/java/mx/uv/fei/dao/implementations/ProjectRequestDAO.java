@@ -13,16 +13,16 @@ import java.util.List;
 
 public class ProjectRequestDAO implements IProjectRequest {
     @Override
-    public int createProjectRequest(ProjectRequest projectPetition) throws SQLException {
+    public int createProjectRequest(ProjectRequest projectRequest) throws SQLException {
         int result;
         String query = "INSERT INTO SolicitudesProyecto(ID_proyecto, matriculaEstudiante, motivos) VALUES(?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-        preparedStatement.setInt(1, projectPetition.getProjectID());
-        preparedStatement.setString(2, projectPetition.getStudentId());
-        preparedStatement.setString(3, projectPetition.getDescription());
+        preparedStatement.setInt(1, projectRequest.getProjectID());
+        preparedStatement.setString(2, projectRequest.getStudentId());
+        preparedStatement.setString(3, projectRequest.getDescription());
         result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
