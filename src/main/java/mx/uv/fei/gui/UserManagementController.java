@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Optional;
 
-public class AccessAccountManagementController {
+public class UserManagementController {
     @FXML
     private ComboBox<String> comboBoxUserType;
     @FXML
@@ -279,7 +279,7 @@ public class AccessAccountManagementController {
     }
 
     public static void setUsername(String username) {
-        AccessAccountManagementController.username = username;
+        UserManagementController.username = username;
     }
 
     public boolean confirmedLogOut() {

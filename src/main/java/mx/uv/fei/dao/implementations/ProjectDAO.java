@@ -1,5 +1,6 @@
 package mx.uv.fei.dao.implementations;
 
+import javafx.scene.chart.PieChart;
 import mx.uv.fei.dao.contracts.IProject;
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.Project;
@@ -325,6 +326,26 @@ public class ProjectDAO implements IProject {
 
         return projectNamesList;
     }
+
+    @Override
+    public String getProjectNameById(int projectId) throws SQLException {
+        String query = "select nombreTrabajoRecepcional from Proyectos where ID_proyecto=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, projectId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        String projectName = "";
+        while (resultSet.next()) {
+            projectName = resultSet.getString("nombreTrabajoRecepcional");
+        }
+
+        return projectName;
+    }
+
     @Override
     public int deleteProjectByTitle(String title) throws SQLException {
         String query = "DELETE FROM Proyectos WHERE nombreTrabajoRecepcional=(?)";

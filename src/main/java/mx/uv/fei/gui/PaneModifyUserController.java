@@ -51,7 +51,7 @@ public class PaneModifyUserController {
 
     @FXML
     private void initialize() {
-        labelHeader.setText("Modificar usuario [" + AccessAccountManagementController.getUsername() + "]");
+        labelHeader.setText("Modificar usuario [" + UserManagementController.getUsername() + "]");
         comboBoxUserTypeToModify.setItems(observableListComboItemsUserType);
     }
 
@@ -142,7 +142,7 @@ public class PaneModifyUserController {
         professor.setProfessorDegree(comboBoxNewProfessorDegree.getValue());
         professor.setProfessorEmail(textFieldNewProfessorEmail.getText());
         try {
-            accessAccountDAO.modifyProfessorUserTransaction(AccessAccountManagementController.getUsername(), accessAccount, professor);
+            accessAccountDAO.modifyProfessorUserTransaction(UserManagementController.getUsername(), accessAccount, professor);
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo modificar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
@@ -160,7 +160,7 @@ public class PaneModifyUserController {
         student.setLastName(textFieldNewStudentLastName.getText());
         student.setAcademicEmail(textFieldNewStudentEmail.getText());
         try {
-            accessAccountDAO.modifyStudentUserTransaction(AccessAccountManagementController.getUsername(), accessAccount, student);
+            accessAccountDAO.modifyStudentUserTransaction(UserManagementController.getUsername(), accessAccount, student);
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo modificar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }

@@ -4,7 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
+import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.ProjectRequest;
@@ -15,8 +17,6 @@ import java.util.Optional;
 
 public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
-    Label labelDescription;
-    @FXML
     Label labelUsername;
     @FXML
     Text textMotive;
@@ -26,6 +26,8 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     Button buttonAccept;
     @FXML
     Button buttonReject;
+    @FXML
+    Text textDescription;
     private static String VALIDATION_REQUEST;
 
     @FXML
@@ -46,7 +48,23 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
     private void handleItemClick() {
         if (tableViewRequests.getSelectionModel().getSelectedItem() != null) {
-            labelDescription.setVisible(true);
+            StudentDAO studentDAO = new StudentDAO();
+            ProjectDAO projectDAO = new ProjectDAO();
+            String studentName = "";
+            String projectName = "";
+            try {
+                studentName = studentDAO.getNamebyStudentID(tableViewRequests.getSelectionModel().getSelectedItem().getStudentId());
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo obtener la información del estudiante, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            }
+            try {
+                projectName = projectDAO.getProjectNameById(tableViewRequests.getSelectionModel().getSelectedItem().getProjectID());
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo obtener la información del proyecto, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            }
+
+            textDescription.setText("Motivos del estudiante [" + studentName + "] para el proyecto [" + projectName + "]");
+
             buttonAccept.setVisible(true);
             buttonReject.setVisible(true);
             ProjectRequest projectRequest = tableViewRequests.getSelectionModel().getSelectedItem();

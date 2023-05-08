@@ -168,11 +168,11 @@
                   </Separator>
                   <VBox alignment="TOP_CENTER" prefHeight="529.0" prefWidth="492.0" spacing="25.0">
                      <children>
-                        <Label fx:id="labelDescription" text="Motivos" visible="false">
+                        <Text fx:id="textDescription" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="JUSTIFY" wrappingWidth="350.0">
                            <font>
                               <Font size="16.0" />
                            </font>
-                        </Label>
+                        </Text>
                         <Text fx:id="textMotive" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="JUSTIFY" wrappingWidth="391.33477783203125" />
                         <HBox alignment="CENTER" prefHeight="47.0" prefWidth="457.0" spacing="30.0">
                            <children>

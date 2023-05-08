@@ -22,6 +22,6 @@ public interface IProject {
     List<String> getRWModalitiesList() throws SQLException;
     List<String> getAcademicBodyIDs() throws  SQLException;
     List<String> getProjectNamesByIdDirector(int directorId) throws SQLException;
-
+    String getProjectNameById(int projectId) throws SQLException;
     int deleteProjectByTitle(String title) throws SQLException;
 }
