@@ -135,6 +135,15 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         }
     }
     
+    @FXML
+    public void openProjectRegistration() throws IOException {
+        try {
+            MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
     @Override
     public void redirectToAdvancementManagement() throws IOException {
         try {
