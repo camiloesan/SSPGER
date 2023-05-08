@@ -164,7 +164,7 @@
                               <Label fx:id="labelAdvancementEvidence" layoutX="432.0" layoutY="279.0" opacity="0.0" text="avance" />
                               <Label fx:id="labelStudentEvidence" layoutX="432.0" layoutY="317.0" opacity="0.0" text="estudiante" />
                               <TableView fx:id="tableViewEvidence" layoutX="52.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
-                              <Button layoutX="264.0" layoutY="50.0" mnemonicParsing="false" onAction="#gradeEvidenceButtonAction" text="Calificar" />
+                              <Button layoutX="264.0" layoutY="50.0" mnemonicParsing="false" onAction="#openPaneGradeEvidence" text="Calificar" />
                            </children>
                         </AnchorPane>
                           </content>

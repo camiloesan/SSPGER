@@ -11,7 +11,7 @@ import mx.uv.fei.logic.TransferEvidence;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class GradeEvidenceController {
+public class PaneGradeEvidenceController {
     @FXML
     private Label labelEvidenceToGrade;
     @FXML
@@ -37,7 +37,7 @@ public class GradeEvidenceController {
             if (grade >= 0 && grade <= 10) {
                 return true;
             } else {
-                DialogGenerator.getDialog(new AlertMessage("El rango de calificación es del 0 al 10", AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage("Calificación inválid, el rango de calificación permitido es del 0 al 10", AlertStatus.WARNING));
                 return false;
             }
         }
@@ -50,6 +50,7 @@ public class GradeEvidenceController {
             int grade = Integer.parseInt(textFieldGrade.getText());
             try {
                 evidenceDAO.updateEvidenceGradeById(TransferEvidence.getEvidenceId(), grade);
+                DialogGenerator.getDialog(new AlertMessage("Se actualizó la calificación satisfactoriamente", AlertStatus.SUCCESS));
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la calificación, inténtelo más tarde", AlertStatus.ERROR));
             }

@@ -75,8 +75,7 @@ public class PaneModifyUserController {
     }
 
     private boolean areAccessAccountFieldsValid() {
-        if (textFieldNewUsername.getText().isBlank()
-                || textFieldNewPassword.getText().isBlank()
+        if (textFieldNewPassword.getText().isBlank()
                 || comboBoxUserTypeToModify.getValue() == null) {
             DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;

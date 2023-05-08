@@ -77,7 +77,6 @@ public class AccessAccountManagementController {
             DialogGenerator.getDialog(new AlertMessage("No se pudo recuparar la informaicón de la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
     }
-
     @FXML
     private void buttonSaveAction() {
         if (areAccessAccountFieldsValid()) {

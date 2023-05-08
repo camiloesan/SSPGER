@@ -52,8 +52,8 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     }
 
     @FXML
-    private void gradeEvidenceButtonAction() throws IOException {
-        if (tableViewEvidence.getSelectionModel().getSelectedItem() != null) {
+    private void openPaneGradeEvidence() throws IOException {
+        if (isItemSelected()) {
             int evidenceId = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceId(); //?????????????????????????
             String evidenceName = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceTitle();
 
@@ -63,8 +63,12 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
             Parent gradeEvidenceVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("panegradeevidence-view.fxml")));
             tabEvidenceList.setContent(gradeEvidenceVbox);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar una evidencia", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar una evidencia para continuar", AlertStatus.WARNING));
         }
+    }
+
+    private boolean isItemSelected() {
+        return tableViewEvidence.getSelectionModel().getSelectedItem() != null;
     }
 
     @FXML

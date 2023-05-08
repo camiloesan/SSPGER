@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.GradeEvidenceController">
+<VBox prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.PaneGradeEvidenceController">
    <children>
       <HBox prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS">
          <children>
