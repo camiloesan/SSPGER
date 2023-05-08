@@ -5,8 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.ProjectDAO;
-import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.DetailedProject;
@@ -18,17 +20,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ViewProjectProposalsController implements IProfessorNavigationBar{
+public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
     private Label labelHeader;
-    @FXML
-    private Button buttonActualizar;
     @FXML
     public Button buttonVerDetalles;
     @FXML
     private ComboBox<String> comboProjectStates;
     @FXML
     private ListView<String> listViewProjects;
+    @FXML
+    private HBox hboxLogOutLabel;
     
     private static final String ALL_COMBO_OPTION = "Todos";
     private static final String UNVERIFIED_COMBO_OPTION = "Por revisar";
@@ -42,6 +44,7 @@ public class ViewProjectProposalsController implements IProfessorNavigationBar{
     public void initialize() throws SQLException {
         fillProjectStateCombo();
         fillUnfilteredList();
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
     public void fillUnfilteredList() throws SQLException {
