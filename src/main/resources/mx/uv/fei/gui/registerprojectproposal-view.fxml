@@ -131,9 +131,9 @@
             </HBox>
         </children>
     </VBox>
-    <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+    <VBox fx:id="vboxMainContainer" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
       <children>
-    <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
             <HBox fx:id="hboxTopBar" minHeight="76.0" prefHeight="76.0" prefWidth="699.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
                 <children>
                     <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Registro de Anteproyecto" textFill="WHITE">
