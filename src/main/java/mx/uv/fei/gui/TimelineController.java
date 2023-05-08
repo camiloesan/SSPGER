@@ -86,6 +86,9 @@ public class TimelineController {
 
     @FXML
     private void returnToPreviousWindow() throws IOException {
-        MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        switch (LoginController.sessionDetails.getUserType()) {
+            case "Profesor", "RepresentanteCA" -> MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            case "Estudiante" -> MainStage.changeView("studentviewprojects-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        }
     }
 }
