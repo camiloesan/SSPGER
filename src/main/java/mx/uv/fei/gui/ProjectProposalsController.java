@@ -22,6 +22,8 @@ import java.util.Optional;
 
 public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
+    private Label labelUsername;
+    @FXML
     private Label labelHeader;
     @FXML
     public Button buttonVerDetalles;
@@ -42,6 +44,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private static String PROJECT_VALIDATION;
  
     public void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         fillProjectStateCombo();
         fillUnfilteredList();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);

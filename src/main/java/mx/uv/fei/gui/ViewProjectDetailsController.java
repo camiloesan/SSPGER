@@ -23,6 +23,8 @@ import java.util.Optional;
 
 public class ViewProjectDetailsController implements IProfessorNavigationBar{
     @FXML
+    private Label labelUsername;
+    @FXML
     private HBox hboxLogOutLabel;
     @FXML
     private Label labelAcademicBody;
@@ -56,6 +58,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     private TextFlow textBibliography;
     
     public void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         getDetailedProject();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
