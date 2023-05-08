@@ -3,13 +3,12 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.ProjectDAO;
-import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.DetailedProject;
@@ -19,18 +18,25 @@ import java.sql.SQLException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 
-public class ViewProjectProposalsController {
+public class ProjectProposalsController implements IProfessorNavigationBar{
+    @FXML
+    private Label labelUsername;
     @FXML
     private Label labelHeader;
-    @FXML
-    private Button buttonActualizar;
     @FXML
     public Button buttonVerDetalles;
     @FXML
     private ComboBox<String> comboProjectStates;
     @FXML
     private ListView<String> listViewProjects;
+    @FXML
+    private HBox hboxLogOutLabel;
+    @FXML
+    private Button buttonAcceptProject;
+    @FXML
+    private Button buttonDeclineProject;
     
     private static final String ALL_COMBO_OPTION = "Todos";
     private static final String UNVERIFIED_COMBO_OPTION = "Por revisar";
@@ -42,8 +48,18 @@ public class ViewProjectProposalsController {
     private static String PROJECT_VALIDATION;
  
     public void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         fillProjectStateCombo();
         fillUnfilteredList();
+        if(!isRCA()) {
+            buttonAcceptProject.setVisible(false);
+            buttonDeclineProject.setVisible(false);
+        }
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+    
+    public boolean isRCA() {
+        return Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA");
     }
     
     public void fillUnfilteredList() throws SQLException {
@@ -130,7 +146,68 @@ public class ViewProjectProposalsController {
                 requestException.printStackTrace();
             }
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para Rchazarlo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para Rechazarlo", AlertStatus.WARNING));
+        }
+    }
+    
+    @FXML
+    public void openProjectRegistration() throws IOException {
+        try {
+            MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void redirectToAdvancementManagement() throws IOException {
+        try {
+            MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void redirectToProjectManagement() throws IOException {
+        try {
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void redirectToEvidences() throws IOException {
+        try {
+            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void redirectToRequests() throws IOException {
+        try {
+            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+    
+    @Override public void actionLogOut() throws IOException {
+        if (confirmedLogOut()) {
+            LoginController.sessionDetails.cleanSessionDetails();
+            try {
+                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 }

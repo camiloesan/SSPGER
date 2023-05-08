@@ -3,6 +3,7 @@ package mx.uv.fei.gui;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -19,9 +20,12 @@ import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 
-public class ViewProjectDetailsController {
+public class ViewProjectDetailsController implements IProfessorNavigationBar{
+    @FXML
+    private Label labelUsername;
     @FXML
     private HBox hboxLogOutLabel;
     @FXML
@@ -54,6 +58,21 @@ public class ViewProjectDetailsController {
     private TextFlow textExpectedResults;
     @FXML
     private TextFlow textBibliography;
+    @FXML
+    private Button buttonDeleteProject;
+    
+    public void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        getDetailedProject();
+        if(!isRCA()){
+            buttonDeleteProject.setVisible(false);
+        }
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+    
+    public boolean isRCA() {
+        return Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA");
+    }
 
     public String getReceptionWorkName() {
         return TransferProject.getReceptionWorkName();
@@ -127,23 +146,47 @@ public class ViewProjectDetailsController {
                 deleteException.printStackTrace();
             }
             try {
-                actionProjects();
+                redirectToProjectManagement();
             } catch (IOException changeException) {
                 changeException.printStackTrace();
             }
         }
     }
-
-    public void initialize() throws SQLException {
-        getDetailedProject();
-        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    
+    @Override
+    public void redirectToAdvancementManagement() throws IOException {
+        try {
+            MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
     
-    public void actionProjects() throws IOException {
-        MainStage.changeView("viewprojectproposals-view.fxml",800,600);
+    @Override
+    public void redirectToProjectManagement() throws IOException {
+        try {
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
     
-    public void actionProfessors() {
+    @Override
+    public void redirectToEvidences() throws IOException {
+        try {
+            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void redirectToRequests() throws IOException {
+        try {
+            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
     
     public boolean confirmedLogOut() {
@@ -151,10 +194,14 @@ public class ViewProjectDetailsController {
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     
-    public void logOut() throws IOException {
+    @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
             LoginController.sessionDetails.cleanSessionDetails();
-            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+            try {
+                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 }

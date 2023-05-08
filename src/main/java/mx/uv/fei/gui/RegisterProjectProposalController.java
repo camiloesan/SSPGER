@@ -3,9 +3,14 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 
@@ -13,12 +18,15 @@ import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.Project;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class RegisterProjectProposalController {
-    
+public class RegisterProjectProposalController implements IProfessorNavigationBar{
+    @FXML
+    private Label labelUsername;
     @FXML
     private ComboBox<String> comboAB;
     @FXML
@@ -49,14 +57,18 @@ public class RegisterProjectProposalController {
     private TextArea textAreaExpectedResults;
     @FXML
     private TextArea textAreaRecommendedBibliography;
+    @FXML
+    private HBox hboxLogOutLabel;
     
     
     public void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         fillLgacCombo();
         fillProfessorsCombos();
         fillReceptionWorkModalityCombo();
         fillStudentsCombo();
         fillABcombo();
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
     public void fillLgacCombo() throws SQLException {
@@ -202,5 +214,65 @@ public class RegisterProjectProposalController {
         projectDAO.addProject(project);
         projectDAO.setDirectorIDtoProject(project);
         projectDAO.setCodirectorIDtoProject(project);
+    }
+    
+    public void returnToProjectManagement() throws IOException {
+        try {
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void redirectToAdvancementManagement() throws IOException {
+        try {
+            MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void redirectToProjectManagement() throws IOException {
+        try {
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void redirectToEvidences() throws IOException {
+        try {
+            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void redirectToRequests() throws IOException {
+        try {
+            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+    
+    @Override public void actionLogOut() throws IOException {
+        if (confirmedLogOut()) {
+            LoginController.sessionDetails.cleanSessionDetails();
+            try {
+                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
     }
 }

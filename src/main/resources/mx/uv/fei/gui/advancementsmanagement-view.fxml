@@ -141,7 +141,7 @@
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                      <children>
-                        <HBox prefHeight="45.0" prefWidth="698.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS">
+                        <HBox minHeight="45.0" prefHeight="45.0" prefWidth="698.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
                            <children>
                               <Label text="Visualizar avances" textFill="WHITE">
                                  <font>
@@ -163,7 +163,7 @@
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="422.0" minHeight="10.0" prefHeight="406.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="406.0" vgrow="ALWAYS" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
@@ -175,12 +175,12 @@
                                                 <Insets top="20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#deleteAdvancementButtonAction" text="Eliminar">
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#deleteAdvancementButtonAction" text="Eliminar">
                                              <VBox.margin>
                                                 <Insets top="20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#openModifyAdvancement" text="Modificar">
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#openModifyAdvancement" text="Modificar">
                                              <VBox.margin>
                                                 <Insets top="20.0" />
                                              </VBox.margin>
