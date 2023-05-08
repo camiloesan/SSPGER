@@ -193,38 +193,56 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             DialogGenerator.getDialog(new AlertMessage("Selecciones un avance para ver los detalles.", AlertStatus.WARNING));
         }
     }
-
+    
     @Override
     public void redirectToAdvancementManagement() throws IOException {
-        MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        try {
+            MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
-
+    
     @Override
     public void redirectToProjectManagement() throws IOException {
-
+        try {
+            MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
-
+    
     @Override
     public void redirectToEvidences() throws IOException {
-        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        try {
+            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
-
+    
     @Override
     public void redirectToRequests() throws IOException {
-        MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        try {
+            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
-
+    
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     
-    @Override
-    public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
+    @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
             LoginController.sessionDetails.cleanSessionDetails();
-            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+            try {
+                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 }
