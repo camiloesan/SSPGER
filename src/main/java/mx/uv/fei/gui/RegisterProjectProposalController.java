@@ -216,6 +216,14 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         projectDAO.setCodirectorIDtoProject(project);
     }
     
+    public void returnToProjectManagement() throws IOException {
+        try {
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
     @Override
     public void redirectToAdvancementManagement() throws IOException {
         try {
@@ -228,7 +236,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     @Override
     public void redirectToProjectManagement() throws IOException {
         try {
-            MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }

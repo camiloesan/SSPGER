@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<HBox minHeight="600" minWidth="900.0" prefHeight="1847.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.RegisterProjectProposalController">
+<HBox minHeight="600" minWidth="900.0" prefHeight="1847.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.RegisterProjectProposalController">
     <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
         <children>
             <Label text="SSPGER" textFill="WHITE">
@@ -133,20 +133,18 @@
     </VBox>
     <VBox fx:id="vboxMainContainer" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
       <children>
-        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-            <HBox fx:id="hboxTopBar" minHeight="76.0" prefHeight="76.0" prefWidth="699.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
-                <children>
-                    <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Registro de Anteproyecto" textFill="WHITE">
-                        <font>
-                            <Font name="Cantarell Regular" size="30.0" />
-                        </font>
-                        <HBox.margin>
-                            <Insets left="16.0" top="16.0" />
-                        </HBox.margin>
-                    </Label>
-                </children>
-            </HBox>
-          </VBox>
+         <HBox fx:id="hboxTopBar" minHeight="76.0" prefHeight="76.0" prefWidth="699.0" style="-fx-background-color: #334b49" VBox.vgrow="NEVER">
+             <children>
+                 <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Registro de Anteproyecto" textFill="WHITE">
+                     <font>
+                         <Font name="Cantarell Regular" size="30.0" />
+                     </font>
+                     <HBox.margin>
+                         <Insets left="16.0" top="16.0" />
+                     </HBox.margin>
+                 </Label>
+             </children>
+         </HBox>
           <ScrollPane hbarPolicy="AS_NEEDED" prefHeight="1961.0" prefWidth="699.0">
               <content>
                   <VBox prefHeight="1850.0" prefWidth="676.0">
@@ -400,7 +398,7 @@
                      </TextArea>
                           <ButtonBar prefHeight="77.0" prefWidth="676.0">
                               <buttons>
-                                  <Button fx:id="buttonBack" mnemonicParsing="false" text="Regresar" />
+                                  <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#returnToProjectManagement" text="Regresar" />
                                   <Button fx:id="buttonCliear" mnemonicParsing="false" onAction="#clear" text="Limpiar" />
                                   <Button fx:id="buttonRegister" mnemonicParsing="false" onAction="#register" text="Registrar" />
                               </buttons>
