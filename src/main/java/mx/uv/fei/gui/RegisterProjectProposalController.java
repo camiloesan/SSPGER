@@ -3,7 +3,11 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -214,22 +218,38 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     
     @Override
     public void redirectToAdvancementManagement() throws IOException {
-        MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        try {
+            MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
     
     @Override
     public void redirectToProjectManagement() throws IOException {
-        MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        try {
+            MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
     
     @Override
     public void redirectToEvidences() throws IOException {
-        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        try {
+            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
     
     @Override
     public void redirectToRequests() throws IOException {
-        MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        try {
+            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
     
     public boolean confirmedLogOut() {
@@ -237,12 +257,14 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     
-    @Override
-    public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
+    @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
             LoginController.sessionDetails.cleanSessionDetails();
-            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+            try {
+                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 }
