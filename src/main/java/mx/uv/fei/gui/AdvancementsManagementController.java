@@ -206,7 +206,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @Override
     public void redirectToProjectManagement() throws IOException {
         try {
-            MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }

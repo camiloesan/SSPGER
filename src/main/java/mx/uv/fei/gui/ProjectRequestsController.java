@@ -106,7 +106,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     @Override
     public void redirectToProjectManagement() {
-
+    
     }
 
     @Override
