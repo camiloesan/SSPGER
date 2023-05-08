@@ -3,6 +3,7 @@ package mx.uv.fei.gui;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -19,6 +20,7 @@ import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ViewProjectDetailsController implements IProfessorNavigationBar{
@@ -56,11 +58,20 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     private TextFlow textExpectedResults;
     @FXML
     private TextFlow textBibliography;
+    @FXML
+    private Button buttonDeleteProject;
     
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         getDetailedProject();
+        if(!isRCA()){
+            buttonDeleteProject.setVisible(false);
+        }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+    
+    public boolean isRCA() {
+        return Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA");
     }
 
     public String getReceptionWorkName() {

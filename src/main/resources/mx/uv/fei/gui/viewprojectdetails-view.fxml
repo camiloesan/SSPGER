@@ -409,7 +409,7 @@
                         </TextFlow>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#deleteProject" text="Eliminar proyecto" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="buttonDeleteProject" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#deleteProject" text="Eliminar proyecto" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>

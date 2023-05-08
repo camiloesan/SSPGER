@@ -33,6 +33,10 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private ListView<String> listViewProjects;
     @FXML
     private HBox hboxLogOutLabel;
+    @FXML
+    private Button buttonAcceptProject;
+    @FXML
+    private Button buttonDeclineProject;
     
     private static final String ALL_COMBO_OPTION = "Todos";
     private static final String UNVERIFIED_COMBO_OPTION = "Por revisar";
@@ -47,7 +51,15 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         fillProjectStateCombo();
         fillUnfilteredList();
+        if(!isRCA()) {
+            buttonAcceptProject.setVisible(false);
+            buttonDeclineProject.setVisible(false);
+        }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+    
+    public boolean isRCA() {
+        return Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA");
     }
     
     public void fillUnfilteredList() throws SQLException {
