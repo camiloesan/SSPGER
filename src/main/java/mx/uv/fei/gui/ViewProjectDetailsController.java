@@ -194,7 +194,8 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     
-    @Override public void actionLogOut() throws IOException {
+    @Override
+    public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
             LoginController.sessionDetails.cleanSessionDetails();
             try {
