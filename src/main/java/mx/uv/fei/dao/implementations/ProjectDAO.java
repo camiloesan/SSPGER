@@ -188,6 +188,33 @@ public class ProjectDAO implements IProject {
     }
     
     @Override
+    public List<DetailedProject> getProjectsByRole(int professorID) {
+        String sqlQuery = "SELECT nombreTrabajoRecepcional FROM Proyectos WHERE ID_codirector = ? OR ID_director = ?";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        List<DetailedProject> projectTitles = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1,professorID);
+            preparedStatement.setInt(2,professorID);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            projectTitles = new ArrayList<>();
+            while (resultSet.next()) {
+                DetailedProject projectTitle = new DetailedProject();
+                projectTitle.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+                projectTitles.add(projectTitle);
+            }
+        }catch (SQLException sqlException) {
+            sqlException.printStackTrace(); //log exception
+        }
+        return projectTitles;
+    }
+    
+    @Override
     public DetailedProject getProjectInfo(String projectTitle) throws SQLException{
         String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, CONCAT(LC.clave, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.grado,' ',PRF.nombre, ' ',PRF.apellidos) AS 'Director', CONCAT (CD.grado,' ',CD.nombre, ' ',CD.apellidos) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.ID_lgac LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR INNER JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor WHERE P.nombreTrabajoRecepcional = ?";
       
