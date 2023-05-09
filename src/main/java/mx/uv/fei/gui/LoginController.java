@@ -67,7 +67,11 @@ public class LoginController {
                 sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
                 MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
             }
-            case "RepresentanteCA" -> MainStage.changeView("projectproposals-view.fxml", 1000, 700);
+            case "RepresentanteCA" -> {
+                ProfessorDAO professorDAO = new ProfessorDAO();
+                sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
+                MainStage.changeView("projectproposals-view.fxml", 1000, 700);
+            }
         }
     }
 }
