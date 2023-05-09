@@ -64,9 +64,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         getDetailedProject();
-        if(!isRCA()){
-            buttonDeleteProject.setVisible(false);
-        }
+        buttonDeleteProject.setVisible(false);
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
