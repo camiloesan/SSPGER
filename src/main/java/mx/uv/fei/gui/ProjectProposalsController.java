@@ -26,7 +26,9 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
     private Label labelHeader;
     @FXML
-    public Button buttonVerDetalles;
+    private Button buttonVerDetalles;
+    @FXML
+    private Label labelFilter;
     @FXML
     private ComboBox<String> comboProjectStates;
     @FXML
@@ -39,6 +41,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private Button buttonDeclineProject;
     
     private static final String ALL_COMBO_OPTION = "Todos";
+    private static final String PARTICIPATING_COMBO_OPTION = "Mis proyectos";
     private static final String UNVERIFIED_COMBO_OPTION = "Por revisar";
     private static final String VERIFIED_COMBO_OPTION = "Verificados";
     private static final String DECLINED_COMBO_OPTION = "Declinados";
@@ -49,11 +52,15 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
  
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        fillProjectStateCombo();
-        fillUnfilteredList();
         if(!isRCA()) {
+            fillProjectListByRole();
             buttonAcceptProject.setVisible(false);
             buttonDeclineProject.setVisible(false);
+            labelFilter.setVisible(false);
+            comboProjectStates.setVisible(false);
+        } else {
+            fillProjectStateCombo();
+            fillUnfilteredList();
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
@@ -65,8 +72,15 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     public void fillUnfilteredList() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         listViewProjects.getItems().clear();
-        
         ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getAllProjects());
+        proposedProjects.forEach(element -> listViewProjects.getItems().add(element.getProjectTitle()));
+    }
+    
+    public void fillProjectListByRole() {
+        ProjectDAO projectDAO = new ProjectDAO();
+        listViewProjects.getItems().clear();
+        
+        ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByRole(Integer.parseInt(LoginController.sessionDetails.getId())));
         proposedProjects.forEach(element -> listViewProjects.getItems().add(element.getProjectTitle()));
     }
     
@@ -79,7 +93,12 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     }
     
     public void fillProjectStateCombo() {
-        ObservableList<String > projectStates = FXCollections.observableArrayList(ALL_COMBO_OPTION,UNVERIFIED_COMBO_OPTION,VERIFIED_COMBO_OPTION,DECLINED_COMBO_OPTION);
+        ObservableList<String > projectStates = FXCollections.observableArrayList(
+                ALL_COMBO_OPTION,
+                PARTICIPATING_COMBO_OPTION,
+                UNVERIFIED_COMBO_OPTION,
+                VERIFIED_COMBO_OPTION,
+                DECLINED_COMBO_OPTION);
         comboProjectStates.setItems(projectStates);
     }
     
@@ -89,16 +108,15 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     
     public void refreshFilteredList() throws SQLException {
         if (noFilterSelected()) {
-            DialogGenerator.getDialog(new AlertMessage("Se debe especificar un filtro", AlertStatus.WARNING));
+            initialize();
         } else{
-            if (Objects.equals(comboProjectStates.getSelectionModel().getSelectedItem(), ALL_COMBO_OPTION)) {
-                fillUnfilteredList();
-            } else if (Objects.equals(comboProjectStates.getSelectionModel().getSelectedItem(), UNVERIFIED_COMBO_OPTION)){
-                fillFilteredProjects(UNVERIFIED_PROJECT_STATE);
-            } else if (Objects.equals(comboProjectStates.getSelectionModel().getSelectedItem(), VERIFIED_COMBO_OPTION)) {
-                fillFilteredProjects(VERIFIED_PROJECT_STATE);
-            } else {
-                fillFilteredProjects(DECLINED_PROJECT_STATE);
+            String selectedItem = comboProjectStates.getSelectionModel().getSelectedItem();
+            switch (selectedItem) {
+                case ALL_COMBO_OPTION -> fillUnfilteredList();
+                case PARTICIPATING_COMBO_OPTION -> fillProjectListByRole();
+                case UNVERIFIED_COMBO_OPTION -> fillFilteredProjects(UNVERIFIED_PROJECT_STATE);
+                case VERIFIED_COMBO_OPTION -> fillFilteredProjects(VERIFIED_PROJECT_STATE);
+                case DECLINED_COMBO_OPTION -> fillFilteredProjects(DECLINED_PROJECT_STATE);
             }
             labelHeader.setText(comboProjectStates.getSelectionModel().getSelectedItem());
         }
