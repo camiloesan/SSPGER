@@ -47,7 +47,9 @@ public class PaneModifyUserController {
     private TextField textFieldNewUsername;
 
     private final static ObservableList<String> observableListComboItemsUserType =
-            FXCollections.observableArrayList("Estudiante", "Profesor", "RepresentanteCA");
+            FXCollections.observableArrayList(LoginController.USER_STUDENT,
+                    LoginController.USER_PROFESSOR,
+                    LoginController.USER_REPRESENTATIVE);
 
     @FXML
     private void initialize() {
@@ -59,12 +61,12 @@ public class PaneModifyUserController {
     private void buttonConfirmModificationAction() {
         if (areAccessAccountFieldsValid()) {
             switch (comboBoxUserTypeToModify.getValue()) {
-                case "Profesor", "RepresentanteCA" -> {
+                case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
                     if (areProfessorFieldsValid()) {
                         modifyProfessorUser();
                     }
                 }
-                case "Estudiante" -> {
+                case LoginController.USER_STUDENT -> {
                     if (areStudentFieldsValid()) {
                         modifyStudentUser();
                     }
@@ -169,11 +171,11 @@ public class PaneModifyUserController {
     @FXML
     private void handleModifyUserTypeSelection() {
         switch (comboBoxUserTypeToModify.getValue()) {
-            case "Profesor", "RepresentanteCA" -> {
+            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
                 gridPaneNewProfessor.setVisible(true);
                 gridPaneNewStudent.setVisible(false);
             }
-            case "Estudiante" -> {
+            case LoginController.USER_STUDENT -> {
                 gridPaneNewProfessor.setVisible(false);
                 gridPaneNewStudent.setVisible(true);
             }
@@ -186,6 +188,6 @@ public class PaneModifyUserController {
 
     @FXML
     private void returnToUsersView() throws IOException {
-        MainStage.changeView("accessaccountmanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
+        MainStage.changeView("usermanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
     }
 }

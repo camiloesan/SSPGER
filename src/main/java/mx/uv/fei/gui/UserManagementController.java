@@ -48,7 +48,7 @@ public class UserManagementController {
     @FXML
     private TableView<AccessAccount> tableViewAccessAccounts;
     private final static ObservableList<String> observableListComboItemsUserType =
-            FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
+            FXCollections.observableArrayList(LoginController.USER_ADMIN, LoginController.USER_STUDENT, LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE);
     private final static ObservableList<String> observableListComboItemsDegree =
             FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
     private static String username;
@@ -74,24 +74,24 @@ public class UserManagementController {
         try {
             tableViewAccessAccounts.getItems().addAll(accessAccountDAO.getAccessAccountsList());
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuparar la informaicón de la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
     }
     @FXML
     private void buttonSaveAction() {
         if (areAccessAccountFieldsValid()) {
             switch (comboBoxUserType.getValue()) {
-                case "Profesor", "RepresentanteCA" -> {
+                case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
                     if (areProfessorFieldsValid()) {
                         addProfessorUser();
                     }
                 }
-                case "Estudiante" -> {
+                case LoginController.USER_STUDENT -> {
                     if (areStudentFieldsValid()) {
                         addStudentUser();
                     }
                 }
-                case "Administrador" -> addAdminUser();
+                case LoginController.USER_ADMIN -> addAdminUser();
                 default -> DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
             }
         }
@@ -180,11 +180,11 @@ public class UserManagementController {
     @FXML
     private void handleAddUserTypeSelection() {
         switch (comboBoxUserType.getValue()) {
-            case "Profesor", "RepresentanteCA" -> {
+            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
                 gridPaneStudent.setVisible(false);
                 gridPaneProfessor.setVisible(true);
             }
-            case "Estudiante" -> {
+            case LoginController.USER_STUDENT -> {
                 gridPaneStudent.setVisible(true);
                 gridPaneProfessor.setVisible(false);
             }
@@ -259,7 +259,7 @@ public class UserManagementController {
 
     private boolean isUserAdmin(String username) throws SQLException {
         AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("Administrador");
+        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals(LoginController.USER_ADMIN);
     }
 
     public boolean confirmedDeleteUser(String displayUsername) {

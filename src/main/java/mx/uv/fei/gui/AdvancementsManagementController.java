@@ -19,10 +19,10 @@ import mx.uv.fei.logic.TransferAdvancement;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.List;
-import java.util.ArrayList;
 
 public class AdvancementsManagementController implements IProfessorNavigationBar {
     @FXML
@@ -38,7 +38,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private Label labelUsername;
     @FXML
-    private HBox hboxLogOutLabel;
+    private HBox hBoxLogOutLabel;
     @FXML
     private ListView<String> listViewAdvancements;
     @FXML
@@ -55,7 +55,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         fillComboBoxProjectToAssign();
         formatDatePickers();
         fillListViewAdvancements();
-        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+        VBox.setVgrow(hBoxLogOutLabel, Priority.ALWAYS);
     }
 
     private void formatDatePickers() {
@@ -78,7 +78,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
     @FXML
     private void deleteAdvancementButtonAction() {
-        if (listViewAdvancements.getSelectionModel().getSelectedItem() != null) {
+        if (isItemSelected()) {
             String advancementName = listViewAdvancements.getSelectionModel().getSelectedItem();
             Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
             if (response.get() == DialogGenerator.BUTTON_YES) {
@@ -92,6 +92,10 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         } else {
             DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un avance para eliminarlo", AlertStatus.WARNING));
         }
+    }
+
+    private boolean isItemSelected() {
+        return listViewAdvancements.getSelectionModel().getSelectedItem() != null;
     }
 
     private void deleteAdvancement(String advancementName) {
@@ -151,7 +155,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
 
     @FXML
-    private void openModifyAdvancement() throws IOException {
+    private void openModifyAdvancementPane() throws IOException {
         if (listViewAdvancements.getSelectionModel().getSelectedItem() != null) {
             String advancementName = listViewAdvancements.getSelectionModel().getSelectedItem();
             TransferAdvancement.setAdvancementName(advancementName);

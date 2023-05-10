@@ -1,17 +1,13 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import mx.uv.fei.dao.implementations.AccessAccountDAO;
 
 import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.SessionDetails;
-import mx.uv.fei.logic.Student;
+import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -23,7 +19,10 @@ public class LoginController {
     @FXML
     private PasswordField textFieldPassword;
     private static final Logger logger = Logger.getLogger(LoginController.class);
-    private static final int HEIGHT_OFFSET = 44;
+    public static final String USER_ADMIN = "Administrador";
+    public static final String USER_STUDENT = "Estudiante";
+    public static final String USER_PROFESSOR = "Profesor";
+    public static final String USER_REPRESENTATIVE = "RepresentanteCA";
     static SessionDetails sessionDetails;
 
     @FXML
@@ -32,11 +31,7 @@ public class LoginController {
         try {
             continueLogin(accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText()));
         } catch (SQLException sqlException) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error con la base de datos");
-            alert.setContentText("No se pudo conectar a la base de datos, inténtelo de nuevo más tarde");
-            alert.show();
-            sqlException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar a la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
             logger.error("Error en login: " + sqlException);
         }
     }
@@ -56,21 +51,21 @@ public class LoginController {
         sessionDetails.setUsername(textFieldUser.getText());
         sessionDetails.setUserType(userType);
         switch (userType) {
-            case "Administrador" -> MainStage.changeView("accessaccountmanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
-            case "Estudiante" -> {
+            case USER_ADMIN -> MainStage.changeView("usermanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            case USER_STUDENT -> {
                 StudentDAO studentDAO = new StudentDAO();
                 sessionDetails.setId(studentDAO.getStudentIdByUsername(textFieldUser.getText()));
-                MainStage.changeView("studentadvancement-view.fxml", 900, 600 + HEIGHT_OFFSET);
+                MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
             }
-            case "Profesor" -> {
+            case USER_PROFESSOR -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
-                MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
+                MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             }
-            case "RepresentanteCA" -> {
+            case USER_REPRESENTATIVE -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
-                MainStage.changeView("projectproposals-view.fxml", 1000, 700);
+                MainStage.changeView("projectproposals-view.fxml", 1000, 700 + MainStage.HEIGHT_OFFSET);
             }
         }
     }

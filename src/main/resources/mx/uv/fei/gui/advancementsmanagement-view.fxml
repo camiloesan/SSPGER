@@ -117,7 +117,7 @@
                   <Insets top="12.0" />
                </VBox.margin>
             </Line>
-            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT">
+            <HBox fx:id="hBoxLogOutLabel" alignment="BOTTOM_LEFT">
                <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
                   <font>
                      <Font name="Cantarell Regular" size="14.0" />
@@ -180,7 +180,7 @@
                                                 <Insets top="20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#openModifyAdvancement" text="Modificar">
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#openModifyAdvancementPane" text="Modificar">
                                              <VBox.margin>
                                                 <Insets top="20.0" />
                                              </VBox.margin>
