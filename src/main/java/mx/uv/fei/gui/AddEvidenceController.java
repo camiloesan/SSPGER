@@ -12,7 +12,7 @@ public class AddEvidenceController implements IStudentNavigationBar {
 
     @Override
     public void redirectToEvidences() throws  IOException, SQLException {
-        MainStage.changeView("evidences.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
