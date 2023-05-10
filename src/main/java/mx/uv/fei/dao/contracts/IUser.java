@@ -7,12 +7,12 @@ import mx.uv.fei.logic.Student;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface IAccessAccount {
-    void addAdminAccessAccount(AccessAccount accessAccount) throws SQLException;
-    int transactionAddStudentUser(AccessAccount accessAccount, Student student) throws SQLException;
-    int transactionAddProfessorUser(AccessAccount accessAccount, Professor professor) throws SQLException;
-    void modifyStudentUserTransaction(String username, AccessAccount accessAccount, Student student) throws SQLException;
-    void modifyProfessorUserTransaction(String username, AccessAccount accessAccount, Professor professor) throws SQLException;
+public interface IUser {
+    int addAdminUser(AccessAccount accessAccount) throws SQLException;
+    boolean addStudentUserTransaction(AccessAccount accessAccount, Student student) throws SQLException;
+    boolean addProfessorUserTransaction(AccessAccount accessAccount, Professor professor) throws SQLException;
+    boolean modifyStudentUserTransaction(String username, AccessAccount accessAccount, Student student) throws SQLException;
+    boolean modifyProfessorUserTransaction(String username, AccessAccount accessAccount, Professor professor) throws SQLException;
     void deleteUserByUsername(String username) throws SQLException;
     boolean areCredentialsValid(String username, String password) throws SQLException;
     String getAccessAccountTypeByUsername(String username) throws SQLException;

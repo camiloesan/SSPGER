@@ -1,7 +1,5 @@
 package mx.uv.fei.logic;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public class AccessAccount {
     private int userId;
     private String username;

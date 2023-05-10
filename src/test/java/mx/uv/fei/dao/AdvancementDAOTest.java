@@ -29,7 +29,7 @@ class AdvancementDAOTest {
         advancement.setAdvancementDescription("descripcion");
         advancement.setAdvancementStartDate("2023-04-16");
         advancement.setAdvancementDeadline("2023-05-16");
-        advancement.setProfessorId(1);
+        //advancement.setProfessorId(1);
         advancement.setProjectId(1);
         int expectedResult = 1;
         int result = advancementDAO.addAdvancement(advancement);

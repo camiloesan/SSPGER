@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import mx.uv.fei.dao.implementations.AccessAccountDAO;
+import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.IOException;
@@ -134,7 +134,7 @@ public class PaneModifyUserController {
 
     private void modifyProfessorUser() {
         AccessAccount accessAccount = new AccessAccount();
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         accessAccount.setUsername(textFieldNewUsername.getText());
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
@@ -152,7 +152,7 @@ public class PaneModifyUserController {
 
     private void modifyStudentUser() {
         AccessAccount accessAccount = new AccessAccount();
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         accessAccount.setUsername(textFieldNewUsername.getText());
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());

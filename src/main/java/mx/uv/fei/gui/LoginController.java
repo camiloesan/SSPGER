@@ -3,7 +3,7 @@ package mx.uv.fei.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import mx.uv.fei.dao.implementations.AccessAccountDAO;
+import mx.uv.fei.dao.implementations.UserDAO;
 
 import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
@@ -28,7 +28,7 @@ public class LoginController {
 
     @FXML
     private void onActionButtonContinue() throws IOException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         try {
             continueLogin(accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText()));
         } catch (SQLException sqlException) {
@@ -46,7 +46,7 @@ public class LoginController {
     }
 
     private void redirectToWindow() throws SQLException, IOException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         String userType = accessAccountDAO.getAccessAccountTypeByUsername(textFieldUser.getText());
         sessionDetails = SessionDetails.getInstance();
         sessionDetails.setUsername(textFieldUser.getText());

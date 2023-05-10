@@ -1,6 +1,6 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.implementations.AccessAccountDAO;
+import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.AccessAccount;
 import mx.uv.fei.logic.Student;
@@ -17,18 +17,18 @@ class StudentDAOTest {
     @BeforeEach
     void setUp() throws SQLException {
         AccessAccount accessAccount = new AccessAccount();
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
 
         accessAccount.setUsername("BDMG");
         accessAccount.setUserPassword("contrasenaBDMG");
         accessAccount.setUserType("Estudiante");
 
-        accessAccountDAO.addAdminAccessAccount(accessAccount);
+        accessAccountDAO.addAdminUser(accessAccount);
     }
 
     @AfterEach
     void tearDown() throws SQLException {
-       AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+       UserDAO accessAccountDAO = new UserDAO();
         StudentDAO studentDAO = new StudentDAO();
 
         accessAccountDAO.deleteUserByUsername("BDMG");
