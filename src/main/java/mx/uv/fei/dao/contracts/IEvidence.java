@@ -17,7 +17,7 @@ public interface IEvidence {
 
     String getStudentIDByEvidenceTitle(String evidenceTitle) throws SQLException;
 
-    int deleteEvidenceByName(String evidenceName) throws SQLException;
+    int deleteEvidenceByID(int evidenceID) throws SQLException;
 
     List<Evidence> getEvidenceListByStudent(String studentID) throws SQLException;
 }

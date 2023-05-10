@@ -148,13 +148,13 @@ public class EvidenceDAO implements IEvidence {
         return result;
     }
 
-    public int deleteEvidenceByName(String evidenceName) throws SQLException {
-        String query = "delete from Evidencias where titulo=(?)";
+    public int deleteEvidenceByID (int evidenceID) throws SQLException {
+        String query = "delete from Evidencias where ID_avance=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, evidenceName);
+        preparedStatement.setInt(1, evidenceID);
         int result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
 
