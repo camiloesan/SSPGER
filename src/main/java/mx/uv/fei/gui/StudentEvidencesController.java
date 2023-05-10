@@ -9,10 +9,7 @@ import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.Evidence;
-import mx.uv.fei.logic.ProjectRequest;
+import mx.uv.fei.logic.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,35 +19,10 @@ import java.util.Optional;
 
 public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
-    private Label labelTitleEvidence;
-    @FXML
-    private Label labelStatusEvidence;
-    @FXML
-    private Label labelGradeEvidence;
-    @FXML
-    private Label labelDescriptionEvidence;
-    @FXML
-    private Label labelAdvancementEvidence;
-    @FXML
-    private Label labelStudentEvidence;
-    @FXML
-    private TextField textFieldEvidenceID;
-    @FXML
-    private TextField textFieldEvidenceTitle;
-    @FXML
-    private TextField textFieldEvidenceDescription;
-    @FXML
-    private TextField textFieldTitle;
-    @FXML
-    private TextArea textAreaDescription;
-    @FXML
-    private TextField textFieldAdvancement;
-    @FXML
-    private TextField textFieldStudent;
+    TableView<Advancement> tableViewAdvancement;
     @FXML
     private TableView<Evidence> tableViewEvidence;
-    @FXML
-    private ListView<String> listViewEvidencesNamesToDelete;
+
     @FXML
     private void initialize() {
         TableColumn<Evidence, String> titleEvidence = new TableColumn<>("Título");
@@ -58,8 +30,17 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         TableColumn<Evidence, String> statusEvidence = new TableColumn<>("Estado");
         statusEvidence.setCellValueFactory(new PropertyValueFactory<>("evidenceStatus"));
         tableViewEvidence.getColumns().addAll(titleEvidence, statusEvidence);
+
+        TableColumn<Advancement, String> nameAdvancement = new TableColumn<>("Nombre Evidencia");
+        nameAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementName"));
+        TableColumn<Advancement, String> starAdvancement = new TableColumn<>("Fecha de inicio");
+        starAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementStartDate"));
+        TableColumn<Advancement, String> finishAdvancement = new TableColumn<>("Fecha de inicio");
+        finishAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementDeadline"));
+        tableViewAdvancement.getColumns().addAll(nameAdvancement, starAdvancement, finishAdvancement);
         try {
             fillTableViewEvidence();
+            fillTableViewAdvancement();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
             sqlException.printStackTrace();
@@ -88,7 +69,13 @@ public class StudentEvidencesController implements IStudentNavigationBar {
 
     @FXML
     public void redirectToAddEvidence() throws IOException {
-        MainStage.changeView("addevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        if (advancementIsSelected()) {
+            TransferAdvancement.setAdvancementID(tableViewAdvancement
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getAdvancementID());
+            MainStage.changeView("addevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        }
     }
 
     @FXML
@@ -106,6 +93,24 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         tableViewEvidence.getItems().addAll(evidenceDAO
                 .getEvidenceListByStudent(LoginController.sessionDetails.getId()));
+    }
+
+    @FXML
+    private void fillTableViewAdvancement() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        tableViewAdvancement.getItems().addAll(advancementDAO
+                .getAdvancementByStudentID(LoginController.sessionDetails.getId()));
+    }
+
+    private boolean advancementIsSelected() {
+        boolean verification;
+        if (tableViewAdvancement.getSelectionModel().getSelectedItem() == null) {
+            DialogGenerator.getDialog(new AlertMessage("Selecciona un avance para agregarle una evidencia", AlertStatus.WARNING));
+            verification = false;
+        } else {
+            verification = true;
+        }
+        return verification;
     }
 
     /*@FXML
