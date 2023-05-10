@@ -18,6 +18,7 @@ import mx.uv.fei.logic.TransferAdvancement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLWarning;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private Label labelUsername;
     @FXML
-    private HBox hBoxLogOutLabel;
-    @FXML
     private ListView<String> listViewAdvancements;
     @FXML
     private Tab tabViewAdvancements;
@@ -55,7 +54,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         fillComboBoxProjectToAssign();
         formatDatePickers();
         fillListViewAdvancements();
-        VBox.setVgrow(hBoxLogOutLabel, Priority.ALWAYS);
     }
 
     private void formatDatePickers() {
@@ -114,6 +112,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             try {
                 scheduleAdvancement();
                 DialogGenerator.getDialog(new AlertMessage("Se ha programado el avance", AlertStatus.SUCCESS));
+            } catch (SQLWarning sqlWarning) {
+                DialogGenerator.getDialog(new AlertMessage("El avance ya esta guardado", AlertStatus.ERROR));
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage("No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
             }

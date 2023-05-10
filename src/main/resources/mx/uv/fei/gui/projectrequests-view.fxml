@@ -120,7 +120,7 @@
                   <Insets top="12.0" />
                </VBox.margin>
             </Line>
-            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT">
+            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                <children>
                   <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
                      <font>

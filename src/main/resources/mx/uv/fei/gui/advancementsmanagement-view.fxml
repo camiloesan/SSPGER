@@ -117,7 +117,7 @@
                   <Insets top="12.0" />
                </VBox.margin>
             </Line>
-            <HBox fx:id="hBoxLogOutLabel" alignment="BOTTOM_LEFT">
+            <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
                   <font>
                      <Font name="Cantarell Regular" size="14.0" />
