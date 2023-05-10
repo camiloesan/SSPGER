@@ -18,6 +18,7 @@ public class LoginController {
     private TextField textFieldUser;
     @FXML
     private PasswordField textFieldPassword;
+
     private static final Logger logger = Logger.getLogger(LoginController.class);
     public static final String USER_ADMIN = "Administrador";
     public static final String USER_STUDENT = "Estudiante";

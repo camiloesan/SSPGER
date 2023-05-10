@@ -14,183 +14,174 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ProjectRequestsController">
-   <children>
-      <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
-         <children>
-            <Label text="SSPGER" textFill="WHITE">
+<HBox minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ProjectRequestsController">
+   <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
+      <Label text="SSPGER" textFill="WHITE">
+         <font>
+            <Font name="Cantarell Regular" size="24.0"/>
+         </font>
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Label>
+      <Label fx:id="labelUsername" text="Nombre del profesor" textFill="WHITE">
+         <VBox.margin>
+            <Insets top="5.0"/>
+         </VBox.margin>
+      </Label>
+      <Line endX="100.0" fill="#f8f9fa" startX="-100.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="10.0"/>
+         </VBox.margin>
+      </Line>
+      <StackPane fx:id="optionAdvancements1" onMouseClicked="#redirectToProfessorAdvancementManagement"
+                 prefHeight="40.0" prefWidth="180.0">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+         <VBox.margin>
+            <Insets top="30.0"/>
+         </VBox.margin>
+         <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0"
+                    opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0"/>
+         <Label layoutX="67.0" layoutY="207.0" text="Avances" textFill="WHITE">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+         </Label>
+      </StackPane>
+      <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Line>
+      <StackPane fx:id="optionEvidences1" onMouseClicked="#redirectToProfessorEvidenceManager" prefHeight="40.0"
+                 prefWidth="180.0">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+         <VBox.margin>
+            <Insets top="18.0"/>
+         </VBox.margin>
+         <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0"
+                    opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0"/>
+         <Label layoutX="67.0" layoutY="207.0" text="Evidencias" textFill="WHITE">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+         </Label>
+      </StackPane>
+      <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Line>
+      <StackPane fx:id="optionProjects1" onMouseClicked="#redirectToProfessorProjectManagement" prefHeight="40.0"
+                 prefWidth="180.0">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+         <VBox.margin>
+            <Insets top="18.0"/>
+         </VBox.margin>
+         <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0"
+                    opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0"/>
+         <Label layoutX="67.0" layoutY="207.0" text="Proyectos" textFill="WHITE">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+         </Label>
+      </StackPane>
+      <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Line>
+      <StackPane fx:id="optionRequests" onMouseClicked="#redirectToProjectRequests" prefHeight="40.0"
+                 prefWidth="180.0">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+         <VBox.margin>
+            <Insets top="18.0"/>
+         </VBox.margin>
+         <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0"
+                    opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0"/>
+         <Label layoutX="67.0" layoutY="207.0" text="Peticiones" textFill="WHITE">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+         </Label>
+      </StackPane>
+      <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Line>
+      <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+         <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE"
+                underline="true">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+            <cursor>
+               <Cursor fx:constant="HAND"/>
+            </cursor>
+            <VBox.margin>
+               <Insets/>
+            </VBox.margin>
+            <HBox.margin>
+               <Insets bottom="10.0" left="10.0"/>
+            </HBox.margin>
+         </Label>
+      </HBox>
+   </VBox>
+   <VBox HBox.hgrow="ALWAYS">
+      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #334b49;">
+         <Label text="Peticiones de proyecto" textFill="WHITE">
+            <HBox.margin>
+               <Insets left="16.0" top="14.0"/>
+            </HBox.margin>
+         </Label>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0">
+         <TableView fx:id="tableViewRequests" onMouseClicked="#handleItemClick" prefHeight="307.0"
+                    prefWidth="357.0">
+            <columnResizePolicy>
+               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <HBox.margin>
+               <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+            </HBox.margin>
+         </TableView>
+         <Separator orientation="VERTICAL" prefHeight="200.0">
+            <HBox.margin>
+               <Insets bottom="60.0" top="60.0"/>
+            </HBox.margin>
+         </Separator>
+         <VBox alignment="TOP_CENTER" prefHeight="529.0" prefWidth="492.0" spacing="25.0">
+            <HBox.margin>
+               <Insets bottom="25.0" top="25.0"/>
+            </HBox.margin>
+            <Text fx:id="textDescription" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="JUSTIFY"
+                  wrappingWidth="350.0">
                <font>
-                  <Font name="Cantarell Regular" size="24.0" />
+                  <Font size="16.0"/>
                </font>
+            </Text>
+            <Text fx:id="textMotive" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="JUSTIFY"
+                  wrappingWidth="391.33477783203125"/>
+            <HBox alignment="CENTER" prefHeight="47.0" prefWidth="457.0" spacing="30.0">
                <VBox.margin>
-                  <Insets top="12.0" />
+                  <Insets bottom="25.0"/>
                </VBox.margin>
-            </Label>
-            <Label fx:id="labelUsername" text="Nombre del profesor" textFill="WHITE">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Label>
-            <Line endX="100.0" fill="#f8f9fa" startX="-100.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Line>
-            <StackPane fx:id="optionAdvancements1" onMouseClicked="#redirectToAdvancementManagement" prefHeight="40.0" prefWidth="180.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-               <children>
-                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label layoutX="67.0" layoutY="207.0" text="Avances" textFill="WHITE">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="12.0" />
-               </VBox.margin>
-            </Line>
-            <StackPane fx:id="optionEvidences1" onMouseClicked="#redirectToEvidences" prefHeight="40.0" prefWidth="180.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <VBox.margin>
-                  <Insets top="18.0" />
-               </VBox.margin>
-               <children>
-                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label layoutX="67.0" layoutY="207.0" text="Evidencias" textFill="WHITE">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="12.0" />
-               </VBox.margin>
-            </Line>
-            <StackPane fx:id="optionProjects1" onMouseClicked="#redirectToProjectManagement" prefHeight="40.0" prefWidth="180.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <VBox.margin>
-                  <Insets top="18.0" />
-               </VBox.margin>
-               <children>
-                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label layoutX="67.0" layoutY="207.0" text="Proyectos" textFill="WHITE">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="12.0" />
-               </VBox.margin>
-            </Line>
-            <StackPane fx:id="optionRequests" onMouseClicked="#redirectToRequests" prefHeight="40.0" prefWidth="180.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <VBox.margin>
-                  <Insets top="18.0" />
-               </VBox.margin>
-               <children>
-                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label layoutX="67.0" layoutY="207.0" text="Peticiones" textFill="WHITE">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="12.0" />
-               </VBox.margin>
-            </Line>
-            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
+               <Button fx:id="buttonAccept" mnemonicParsing="false" onMouseClicked="#acceptRequest"
+                       text="Aceptar" visible="false"/>
+               <Button fx:id="buttonReject" mnemonicParsing="false" onMouseClicked="#rejectRequest"
+                       text="Rechazar" visible="false"/>
             </HBox>
-         </children>
-      </VBox>
-      <VBox HBox.hgrow="ALWAYS">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #334b49;">
-               <children>
-                  <Label text="Peticiones de proyecto" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets left="16.0" top="14.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0">
-               <children>
-                  <TableView fx:id="tableViewRequests" onMouseClicked="#handleItemClick" prefHeight="307.0" prefWidth="357.0">
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                     <HBox.margin>
-                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-                     </HBox.margin>
-                  </TableView>
-                  <Separator orientation="VERTICAL" prefHeight="200.0">
-                     <HBox.margin>
-                        <Insets bottom="60.0" top="60.0" />
-                     </HBox.margin>
-                  </Separator>
-                  <VBox alignment="TOP_CENTER" prefHeight="529.0" prefWidth="492.0" spacing="25.0">
-                     <children>
-                        <Text fx:id="textDescription" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="JUSTIFY" wrappingWidth="350.0">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="textMotive" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="JUSTIFY" wrappingWidth="391.33477783203125" />
-                        <HBox alignment="CENTER" prefHeight="47.0" prefWidth="457.0" spacing="30.0">
-                           <children>
-                              <Button fx:id="buttonAccept" mnemonicParsing="false" onMouseClicked="#acceptRequest" text="Aceptar" visible="false" />
-                              <Button fx:id="buttonReject" mnemonicParsing="false" onMouseClicked="#rejectRequest" text="Rechazar" visible="false" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="25.0" />
-                           </VBox.margin>
-                        </HBox>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="25.0" top="25.0" />
-                     </HBox.margin>
-                  </VBox>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+         </VBox>
+      </HBox>
+   </VBox>
 </HBox>

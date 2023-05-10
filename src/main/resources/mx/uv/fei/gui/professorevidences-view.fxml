@@ -15,163 +15,160 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<HBox minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ProfessorEvidencesController">
-   <children>
-      <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
-         <children>
-            <Label text="SSPGER" textFill="WHITE">
-               <font>
-                  <Font name="Cantarell Regular" size="24.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="12.0" />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="labelUsername1" text="Nombre del profesor" textFill="WHITE">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Label>
-            <Line endX="100.0" fill="#f8f9fa" startX="-100.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Line>
-            <StackPane fx:id="optionAdvancements1" onMouseClicked="#redirectToAdvancementManagement" prefHeight="40.0" prefWidth="180.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-               <children>
-                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label layoutX="67.0" layoutY="207.0" text="Avances" textFill="WHITE">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="12.0" />
-               </VBox.margin>
-            </Line>
-            <StackPane fx:id="optionEvidences1" onMouseClicked="#redirectToEvidences" prefHeight="40.0" prefWidth="180.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <VBox.margin>
-                  <Insets top="18.0" />
-               </VBox.margin>
-               <children>
-                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label layoutX="67.0" layoutY="207.0" text="Evidencias" textFill="WHITE">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="12.0" />
-               </VBox.margin>
-            </Line>
-            <StackPane fx:id="optionProjects1" onMouseClicked="#redirectToProjectManagement" prefHeight="40.0" prefWidth="180.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <VBox.margin>
-                  <Insets top="18.0" />
-               </VBox.margin>
-               <children>
-                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label layoutX="67.0" layoutY="207.0" text="Proyectos" textFill="WHITE">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="12.0" />
-               </VBox.margin>
-            </Line>
-            <StackPane fx:id="optionRequests1" onMouseClicked="#redirectToRequests" prefHeight="40.0" prefWidth="180.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <VBox.margin>
-                  <Insets top="18.0" />
-               </VBox.margin>
-               <children>
-                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label layoutX="67.0" layoutY="207.0" text="Peticiones" textFill="WHITE">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
-               <VBox.margin>
-                  <Insets top="12.0" />
-               </VBox.margin>
-            </Line>
-            <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-      <VBox prefHeight="600.0" prefWidth="800.0" HBox.hgrow="ALWAYS">
-         <children>
-              <TabPane prefHeight="605.0" prefWidth="799.0" tabClosingPolicy="UNAVAILABLE">
-                  <tabs>
-                      <Tab fx:id="tabEvidenceList" text="Lista de Evidencias">
-                          <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="478.0" prefWidth="799.0">
-                           <children>
-                              <Button layoutX="98.0" layoutY="50.0" mnemonicParsing="false" text="Actualizar lista" />
-                              <Button layoutX="384.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#fillEvidence" text="Mostrar Evidencia" />
-                              <Label layoutX="286.0" layoutY="141.0" text="Titulo:" />
-                              <Label layoutX="286.0" layoutY="174.0" text="Estado:" />
-                              <Label layoutX="286.0" layoutY="210.0" text="Calificacion:" />
-                              <Label layoutX="286.0" layoutY="243.0" text="Descripcion:" />
-                              <Label layoutX="286.0" layoutY="279.0" text="Avance:" />
-                              <Label layoutX="286.0" layoutY="317.0" text="Estudiante:" />
-                              <Label fx:id="labelTitleEvidence" layoutX="432.0" layoutY="141.0" opacity="0.0" text="titulo" />
-                              <Label fx:id="labelStatusEvidence" layoutX="432.0" layoutY="174.0" opacity="0.0" text="estado" />
-                              <Label fx:id="labelGradeEvidence" layoutX="432.0" layoutY="210.0" opacity="0.0" text="calificacion" />
-                              <Label fx:id="labelDescriptionEvidence" layoutX="432.0" layoutY="243.0" opacity="0.0" text="descripcion" />
-                              <Label fx:id="labelAdvancementEvidence" layoutX="432.0" layoutY="279.0" opacity="0.0" text="avance" />
-                              <Label fx:id="labelStudentEvidence" layoutX="432.0" layoutY="317.0" opacity="0.0" text="estudiante" />
-                              <TableView fx:id="tableViewEvidence" layoutX="52.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
-                              <Button layoutX="264.0" layoutY="50.0" mnemonicParsing="false" onAction="#openPaneGradeEvidence" text="Calificar" />
-                           </children>
-                        </AnchorPane>
-                          </content>
-                      </Tab>
-                  </tabs>
-              </TabPane>
-         </children>
-      </VBox>
-   </children>
+<HBox minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ProfessorEvidencesController">
+   <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
+      <Label text="SSPGER" textFill="WHITE">
+         <font>
+            <Font name="Cantarell Regular" size="24.0"/>
+         </font>
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Label>
+      <Label fx:id="labelUsername1" text="Nombre del profesor" textFill="WHITE">
+         <VBox.margin>
+            <Insets top="5.0"/>
+         </VBox.margin>
+      </Label>
+      <Line endX="100.0" fill="#f8f9fa" startX="-100.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="10.0"/>
+         </VBox.margin>
+      </Line>
+      <StackPane fx:id="optionAdvancements1" onMouseClicked="#redirectToProfessorAdvancementManagement"
+                 prefHeight="40.0" prefWidth="180.0">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+         <VBox.margin>
+            <Insets top="30.0"/>
+         </VBox.margin>
+         <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0"
+                    opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0"/>
+         <Label layoutX="67.0" layoutY="207.0" text="Avances" textFill="WHITE">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+         </Label>
+      </StackPane>
+      <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Line>
+      <StackPane fx:id="optionEvidences1" onMouseClicked="#redirectToProfessorEvidenceManager" prefHeight="40.0"
+                 prefWidth="180.0">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+         <VBox.margin>
+            <Insets top="18.0"/>
+         </VBox.margin>
+         <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0"
+                    opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0"/>
+         <Label layoutX="67.0" layoutY="207.0" text="Evidencias" textFill="WHITE">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+         </Label>
+      </StackPane>
+      <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Line>
+      <StackPane fx:id="optionProjects1" onMouseClicked="#redirectToProfessorProjectManagement" prefHeight="40.0"
+                 prefWidth="180.0">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+         <VBox.margin>
+            <Insets top="18.0"/>
+         </VBox.margin>
+         <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0"
+                    opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0"/>
+         <Label layoutX="67.0" layoutY="207.0" text="Proyectos" textFill="WHITE">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+         </Label>
+      </StackPane>
+      <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Line>
+      <StackPane fx:id="optionRequests1" onMouseClicked="#redirectToProjectRequests" prefHeight="40.0"
+                 prefWidth="180.0">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+         <VBox.margin>
+            <Insets top="18.0"/>
+         </VBox.margin>
+         <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0"
+                    opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0"/>
+         <Label layoutX="67.0" layoutY="207.0" text="Peticiones" textFill="WHITE">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+         </Label>
+      </StackPane>
+      <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+         <VBox.margin>
+            <Insets top="12.0"/>
+         </VBox.margin>
+      </Line>
+      <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+         <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE"
+                underline="true">
+            <font>
+               <Font name="Cantarell Regular" size="14.0"/>
+            </font>
+            <cursor>
+               <Cursor fx:constant="HAND"/>
+            </cursor>
+            <VBox.margin>
+               <Insets/>
+            </VBox.margin>
+            <HBox.margin>
+               <Insets bottom="10.0" left="10.0"/>
+            </HBox.margin>
+         </Label>
+      </HBox>
+   </VBox>
+   <VBox prefHeight="600.0" prefWidth="800.0" HBox.hgrow="ALWAYS">
+      <TabPane prefHeight="605.0" prefWidth="799.0" tabClosingPolicy="UNAVAILABLE">
+         <Tab fx:id="tabEvidenceList" text="Lista de Evidencias">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="478.0" prefWidth="799.0">
+               <Button layoutX="98.0" layoutY="50.0" mnemonicParsing="false" text="Actualizar lista"/>
+               <Button layoutX="384.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#fillEvidence"
+                       text="Mostrar Evidencia"/>
+               <Label layoutX="286.0" layoutY="141.0" text="Titulo:"/>
+               <Label layoutX="286.0" layoutY="174.0" text="Estado:"/>
+               <Label layoutX="286.0" layoutY="210.0" text="Calificacion:"/>
+               <Label layoutX="286.0" layoutY="243.0" text="Descripcion:"/>
+               <Label layoutX="286.0" layoutY="279.0" text="Avance:"/>
+               <Label layoutX="286.0" layoutY="317.0" text="Estudiante:"/>
+               <Label fx:id="labelTitleEvidence" layoutX="432.0" layoutY="141.0" opacity="0.0"
+                      text="titulo"/>
+               <Label fx:id="labelStatusEvidence" layoutX="432.0" layoutY="174.0" opacity="0.0"
+                      text="estado"/>
+               <Label fx:id="labelGradeEvidence" layoutX="432.0" layoutY="210.0" opacity="0.0"
+                      text="calificacion"/>
+               <Label fx:id="labelDescriptionEvidence" layoutX="432.0" layoutY="243.0" opacity="0.0"
+                      text="descripcion"/>
+               <Label fx:id="labelAdvancementEvidence" layoutX="432.0" layoutY="279.0" opacity="0.0"
+                      text="avance"/>
+               <Label fx:id="labelStudentEvidence" layoutX="432.0" layoutY="317.0" opacity="0.0"
+                      text="estudiante"/>
+               <TableView fx:id="tableViewEvidence" layoutX="52.0" layoutY="135.0" prefHeight="200.0"
+                          prefWidth="200.0"/>
+               <Button layoutX="264.0" layoutY="50.0" mnemonicParsing="false"
+                       onAction="#openPaneGradeEvidence" text="Calificar"/>
+            </AnchorPane>
+         </Tab>
+      </TabPane>
+   </VBox>
 </HBox>

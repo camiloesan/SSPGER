@@ -118,22 +118,22 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     }
 
     @Override
-    public void redirectToAdvancementManagement() throws IOException {
+    public void redirectToProfessorAdvancementManagement() throws IOException {
         MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
-    public void redirectToProjectManagement() throws IOException {
+    public void redirectToProfessorProjectManagement() throws IOException {
         MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
-    public void redirectToEvidences() throws IOException {
+    public void redirectToProfessorEvidenceManager() throws IOException {
         MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
-    public void redirectToRequests() {
+    public void redirectToProjectRequests() {
 
     }
 

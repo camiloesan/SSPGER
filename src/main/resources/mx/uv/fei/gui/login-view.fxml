@@ -14,58 +14,52 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.LoginController">
-   <children>
-      <GridPane alignment="CENTER" layoutX="27.0" layoutY="148.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="103.0" prefWidth="545.0">
+    <GridPane alignment="CENTER" layoutX="27.0" layoutY="148.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="103.0" prefWidth="545.0">
         <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="200.66668701171875" />
-          <ColumnConstraints fillWidth="false" halignment="LEFT" maxWidth="363.3333129882813" minWidth="10.0" prefWidth="363.3333129882813" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="200.66668701171875" />
+            <ColumnConstraints fillWidth="false" halignment="LEFT" maxWidth="363.3333129882813" minWidth="10.0" prefWidth="363.3333129882813" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
-         <children>
-            <Label text="Usuario:">
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </Label>
-            <TextField fx:id="textFieldUser" prefHeight="25.0" prefWidth="199.0" GridPane.columnIndex="1">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </TextField>
-            <Label text="Contraseña:" GridPane.rowIndex="1">
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </Label>
-            <PasswordField fx:id="textFieldPassword" onAction="#onActionButtonContinue" prefHeight="25.0" prefWidth="199.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </PasswordField>
-         </children>
-      </GridPane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="60.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <ButtonBar layoutX="3.0" layoutY="326.0" prefHeight="60.0" prefWidth="593.0">
-        <buttons>
-          <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionButtonContinue" text="Continuar" />
-        </buttons>
-         <padding>
-            <Insets right="45.0" />
-         </padding>
-      </ButtonBar>
-      <Label layoutX="27.0" layoutY="21.0" text="Iniciar Sesión" textFill="WHITE">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-   </children>
+        <Label text="Usuario:">
+            <padding>
+                <Insets right="5.0" />
+            </padding>
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin>
+        </Label>
+        <TextField fx:id="textFieldUser" prefHeight="25.0" prefWidth="199.0" GridPane.columnIndex="1">
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin>
+        </TextField>
+        <Label text="Contraseña:" GridPane.rowIndex="1">
+            <padding>
+                <Insets right="5.0" />
+            </padding>
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin>
+        </Label>
+        <PasswordField fx:id="textFieldPassword" onAction="#onActionButtonContinue" prefHeight="25.0" prefWidth="199.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin>
+        </PasswordField>
+    </GridPane>
+    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="60.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+    <ButtonBar layoutX="3.0" layoutY="326.0" prefHeight="60.0" prefWidth="593.0">
+        <padding>
+          <Insets right="45.0" />
+        </padding>
+    </ButtonBar>
+    <Label layoutX="27.0" layoutY="21.0" text="Iniciar Sesión" textFill="WHITE">
+        <font>
+          <Font size="18.0" />
+        </font>
+    </Label>
+    <Button contentDisplay="CENTER" layoutX="339.0" layoutY="268.0" mnemonicParsing="false" text="Continuar" />
 </AnchorPane>

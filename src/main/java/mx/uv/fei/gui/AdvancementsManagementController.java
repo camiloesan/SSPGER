@@ -5,9 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
@@ -199,7 +196,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
     
     @Override
-    public void redirectToAdvancementManagement() throws IOException {
+    public void redirectToProfessorAdvancementManagement() throws IOException {
         try {
             MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -208,7 +205,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
     
     @Override
-    public void redirectToProjectManagement() throws IOException {
+    public void redirectToProfessorProjectManagement() throws IOException {
         try {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -217,7 +214,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
     
     @Override
-    public void redirectToEvidences() throws IOException {
+    public void redirectToProfessorEvidenceManager() throws IOException {
         try {
             MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -226,7 +223,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
     
     @Override
-    public void redirectToRequests() throws IOException {
+    public void redirectToProjectRequests() throws IOException {
         try {
             MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
