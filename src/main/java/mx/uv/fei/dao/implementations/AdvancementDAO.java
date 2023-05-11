@@ -185,4 +185,55 @@ public class AdvancementDAO implements IAdvancement {
 
         return result;
     }
+
+    @Override
+    public List<Advancement> getAdvancementByStudentID(String studentID) throws SQLException {
+        String query = "SELECT Avances.ID_avance, Avances.nombre, Avances.fechaInicio, Avances.fechaEntrega FROM Avances " +
+                "INNER JOIN Proyectos ON Avances.ID_proyecto = Proyectos.ID_proyecto " +
+                "INNER JOIN SolicitudesProyecto ON Proyectos.ID_proyecto = SolicitudesProyecto.ID_proyecto " +
+                "WHERE matriculaEstudiante = (?) AND SolicitudesProyecto.estado = 'Aceptado'";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, studentID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        List<Advancement> advancementList = new ArrayList<>();
+        while (resultSet.next()) {
+            Advancement advancement = new Advancement();
+            advancement.setAdvancementID(resultSet.getInt("ID_avance"));
+            advancement.setAdvancementName(resultSet.getString("nombre"));
+            advancement.setAdvancementStartDate(resultSet.getString("fechainicio"));
+            advancement.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
+            advancementList.add(advancement);
+        }
+
+        return advancementList;
+    }
+
+    @Override
+    public int getAdvancementIDByStudentID(String studentID) throws SQLException {
+        String query = "SELECT Avances.ID_proyecto FROM Avances " +
+                "INNER JOIN Proyectos ON Avances.ID_proyecto = Proyectos.ID_proyecto " +
+                "INNER JOIN SolicitudesProyecto ON Proyectos.ID_proyecto = SolicitudesProyecto.ID_proyecto " +
+                "WHERE matriculaEstudiante = (?) AND SolicitudesProyecto.estado = 'Aceptado'";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, studentID);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        int result = 0;
+        while (resultSet.next()) {
+            result = resultSet.getInt("ID_proyecto");
+        }
+
+        databaseManager.closeConnection();
+
+        return result;
+    }
+
 }

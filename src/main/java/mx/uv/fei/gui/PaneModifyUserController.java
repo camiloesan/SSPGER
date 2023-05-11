@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import mx.uv.fei.dao.implementations.AccessAccountDAO;
+import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.IOException;
@@ -47,7 +47,9 @@ public class PaneModifyUserController {
     private TextField textFieldNewUsername;
 
     private final static ObservableList<String> observableListComboItemsUserType =
-            FXCollections.observableArrayList("Estudiante", "Profesor", "RepresentanteCA");
+            FXCollections.observableArrayList(LoginController.USER_STUDENT,
+                    LoginController.USER_PROFESSOR,
+                    LoginController.USER_REPRESENTATIVE);
 
     @FXML
     private void initialize() {
@@ -59,12 +61,12 @@ public class PaneModifyUserController {
     private void buttonConfirmModificationAction() {
         if (areAccessAccountFieldsValid()) {
             switch (comboBoxUserTypeToModify.getValue()) {
-                case "Profesor", "RepresentanteCA" -> {
+                case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
                     if (areProfessorFieldsValid()) {
                         modifyProfessorUser();
                     }
                 }
-                case "Estudiante" -> {
+                case LoginController.USER_STUDENT -> {
                     if (areStudentFieldsValid()) {
                         modifyStudentUser();
                     }
@@ -132,7 +134,7 @@ public class PaneModifyUserController {
 
     private void modifyProfessorUser() {
         AccessAccount accessAccount = new AccessAccount();
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         accessAccount.setUsername(textFieldNewUsername.getText());
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
@@ -150,7 +152,7 @@ public class PaneModifyUserController {
 
     private void modifyStudentUser() {
         AccessAccount accessAccount = new AccessAccount();
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         accessAccount.setUsername(textFieldNewUsername.getText());
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
@@ -169,11 +171,11 @@ public class PaneModifyUserController {
     @FXML
     private void handleModifyUserTypeSelection() {
         switch (comboBoxUserTypeToModify.getValue()) {
-            case "Profesor", "RepresentanteCA" -> {
+            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
                 gridPaneNewProfessor.setVisible(true);
                 gridPaneNewStudent.setVisible(false);
             }
-            case "Estudiante" -> {
+            case LoginController.USER_STUDENT -> {
                 gridPaneNewProfessor.setVisible(false);
                 gridPaneNewStudent.setVisible(true);
             }
@@ -186,6 +188,6 @@ public class PaneModifyUserController {
 
     @FXML
     private void returnToUsersView() throws IOException {
-        MainStage.changeView("accessaccountmanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
+        MainStage.changeView("usermanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
     }
 }

@@ -35,7 +35,7 @@
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Line>
-            <StackPane fx:id="optionAdvancements" onMouseClicked="#redirectToAdvancementManagement" prefHeight="40.0" prefWidth="180.0">
+            <StackPane fx:id="optionAdvancements" onMouseClicked="#redirectToProfessorAdvancementManagement" prefHeight="40.0" prefWidth="180.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -54,7 +54,7 @@
                   <Insets top="12.0" />
                </VBox.margin>
             </Line>
-            <StackPane fx:id="optionEvidences" onMouseClicked="#redirectToEvidences" prefHeight="40.0" prefWidth="180.0">
+            <StackPane fx:id="optionEvidences" onMouseClicked="#redirectToProfessorEvidenceManager" prefHeight="40.0" prefWidth="180.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -73,7 +73,7 @@
                   <Insets top="12.0" />
                </VBox.margin>
             </Line>
-            <StackPane fx:id="optionProjects" onMouseClicked="#redirectToProjectManagement" prefHeight="40.0" prefWidth="180.0">
+            <StackPane fx:id="optionProjects" onMouseClicked="#redirectToProfessorProjectManagement" prefHeight="40.0" prefWidth="180.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -92,7 +92,7 @@
                   <Insets top="12.0" />
                </VBox.margin>
             </Line>
-            <StackPane fx:id="optionRequests" onMouseClicked="#redirectToRequests" prefHeight="40.0" prefWidth="180.0">
+            <StackPane fx:id="optionRequests" onMouseClicked="#redirectToProjectRequests" prefHeight="40.0" prefWidth="180.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

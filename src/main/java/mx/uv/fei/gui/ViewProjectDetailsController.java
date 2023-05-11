@@ -2,7 +2,6 @@ package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -13,8 +12,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.DetailedProject;
 import mx.uv.fei.logic.TransferProject;
 
@@ -144,7 +141,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
                 deleteException.printStackTrace();
             }
             try {
-                redirectToProjectManagement();
+                redirectToProfessorProjectManagement();
             } catch (IOException changeException) {
                 changeException.printStackTrace();
             }
@@ -152,7 +149,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
     
     @Override
-    public void redirectToAdvancementManagement() throws IOException {
+    public void redirectToProfessorAdvancementManagement() throws IOException {
         try {
             MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -161,7 +158,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
     
     @Override
-    public void redirectToProjectManagement() throws IOException {
+    public void redirectToProfessorProjectManagement() throws IOException {
         try {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -170,7 +167,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
     
     @Override
-    public void redirectToEvidences() throws IOException {
+    public void redirectToProfessorEvidenceManager() throws IOException {
         try {
             MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -179,7 +176,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
     
     @Override
-    public void redirectToRequests() throws IOException {
+    public void redirectToProjectRequests() throws IOException {
         try {
             MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {

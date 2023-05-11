@@ -1,6 +1,8 @@
 package mx.uv.fei.logic;
 
 public class Advancement {
+
+    private int advancementID;
     private String advancementName;
     private String advancementDescription;
     private String advancementStartDate;
@@ -45,5 +47,13 @@ public class Advancement {
 
     public void setProjectId(int projectId) {
         this.projectId = projectId;
+    }
+
+    public int getAdvancementID() {
+        return advancementID;
+    }
+
+    public void setAdvancementID(int advancementID) {
+        this.advancementID = advancementID;
     }
 }

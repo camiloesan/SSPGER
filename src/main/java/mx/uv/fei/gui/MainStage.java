@@ -5,14 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 public class MainStage extends Application {
     private static Scene scene;
-    private static final Logger LOGGER = LogManager.getLogger(MainStage.class);
     public static final int HEIGHT_OFFSET = 44;
 
     public static void main(String[] args) {
@@ -26,10 +23,6 @@ public class MainStage extends Application {
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainStage.class.getResource(fxml));
         return fxmlLoader.load();
-    }
-
-    public static Logger getLogger() {
-        return LOGGER;
     }
 
     public static void changeView(String url, int width, int height) throws IOException {

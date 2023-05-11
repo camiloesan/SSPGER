@@ -65,7 +65,7 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     
     @Override
     public void redirectToEvidences() throws  IOException, SQLException {
-        MainStage.changeView("studentevidences-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override

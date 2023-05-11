@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.AddEvidenceController">
+   <children>
+      <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
+         <children>
+            <Label text="SSPGER" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Regular" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="labelUsername" text="Nombre del estudiante" textFill="WHITE">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
+            <Line endX="100.0" fill="#f8f9fa" startX="-100.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Line>
+            <StackPane fx:id="optionAdvancements" onMouseClicked="#redirectToAdvancements" prefHeight="40.0" prefWidth="180.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+               <children>
+                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
+                  <Label layoutX="67.0" layoutY="207.0" text="Avances" textFill="WHITE">
+                     <font>
+                        <Font name="Cantarell Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </Line>
+            <StackPane fx:id="optionEvidences" onMouseClicked="#redirectToEvidences" prefHeight="40.0" prefWidth="180.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets top="18.0" />
+               </VBox.margin>
+               <children>
+                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0" />
+                  <Label layoutX="67.0" layoutY="207.0" text="Evidencias" textFill="WHITE">
+                     <font>
+                        <Font name="Cantarell Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </Line>
+            <StackPane fx:id="optionProjects" onMouseClicked="#redirectToProjects" prefHeight="40.0" prefWidth="180.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets top="18.0" />
+               </VBox.margin>
+               <children>
+                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
+                  <Label layoutX="67.0" layoutY="207.0" text="Proyectos" textFill="WHITE">
+                     <font>
+                        <Font name="Cantarell Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </Line>
+            <StackPane fx:id="optionRequest" onMouseClicked="#redirectToRequest" prefHeight="40.0" prefWidth="180.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets top="18.0" />
+               </VBox.margin>
+               <children>
+                  <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
+                  <Label layoutX="67.0" layoutY="207.0" text="Mi Petición" textFill="WHITE">
+                     <font>
+                        <Font name="Cantarell Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <Line endX="100.0" startX="-50.0" stroke="#f8f9fa">
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </Line>
+            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT">
+               <children>
+                  <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
+                     <font>
+                        <Font name="Cantarell Regular" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+         <children>
+            <HBox minHeight="76.0" prefHeight="76.0" prefWidth="699.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Añadir Evidencia" textFill="WHITE">
+                     <font>
+                        <Font name="Cantarell Regular" size="30.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="16.0" top="16.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <GridPane VBox.vgrow="ALWAYS">
+               <columnConstraints>
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="246.0" minWidth="20.0" prefWidth="223.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="482.0" minWidth="211.0" prefWidth="234.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="385.0" minWidth="190.0" prefWidth="242.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="221.0" minHeight="50.0" prefHeight="135.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="412.0" minHeight="50.0" prefHeight="201.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="442.0" minHeight="50.0" prefHeight="161.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Titulo del avance:" />
+                  <Label text="Descripccion de la evidencia:" GridPane.rowIndex="2" />
+                  <Label text="Titulo de la evidencia:" GridPane.rowIndex="1" />
+                  <Label fx:id="labelAdvancementName" wrapText="true" GridPane.columnIndex="1" />
+                  <TextArea fx:id="textAreaEvidenceDescription" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="145.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="textFieldEvidenceTitle" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                     <children>
+                        <Button alignment="TOP_CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#addFile" text="Añadir archivo">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Button>
+                        <Label fx:id="labelNameFile" text="nameFile" visible="false" wrapText="true">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </VBox>
+                  <Button mnemonicParsing="false" onMouseClicked="#redirectToEvidences" text="Regresar" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onMouseClicked="#sendEvidence" text="Enviar evidencia" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</HBox>

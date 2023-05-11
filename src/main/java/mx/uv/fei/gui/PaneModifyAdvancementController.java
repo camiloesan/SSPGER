@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
 
-public class ModifyAdvancementController {
+public class PaneModifyAdvancementController {
     @FXML
     private ComboBox<String> comboNewProjectToAssign;
     @FXML

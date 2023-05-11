@@ -178,7 +178,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     }
     
     @Override
-    public void redirectToAdvancementManagement() throws IOException {
+    public void redirectToProfessorAdvancementManagement() throws IOException {
         try {
             MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -187,7 +187,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     }
     
     @Override
-    public void redirectToProjectManagement() throws IOException {
+    public void redirectToProfessorProjectManagement() throws IOException {
         try {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -196,7 +196,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     }
     
     @Override
-    public void redirectToEvidences() throws IOException {
+    public void redirectToProfessorEvidenceManager() throws IOException {
         try {
             MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -205,7 +205,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     }
     
     @Override
-    public void redirectToRequests() throws IOException {
+    public void redirectToProjectRequests() throws IOException {
         try {
             MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {

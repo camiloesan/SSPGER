@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import mx.uv.fei.dao.implementations.AccessAccountDAO;
+import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class UserManagementController {
     @FXML
     private TableView<AccessAccount> tableViewAccessAccounts;
     private final static ObservableList<String> observableListComboItemsUserType =
-            FXCollections.observableArrayList("Administrador", "Estudiante", "Profesor", "RepresentanteCA");
+            FXCollections.observableArrayList(LoginController.USER_ADMIN, LoginController.USER_STUDENT, LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE);
     private final static ObservableList<String> observableListComboItemsDegree =
             FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
     private static String username;
@@ -70,28 +70,28 @@ public class UserManagementController {
     }
 
     private void fillTableViewAccessAccounts() {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         try {
             tableViewAccessAccounts.getItems().addAll(accessAccountDAO.getAccessAccountsList());
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuparar la informaicón de la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
     }
     @FXML
     private void buttonSaveAction() {
         if (areAccessAccountFieldsValid()) {
             switch (comboBoxUserType.getValue()) {
-                case "Profesor", "RepresentanteCA" -> {
+                case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
                     if (areProfessorFieldsValid()) {
                         addProfessorUser();
                     }
                 }
-                case "Estudiante" -> {
+                case LoginController.USER_STUDENT -> {
                     if (areStudentFieldsValid()) {
                         addStudentUser();
                     }
                 }
-                case "Administrador" -> addAdminUser();
+                case LoginController.USER_ADMIN -> addAdminUser();
                 default -> DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
             }
         }
@@ -100,7 +100,7 @@ public class UserManagementController {
     }
 
     private void addProfessorUser() {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         accessAccount.setUsername(textFieldUsername.getText());
         accessAccount.setUserPassword(passwordFieldPassword.getText());
@@ -111,7 +111,7 @@ public class UserManagementController {
         professor.setProfessorDegree(comboBoxDegree.getValue());
         professor.setProfessorEmail(textFieldProfessorEmail.getText());
         try {
-            accessAccountDAO.transactionAddProfessorUser(accessAccount, professor);
+            accessAccountDAO.addProfessorUserTransaction(accessAccount, professor);
             DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
@@ -119,7 +119,7 @@ public class UserManagementController {
     }
 
     private void addStudentUser() {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         accessAccount.setUsername(textFieldUsername.getText());
         accessAccount.setUserPassword(passwordFieldPassword.getText());
@@ -130,7 +130,7 @@ public class UserManagementController {
         student.setLastName(textFieldStudentLastName.getText());
         student.setAcademicEmail(textFieldStudentEmail.getText());
         try {
-            accessAccountDAO.transactionAddStudentUser(accessAccount, student);
+            accessAccountDAO.addStudentUserTransaction(accessAccount, student);
             DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
@@ -138,13 +138,13 @@ public class UserManagementController {
     }
 
     private void addAdminUser() {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         accessAccount.setUsername(textFieldUsername.getText());
         accessAccount.setUserPassword(passwordFieldPassword.getText());
         accessAccount.setUserType(comboBoxUserType.getValue());
         try {
-            accessAccountDAO.addAdminAccessAccount(accessAccount);
+            accessAccountDAO.addAdminUser(accessAccount);
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo agregar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
@@ -180,11 +180,11 @@ public class UserManagementController {
     @FXML
     private void handleAddUserTypeSelection() {
         switch (comboBoxUserType.getValue()) {
-            case "Profesor", "RepresentanteCA" -> {
+            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
                 gridPaneStudent.setVisible(false);
                 gridPaneProfessor.setVisible(true);
             }
-            case "Estudiante" -> {
+            case LoginController.USER_STUDENT -> {
                 gridPaneStudent.setVisible(true);
                 gridPaneProfessor.setVisible(false);
             }
@@ -258,8 +258,8 @@ public class UserManagementController {
     }
 
     private boolean isUserAdmin(String username) throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
-        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals("Administrador");
+        UserDAO accessAccountDAO = new UserDAO();
+        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals(LoginController.USER_ADMIN);
     }
 
     public boolean confirmedDeleteUser(String displayUsername) {
@@ -268,7 +268,7 @@ public class UserManagementController {
     }
 
     private void deleteUser(String username) throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         if(confirmedDeleteUser(username)) {
             accessAccountDAO.deleteUserByUsername(username);
         }

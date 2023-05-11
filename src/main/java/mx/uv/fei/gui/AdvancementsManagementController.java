@@ -5,9 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
@@ -18,11 +15,12 @@ import mx.uv.fei.logic.TransferAdvancement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLWarning;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.List;
-import java.util.ArrayList;
 
 public class AdvancementsManagementController implements IProfessorNavigationBar {
     @FXML
@@ -37,8 +35,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private ComboBox<String> comboProjectToAssign;
     @FXML
     private Label labelUsername;
-    @FXML
-    private HBox hboxLogOutLabel;
     @FXML
     private ListView<String> listViewAdvancements;
     @FXML
@@ -55,7 +51,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         fillComboBoxProjectToAssign();
         formatDatePickers();
         fillListViewAdvancements();
-        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
 
     private void formatDatePickers() {
@@ -78,7 +73,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
     @FXML
     private void deleteAdvancementButtonAction() {
-        if (listViewAdvancements.getSelectionModel().getSelectedItem() != null) {
+        if (isItemSelected()) {
             String advancementName = listViewAdvancements.getSelectionModel().getSelectedItem();
             Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
             if (response.get() == DialogGenerator.BUTTON_YES) {
@@ -92,6 +87,10 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         } else {
             DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un avance para eliminarlo", AlertStatus.WARNING));
         }
+    }
+
+    private boolean isItemSelected() {
+        return listViewAdvancements.getSelectionModel().getSelectedItem() != null;
     }
 
     private void deleteAdvancement(String advancementName) {
@@ -110,6 +109,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             try {
                 scheduleAdvancement();
                 DialogGenerator.getDialog(new AlertMessage("Se ha programado el avance", AlertStatus.SUCCESS));
+            } catch (SQLWarning sqlWarning) {
+                DialogGenerator.getDialog(new AlertMessage("El avance ya esta guardado", AlertStatus.ERROR));
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage("No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
             }
@@ -151,7 +152,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
 
     @FXML
-    private void openModifyAdvancement() throws IOException {
+    private void openModifyAdvancementPane() throws IOException {
         if (listViewAdvancements.getSelectionModel().getSelectedItem() != null) {
             String advancementName = listViewAdvancements.getSelectionModel().getSelectedItem();
             TransferAdvancement.setAdvancementName(advancementName);
@@ -195,7 +196,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
     
     @Override
-    public void redirectToAdvancementManagement() throws IOException {
+    public void redirectToProfessorAdvancementManagement() throws IOException {
         try {
             MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -204,7 +205,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
     
     @Override
-    public void redirectToProjectManagement() throws IOException {
+    public void redirectToProfessorProjectManagement() throws IOException {
         try {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -213,7 +214,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
     
     @Override
-    public void redirectToEvidences() throws IOException {
+    public void redirectToProfessorEvidenceManager() throws IOException {
         try {
             MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -222,7 +223,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
     
     @Override
-    public void redirectToRequests() throws IOException {
+    public void redirectToProjectRequests() throws IOException {
         try {
             MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {

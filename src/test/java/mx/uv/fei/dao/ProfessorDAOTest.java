@@ -1,6 +1,6 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.implementations.AccessAccountDAO;
+import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.logic.Professor;
 import mx.uv.fei.logic.AccessAccount;
@@ -16,19 +16,19 @@ class ProfessorDAOTest {
 
     @BeforeEach
     void setUp() throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
 
         accessAccount.setUsername("ocharanJorgeO");
         accessAccount.setUserPassword("contrasenaJOOH");
         accessAccount.setUserType("profesor");
 
-        accessAccountDAO.addAdminAccessAccount(accessAccount);
+        accessAccountDAO.addAdminUser(accessAccount);
     }
 
     @AfterEach
     void tearDown() throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
 
         accessAccountDAO.deleteUserByUsername("ocharanJorgeO");
     }
