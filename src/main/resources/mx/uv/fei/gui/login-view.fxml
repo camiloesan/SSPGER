@@ -6,66 +6,69 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.LoginController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.LoginController">
    <children>
-      <GridPane alignment="CENTER" layoutX="27.0" layoutY="148.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="103.0" prefWidth="545.0">
+      <HBox alignment="CENTER_LEFT" minHeight="60.0" prefHeight="60.0" style="-fx-background-color: #003466;" VBox.vgrow="NEVER">
+         <children>
+            <Label text="Iniciar Sesion" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Regular" size="19.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+      <GridPane prefHeight="315.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="200.66668701171875" />
-          <ColumnConstraints fillWidth="false" halignment="LEFT" maxWidth="363.3333129882813" minWidth="10.0" prefWidth="363.3333129882813" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="120.0" prefWidth="125.0" />
+            <ColumnConstraints hgrow="NEVER" maxWidth="111.0" minWidth="97.0" prefWidth="97.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="260.0" prefWidth="260.0" />
+          <ColumnConstraints hgrow="ALWAYS" minWidth="120.0" prefWidth="124.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="115.0" minHeight="40.0" prefHeight="52.0" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="80.0" minHeight="69.0" prefHeight="80.0" vgrow="NEVER" />
+          <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="NEVER" />
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="62.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <Label text="Usuario:">
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
+            <Label text="Usuario:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="textFieldUser" prefHeight="25.0" prefWidth="199.0" GridPane.columnIndex="1">
+            <Label text="Contraseña:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <TextField fx:id="textFieldUser" maxWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets />
+                  <Insets left="5.0" />
                </GridPane.margin>
             </TextField>
-            <Label text="Contraseña:" GridPane.rowIndex="1">
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
+            <PasswordField fx:id="textFieldPassword" maxWidth="200.0" onAction="#onActionButtonContinue" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </Label>
-            <PasswordField fx:id="textFieldPassword" onAction="#onActionButtonContinue" prefHeight="25.0" prefWidth="199.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets />
+                  <Insets left="5.0" />
                </GridPane.margin>
             </PasswordField>
          </children>
       </GridPane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#003466" height="60.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <ButtonBar layoutX="3.0" layoutY="326.0" prefHeight="60.0" prefWidth="593.0">
+      <ButtonBar maxHeight="105.0" prefHeight="105.0" prefWidth="600.0" VBox.vgrow="NEVER">
         <buttons>
-          <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionButtonContinue" text="Continuar" />
+          <Button mnemonicParsing="false" onAction="#onActionButtonContinue" text="Continuar" />
         </buttons>
-         <padding>
-            <Insets right="45.0" />
-         </padding>
+         <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </VBox.margin>
       </ButtonBar>
-      <Label layoutX="27.0" layoutY="21.0" text="Iniciar Sesión" textFill="WHITE">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
    </children>
-</AnchorPane>
+</VBox>
