@@ -14,7 +14,7 @@ CREATE TABLE CuentasAcceso (
 
 CREATE TABLE Estudiantes (
 	matricula varchar(10) not null,
-	nombre varchar(30),
+	nombre varchar(80),
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
 	nombreUsuario varchar(28),
