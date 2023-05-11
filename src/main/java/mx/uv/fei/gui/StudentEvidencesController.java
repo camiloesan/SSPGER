@@ -85,6 +85,14 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
     public void redirectToModifyEvidence() throws IOException {
         if (evidenceIsSelect()) {
+            TransferEvidence.setEvidenceId(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getEvidenceId());
+            TransferEvidence.setEvidenceName(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getEvidenceTitle());
             MainStage.changeView("modifyevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
@@ -92,10 +100,6 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
     public void redirectToViewEvidenceDetails() throws IOException {
         if (evidenceIsSelect()) {
-            TransferEvidence.setEvidenceId(tableViewEvidence
-                    .getSelectionModel()
-                    .getSelectedItem()
-                    .getEvidenceId());
             TransferEvidence.setEvidenceName(tableViewEvidence
                     .getSelectionModel()
                     .getSelectedItem()
@@ -159,20 +163,6 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         return response.get() == DialogGenerator.BUTTON_YES;
     }
 
-    @FXML
-    private void deleteFile() {
-        FileChooser fileChooser = new FileChooser();
-        File initialDirectory = new File("/home/danae/IdeaProjects/SSPGER/evidences");
-        fileChooser.setInitialDirectory(initialDirectory);
-        fileChooser.setTitle("Eliminar evidencia");
-        File evidenceFile = fileChooser.showOpenDialog(new Stage());
-        evidenceFile.delete();
-    }
-
-
-
-
-    
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);

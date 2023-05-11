@@ -30,16 +30,16 @@ public class EvidenceDAO implements IEvidence {
     }
 
     @Override
-    public int modifyEvidence(int evidenceID, String evidenceTitle, String evidenceDescription) throws SQLException{
+    public int modifyEvidence(Evidence evidence) throws SQLException{
         int result;
         String query = "UPDATE Evidencias SET titulo=(?), descripcion=(?) WHERE ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-        preparedStatement.setString(1, evidenceTitle);
-        preparedStatement.setString(2, evidenceDescription);
-        preparedStatement.setInt(3, evidenceID);
+        preparedStatement.setString(1, evidence.getEvidenceTitle());
+        preparedStatement.setString(2, evidence.getEvidenceDescription());
+        preparedStatement.setInt(3, evidence.getEvidenceId());
         result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
@@ -199,5 +199,27 @@ public class EvidenceDAO implements IEvidence {
         }
 
         return evidenceList;
+    }
+
+    @Override
+    public String getAdvancementNameByStudentID(String studentID, int advancementID) throws SQLException {
+        String query = "SELECT Avances.nombre FROM Evidencias " +
+                "INNER JOIN Avances on Evidencias.ID_avance = Avances.ID_avance " +
+                "WHERE matriculaEstudiante = (?) AND Evidencias.ID_avance = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, studentID);
+        preparedStatement.setInt(2, advancementID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        String result = "";
+        while (resultSet.next()) {
+            result = resultSet.getString("nombre");
+        }
+
+        databaseManager.closeConnection();
+
+        return result;
     }
 }
