@@ -9,10 +9,7 @@ import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.Evidence;
-import mx.uv.fei.logic.ProjectRequest;
+import mx.uv.fei.logic.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,35 +19,10 @@ import java.util.Optional;
 
 public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
-    private Label labelTitleEvidence;
-    @FXML
-    private Label labelStatusEvidence;
-    @FXML
-    private Label labelGradeEvidence;
-    @FXML
-    private Label labelDescriptionEvidence;
-    @FXML
-    private Label labelAdvancementEvidence;
-    @FXML
-    private Label labelStudentEvidence;
-    @FXML
-    private TextField textFieldEvidenceID;
-    @FXML
-    private TextField textFieldEvidenceTitle;
-    @FXML
-    private TextField textFieldEvidenceDescription;
-    @FXML
-    private TextField textFieldTitle;
-    @FXML
-    private TextArea textAreaDescription;
-    @FXML
-    private TextField textFieldAdvancement;
-    @FXML
-    private TextField textFieldStudent;
+    TableView<Advancement> tableViewAdvancement;
     @FXML
     private TableView<Evidence> tableViewEvidence;
-    @FXML
-    private ListView<String> listViewEvidencesNamesToDelete;
+
     @FXML
     private void initialize() {
         TableColumn<Evidence, String> titleEvidence = new TableColumn<>("Título");
@@ -58,8 +30,17 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         TableColumn<Evidence, String> statusEvidence = new TableColumn<>("Estado");
         statusEvidence.setCellValueFactory(new PropertyValueFactory<>("evidenceStatus"));
         tableViewEvidence.getColumns().addAll(titleEvidence, statusEvidence);
+
+        TableColumn<Advancement, String> nameAdvancement = new TableColumn<>("Nombre Evidencia");
+        nameAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementName"));
+        TableColumn<Advancement, String> starAdvancement = new TableColumn<>("Fecha de inicio");
+        starAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementStartDate"));
+        TableColumn<Advancement, String> finishAdvancement = new TableColumn<>("Fecha de inicio");
+        finishAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementDeadline"));
+        tableViewAdvancement.getColumns().addAll(nameAdvancement, starAdvancement, finishAdvancement);
         try {
             fillTableViewEvidence();
+            fillTableViewAdvancement();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
             sqlException.printStackTrace();
@@ -73,7 +54,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
 
     @Override
     public void redirectToEvidences() throws  IOException, SQLException {
-        MainStage.changeView("studentevidences-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
@@ -87,168 +68,101 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     }
 
     @FXML
+    public void redirectToAddEvidence() throws IOException {
+        if (advancementIsSelected()) {
+            TransferAdvancement.setAdvancementID(tableViewAdvancement
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getAdvancementID());
+            TransferAdvancement.setAdvancementName(tableViewAdvancement
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getAdvancementName());
+            MainStage.changeView("addevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        }
+    }
+
+    @FXML
+    public void redirectToModifyEvidence() throws IOException {
+        if (evidenceIsSelect()) {
+            TransferEvidence.setEvidenceId(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getEvidenceId());
+            TransferEvidence.setEvidenceName(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getEvidenceTitle());
+            MainStage.changeView("modifyevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        }
+    }
+
+    @FXML
+    public void redirectToViewEvidenceDetails() throws IOException {
+        if (evidenceIsSelect()) {
+            TransferEvidence.setEvidenceName(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getEvidenceTitle());
+            MainStage.changeView("viewevidencedetails-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        }
+    }
+
+    @FXML
     private void fillTableViewEvidence() throws SQLException {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         tableViewEvidence.getItems().addAll(evidenceDAO
                 .getEvidenceListByStudent(LoginController.sessionDetails.getId()));
     }
+
     @FXML
-    public void fillTitleStatusGradeDescriptionEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        try {
-            Evidence evidence = evidenceDAO.getEvidenceByEvidenceTitle(tableViewEvidence
-                    .getSelectionModel()
-                    .getSelectedItem().getEvidenceTitle());
-            labelTitleEvidence.setText(evidence.getEvidenceTitle());
-            labelStatusEvidence.setText(evidence.getEvidenceStatus());
-            labelGradeEvidence.setText(String.valueOf(evidence.getEvidenceGrade()));
-            labelDescriptionEvidence.setText(evidence.getEvidenceDescription());
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-    }
-    @FXML
-    public void fillAdvancementEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
+    private void fillTableViewAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        try {
-            int advancementID = evidenceDAO.getAdvancementIDByEvidenceTitle(tableViewEvidence
-                            .getSelectionModel()
-                    .getSelectedItem()
-                    .getEvidenceTitle());
-            labelAdvancementEvidence.setText("");
-            try {
-                String advancementName = advancementDAO.getAdvancementNameByID(advancementID);
-                labelAdvancementEvidence.setText(advancementName);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-    }
-    @FXML
-    public void fillStudentEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        StudentDAO studentDAO = new StudentDAO();
-        try {
-            String studentID = evidenceDAO.getStudentIDByEvidenceTitle(tableViewEvidence
-                    .getSelectionModel()
-                    .getSelectedItem()
-                    .getEvidenceTitle());
-            try {
-                String nameStudent = studentDAO.getNamebyStudentID(studentID);
-                labelStudentEvidence.setText(nameStudent);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-    }
-    @FXML
-    public void fillEvidence() {
-        fillTitleStatusGradeDescriptionEvidence();
-        labelTitleEvidence.setOpacity(1);
-        labelStatusEvidence.setOpacity(1);
-        labelGradeEvidence.setOpacity(1);
-        labelDescriptionEvidence.setOpacity(1);
-        fillAdvancementEvidence();
-        labelAdvancementEvidence.setOpacity(1);
-        fillStudentEvidence();
-        labelStudentEvidence.setOpacity(1);
+        tableViewAdvancement.getItems().addAll(advancementDAO
+                .getAdvancementByStudentID(LoginController.sessionDetails.getId()));
     }
 
-    @FXML
-    public void deleteEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        String evidenceName = listViewEvidencesNamesToDelete.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("¿Está seguro que desea eliminar la evidencia " + evidenceName + "?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            alert.close();
+    private boolean advancementIsSelected() {
+        boolean verification;
+        if (tableViewAdvancement.getSelectionModel().getSelectedItem() == null) {
+            DialogGenerator.getDialog(new AlertMessage("Selecciona un avance para agregarle una evidencia", AlertStatus.WARNING));
+            verification = false;
         } else {
-            try {
-                evidenceDAO.deleteEvidenceByName(evidenceName);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
+            verification = true;
         }
+        return verification;
     }
 
     @FXML
-    private void onActionAddFileButton() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Evidencia");
-        File evidenceFile = fileChooser.showOpenDialog(new Stage());
-        File file = new File("/home/danae/IdeaProjects/SSPGER/evidences/"+evidenceFile.getName());
-        try {
-            Files.copy(evidenceFile.toPath(), file.toPath());
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
-    @FXML
-    private void onActionDeleteFileButton() {
-        FileChooser fileChooser = new FileChooser();
-        File initialDirectory = new File("/home/danae/IdeaProjects/SSPGER/evidences");
-        fileChooser.setInitialDirectory(initialDirectory);
-        fileChooser.setTitle("Eliminar evidencia");
-        File evidenceFile = fileChooser.showOpenDialog(new Stage());
-        evidenceFile.delete();
-    }
-
-    @FXML
-    private void onActionAddEvidenceButton(){
-        Evidence evidence = new Evidence();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("¿Estás seguro que deseas añadir la evidencia?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            alert.close();
-        } else {
-            evidence.setEvidenceTitle(textFieldTitle.getText());
-            evidence.setEvidenceDescription(textAreaDescription.getText());
-            evidence.setAdvancementId(Integer.parseInt(textFieldAdvancement.getText()));
-            evidence.setStudentId(textFieldStudent.getText());
+    private void deleteEvidence() {
+        if (evidenceIsSelect() && confirmedDelete() ) {
             EvidenceDAO evidenceDAO = new EvidenceDAO();
+            int evidenceID = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceId();
             try {
-                evidenceDAO.addEvidence(evidence);
-            } catch (SQLException exceptionAdd) {
-                exceptionAdd.getErrorCode();
-            }
-        }
-    }
-    @FXML
-    private void onActionButtonModify(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("¿Estás seguro que deseas modificar la evidencia?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            alert.close();
-        } else {
-            int evidenceID = Integer.parseInt(textFieldEvidenceID.getText());
-            String evidenceTitle = textFieldEvidenceTitle.getText();
-            String evidenceDescription = textFieldEvidenceDescription.getText();
-            EvidenceDAO evidenceDAO = new EvidenceDAO();
-            try {
-                evidenceDAO.modifyEvidence(evidenceID, evidenceTitle, evidenceDescription);
-            } catch (SQLException exceptionModify) {
-                exceptionModify.getErrorCode();
+                evidenceDAO.deleteEvidenceByID(evidenceID);
+            } catch (SQLException deleteException) {
+                deleteException.printStackTrace();
             }
         }
     }
 
-    @FXML
-    private void updateListViewEvidencesToDelete() throws SQLException {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        listViewEvidencesNamesToDelete.getItems().clear();
-        for(Evidence evidenceObject : evidenceDAO.getListEvidenceName()) {
-            listViewEvidencesNamesToDelete.getItems().add(evidenceObject.getEvidenceTitle());
+    private boolean evidenceIsSelect() {
+        boolean result;
+        if (tableViewEvidence.getSelectionModel().getSelectedItem() == null){
+            DialogGenerator.getDialog(new AlertMessage("Selecciona una evidencia de la tabla",
+                    AlertStatus.WARNING));
+            result = false;
+        } else {
+            result = true;
         }
+        return result;
     }
-    
+
+    private boolean confirmedDelete() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar la evidencia?");
+        return response.get() == DialogGenerator.BUTTON_YES;
+    }
+
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
@@ -262,4 +176,6 @@ public class StudentEvidencesController implements IStudentNavigationBar {
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
+
+
 }
