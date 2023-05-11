@@ -139,6 +139,21 @@ class UserDAOTest {
     }
 
     @Test
+    void testModifyStudentUserTransactionUserAlreadyExists() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        Student student = new Student();
+        accessAccount.setUsername("dummy");
+        accessAccount.setUserPassword("dummy2");
+        accessAccount.setUserType(LoginController.USER_PROFESSOR);
+        student.setStudentID("1234567890");
+        student.setName("new");
+        student.setLastName("new");
+        student.setAcademicEmail("x@gmail.com");
+        assertFalse(userDAO.modifyStudentUserTransaction("dummy", accessAccount, student));
+    }
+
+    @Test
     void testModifyProfessorUserTransaction() {
 
     }

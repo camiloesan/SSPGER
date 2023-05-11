@@ -92,15 +92,10 @@
       <artifactId>log4j-core</artifactId>
       <version>2.19.0</version>
     </dependency>
-      <dependency>
-          <groupId>org.kordamp.bootstrapfx</groupId>
-          <artifactId>bootstrapfx-core</artifactId>
-          <version>0.4.0</version>
-      </dependency>
     <dependency>
-      <groupId>org.kordamp.bootstrapfx</groupId>
-      <artifactId>bootstrapfx-core</artifactId>
-      <version>0.4.0</version>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-junit5</artifactId>
+      <version>4.0.16-alpha</version>
     </dependency>
   </dependencies>
 

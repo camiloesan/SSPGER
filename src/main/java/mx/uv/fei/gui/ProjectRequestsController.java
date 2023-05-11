@@ -14,6 +14,9 @@ import mx.uv.fei.logic.ProjectRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
@@ -43,6 +46,18 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
+
+        /*
+        Runnable helloRunnable = () -> {
+            try {
+                fillTableViewProjectRequests();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        };
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(helloRunnable, 0, 3, TimeUnit.SECONDS);
+        */
     }
 
     @FXML
@@ -114,6 +129,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     private void fillTableViewProjectRequests() throws SQLException {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+        tableViewRequests.getItems().clear();
         tableViewRequests.getItems().addAll(projectRequestDAO.getProjectRequestsListByProfessorId(Integer.parseInt(LoginController.sessionDetails.getId())));
     }
 
