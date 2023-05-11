@@ -176,7 +176,7 @@
                                     <Button mnemonicParsing="false" onMouseClicked="#fillTableViewEvidence" text="Actualizar lista" />
                                     <Button mnemonicParsing="false" onMouseClicked="#redirectToViewEvidenceDetails" prefHeight="26.0" prefWidth="112.0" text="Ver detalles" />
                                     <Button mnemonicParsing="false" onMouseClicked="#redirectToModifyEvidence" text="Modificar" />
-                                    <Button mnemonicParsing="false" onMouseClicked="#deleteEvidence" text="Eliminar" />
+                                    <Button mnemonicParsing="false" onAction="#deleteEvidence" text="Eliminar" />
                                  </children>
                               </VBox>
                            </children>

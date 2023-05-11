@@ -149,7 +149,7 @@ public class EvidenceDAO implements IEvidence {
     }
 
     public int deleteEvidenceByID (int evidenceID) throws SQLException {
-        String query = "delete from Evidencias where ID_avance=(?)";
+        String query = "delete from Evidencias where ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
