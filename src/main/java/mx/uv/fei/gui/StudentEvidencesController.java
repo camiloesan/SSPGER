@@ -74,6 +74,10 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getAdvancementID());
+            TransferAdvancement.setAdvancementName(tableViewAdvancement
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getAdvancementName());
             MainStage.changeView("addevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
@@ -209,18 +213,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar la evidencia?");
         return response.get() == DialogGenerator.BUTTON_YES;
     }
-    @FXML
-    private void addFile() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Evidencia");
-        File evidenceFile = fileChooser.showOpenDialog(new Stage());
-        File file = new File("/home/danae/IdeaProjects/SSPGER/evidences/"+evidenceFile.getName());
-        try {
-            Files.copy(evidenceFile.toPath(), file.toPath());
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
+
     @FXML
     private void deleteFile() {
         FileChooser fileChooser = new FileChooser();

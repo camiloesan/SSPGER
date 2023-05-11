@@ -1,9 +1,88 @@
 package mx.uv.fei.gui;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import mx.uv.fei.dao.implementations.AdvancementDAO;
+import mx.uv.fei.logic.TransferAdvancement;
+
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class AddEvidenceController implements IStudentNavigationBar {
+    @FXML
+    Label labelAdvancementName;
+    @FXML
+    Label labelNameFile;
+
+    @FXML
+    public void initialize() {
+
+    }
+
+    @FXML
+    private void addFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Evidencia");
+        File evidenceFile = fileChooser.showOpenDialog(new Stage());
+        if (evidenceFile != null) {
+            labelNameFile.setText(evidenceFile.getName());
+            labelNameFile.setVisible(true);
+            createPath(getProjectID(), getAdvancementName(), getStudentID());
+            copyFile(evidenceFile);
+        }
+    }
+
+    private void copyFile(File file) {
+        File fileToSave = new File(System.getProperty("user.home")
+                +"/IdeaProjects/SSPGER/evidences/"
+                +getProjectID()+ "/"
+                +getAdvancementName() +"/"
+                +getStudentID()+"/"
+                +file.getName());
+        try {
+            Files.copy(file.toPath(), fileToSave.toPath());
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    private String getProjectID() {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        int projectID = 0;
+        try {
+            projectID = advancementDAO
+                    .getAdvancementIDByStudentID(LoginController.sessionDetails.getId());
+        } catch (SQLException getProjectIDException) {
+            getProjectIDException.printStackTrace();
+        }
+        return String.valueOf(projectID);
+    }
+
+    private String getAdvancementName() {
+        return TransferAdvancement.getAdvancementName();
+    }
+
+    private String getStudentID() {
+        return LoginController.sessionDetails.getId();
+    }
+
+    private Path createPath(String projectID, String advancementName, String studentName) {
+        File path = new File(System.getProperty("user.home")
+                +"/IdeaProjects/SSPGER/evidences/"
+                +projectID+"/"
+                +advancementName+"/"+studentName);
+        if (path.exists() == false) {
+            path.mkdirs();
+        }
+        return path.toPath();
+    }
 
     @Override
     public void redirectToAdvancements() throws IOException {
@@ -25,8 +104,17 @@ public class AddEvidenceController implements IStudentNavigationBar {
 
     }
 
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+
     @Override
     public void actionLogOut() throws IOException {
-
+        LoginController.sessionDetails.cleanSessionDetails();
+        if (confirmedLogOut()) {
+            LoginController.sessionDetails.cleanSessionDetails();
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+        }
     }
 }
