@@ -84,12 +84,24 @@ public class StudentEvidencesController implements IStudentNavigationBar {
 
     @FXML
     public void redirectToModifyEvidence() throws IOException {
-        MainStage.changeView("modifyevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        if (evidenceIsSelect()) {
+            MainStage.changeView("modifyevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        }
     }
 
     @FXML
     public void redirectToViewEvidenceDetails() throws IOException {
-        MainStage.changeView("viewevidencedetails-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        if (evidenceIsSelect()) {
+            TransferEvidence.setEvidenceId(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getEvidenceId());
+            TransferEvidence.setEvidenceName(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getEvidenceTitle());
+            MainStage.changeView("viewevidencedetails-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        }
     }
 
     @FXML
@@ -116,73 +128,6 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         }
         return verification;
     }
-
-    /*@FXML
-    public void fillTitleStatusGradeDescriptionEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        try {
-            Evidence evidence = evidenceDAO.getEvidenceByEvidenceTitle(tableViewEvidence
-                    .getSelectionModel()
-                    .getSelectedItem().getEvidenceTitle());
-            labelTitleEvidence.setText(evidence.getEvidenceTitle());
-            labelStatusEvidence.setText(evidence.getEvidenceStatus());
-            labelGradeEvidence.setText(String.valueOf(evidence.getEvidenceGrade()));
-            labelDescriptionEvidence.setText(evidence.getEvidenceDescription());
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-    }
-    @FXML
-    public void fillAdvancementEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        try {
-            int advancementID = evidenceDAO.getAdvancementIDByEvidenceTitle(tableViewEvidence
-                            .getSelectionModel()
-                    .getSelectedItem()
-                    .getEvidenceTitle());
-            labelAdvancementEvidence.setText("");
-            try {
-                String advancementName = advancementDAO.getAdvancementNameByID(advancementID);
-                labelAdvancementEvidence.setText(advancementName);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-    }
-    @FXML
-    public void fillStudentEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        StudentDAO studentDAO = new StudentDAO();
-        try {
-            String studentID = evidenceDAO.getStudentIDByEvidenceTitle(tableViewEvidence
-                    .getSelectionModel()
-                    .getSelectedItem()
-                    .getEvidenceTitle());
-            try {
-                String nameStudent = studentDAO.getNamebyStudentID(studentID);
-                labelStudentEvidence.setText(nameStudent);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-    }
-    @FXML
-    public void fillEvidence() {
-        fillTitleStatusGradeDescriptionEvidence();
-        labelTitleEvidence.setOpacity(1);
-        labelStatusEvidence.setOpacity(1);
-        labelGradeEvidence.setOpacity(1);
-        labelDescriptionEvidence.setOpacity(1);
-        fillAdvancementEvidence();
-        labelAdvancementEvidence.setOpacity(1);
-        fillStudentEvidence();
-        labelStudentEvidence.setOpacity(1);
-    }*/
 
     @FXML
     private void deleteEvidence() {
