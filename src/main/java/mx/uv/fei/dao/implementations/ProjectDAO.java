@@ -189,7 +189,7 @@ public class ProjectDAO implements IProject {
     }
     
     @Override
-    public List<DetailedProject> getProjectsByRole(int professorID) {
+    public List<DetailedProject> getProjectsByRole(int professorID) throws SQLException {
         String sqlQuery = "SELECT nombreTrabajoRecepcional FROM Proyectos WHERE ID_codirector = ? OR ID_director = ?";
         
         DatabaseManager databaseManager = new DatabaseManager();

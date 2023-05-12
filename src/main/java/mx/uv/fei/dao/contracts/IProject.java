@@ -17,7 +17,7 @@ public interface IProject {
 
     ArrayList<DetailedProject> getProjectsByState(String projectState) throws SQLException;
     List<DetailedProject> getAllProjects() throws SQLException; //similar to getProjectsByState but to get all projects no matter the status of the project
-    List<DetailedProject> getProjectsByRole(int professorID);
+    List<DetailedProject> getProjectsByRole(int professorID) throws SQLException;
     DetailedProject getProjectInfo(String projectTitle) throws SQLException;
     List<String> getLgacList() throws SQLException;
     List<String> getRWModalitiesList() throws SQLException;

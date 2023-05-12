@@ -38,15 +38,11 @@ public class DatabaseManager {
         DATABASE_PASSWORD = (String) prop.get("DATABASE_PASSWORD");
     }
 
-    private void connect() {
-        try {
-            connection = DriverManager.getConnection(DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD);
-        } catch (SQLException sqlException) {
-            logger.error(sqlException);
-        }
+    private void connect() throws SQLException {
+        connection = DriverManager.getConnection(DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD);
     }
 
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
         connect();
         return connection;
     }
