@@ -18,6 +18,10 @@ import java.util.List;
 public class UserDAO implements IUser {
     private static final Logger logger = Logger.getLogger(LoginController.class);
 
+    /**
+     * Provides DAO functions to get all kinds of information related with the users (administrador,
+     * profesor, estudiante, representante del cuerpo académico), also provides an authentication method.
+     */
     @Override
     public int addAdminUser(AccessAccount accessAccount) throws SQLException {
         String query = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
@@ -90,7 +94,7 @@ public class UserDAO implements IUser {
             PreparedStatement firstPreparedStatement = connection.prepareStatement(firstQuery);
             firstPreparedStatement.setString(1, accessAccount.getUsername());
             firstPreparedStatement.setString(2, accessAccount.getUserPassword());
-            firstPreparedStatement.setString(3, LoginController.USER_PROFESSOR);
+            firstPreparedStatement.setString(3, accessAccount.getUserType());
             PreparedStatement secondPreparedStatement = connection.prepareStatement(secondQuery);
             secondPreparedStatement.setString(1, professor.getProfessorName());
             secondPreparedStatement.setString(2, professor.getProfessorLastName());
