@@ -109,7 +109,7 @@ public class AdvancementDAO implements IAdvancement {
     
     @Override
     public List<Advancement> getListAdvancementNameStudent(String studentID) throws SQLException {
-        String sqlQuery = "SELECT A.nombre FROM Avances A INNER JOIN Proyectos P ON A.ID_proyecto = P.ID_proyecto INNER JOIN ProyectosEstudiantes PE ON PE.ID_proyecto = P.ID_proyecto WHERE PE.matriculaEstudiante = (?)";
+        String sqlQuery = "SELECT A.nombre FROM Avances A INNER JOIN Proyectos P ON A.ID_proyecto = P.ID_proyecto INNER JOIN SolicitudesProyecto SP on P.ID_proyecto = SP.ID_proyecto WHERE SP.matriculaEstudiante = ? AND SP.estado = 'Aceptado'";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
