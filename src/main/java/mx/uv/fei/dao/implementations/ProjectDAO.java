@@ -130,7 +130,7 @@ public class ProjectDAO implements IProject {
 
     @Override
     public ArrayList<DetailedProject> getProjectsByState(String projectState) throws SQLException {
-        String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional, P.estado FROM Proyectos P";
+        String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional, P.estado FROM Proyectos P WHERE estado = ?";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
