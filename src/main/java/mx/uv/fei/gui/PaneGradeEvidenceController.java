@@ -37,7 +37,7 @@ public class PaneGradeEvidenceController {
             if (grade >= 0 && grade <= 10) {
                 return true;
             } else {
-                DialogGenerator.getDialog(new AlertMessage("Calificación inválid, el rango de calificación permitido es del 0 al 10", AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage("El rango permitido es del 0 al 10", AlertStatus.WARNING));
                 return false;
             }
         }

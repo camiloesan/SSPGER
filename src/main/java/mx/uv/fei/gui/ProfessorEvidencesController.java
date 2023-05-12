@@ -5,6 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
@@ -34,10 +37,12 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     private Label labelStudentEvidence;
     @FXML
     private TableView<Evidence> tableViewEvidence;
-
+    @FXML
+    private Label labelUsername;
 
     @FXML
     private void initialize() {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         TableColumn<Evidence, String> titleEvidence = new TableColumn<>("Título");
         titleEvidence.setCellValueFactory(new PropertyValueFactory<>("evidenceTitle"));
         TableColumn<Evidence, String> statusEvidence = new TableColumn<>("Estado");
@@ -54,13 +59,13 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     @FXML
     private void openPaneGradeEvidence() throws IOException {
         if (isItemSelected()) {
-            int evidenceId = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceId(); //?????????????????????????
+            int evidenceId = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceId();
             String evidenceName = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceTitle();
 
             TransferEvidence.setEvidenceId(evidenceId);
             TransferEvidence.setEvidenceName(evidenceName);
 
-            MainStage.changeView("panegradeevidence-view.fxml", 800, 500 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("panegradeevidence-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Debes seleccionar una evidencia para continuar", AlertStatus.WARNING));
         }
