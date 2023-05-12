@@ -56,13 +56,13 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    public String getReceptionWorkName() {
-        return TransferProject.getReceptionWorkName();
+    private int getTransferProjectID() {
+        return TransferProject.getProjectID();
     }
     
     public void getDetailedProject() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
-        DetailedProject detailedProject = (projectDAO.getProjectInfo(getReceptionWorkName()));
+        DetailedProject detailedProject = (projectDAO.getProjectInfoByID(getTransferProjectID()));
 
         projectID = detailedProject.getProjectID();
         
