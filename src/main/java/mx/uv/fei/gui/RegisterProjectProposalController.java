@@ -245,7 +245,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     @Override
     public void redirectToProfessorEvidenceManager() throws IOException {
         try {
-            MainStage.changeView("evidences.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }

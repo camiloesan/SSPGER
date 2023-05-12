@@ -13,7 +13,7 @@ public interface IStudentNavigationBar {
     @FXML
     void redirectToProjects() throws  IOException;
     @FXML
-    void redirectToRequest();
+    void redirectToRequest() throws IOException;
     @FXML
     void actionLogOut() throws IOException;
 }

@@ -59,6 +59,6 @@ public class PaneGradeEvidenceController {
 
     @FXML
     void returnToAdvancementList() throws IOException {
-        MainStage.changeView("evidences.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 }
