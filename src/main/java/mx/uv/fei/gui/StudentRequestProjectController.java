@@ -95,6 +95,7 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
 
+    @FXML
     public void initialize() {
         labelProjectTitle.setText("Proyecto a solicitar: " + TransferProject.getReceptionWorkName());
     }

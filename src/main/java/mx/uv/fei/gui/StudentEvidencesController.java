@@ -58,8 +58,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     }
 
     @Override
-    public void redirectToProjects() {
-
+    public void redirectToProjects() throws IOException {
+        MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override

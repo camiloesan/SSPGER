@@ -1,6 +1,7 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -104,10 +105,21 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
         textBibliography.getChildren().add(bibliography);
     }
 
+    private String getTextWorkReceptionName() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Node node : textReceptionWorkName.getChildren()) {
+            if (node instanceof Text) {
+                Text textWorkReceptionName = (Text) node;
+                stringBuilder.append(textWorkReceptionName.getText());
+            }
+        }
+        return stringBuilder.toString();
+    }
 
     @FXML
     private void redirectToProjectRequest() throws IOException {
         TransferProject.setProjectID(projectID);
+        TransferProject.setReceptionWorkName(getTextWorkReceptionName());
         MainStage.changeView("studentrequestproject-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
     }
     
