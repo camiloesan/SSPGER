@@ -7,6 +7,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.ListCell;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 public class StudentViewProjectsController implements IStudentNavigationBar{
     @FXML
-    private ListView<String> listViewVerifiedProjects;
+    private ListView<DetailedProject> listViewVerifiedProjects;
     @FXML
     private Button buttonActualizar;
     @FXML
@@ -32,6 +33,7 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     
     public void initialize() throws SQLException {
         fillListViewProjects();
+        setProjectTitles();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
@@ -40,13 +42,27 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
         listViewVerifiedProjects.getItems().clear();
         
         ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
-        proposedProjects.forEach(element -> listViewVerifiedProjects.getItems().add(element.getProjectTitle()));
+        proposedProjects.forEach(element -> listViewVerifiedProjects.getItems().add(element));
+    }
+    
+    private void setProjectTitles() {
+        listViewVerifiedProjects.setCellFactory(param -> new ListCell<>(){
+            @Override
+            protected void updateItem(DetailedProject item, boolean empty){
+                super.updateItem(item, empty);
+                if(empty) {
+                    setText(null);
+                } else {
+                    setText(item.getProjectTitle());
+                }
+            }
+        });
     }
     
     public void openProjectDetails() throws IOException {
         if (listViewVerifiedProjects.getSelectionModel().getSelectedItem() != null) {
-            String receptionWorkName = listViewVerifiedProjects.getSelectionModel().getSelectedItem();
-            TransferProject.setReceptionWorkName(receptionWorkName);
+            int projectID = listViewVerifiedProjects.getSelectionModel().getSelectedItem().getProjectID();
+            TransferProject.setProjectID(projectID);
             MainStage.changeView("studentviewprojectdetails-view.fxml",1000,600);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
@@ -58,7 +74,7 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
         ProjectDAO projectDAO = new ProjectDAO();
         if (listViewVerifiedProjects.getSelectionModel().getSelectedItem() != null) {
             try {
-                TransferProject.setProjectID(projectDAO.getProjectIDByTitle(listViewVerifiedProjects.getSelectionModel().getSelectedItem()));
+                TransferProject.setProjectID(projectDAO.getProjectIDByTitle(listViewVerifiedProjects.getSelectionModel().getSelectedItem().getReceptionWorkName()));
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información del proyecto, inténtalo más tarde", AlertStatus.ERROR));
             }
