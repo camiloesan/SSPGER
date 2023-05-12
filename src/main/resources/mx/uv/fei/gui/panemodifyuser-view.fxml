@@ -76,7 +76,7 @@
                   <TextField fx:id="textFieldNewStudentEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <GridPane fx:id="gridPaneNewProfessor" prefHeight="192.0" prefWidth="679.0">
+            <GridPane fx:id="gridPaneNewProfessor" prefHeight="192.0" prefWidth="679.0" visible="false">
                <columnConstraints>
                   <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="487.3365896150555" minWidth="10.0" prefWidth="301.66866838973436" />
                   <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="614.004183363563" minWidth="10.0" prefWidth="397.66940261767917" />

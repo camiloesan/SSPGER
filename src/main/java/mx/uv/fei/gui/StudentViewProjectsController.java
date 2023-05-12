@@ -71,13 +71,8 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
 
     @FXML
     private void openProjectTimeline() throws IOException {
-        ProjectDAO projectDAO = new ProjectDAO();
         if (listViewVerifiedProjects.getSelectionModel().getSelectedItem() != null) {
-            try {
-                TransferProject.setProjectID(projectDAO.getProjectIDByTitle(listViewVerifiedProjects.getSelectionModel().getSelectedItem().getReceptionWorkName()));
-            } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información del proyecto, inténtalo más tarde", AlertStatus.ERROR));
-            }
+            TransferProject.setProjectID(listViewVerifiedProjects.getSelectionModel().getSelectedItem().getProjectID());
             MainStage.changeView("timeline-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver el cronograma", AlertStatus.WARNING));

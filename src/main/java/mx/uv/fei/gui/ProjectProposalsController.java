@@ -77,6 +77,16 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getAllProjects());
         proposedProjects.forEach(element -> listViewProjects.getItems().add(element));
     }
+
+    @FXML
+    private void openProjectTimeline() throws IOException {
+        if (listViewProjects.getSelectionModel().getSelectedItem() != null) {
+            TransferProject.setProjectID(listViewProjects.getSelectionModel().getSelectedItem().getProjectID());
+            MainStage.changeView("timeline-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver el cronograma", AlertStatus.WARNING));
+        }
+    }
     
     public void fillProjectListByRole() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
