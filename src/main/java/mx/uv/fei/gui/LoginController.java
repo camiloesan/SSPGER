@@ -61,11 +61,13 @@ public class LoginController {
             case USER_PROFESSOR -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
+                sessionDetails.setUserType("Profesor");
                 MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             }
             case USER_REPRESENTATIVE -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
+                sessionDetails.setUserType("RepresentanteCA");
                 MainStage.changeView("projectproposals-view.fxml", 1000, 700 + MainStage.HEIGHT_OFFSET);
             }
         }
