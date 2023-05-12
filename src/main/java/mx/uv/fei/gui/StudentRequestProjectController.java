@@ -53,7 +53,7 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         if (confirmedFields() && confirmedRequestProject()) {
             ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
             try {
-                projectRequestDAO.addProjectRequestTransaction(getProjectRequestAttributes());
+                projectRequestDAO.createProjectRequest(getProjectRequestAttributes());
             } catch (SQLException requestProjectException) {
                 requestProjectException.printStackTrace();
             }
