@@ -9,7 +9,7 @@ public interface IEvidence {
     int addEvidence(Evidence evidence) throws SQLException;
     void updateEvidenceGradeById(int id, int grade) throws SQLException;
     int modifyEvidence(Evidence evidence) throws SQLException;
-    List<Evidence> getEvidenceListByStudentId(String id) throws SQLException;
+    List<Evidence> getEvidenceListByProfessorID(int professorID) throws SQLException;
 
     Evidence getEvidenceByEvidenceTitle(String id) throws SQLException;
 

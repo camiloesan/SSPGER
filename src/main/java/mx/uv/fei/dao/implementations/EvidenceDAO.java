@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,27 +65,28 @@ public class EvidenceDAO implements IEvidence {
     }
 
     @Override
-    public List<Evidence> getEvidenceListByStudentId(String id) throws SQLException {
-        String query = "select * from Evidencias where matriculaEstudiante=(?)";
+    public List<Evidence> getEvidenceListByProfessorID(int professorID) throws SQLException {
+        String query = "SELECT * FROM Evidencias " +
+                "INNER JOIN Avances on Evidencias.ID_avance = Avances.ID_avance " +
+                "INNER JOIN Proyectos on Avances.ID_proyecto = Proyectos.ID_proyecto " +
+                "WHERE Proyectos.ID_director = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, id);
+        preparedStatement.setInt(1, professorID);
         ResultSet resultSet = preparedStatement.executeQuery();
         databaseManager.closeConnection();
 
         List<Evidence> evidenceList = new ArrayList<>();
         while (resultSet.next()) {
             Evidence evidence = new Evidence();
-            evidence.setProjectId(resultSet.getInt("ID_evidencia"));
+            evidence.setEvidenceId(resultSet.getInt("ID_evidencia"));
             evidence.setEvidenceTitle(resultSet.getString("titulo"));
             evidence.setEvidenceStatus(resultSet.getString("estado"));
             evidence.setEvidenceGrade(resultSet.getInt("calificacion"));
             evidence.setEvidenceDescription(resultSet.getString("descripcion"));
-            evidence.setProfessorId(resultSet.getInt("ID_profesor"));
             evidence.setAdvancementId(resultSet.getInt("ID_avance"));
-            evidence.setProjectId(resultSet.getInt("ID_proyecto"));
             evidence.setStudentId(resultSet.getString("matriculaEstudiante"));
             evidenceList.add(evidence);
         }
