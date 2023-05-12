@@ -61,6 +61,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         getDetailedProject();
+        hideDeleteProject();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
@@ -108,6 +109,12 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
         
         Text bibliography = new Text(detailedProject.getBibliography());
         textBibliography.getChildren().add(bibliography);
+    }
+
+    private void hideDeleteProject() {
+        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+            buttonDeleteProject.setVisible(false);
+        }
     }
 
     private String getTextWorkReceptionName() {
@@ -164,7 +171,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     @Override
     public void redirectToProfessorEvidenceManager() throws IOException {
         try {
-            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("evidences.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }

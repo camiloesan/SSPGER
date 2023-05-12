@@ -83,6 +83,15 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         fillStudentEvidence();
     }
 
+    @FXML
+    private void redirectToEvidenceList() throws IOException {
+        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+            MainStage.changeView("evidences.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        } else {
+            MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        }
+    }
+
     @Override
     public void redirectToAdvancements() throws IOException {
         MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);

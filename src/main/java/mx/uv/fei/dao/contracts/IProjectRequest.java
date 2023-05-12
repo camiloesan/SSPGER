@@ -10,4 +10,6 @@ public interface IProjectRequest {
     int validateProjectRequest(String validation, int projectPetitionID) throws SQLException;
     int deleteProjectRequest(int projectPetitionID) throws  SQLException;
     List<ProjectRequest> getProjectRequestsListByProfessorId(int professorId) throws SQLException;
+
+    boolean addProjectRequestTransaction(ProjectRequest projectRequest) throws SQLException;
 }

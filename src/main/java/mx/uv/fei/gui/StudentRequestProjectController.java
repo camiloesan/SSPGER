@@ -32,7 +32,6 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
 
         projectRequest.setProjectID(TransferProject.getProjectID());
         projectRequest.setStudentId(LoginController.sessionDetails.getId());
-        System.out.println();
         projectRequest.setDescription(textAreaDescription.getText());
 
         return projectRequest;
@@ -54,7 +53,7 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         if (confirmedFields() && confirmedRequestProject()) {
             ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
             try {
-                projectRequestDAO.createProjectRequest(getProjectRequestAttributes());
+                projectRequestDAO.addProjectRequestTransaction(getProjectRequestAttributes());
             } catch (SQLException requestProjectException) {
                 requestProjectException.printStackTrace();
             }

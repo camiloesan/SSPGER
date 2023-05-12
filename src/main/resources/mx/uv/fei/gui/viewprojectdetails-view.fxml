@@ -407,9 +407,12 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </TextFlow>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="buttonDeleteProject" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#deleteProject" text="Eliminar proyecto" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="buttonDeleteProject" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#deleteProject" text="Eliminar proyecto" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets top="20.0" />
+                                 </HBox.margin></Button>
                            </children>
                         </HBox>
                      </children>

@@ -145,7 +145,7 @@
             </children>
             <ScrollPane hbarPolicy="AS_NEEDED" HBox.hgrow="ALWAYS">
                 <content>
-                    <VBox prefHeight="2100.0" prefWidth="700.0">
+                    <VBox alignment="TOP_CENTER" prefHeight="2100.0" prefWidth="700.0">
                         <children>
                             <HBox prefHeight="60.0" prefWidth="695.0" HBox.hgrow="ALWAYS">
                                 <children>
@@ -399,7 +399,10 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                 </padding>
                             </TextFlow>
-                     <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#redirectToProjectRequest" text="Solicitar proyecto" VBox.vgrow="ALWAYS" />
+                     <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#redirectToProjectRequest" text="Solicitar proyecto" VBox.vgrow="ALWAYS">
+                        <VBox.margin>
+                           <Insets top="20.0" />
+                        </VBox.margin></Button>
                         </children>
                     </VBox>
                 </content>
