@@ -1,6 +1,7 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
@@ -10,6 +11,7 @@ import mx.uv.fei.logic.TransferEvidence;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     @FXML
@@ -24,9 +26,12 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     Label labelAdvancementEvidence;
     @FXML
     Label labelStudentEvidence;
+    @FXML
+    Label labelUsername;
 
     @FXML
     private void initialize() {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         fillEvidence();
     }
 
@@ -83,37 +88,51 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         fillStudentEvidence();
     }
 
-    @FXML
-    private void redirectToEvidenceList() throws IOException {
+    @Override
+    public void redirectToAdvancements() throws IOException {
         if (LoginController.sessionDetails.getUserType() == "Profesor") {
-            MainStage.changeView("evidences.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } else {
+            MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        }
+    }
+
+    @Override
+    public void redirectToEvidences() throws  IOException, SQLException {
+        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
             MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 
     @Override
-    public void redirectToAdvancements() throws IOException {
-        MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
-    }
-
-    @Override
-    public void redirectToEvidences() throws  IOException, SQLException {
-        MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
-    }
-
-    @Override
     public void redirectToProjects() throws IOException {
-
+        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } else {
+            MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
+        }
     }
 
     @Override
-    public void redirectToRequest() {
+    public void redirectToRequest() throws IOException {
+        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        }
+    }
 
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
     }
 
     @Override
     public void actionLogOut() throws IOException {
-
+        LoginController.sessionDetails.cleanSessionDetails();
+        if (confirmedLogOut()) {
+            LoginController.sessionDetails.cleanSessionDetails();
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+        }
     }
 }

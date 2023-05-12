@@ -106,7 +106,7 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
 
     @Override
     public void redirectToProfessorEvidenceManager() throws IOException {
-        MainStage.changeView("evidences.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
@@ -114,15 +114,16 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
         MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+
     @Override
     public void actionLogOut() throws IOException {
         LoginController.sessionDetails.cleanSessionDetails();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("¿Está seguro que desea salir, se cerrará su sesión?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isEmpty() || result.get() != ButtonType.OK) {
-            alert.close();
-        } else {
+        if (confirmedLogOut()) {
+            LoginController.sessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
