@@ -24,7 +24,7 @@ CREATE TABLE Estudiantes (
 CREATE TABLE Profesores (
 	ID_profesor int not null auto_increment,
 	grado enum('Dr.','Dra.', 'MCC.') not null ,
-	nombre varchar(30),
+	nombre varchar(80),
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
 	nombreUsuario varchar(28),
@@ -102,6 +102,7 @@ CREATE TABLE Evidencias (
 	descripcion varchar(100),
 	ID_avance int,
 	matriculaEstudiante varchar(10),
+	fechaEntrega Date,
     CHECK (calificacion>=0 and calificacion<=10),
     PRIMARY KEY(ID_Evidencia)
 );

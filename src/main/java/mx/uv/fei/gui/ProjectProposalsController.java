@@ -78,7 +78,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         proposedProjects.forEach(element -> listViewProjects.getItems().add(element));
     }
     
-    public void fillProjectListByRole() {
+    public void fillProjectListByRole() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         listViewProjects.getItems().clear();
         

@@ -111,7 +111,7 @@ public class AddEvidenceController implements IStudentNavigationBar {
                 +"/IdeaProjects/SSPGER/evidences/"
                 +projectID+"/"
                 +advancementName+"/"+studentName);
-        if (path.exists() == false) {
+        if (!path.exists()) {
             path.mkdirs();
         }
         return path.toPath();
