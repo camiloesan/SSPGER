@@ -61,21 +61,16 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         getDetailedProject();
-        //buttonDeleteProject.setVisible(false);
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    public boolean isRCA() {
-        return Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA");
-    }
-
-    public String getReceptionWorkName() {
-        return TransferProject.getReceptionWorkName();
+    private int getTransferProjectID() {
+        return TransferProject.getProjectID();
     }
     
     public void getDetailedProject() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
-        DetailedProject detailedProject = (projectDAO.getProjectInfo(getReceptionWorkName()));
+        DetailedProject detailedProject = (projectDAO.getProjectInfoByID(getTransferProjectID()));
         
         labelAcademicBody.setText(detailedProject.getAcademicBodyName());
         
