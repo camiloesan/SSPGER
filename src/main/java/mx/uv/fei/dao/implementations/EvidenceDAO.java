@@ -8,13 +8,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EvidenceDAO implements IEvidence {
     @Override
     public int addEvidence(Evidence evidence) throws SQLException {
-        String query = "insert into Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante) values (?,?,?,?)";
+        String query = "insert into Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante, fechaEntrega) values (?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -23,6 +24,7 @@ public class EvidenceDAO implements IEvidence {
         preparedStatement.setString(2, evidence.getEvidenceDescription());
         preparedStatement.setInt(3, evidence.getAdvancementId());
         preparedStatement.setString(4, evidence.getStudentId());
+        preparedStatement.setString(5, java.time.LocalDate.now().toString());
         int result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
@@ -32,14 +34,15 @@ public class EvidenceDAO implements IEvidence {
     @Override
     public int modifyEvidence(Evidence evidence) throws SQLException{
         int result;
-        String query = "UPDATE Evidencias SET titulo=(?), descripcion=(?) WHERE ID_evidencia=(?)";
+        String query = "UPDATE Evidencias SET titulo=(?), descripcion=(?), fechaEntrega=(?) WHERE ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1, evidence.getEvidenceTitle());
         preparedStatement.setString(2, evidence.getEvidenceDescription());
-        preparedStatement.setInt(3, evidence.getEvidenceId());
+        preparedStatement.setString(3, java.time.LocalDate.now().toString());
+        preparedStatement.setInt(4, evidence.getEvidenceId());
         result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
