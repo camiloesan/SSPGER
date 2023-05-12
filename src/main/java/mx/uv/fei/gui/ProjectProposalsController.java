@@ -32,7 +32,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
     private ComboBox<String> comboProjectStates;
     @FXML
-    private ListView<String> listViewProjects;
+    private ListView<DetailedProject> listViewProjects;
     @FXML
     private HBox hboxLogOutLabel;
     @FXML
@@ -62,6 +62,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
             fillProjectStateCombo();
             fillUnfilteredList();
         }
+        setProjectTitles();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
@@ -72,8 +73,9 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     public void fillUnfilteredList() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         listViewProjects.getItems().clear();
+        
         ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getAllProjects());
-        proposedProjects.forEach(element -> listViewProjects.getItems().add(element.getProjectTitle()));
+        proposedProjects.forEach(element -> listViewProjects.getItems().add(element));
     }
     
     public void fillProjectListByRole() {
@@ -81,7 +83,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         listViewProjects.getItems().clear();
         
         ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByRole(Integer.parseInt(LoginController.sessionDetails.getId())));
-        proposedProjects.forEach(element -> listViewProjects.getItems().add(element.getProjectTitle()));
+        proposedProjects.forEach(element -> listViewProjects.getItems().add(element));
     }
     
     public void fillFilteredProjects(String projectState) throws SQLException {
@@ -89,7 +91,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         listViewProjects.getItems().clear();
         
         ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState(projectState));
-        proposedProjects.forEach(element -> listViewProjects.getItems().add(element.getProjectTitle()));
+        proposedProjects.forEach(element -> listViewProjects.getItems().add(element));
     }
     
     public void fillProjectStateCombo() {
@@ -122,10 +124,24 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         }
     }
     
+    private void setProjectTitles(){
+        listViewProjects.setCellFactory(param -> new ListCell<>(){
+            @Override
+            protected void updateItem(DetailedProject item, boolean empty){
+                super.updateItem(item, empty);
+                if(empty) {
+                    setText(null);
+                } else {
+                    setText(item.getProjectTitle());
+                }
+            }
+        });
+    }
+    
     public void openProjectDetails() throws IOException {
         if (listViewProjects.getSelectionModel().getSelectedItem() != null) {
-            String receptionWorkName = listViewProjects.getSelectionModel().getSelectedItem();
-            TransferProject.setReceptionWorkName(receptionWorkName);
+            int projectID = (listViewProjects.getSelectionModel().getSelectedItem().getProjectID());
+            TransferProject.setProjectID(projectID);
             MainStage.changeView("viewprojectdetails-view.fxml",1000,600);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
@@ -138,10 +154,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
             ProjectDAO projectDAO = new ProjectDAO();
             PROJECT_VALIDATION = "Verificado";
             try {
-                projectDAO.updateProjectState(projectDAO.getProjectIDByTitle(listViewProjects
-                                .getSelectionModel()
-                                .getSelectedItem())
-                        , PROJECT_VALIDATION);
+                projectDAO.updateProjectState(listViewProjects.getSelectionModel().getSelectedItem().getProjectID(), PROJECT_VALIDATION);
             } catch (SQLException requestException) {
                 requestException.printStackTrace();
             }
@@ -156,10 +169,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
             ProjectDAO projectDAO = new ProjectDAO();
             PROJECT_VALIDATION = "Declinado";
             try {
-                projectDAO.updateProjectState(projectDAO.getProjectIDByTitle(listViewProjects
-                                .getSelectionModel()
-                                .getSelectedItem())
-                        , PROJECT_VALIDATION);
+                projectDAO.updateProjectState((listViewProjects.getSelectionModel().getSelectedItem().getProjectID()), PROJECT_VALIDATION);
             } catch (SQLException requestException) {
                 requestException.printStackTrace();
             }
