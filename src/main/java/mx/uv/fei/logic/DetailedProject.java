@@ -19,6 +19,8 @@ public class DetailedProject {
     private String receptionWorkDescription;
     private String expectedResults;
     private String bibliography;
+    private String projectState;
+    private String projectStage;
 
     public int getProjectID() {
         return projectID;
@@ -162,5 +164,21 @@ public class DetailedProject {
 
     public void setBibliography(String bibliography) {
         this.bibliography = bibliography;
+    }
+    
+    public String getProjectState() {
+        return projectState;
+    }
+    
+    public void setProjectState(String projectState) {
+        this.projectState = projectState;
+    }
+    
+    public String getProjectStage() {
+        return projectStage;
+    }
+    
+    public void setProjectStage(String projectStage) {
+        this.projectStage = projectStage;
     }
 }
