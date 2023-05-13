@@ -19,20 +19,32 @@ class StudentDAOTest {
         AccessAccount accessAccount = new AccessAccount();
         UserDAO accessAccountDAO = new UserDAO();
 
-        accessAccount.setUsername("BDMG");
-        accessAccount.setUserPassword("contrasenaBDMG");
+        accessAccount.setUsername("example");
+        accessAccount.setUserPassword("example");
         accessAccount.setUserType("Estudiante");
 
         accessAccountDAO.addAdminUser(accessAccount);
+
+        Student student = new Student();
+        StudentDAO studentDAO = new StudentDAO();
+
+        student.setStudentID("example");
+        student.setName("example");
+        student.setLastName("example");
+        student.setAcademicEmail("example");
+        student.setUsername("example");
+
+        studentDAO.insertStudent(student);
     }
 
     @AfterEach
     void tearDown() throws SQLException {
        UserDAO accessAccountDAO = new UserDAO();
-        StudentDAO studentDAO = new StudentDAO();
+       StudentDAO studentDAO = new StudentDAO();
 
-        accessAccountDAO.deleteUserByUsername("BDMG");
-        studentDAO.deleteStudent("ZS21013865");
+       accessAccountDAO.deleteUserByUsername("example");
+       studentDAO.deleteStudent("ZS21013860");
+       studentDAO.deleteStudent("example");
     }
 
     @Test
@@ -40,7 +52,7 @@ class StudentDAOTest {
         Student student = new Student();
         StudentDAO studentDAO = new StudentDAO();
 
-        student.setStudentID("ZS21013865");
+        student.setStudentID("ZS21013860");
         student.setName("Bryam Danae");
         student.setLastName("Morales García");
         student.setAcademicEmail("zs21013865@estudiantes.uv.mx");
@@ -52,5 +64,6 @@ class StudentDAOTest {
 
     @Test
     void deleteStudent() {
+
     }
 }

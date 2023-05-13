@@ -12,4 +12,6 @@ public interface IProjectRequest {
     List<ProjectRequest> getProjectRequestsListByProfessorId(int professorId) throws SQLException;
 
     boolean addProjectRequestTransaction(ProjectRequest projectRequest) throws SQLException;
+
+    int getProjecRequestIDByDescription(String description) throws SQLException;
 }
