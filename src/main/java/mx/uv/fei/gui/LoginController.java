@@ -68,7 +68,7 @@ public class LoginController {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
                 sessionDetails.setUserType("RepresentanteCA");
-                MainStage.changeView("projectproposals-view.fxml", 1000, 700 + MainStage.HEIGHT_OFFSET);
+                MainStage.changeView("projectproposals-view.fxml", 1100, 700 + MainStage.HEIGHT_OFFSET);
             }
         }
     }

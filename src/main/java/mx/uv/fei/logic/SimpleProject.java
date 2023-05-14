@@ -12,7 +12,9 @@ public class SimpleProject extends DetailedProject{
             return false;
         }
         SimpleProject simpleProject = (SimpleProject) obj;
-        return getProjectID() == simpleProject.getProjectID() && Objects.equals(getProjectTitle(), simpleProject.getProjectTitle());
+        return getProjectID() == simpleProject.getProjectID()
+                && Objects.equals(getProjectTitle(), simpleProject.getProjectTitle())
+                && Objects.equals(getProjectState(), simpleProject.getProjectState());
     }
     
     @Override
