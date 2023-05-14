@@ -107,6 +107,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
     private void openProjectTimeline() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
+            TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getProjectTitle());
             TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
             MainStage.changeView("timeline-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {

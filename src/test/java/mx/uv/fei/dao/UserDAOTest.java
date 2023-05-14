@@ -18,15 +18,30 @@ class UserDAOTest {
     void setUp() throws SQLException {
         var userDAO = new UserDAO();
         var accessAccount = new AccessAccount();
+        var professor = new Professor();
         accessAccount.setUsername("dummy");
         accessAccount.setUserPassword("dummy");
-        accessAccount.setUserType("profesor");
-        userDAO.addAdminUser(accessAccount);
+        accessAccount.setUserType("Profesor");
+        professor.setProfessorName("albieri");
+        professor.setProfessorLastName("sanchez");
+        professor.setProfessorEmail("hola@gmail.com");
+        professor.setProfessorDegree("Dr.");
+        userDAO.addProfessorUserTransaction(accessAccount, professor);
         var accessAccount2 = new AccessAccount();
+        var student = new Student();
         accessAccount2.setUsername("dummy2");
         accessAccount2.setUserPassword("dummy2");
-        accessAccount2.setUserType("profesor");
-        userDAO.addAdminUser(accessAccount2);
+        accessAccount2.setUserType("Estudiante");
+        student.setStudentID("s21022342");
+        student.setName("luis");
+        student.setLastName("cardone");
+        student.setAcademicEmail("luis@gmail.com");
+        userDAO.addStudentUserTransaction(accessAccount2, student);
+        var accessAccount3 =  new AccessAccount();
+        accessAccount3.setUsername("adminDummy");
+        accessAccount3.setUserPassword("admin");
+        accessAccount3.setUserType("Administrador");
+        userDAO.addAdminUser(accessAccount3);
     }
 
     @AfterEach
@@ -34,6 +49,7 @@ class UserDAOTest {
         var accessAccountDAO = new UserDAO();
         accessAccountDAO.deleteUserByUsername("dummy");
         accessAccountDAO.deleteUserByUsername("dummy2");
+        accessAccountDAO.deleteUserByUsername("adminDummy");
     }
 
     @Test
@@ -110,7 +126,7 @@ class UserDAOTest {
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
 
-    @Test //addProfessor
+    @Test
     void testAddProfessorUserTransactionUserAlreadyExists() throws SQLException {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
@@ -145,7 +161,7 @@ class UserDAOTest {
         Student student = new Student();
         accessAccount.setUsername("dummy");
         accessAccount.setUserPassword("dummy2");
-        accessAccount.setUserType(LoginController.USER_PROFESSOR);
+        accessAccount.setUserType(LoginController.USER_ADMIN);
         student.setStudentID("1234567890");
         student.setName("new");
         student.setLastName("new");
@@ -154,8 +170,39 @@ class UserDAOTest {
     }
 
     @Test
-    void testModifyProfessorUserTransaction() {
+    void testModifyProfessorUserTransactionIncorrectUserType() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        Professor professor = new Professor();
+        accessAccount.setUsername("dummy");
+        accessAccount.setUserPassword("nag");
+        accessAccount.setUserType(LoginController.USER_ADMIN);
+        professor.setProfessorName("pepe");
+        professor.setProfessorLastName("gonzales");
+        professor.setProfessorDegree("Dr.");
+        professor.setProfessorEmail("some@gmail.com");
+        assertFalse(userDAO.modifyProfessorUserTransaction("dummy", accessAccount, professor));
+    }
 
+    @Test
+    void testModifyProfessorUserTransactionIncorrectDegree() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        Professor professor = new Professor();
+        accessAccount.setUsername("dummy");
+        accessAccount.setUserPassword("dummy2");
+        accessAccount.setUserType(LoginController.USER_ADMIN);
+        professor.setProfessorName("pepe");
+        professor.setProfessorLastName("gonzales");
+        professor.setProfessorDegree("incorrect");
+        professor.setProfessorEmail("some@gmail.com");
+        assertFalse(userDAO.modifyProfessorUserTransaction("dummy", accessAccount, professor));
+    }
+
+    @Test
+    void testDeleteUserByUsernameAdminShouldDelete() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        assertEquals(1, userDAO.deleteUserByUsername("dummy"));
     }
 
     @Test
@@ -168,5 +215,11 @@ class UserDAOTest {
     void testAreCredentialsValidFalse() throws SQLException {
         UserDAO userDAO = new UserDAO();
         assertFalse(userDAO.areCredentialsValid("dummyn", "camilo"));
+    }
+
+    @Test
+    void testGetAccessAccountTypeByUsernameShouldReturnProfessor() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        assertEquals("Profesor", userDAO.getAccessAccountTypeByUsername("dummy"));
     }
 }

@@ -13,7 +13,7 @@ public interface IUser {
     boolean addProfessorUserTransaction(AccessAccount accessAccount, Professor professor) throws SQLException;
     boolean modifyStudentUserTransaction(String username, AccessAccount accessAccount, Student student) throws SQLException;
     boolean modifyProfessorUserTransaction(String username, AccessAccount accessAccount, Professor professor) throws SQLException;
-    void deleteUserByUsername(String username) throws SQLException;
+    int deleteUserByUsername(String username) throws SQLException;
     boolean areCredentialsValid(String username, String password) throws SQLException;
     String getAccessAccountTypeByUsername(String username) throws SQLException;
     List<AccessAccount> getAccessAccountsList() throws SQLException;

@@ -50,8 +50,6 @@ public class TimelineController {
         dateLine.setStroke(Color.web("#61192C"));
         anchorPane.getChildren().add(dateLine);
 
-        //draw months
-
         int i = 0;
         for (Advancement advancementObject : advancementList) {
             i++;

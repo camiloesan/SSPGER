@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserDAO implements IUser {
     private static final Logger logger = Logger.getLogger(LoginController.class);
@@ -147,48 +148,55 @@ public class UserDAO implements IUser {
 
     @Override
     public boolean modifyProfessorUserTransaction(String username, AccessAccount accessAccount, Professor professor) throws SQLException {
-        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?) and tipoUsuario!=(?)";
+        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?)";
         String secondQuery = "update Profesores set nombre=(?), apellidos=(?), grado=(?), correoInstitucional=(?) where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         int resultFirstQuery = 0;
         int resultSecondQuery = 0;
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement firstPreparedStatement = connection.prepareStatement(firstQuery);
-            firstPreparedStatement.setString(1, accessAccount.getUserPassword());
-            firstPreparedStatement.setString(2, accessAccount.getUserType());
-            firstPreparedStatement.setString(3, username);
-            firstPreparedStatement.setString(4, LoginController.USER_ADMIN);
-            PreparedStatement secondPreparedStatement = connection.prepareStatement(secondQuery);
-            secondPreparedStatement.setString(1, professor.getProfessorName());
-            secondPreparedStatement.setString(2, professor.getProfessorLastName());
-            secondPreparedStatement.setString(3, professor.getProfessorDegree());
-            secondPreparedStatement.setString(4, professor.getProfessorEmail());
-            secondPreparedStatement.setString(5, username);
-            resultFirstQuery = firstPreparedStatement.executeUpdate();
-            resultSecondQuery = secondPreparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException sqlException) {
-            connection.rollback();
-        } finally {
-            databaseManager.closeConnection();
+        if (Objects.equals(accessAccount.getUserType(), LoginController.USER_ADMIN)) {
+            return false;
+        } else {
+            try {
+                connection.setAutoCommit(false);
+                PreparedStatement firstPreparedStatement = connection.prepareStatement(firstQuery);
+                firstPreparedStatement.setString(1, accessAccount.getUserPassword());
+                firstPreparedStatement.setString(2, accessAccount.getUserType());
+                firstPreparedStatement.setString(3, username);
+                PreparedStatement secondPreparedStatement = connection.prepareStatement(secondQuery);
+                secondPreparedStatement.setString(1, professor.getProfessorName());
+                secondPreparedStatement.setString(2, professor.getProfessorLastName());
+                secondPreparedStatement.setString(3, professor.getProfessorDegree());
+                secondPreparedStatement.setString(4, professor.getProfessorEmail());
+                secondPreparedStatement.setString(5, username);
+                resultFirstQuery = firstPreparedStatement.executeUpdate();
+                resultSecondQuery = secondPreparedStatement.executeUpdate();
+                connection.commit();
+            } catch (SQLException sqlException) {
+                connection.rollback();
+            } finally {
+                databaseManager.closeConnection();
+            }
         }
+
         return resultFirstQuery > 0 && resultSecondQuery > 0;
     }
 
     @Override
-    public void deleteUserByUsername(String username) throws SQLException {
+    public int deleteUserByUsername(String username) throws SQLException {
         String query = "delete from CuentasAcceso where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
+        int result = 0;
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, username);
-        preparedStatement.executeUpdate();
+        result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
+
+        return result;
     }
 
     @Override
