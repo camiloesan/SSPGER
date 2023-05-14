@@ -11,7 +11,7 @@ import javafx.scene.control.ListCell;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.DetailedProject;
+import mx.uv.fei.logic.SimpleProject;
 import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.util.Optional;
 
 public class StudentViewProjectsController implements IStudentNavigationBar{
     @FXML
-    private ListView<DetailedProject> listViewVerifiedProjects;
+    private ListView<SimpleProject> listViewVerifiedProjects;
     @FXML
     private Button buttonActualizar;
     @FXML
@@ -41,14 +41,14 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
         ProjectDAO projectDAO = new ProjectDAO();
         listViewVerifiedProjects.getItems().clear();
         
-        ArrayList<DetailedProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
+        ArrayList<SimpleProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
         proposedProjects.forEach(element -> listViewVerifiedProjects.getItems().add(element));
     }
-    
+
     private void setProjectTitles() {
         listViewVerifiedProjects.setCellFactory(param -> new ListCell<>(){
             @Override
-            protected void updateItem(DetailedProject item, boolean empty){
+            protected void updateItem(SimpleProject item, boolean empty){
                 super.updateItem(item, empty);
                 if(empty) {
                     setText(null);
