@@ -23,6 +23,7 @@ public class UserDAO implements IUser {
      * Provides DAO functions to get all kinds of information related with the users (administrador,
      * profesor, estudiante, representante del cuerpo académico), also provides an authentication method.
      */
+
     @Override
     public int addAdminUser(AccessAccount accessAccount) throws SQLException {
         String query = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
@@ -189,7 +190,7 @@ public class UserDAO implements IUser {
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
-        int result = 0;
+        int result;
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, username);
         result = preparedStatement.executeUpdate();
