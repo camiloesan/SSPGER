@@ -1,10 +1,10 @@
 package mx.uv.fei.dao.implementations;
 
-import javafx.scene.chart.PieChart;
 import mx.uv.fei.dao.contracts.IProject;
 import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.Project;
 import mx.uv.fei.logic.DetailedProject;
+import mx.uv.fei.logic.SimpleProject;
 
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -129,13 +129,13 @@ public class ProjectDAO implements IProject {
     }
 
     @Override
-    public ArrayList<DetailedProject> getProjectsByState(String projectState) throws SQLException {
+    public List<SimpleProject> getProjectsByState(String projectState) throws SQLException {
         String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional, P.estado FROM Proyectos P WHERE estado = ?";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
-        ArrayList<DetailedProject> detailedProjects = null;
+        ArrayList<SimpleProject> detailedProjects = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
             preparedStatement.setString(1,projectState);
@@ -144,10 +144,11 @@ public class ProjectDAO implements IProject {
             
             detailedProjects= new ArrayList<>();
             while (resultSet.next()) {
-                DetailedProject itemSimpleProject = new DetailedProject();
+                SimpleProject itemSimpleProject = new SimpleProject();
                 
                 itemSimpleProject.setProjectID(resultSet.getInt("ID_proyecto"));
                 itemSimpleProject.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+                itemSimpleProject.setProjectState(resultSet.getString("estado"));
                 
                 detailedProjects.add(itemSimpleProject);
             }
@@ -161,22 +162,23 @@ public class ProjectDAO implements IProject {
     }
     
     @Override
-    public List<DetailedProject> getAllProjects() throws SQLException {
-        String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional FROM Proyectos";
+    public List<SimpleProject> getAllProjects() throws SQLException {
+        String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional, estado FROM Proyectos";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
-        List<DetailedProject> projectTitles = null;
+        List<SimpleProject> projectTitles = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
             
             projectTitles = new ArrayList<>();
             while (resultSet.next()) {
-                DetailedProject itemProjectTitle = new DetailedProject();
+                SimpleProject itemProjectTitle = new SimpleProject();
                 itemProjectTitle.setProjectID(resultSet.getInt("ID_proyecto"));
                 itemProjectTitle.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+                itemProjectTitle.setProjectState(resultSet.getString("estado"));
                 projectTitles.add(itemProjectTitle);
             }
         } catch (SQLException sqlException) {
@@ -189,13 +191,13 @@ public class ProjectDAO implements IProject {
     }
     
     @Override
-    public List<DetailedProject> getProjectsByRole(int professorID) throws SQLException {
-        String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional FROM Proyectos WHERE ID_codirector = ? OR ID_director = ?";
+    public List<SimpleProject> getProjectsByRole(int professorID) throws SQLException {
+        String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional, estado FROM Proyectos WHERE ID_codirector = ? OR ID_director = ?";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
-        List<DetailedProject> projectTitles = null;
+        List<SimpleProject> projectTitles = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
             preparedStatement.setInt(1,professorID);
@@ -205,9 +207,10 @@ public class ProjectDAO implements IProject {
             
             projectTitles = new ArrayList<>();
             while (resultSet.next()) {
-                DetailedProject projectTitle = new DetailedProject();
+                SimpleProject projectTitle = new SimpleProject();
                 projectTitle.setProjectID(resultSet.getInt("ID_proyecto"));
                 projectTitle.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+                projectTitle.setProjectState(resultSet.getString("estado"));
                 projectTitles.add(projectTitle);
             }
         }catch (SQLException sqlException) {
