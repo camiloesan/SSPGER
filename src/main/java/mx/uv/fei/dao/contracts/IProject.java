@@ -5,7 +5,6 @@ import mx.uv.fei.logic.Project;
 import mx.uv.fei.logic.SimpleProject;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IProject {
@@ -16,7 +15,7 @@ public interface IProject {
     int getProjectIDByTitle(String title) throws SQLException;
     List<SimpleProject> getProjectsByState(String projectState) throws SQLException;
     List<SimpleProject> getAllProjects() throws SQLException; //similar to getProjectsByState but to get all projects no matter the status of the project
-    List<DetailedProject> getProjectsByRole(int professorID) throws SQLException;
+    List<SimpleProject> getProjectsByRole(int professorID) throws SQLException;
     DetailedProject getProjectInfoByID(int projectID) throws SQLException;
     List<String> getLgacList() throws SQLException;
     List<String> getRWModalitiesList() throws SQLException;
