@@ -114,7 +114,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private void fillProjectTableByRole() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         tableViewProjects.getItems().clear();
-        tableViewProjects.getItems().addAll(projectDAO.getProjectsByRole(Integer.parseInt(LoginController.sessionDetails.getId())));
+        tableViewProjects.getItems().addAll(projectDAO.getProjectsByCollaboration(Integer.parseInt(LoginController.sessionDetails.getId())));
     }
     
     private void fillFilteredProjects(String projectState) throws SQLException {
