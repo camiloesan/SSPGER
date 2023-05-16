@@ -112,11 +112,11 @@ public class StudentDAO implements IStudent {
     }
     
     @Override
-    public List<Student> getStudentsByProject(int professorID) throws SQLException {
+    public List<Student> getStudentsByProject(int projectID) throws SQLException {
         String sqlQuery = "SELECT CONCAT(E.nombre, ' ', E.apellidos) AS Alumno FROM Estudiantes E " +
                 "INNER JOIN SolicitudesProyecto SP on E.matricula = SP.matriculaEstudiante " +
                 "INNER JOIN Proyectos P on SP.ID_proyecto = P.ID_proyecto " +
-                "WHERE SP.estado = 'Aceptado' AND ID_director = ?;";
+                "WHERE SP.estado = 'Aceptado' AND P.ID_proyecto = ?;";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -124,7 +124,7 @@ public class StudentDAO implements IStudent {
         List<Student> studentList = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1,professorID);
+            preparedStatement.setInt(1,projectID);
             
             ResultSet resultSet = preparedStatement.executeQuery();
             

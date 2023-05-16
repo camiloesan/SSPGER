@@ -10,6 +10,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.Student;
+import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,11 +31,15 @@ public class FollowUpController implements IProfessorNavigationBar{
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
+    private int getTransferProjectID() {
+        return TransferProject.getProjectID();
+    }
+    
     @FXML
     private void fillStudentList() throws SQLException {
         StudentDAO studentDAO = new StudentDAO();
         listViewStudents.getItems().clear();
-        listViewStudents.getItems().addAll(studentDAO.getStudentsByProject(Integer.parseInt(LoginController.sessionDetails.getId())));
+        listViewStudents.getItems().addAll(studentDAO.getStudentsByProject(getTransferProjectID()));
     }
     
     private void setStudentNames() {

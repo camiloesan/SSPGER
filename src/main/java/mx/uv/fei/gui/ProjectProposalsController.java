@@ -161,8 +161,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
     private void openProjectDetails() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
-            int projectID = (tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
-            TransferProject.setProjectID(projectID);
+            TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
             MainStage.changeView("viewprojectdetails-view.fxml",1000,600);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
@@ -171,7 +170,12 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     
     @FXML
     private void openFollowUp() throws IOException {
+        if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
+        TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
         MainStage.changeView("followup-view.fxml",1000,600);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver seguimiento de los alumnos.", AlertStatus.WARNING));
+        }
     }
 
     @FXML

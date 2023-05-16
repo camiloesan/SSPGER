@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="hboxMainWindow" minHeight="700.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.FollowUpController">
+<HBox fx:id="hboxMainWindow" minHeight="700.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.FollowUpController">
    <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
       <Label text="SSPGER" textFill="WHITE">
          <font>
@@ -131,7 +131,7 @@
    </VBox>
    <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
       <HBox fx:id="hboxTopBar" minHeight="76.0" prefHeight="76.0" prefWidth="699.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
-         <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Seguimiento de progreso" textFill="WHITE">
+         <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Seguimiento de alumnos" textFill="WHITE">
             <font>
                <Font name="Cantarell Regular" size="30.0" />
             </font>
