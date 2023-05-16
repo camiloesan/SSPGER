@@ -26,10 +26,6 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     @FXML
     private ListView<SimpleProject> listViewVerifiedProjects;
     @FXML
-    private Button buttonActualizar;
-    @FXML
-    private Button buttonVerDetalles;
-    @FXML
     private HBox hboxLogOutLabel;
     
     private static final String VERIFIED_PROJECT_STATUS = "Verificado";
@@ -94,14 +90,10 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     }
     
     @Override
-    public void redirectToProjects() {
-    
-    }
+    public void redirectToProjects() {}
     
     @Override
-    public void redirectToRequest() {
-    
-    }
+    public void redirectToRequest() {}
     
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
