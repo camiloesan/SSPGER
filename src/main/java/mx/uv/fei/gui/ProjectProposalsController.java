@@ -62,7 +62,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         prepareTableViewProjects();
         if(!isRCA()) {
-            fillProjectListByRole();
+            fillProjectTableByRole();
             tableColumnProjectID.setVisible(false);
             buttonAcceptProject.setVisible(false);
             buttonDeclineProject.setVisible(false);
@@ -75,7 +75,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    public boolean isRCA() {
+    private boolean isRCA() {
         return Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA");
     }
     
@@ -99,9 +99,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private void fillUnfilteredTable() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         tableViewProjects.getItems().clear();
-        
-        List<SimpleProject> proposedProjects = new ArrayList<>(projectDAO.getAllProjects());
-        proposedProjects.forEach(element -> tableViewProjects.getItems().add(element));
+        tableViewProjects.getItems().addAll(projectDAO.getAllProjects());
     }
     
     @FXML
@@ -115,23 +113,19 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         }
     }
     
-    public void fillProjectListByRole() throws SQLException {
+    private void fillProjectTableByRole() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         tableViewProjects.getItems().clear();
-        
-        ArrayList<SimpleProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByRole(Integer.parseInt(LoginController.sessionDetails.getId())));
-        proposedProjects.forEach(element -> tableViewProjects.getItems().add(element));
+        tableViewProjects.getItems().addAll(projectDAO.getProjectsByRole(Integer.parseInt(LoginController.sessionDetails.getId())));
     }
     
-    public void fillFilteredProjects(String projectState) throws SQLException {
+    private void fillFilteredProjects(String projectState) throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         tableViewProjects.getItems().clear();
-        
-        ArrayList<SimpleProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState(projectState));
-        proposedProjects.forEach(element -> tableViewProjects.getItems().add(element));
+        tableViewProjects.getItems().addAll(projectDAO.getProjectsByState(projectState));
     }
     
-    public void fillProjectStateCombo() {
+    private void fillProjectStateCombo() {
         ObservableList<String > projectStates = FXCollections.observableArrayList(
                 ALL_COMBO_OPTION,
                 PARTICIPATING_COMBO_OPTION,
@@ -141,22 +135,23 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         comboProjectStates.setItems(projectStates);
     }
     
-    public boolean noFilterSelected() {
+    private boolean noFilterSelected() {
         return comboProjectStates.getValue() == null;
     }
     
-    public void refreshFilteredList() throws SQLException {
+    @FXML
+    private void refreshFilteredTable() throws SQLException {
         if (noFilterSelected()) {
             if(isRCA()){
                 fillUnfilteredTable();
             } else {
-                fillProjectListByRole();
+                fillProjectTableByRole();
             }
         } else{
             String selectedItem = comboProjectStates.getSelectionModel().getSelectedItem();
             switch (selectedItem) {
                 case ALL_COMBO_OPTION -> fillUnfilteredTable();
-                case PARTICIPATING_COMBO_OPTION -> fillProjectListByRole();
+                case PARTICIPATING_COMBO_OPTION -> fillProjectTableByRole();
                 case UNVERIFIED_COMBO_OPTION -> fillFilteredProjects(UNVERIFIED_PROJECT_STATE);
                 case VERIFIED_COMBO_OPTION -> fillFilteredProjects(VERIFIED_PROJECT_STATE);
                 case DECLINED_COMBO_OPTION -> fillFilteredProjects(DECLINED_PROJECT_STATE);
@@ -165,7 +160,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         }
     }
     
-    public void openProjectDetails() throws IOException {
+    @FXML
+    private void openProjectDetails() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
             int projectID = (tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
             TransferProject.setProjectID(projectID);
@@ -173,6 +169,11 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
         }
+    }
+    
+    @FXML
+    private void openFollowUp() throws IOException {
+        MainStage.changeView("followup-view.fxml",1000,600);
     }
 
     @FXML
@@ -206,7 +207,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     }
     
     @FXML
-    public void openProjectRegistration() throws IOException {
+    private void openProjectRegistration() throws IOException {
         try {
             MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -250,7 +251,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         }
     }
     
-    public boolean confirmedLogOut() {
+    private boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
