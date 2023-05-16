@@ -51,6 +51,11 @@ public class FollowUpController implements IProfessorNavigationBar{
         });
     }
     
+    @FXML
+    private void openProgressReport() throws IOException {
+        MainStage.changeView("progressreport-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+    }
+    
     @Override
     public void redirectToProfessorAdvancementManagement() throws IOException {
         try {
