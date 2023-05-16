@@ -3,6 +3,7 @@ package mx.uv.fei.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -25,6 +26,7 @@ public class FollowUpController implements IProfessorNavigationBar{
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         fillStudentList();
+        setStudentNames();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
@@ -33,6 +35,20 @@ public class FollowUpController implements IProfessorNavigationBar{
         StudentDAO studentDAO = new StudentDAO();
         listViewStudents.getItems().clear();
         listViewStudents.getItems().addAll(studentDAO.getStudentsByProject(Integer.parseInt(LoginController.sessionDetails.getId())));
+    }
+    
+    private void setStudentNames() {
+        listViewStudents.setCellFactory(param -> new ListCell<>(){
+            @Override
+            protected void updateItem(Student item, boolean empty){
+                super.updateItem(item, empty);
+                if(empty) {
+                    setText(null);
+                } else {
+                    setText(item.getFullName());
+                }
+            }
+        });
     }
     
     @Override
