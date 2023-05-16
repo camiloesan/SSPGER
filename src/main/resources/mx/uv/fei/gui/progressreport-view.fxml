@@ -130,7 +130,7 @@
    </VBox>
    <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
       <HBox fx:id="hboxTopBar" minHeight="76.0" prefHeight="76.0" prefWidth="699.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
-         <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Ver anteproyectos" textFill="WHITE">
+         <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Reporte de Progreso" textFill="WHITE">
             <font>
                <Font name="Cantarell Regular" size="30.0" />
             </font>

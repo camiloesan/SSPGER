@@ -1,12 +1,27 @@
 package mx.uv.fei.gui;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.util.Optional;
 
 public class ProgressReportController implements IProfessorNavigationBar{
+    @FXML
+    private Label labelUsername;
+    @FXML
+    private Label labelStudent;
+    @FXML
+    private Label labelDirector;
+    @FXML
+    private Label labelCodirector;
+    @FXML
+    private Label labelDate;
     
+    public void initialize() {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
+    }
     @Override
     public void redirectToProfessorAdvancementManagement() throws IOException {
         try {
