@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.Student;
 import mx.uv.fei.logic.TransferProject;
+import mx.uv.fei.logic.TransferStudent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -58,6 +59,7 @@ public class FollowUpController implements IProfessorNavigationBar{
     
     @FXML
     private void openProgressReport() throws IOException {
+        TransferStudent.setStudentName(listViewStudents.getSelectionModel().getSelectedItem().getFullName());
         MainStage.changeView("progressreport-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     

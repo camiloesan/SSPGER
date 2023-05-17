@@ -165,15 +165,13 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                            <children>
                               <Label text="Nombre/s del director/es: " />
-                              <Label fx:id="labelDirector" text="Label" />
-                              <Label text=", " />
-                              <Label fx:id="labelCodirector" text="Label" />
+                              <Label fx:id="labelDirectors" text="Label" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                            <children>
                               <Label text="Tema de Trabajo Recepcional: " />
-                              <Label fx:id="labelRececptionWork" text="Label" />
+                              <Label fx:id="labelReceptionWork" text="Label" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
