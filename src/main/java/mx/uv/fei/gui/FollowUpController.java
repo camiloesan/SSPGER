@@ -59,6 +59,7 @@ public class FollowUpController implements IProfessorNavigationBar{
     
     @FXML
     private void openProgressReport() throws IOException {
+        TransferStudent.setStudentID(listViewStudents.getSelectionModel().getSelectedItem().getStudentID());
         TransferStudent.setStudentName(listViewStudents.getSelectionModel().getSelectedItem().getFullName());
         MainStage.changeView("progressreport-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }

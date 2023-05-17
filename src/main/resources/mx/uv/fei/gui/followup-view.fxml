@@ -153,7 +153,7 @@
                <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <HBox fx:id="hboxGridPaneHeader" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <Label fx:id="labelHeader" prefHeight="40.0" text="Lista de Alumnos">
+               <Label fx:id="labelHeader" prefHeight="40.0" text="Alumnos participantes">
                   <font>
                      <Font name="Cantarell Regular" size="18.0" />
                   </font>

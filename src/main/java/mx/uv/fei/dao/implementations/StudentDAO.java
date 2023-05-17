@@ -113,7 +113,7 @@ public class StudentDAO implements IStudent {
     
     @Override
     public List<Student> getStudentsByProject(int projectID) throws SQLException {
-        String sqlQuery = "SELECT CONCAT(E.nombre, ' ', E.apellidos) AS Alumno FROM Estudiantes E " +
+        String sqlQuery = "SELECT E.matricula, CONCAT(E.nombre, ' ', E.apellidos) AS Alumno FROM Estudiantes E " +
                 "INNER JOIN SolicitudesProyecto SP on E.matricula = SP.matriculaEstudiante " +
                 "INNER JOIN Proyectos P on SP.ID_proyecto = P.ID_proyecto " +
                 "WHERE SP.estado = 'Aceptado' AND P.ID_proyecto = ?;";
@@ -130,6 +130,7 @@ public class StudentDAO implements IStudent {
             
             while (resultSet.next()){
                 Student student = new Student();
+                student.setStudentID(resultSet.getString("matricula"));
                 student.setFullName(resultSet.getString("Alumno"));
                 studentList.add(student);
             }
