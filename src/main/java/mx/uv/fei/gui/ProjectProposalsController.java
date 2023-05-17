@@ -45,6 +45,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private Button buttonAcceptProject;
     @FXML
     private Button buttonDeclineProject;
+    @FXML
+    private Button buttonSeguimiento;
     
     private static final String ALL_COMBO_OPTION = "Todos";
     private static final String PARTICIPATING_COMBO_OPTION = "Mis proyectos";
@@ -59,6 +61,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         prepareTableViewProjects();
+        buttonSeguimiento.setVisible(false);
         if(!isRCA()) {
             fillProjectTableByRole();
             tableColumnProjectID.setVisible(false);
@@ -91,11 +94,13 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         tableColumnProjectState.setMaxWidth(100);
         tableColumnProjectState.setMinWidth(100);
         
+        tableViewProjects.getColumns().clear();
         tableViewProjects.getColumns().addAll(tableColumnProjectTitle,tableColumnProjectState);
     }
     
     private void fillUnfilteredTable() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
+        buttonSeguimiento.setVisible(false);
         tableViewProjects.getItems().clear();
         tableViewProjects.getItems().addAll(projectDAO.getAllProjects());
     }
@@ -113,12 +118,14 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     
     private void fillProjectTableByRole() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
+        buttonSeguimiento.setVisible(true);
         tableViewProjects.getItems().clear();
         tableViewProjects.getItems().addAll(projectDAO.getProjectsByCollaboration(Integer.parseInt(LoginController.sessionDetails.getId())));
     }
     
     private void fillFilteredProjects(String projectState) throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
+        buttonSeguimiento.setVisible(false);
         tableViewProjects.getItems().clear();
         tableViewProjects.getItems().addAll(projectDAO.getProjectsByState(projectState));
     }
@@ -172,6 +179,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private void openFollowUp() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
         TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
+        TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getProjectTitle());
         MainStage.changeView("followup-view.fxml",1000,600);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver seguimiento de los alumnos.", AlertStatus.WARNING));
@@ -185,6 +193,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
             PROJECT_VALIDATION = "Verificado";
             try {
                 projectDAO.updateProjectState(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID(), PROJECT_VALIDATION);
+                refreshFilteredTable();
             } catch (SQLException requestException) {
                 requestException.printStackTrace();
             }
@@ -200,6 +209,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
             PROJECT_VALIDATION = "Declinado";
             try {
                 projectDAO.updateProjectState((tableViewProjects.getSelectionModel().getSelectedItem().getProjectID()), PROJECT_VALIDATION);
+                refreshFilteredTable();
             } catch (SQLException requestException) {
                 requestException.printStackTrace();
             }
