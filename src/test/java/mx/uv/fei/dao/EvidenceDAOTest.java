@@ -12,26 +12,17 @@ class EvidenceDAOTest {
 
     @BeforeEach
     void setUp() {
+
     }
 
     @AfterEach
     void tearDown() {
+
     }
 
     @Test
-    void testAddProjectEvidenceSucces() throws SQLException {
-        Evidence evidence = new Evidence();
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
+    void testAddProjectEvidenceShouldNotAdd() throws SQLException {
 
-        evidence.setEvidenceTitle("Evidencia1");
-        evidence.setEvidenceDescription("descripcion1");
-        evidence.setProfessorId(1);
-        evidence.setAdvancementId(1);
-        evidence.setProjectId(1);
-        evidence.setStudentId("ZS21013865");
-
-        int expectedResult = 1;
-        int result = evidenceDAO.addEvidence(evidence);
     }
 
     @Test

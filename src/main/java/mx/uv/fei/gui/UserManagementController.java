@@ -163,9 +163,7 @@ public class UserManagementController {
 
     @FXML
     private void buttonDeleteAction() throws SQLException {
-        if (tableViewAccessAccounts.getSelectionModel().getSelectedItem() == null) {
-            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar al usuario que quieres eliminar", AlertStatus.WARNING));
-        } else {
+        if (isItemSelected()) {
             String username = tableViewAccessAccounts.getSelectionModel().getSelectedItem().getUsername();
             if (isUserAdmin(username)) {
                 DialogGenerator.getDialog(new AlertMessage("No se pueden eliminar los usuarios administrador", AlertStatus.WARNING));
@@ -174,7 +172,13 @@ public class UserManagementController {
                 tableViewAccessAccounts.getItems().clear();
                 fillTableViewAccessAccounts();
             }
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar al usuario que quieres eliminar", AlertStatus.WARNING));
         }
+    }
+
+    private boolean isItemSelected() {
+        return tableViewAccessAccounts.getSelectionModel().getSelectedItem() != null;
     }
 
     @FXML

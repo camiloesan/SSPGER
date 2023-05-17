@@ -43,18 +43,19 @@ public class PaneModifyUserController {
     private TextField textFieldNewStudentLastName;
     @FXML
     private TextField textFieldNewStudentName;
-    @FXML
-    private TextField textFieldNewUsername;
 
     private final static ObservableList<String> observableListComboItemsUserType =
             FXCollections.observableArrayList(LoginController.USER_STUDENT,
                     LoginController.USER_PROFESSOR,
                     LoginController.USER_REPRESENTATIVE);
+    private final static ObservableList<String> observableListComboItemsDegree =
+            FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
 
     @FXML
     private void initialize() {
         labelHeader.setText("Modificar usuario [" + UserManagementController.getUsername() + "]");
         comboBoxUserTypeToModify.setItems(observableListComboItemsUserType);
+        comboBoxNewProfessorDegree.setItems(observableListComboItemsDegree);
     }
 
     @FXML
@@ -81,8 +82,7 @@ public class PaneModifyUserController {
                 || comboBoxUserTypeToModify.getValue() == null) {
             DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
-        } else if (textFieldNewUsername.getText().length() > MAX_LENGTH_USERNAME
-                || textFieldNewPassword.getText().length() > MAX_LENGTH_PASSWORD){
+        } else if (textFieldNewPassword.getText().length() > MAX_LENGTH_PASSWORD){
             DialogGenerator.getDialog(new AlertMessage("Has sobrepasado el límite de caracteres, inténtalo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
@@ -90,7 +90,6 @@ public class PaneModifyUserController {
         }
     }
 
-    private static final int MAX_LENGTH_USERNAME = 28;
     private static final int MAX_LENGTH_PASSWORD = 64;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_LASTNAME = 80;
@@ -135,7 +134,6 @@ public class PaneModifyUserController {
     private void modifyProfessorUser() {
         AccessAccount accessAccount = new AccessAccount();
         UserDAO accessAccountDAO = new UserDAO();
-        accessAccount.setUsername(textFieldNewUsername.getText());
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
         Professor professor = new Professor();
@@ -153,7 +151,6 @@ public class PaneModifyUserController {
     private void modifyStudentUser() {
         AccessAccount accessAccount = new AccessAccount();
         UserDAO accessAccountDAO = new UserDAO();
-        accessAccount.setUsername(textFieldNewUsername.getText());
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
         Student student = new Student();

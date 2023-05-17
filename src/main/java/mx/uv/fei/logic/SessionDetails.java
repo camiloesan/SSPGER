@@ -5,17 +5,22 @@ public class SessionDetails {
     private String username;
     private String userType;
     private String id;
-    public static SessionDetails getInstance() {
+
+    public static SessionDetails getInstance(String username, String userType, String id) {
         if (instance == null) {
-            instance = new SessionDetails();
+            instance = new SessionDetails(username, userType, id);
         }
         return instance;
     }
-    public SessionDetails(){}
+
+    private SessionDetails(String username, String userType, String id) {
+        this.username = username;
+        this.userType = userType;
+        this.id = id;
+    }
+
     public void cleanSessionDetails() {
-        id = "";
-        username = "";
-        userType = "";
+        instance = null;
     }
 
     public String getUsername() {
@@ -26,19 +31,7 @@ public class SessionDetails {
         return userType;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
