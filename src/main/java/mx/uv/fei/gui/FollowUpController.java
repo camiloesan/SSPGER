@@ -12,6 +12,8 @@ import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.Student;
 import mx.uv.fei.logic.TransferProject;
 import mx.uv.fei.logic.TransferStudent;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -59,9 +61,13 @@ public class FollowUpController implements IProfessorNavigationBar{
     
     @FXML
     private void openProgressReport() throws IOException {
-        TransferStudent.setStudentID(listViewStudents.getSelectionModel().getSelectedItem().getStudentID());
-        TransferStudent.setStudentName(listViewStudents.getSelectionModel().getSelectedItem().getFullName());
-        MainStage.changeView("progressreport-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        if (listViewStudents.getSelectionModel().getSelectedItem() != null) {
+            TransferStudent.setStudentID(listViewStudents.getSelectionModel().getSelectedItem().getStudentID());
+            TransferStudent.setStudentName(listViewStudents.getSelectionModel().getSelectedItem().getFullName());
+            MainStage.changeView("progressreport-view.fxml",1120,700);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Seleccione un Alumno para generar un reporte", AlertStatus.WARNING));
+        }
     }
     
     @Override
