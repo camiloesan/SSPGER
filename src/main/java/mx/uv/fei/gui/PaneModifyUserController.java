@@ -3,22 +3,18 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static mx.uv.fei.gui.MainStage.HEIGHT_OFFSET;
 
 public class PaneModifyUserController {
-    @FXML
-    private Label labelHeader;
     @FXML
     private ComboBox<String> comboBoxNewProfessorDegree;
     @FXML
@@ -43,6 +39,8 @@ public class PaneModifyUserController {
     private TextField textFieldNewStudentLastName;
     @FXML
     private TextField textFieldNewStudentName;
+    @FXML
+    private TextField textFieldUserToModify;
 
     private final static ObservableList<String> observableListComboItemsUserType =
             FXCollections.observableArrayList(LoginController.USER_STUDENT,
@@ -53,7 +51,12 @@ public class PaneModifyUserController {
 
     @FXML
     private void initialize() {
-        labelHeader.setText("Modificar usuario [" + UserManagementController.getUsername() + "]");
+        comboBoxUserTypeToModify.setValue(UserManagementController.getUserType());
+        switch (UserManagementController.getUserType()) {
+            case LoginController.USER_STUDENT -> gridPaneNewStudent.setVisible(true);
+            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> gridPaneNewProfessor.setVisible(true);
+        }
+        textFieldUserToModify.setText(UserManagementController.getUsername());
         comboBoxUserTypeToModify.setItems(observableListComboItemsUserType);
         comboBoxNewProfessorDegree.setItems(observableListComboItemsDegree);
     }
@@ -186,5 +189,17 @@ public class PaneModifyUserController {
     @FXML
     private void returnToUsersView() throws IOException {
         MainStage.changeView("usermanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
+    }
+
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+
+    @FXML
+    private void logOut() throws IOException {
+        if (confirmedLogOut()) {
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+        }
     }
 }
