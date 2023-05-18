@@ -51,6 +51,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
         setInfoLabels();
         prepareTableViewEvidences();
         fillTableViewEvidences();
+        setTableHeight();
         labelDate.setText(actualDate.format(dateFormat));
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
@@ -64,15 +65,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
     }
     
     private void prepareTableViewEvidences() {
-        double rowHeight = 24.0;
-        double headerHeight = 28.0;
-        double minHeight = headerHeight + (getNumberOfEvidences() * rowHeight);
-        System.out.println(getNumberOfEvidences());
-        
         tableViewEvidences.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tableViewEvidences.setMinHeight(minHeight);
-        tableViewEvidences.setMaxHeight(minHeight);
-        tableViewEvidences.setPrefHeight(minHeight);
         
         tableColumnProduct = new TableColumn<>("Actividades/Productos");
         tableColumnProduct.setCellValueFactory(new PropertyValueFactory<>("evidenceTitle"));
@@ -98,6 +91,15 @@ public class ProgressReportController implements IProfessorNavigationBar{
     private int getNumberOfEvidences() {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         return evidenceDAO.getDeliveredEvidences(TransferStudent.getStudentID()).size();
+    }
+    
+    private void setTableHeight() {
+        double rowHeight = 24.0;
+        double headerHeight = 28.0;
+        double minHeight = headerHeight + (getNumberOfEvidences() * rowHeight);
+        tableViewEvidences.setMinHeight(minHeight);
+        tableViewEvidences.setMaxHeight(minHeight);
+        tableViewEvidences.setPrefHeight(minHeight);
     }
     
     private void fillTableViewEvidences(){
