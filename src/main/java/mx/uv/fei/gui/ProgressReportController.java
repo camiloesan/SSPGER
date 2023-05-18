@@ -1,6 +1,5 @@
 package mx.uv.fei.gui;
 
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -18,6 +17,8 @@ import mx.uv.fei.logic.TransferStudent;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +26,8 @@ import java.time.format.DateTimeFormatter;
 public class ProgressReportController implements IProfessorNavigationBar{
     @FXML
     private HBox hboxLogOutLabel;
+    @FXML
+    private Label labelHeaderDate;
     @FXML
     private Label labelUsername;
     @FXML
@@ -45,15 +48,16 @@ public class ProgressReportController implements IProfessorNavigationBar{
     
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        setNamesLabels();
+        setInfoLabels();
         prepareTableViewEvidences();
         fillTableViewEvidences();
         labelDate.setText(actualDate.format(dateFormat));
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    private void setNamesLabels() throws SQLException {
+    private void setInfoLabels() throws SQLException {
         ProfessorDAO professorDAO = new ProfessorDAO();
+        labelHeaderDate.setText(actualDate.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, new Locale("es")) + " " + actualDate.getYear());
         labelStudent.setText(TransferStudent.getStudentName());
         labelDirectors.setText(professorDAO.getProfessorsByProject(TransferProject.getProjectID()));
         labelReceptionWork.setText(TransferProject.getReceptionWorkName());
@@ -61,26 +65,39 @@ public class ProgressReportController implements IProfessorNavigationBar{
     
     private void prepareTableViewEvidences() {
         double rowHeight = 24.0;
-        double headerHeight = 24.0;
-        double minHeight = headerHeight + tableViewEvidences.getItems().size() * rowHeight;
+        double headerHeight = 28.0;
+        double minHeight = headerHeight + (getNumberOfEvidences() * rowHeight);
+        System.out.println(getNumberOfEvidences());
         
         tableViewEvidences.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        //tableViewEvidences.setPrefHeight(minHeight);
-        //tableViewEvidences.prefHeightProperty().bind(Bindings.max(minHeight,tableViewEvidences.minHeightProperty()));
-        //tableViewEvidences.setMaxHeight((tableViewEvidences.getItems().size() * rowHeight) + headerHeight);
-        //.setMinHeight((tableViewEvidences.getItems().size() * rowHeight) + headerHeight);
-        //tableViewEvidences.prefHeightProperty().bind(Bindings.size(tableViewEvidences.getItems()).multiply(rowHeight).add(headerHeight));
+        tableViewEvidences.setMinHeight(minHeight);
+        tableViewEvidences.setMaxHeight(minHeight);
+        tableViewEvidences.setPrefHeight(minHeight);
         
         tableColumnProduct = new TableColumn<>("Actividades/Productos");
         tableColumnProduct.setCellValueFactory(new PropertyValueFactory<>("evidenceTitle"));
+        tableColumnProduct.setResizable(false);
+        tableColumnProduct.setMaxWidth(470);
+        tableColumnProduct.setMinWidth(470);
         
         tableColumnDeliverDate = new TableColumn<>("Fecha de realización");
         tableColumnDeliverDate.setCellValueFactory((new PropertyValueFactory<>("deliverDate")));
+        tableColumnDeliverDate.setResizable(false);
+        tableColumnDeliverDate.setMaxWidth(135);
+        tableColumnDeliverDate.setMinWidth(135);
         
         tableColumnWasDelivered = new TableColumn<>("¿Entregado en tiempo y forma?");
+        tableColumnWasDelivered.setResizable(false);
+        tableColumnWasDelivered.setMaxWidth(211);
+        tableColumnWasDelivered.setMinWidth(211);
         
         tableViewEvidences.getColumns().clear();
         tableViewEvidences.getColumns().addAll(tableColumnProduct,tableColumnDeliverDate,tableColumnWasDelivered);
+    }
+    
+    private int getNumberOfEvidences() {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        return evidenceDAO.getDeliveredEvidences(TransferStudent.getStudentID()).size();
     }
     
     private void fillTableViewEvidences(){
