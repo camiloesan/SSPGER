@@ -14,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectDAO implements IProject {
+    /**
+     *
+     * @param project
+     * @return number of affected rows
+     * @throws SQLException
+     */
     @Override
     public int addProject(Project project) throws SQLException {
         int result = 0;
@@ -48,6 +54,11 @@ public class ProjectDAO implements IProject {
         return result;
     }
     
+    /**
+     * @param projectDirectorName
+     * @return number of affected rows
+     * @throws SQLException
+     */
     @Override
     public int setDirectorIDtoProject(Project projectDirectorName) throws SQLException {
         int result = 0;
@@ -69,6 +80,11 @@ public class ProjectDAO implements IProject {
         return result;
     }
     
+    /**
+     * @param projectCodirectorName
+     * @return number of affected rows
+     * @throws SQLException
+     */
     @Override
     public int setCodirectorIDtoProject(Project projectCodirectorName) throws SQLException {
         int result = 0;
@@ -90,6 +106,12 @@ public class ProjectDAO implements IProject {
         return result;
     }
     
+    /**
+     * @param projectId
+     * @param state
+     * @return number of affected rows
+     * @throws SQLException
+     */
     @Override
     public int updateProjectState(int projectId, String state) throws SQLException {
         int result;
@@ -127,7 +149,12 @@ public class ProjectDAO implements IProject {
 
         return result;
     }
-
+    
+    /**
+     * @param projectState
+     * @return List of simple projects by state
+     * @throws SQLException
+     */
     @Override
     public List<SimpleProject> getProjectsByState(String projectState) throws SQLException {
         String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional, P.estado FROM Proyectos P WHERE estado = ?";
@@ -161,6 +188,10 @@ public class ProjectDAO implements IProject {
         return detailedProjects;
     }
     
+    /**
+     * @return List of simple all projects
+     * @throws SQLException
+     */
     @Override
     public List<SimpleProject> getAllProjects() throws SQLException {
         String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional, estado FROM Proyectos";
@@ -190,8 +221,13 @@ public class ProjectDAO implements IProject {
         return projectTitles;
     }
     
+    /**
+     * @param professorID
+     * @return list of simple projects by director
+     * @throws SQLException
+     */
     @Override
-    public List<SimpleProject> getProjectsByRole(int professorID) throws SQLException {
+    public List<SimpleProject> getProjectsByCollaboration(int professorID) throws SQLException {
         String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional, estado FROM Proyectos WHERE ID_codirector = ? OR ID_director = ?";
         
         DatabaseManager databaseManager = new DatabaseManager();
@@ -219,6 +255,11 @@ public class ProjectDAO implements IProject {
         return projectTitles;
     }
     
+    /**
+     * @param projectID
+     * @return project with all its details
+     * @throws SQLException
+     */
     @Override
     public DetailedProject getProjectInfoByID(int projectID) throws SQLException{
         String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, CONCAT(LC.clave, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.grado,' ',PRF.nombre, ' ',PRF.apellidos) AS 'Director', CONCAT (CD.grado,' ',CD.nombre, ' ',CD.apellidos) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.ID_lgac LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR INNER JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor WHERE P.ID_proyecto = ?";
@@ -262,6 +303,10 @@ public class ProjectDAO implements IProject {
         return detailedProject;
     }
     
+    /**
+     * @return list with LGAC
+     * @throws SQLException
+     */
     @Override
     public List<String> getLgacList() throws SQLException {
         String sqlQuery = "SELECT CONCAT (clave, '. ', nombre) AS ItemLGAC FROM LGAC";
@@ -288,6 +333,10 @@ public class ProjectDAO implements IProject {
         return lgacList;
     }
     
+    /**
+     * @return list with reception work modalities
+     * @throws SQLException
+     */
     @Override
     public List<String> getRWModalitiesList() throws SQLException {
         String sqlQuery = "SELECT modalidadTR FROM ModalidadesTR";
@@ -314,6 +363,10 @@ public class ProjectDAO implements IProject {
         return rwModalityList;
     }
     
+    /**
+     * @return list with academic bodies IDs
+     * @throws SQLException
+     */
     @Override
     public List<String> getAcademicBodyIDs() throws SQLException {
         String sqlQuery = "SELECT claveCA FROM CuerpoAcademico";

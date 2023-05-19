@@ -12,4 +12,5 @@ public interface IProfessor {
     int deleteProfessorByName(String professorNameToDelete) throws SQLException;
     List<String> getProfessorsNames() throws SQLException;
     int getProfessorIdByUsername(String username) throws SQLException;
+    String  getProfessorsByProject(int projecID) throws SQLException;
 }

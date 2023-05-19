@@ -10,6 +10,7 @@ public class Evidence {
     private int advancementId;
     private int projectId;
     private String studentId;
+    private String deliverDate;
 
     public int getEvidenceId() {
         return evidenceId;
@@ -81,5 +82,13 @@ public class Evidence {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
+    }
+    
+    public String getDeliverDate() {
+        return deliverDate;
+    }
+    
+    public void setDeliverDate(String deliverDate) {
+        this.deliverDate = deliverDate;
     }
 }

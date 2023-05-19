@@ -10,6 +10,6 @@ public interface IStudent {
     int  deleteStudent(String studentID) throws  SQLException;
     String getNamebyStudentID(String studentID) throws SQLException;
     String getStudentIdByUsername(String username) throws SQLException;
-
     String getStudentIDByProfessorID(int professorID) throws SQLException;
+    List<Student> getStudentsByProject(int projectID) throws SQLException;
 }

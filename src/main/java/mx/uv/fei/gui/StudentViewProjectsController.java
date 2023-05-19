@@ -1,22 +1,24 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ListCell;
+
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class StudentViewProjectsController implements IStudentNavigationBar{
+    @FXML
+    private Label labelUsername;
     @FXML
     private ListView<SimpleProject> listViewVerifiedProjects;
     @FXML
@@ -25,17 +27,17 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     private static final String VERIFIED_PROJECT_STATUS = "Verificado";
     
     public void initialize() throws SQLException {
+        labelUsername.setText(LoginController.sessionDetails.getUsername());
         fillListViewProjects();
         setProjectTitles();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    public void fillListViewProjects() throws SQLException {
+    @FXML
+    private void fillListViewProjects() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         listViewVerifiedProjects.getItems().clear();
-        
-        ArrayList<SimpleProject> proposedProjects = new ArrayList<>(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
-        proposedProjects.forEach(element -> listViewVerifiedProjects.getItems().add(element));
+        listViewVerifiedProjects.getItems().addAll(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
     }
 
     private void setProjectTitles() {
@@ -52,7 +54,8 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
         });
     }
     
-    public void openProjectDetails() throws IOException {
+    @FXML
+    private void openProjectDetails() throws IOException {
         if (listViewVerifiedProjects.getSelectionModel().getSelectedItem() != null) {
             int projectID = listViewVerifiedProjects.getSelectionModel().getSelectedItem().getProjectID();
             TransferProject.setProjectID(projectID);
@@ -83,14 +86,10 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     }
     
     @Override
-    public void redirectToProjects() {
-    
-    }
+    public void redirectToProjects() {}
     
     @Override
-    public void redirectToRequest() {
-    
-    }
+    public void redirectToRequest() {}
     
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");

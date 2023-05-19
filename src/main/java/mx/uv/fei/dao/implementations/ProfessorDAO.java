@@ -132,4 +132,36 @@ public class ProfessorDAO implements IProfessor {
 
         return id;
     }
+    
+    /**
+     * @param projecID
+     * @return stirng with director & codirector names
+     * @throws SQLException
+     */
+    @Override
+    public String getProfessorsByProject(int projecID) throws SQLException {
+        String sqlQuery = "SELECT CONCAT(D.nombre, ' ',D.apellidos, ', ', CD.nombre, ' ',CD.apellidos) AS Directors FROM Profesores D " +
+                "INNER JOIN Proyectos P on D.ID_profesor = P.ID_director " +
+                "INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor " +
+                "WHERE P.ID_proyecto = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        String professorNames = null;
+        try {
+            Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            
+            preparedStatement.setInt(1,projecID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                professorNames = resultSet.getString("Directors");
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace(); //log exception
+        } finally {
+            databaseManager.closeConnection();
+        }
+        
+        return professorNames;
+    }
 }
