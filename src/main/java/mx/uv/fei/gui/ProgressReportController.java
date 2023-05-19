@@ -22,11 +22,6 @@ import mx.uv.fei.logic.TransferProject;
 import mx.uv.fei.logic.Evidence;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.AlertMessage;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -34,7 +29,6 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -169,31 +163,6 @@ public class ProgressReportController implements IProfessorNavigationBar{
             if (pdfWriter != null) {
                 pdfWriter.close();
             }
-        }
-    }
-    
-    @FXML
-    private void generateProgressReportBOX() {
-        PDDocument document = new PDDocument();
-        PDPage page = new PDPage();
-        document.addPage(page);
-        
-        try {
-            WritableImage image = vboxReportFormat.snapshot(null,null);
-            
-            PDImageXObject pdImageXObject = LosslessFactory.createFromImage(document, SwingFXUtils.fromFXImage(image,null));
-            PDPageContentStream contentStream = new PDPageContentStream(document,page);
-            contentStream.drawImage(pdImageXObject,0,0);
-            contentStream.close();
-            
-            document.save("Reporte_" + TransferStudent.getStudentName() + "_" + actualDate);
-            document.close();
-            
-            DialogGenerator.getDialog(new AlertMessage("Documento guardado",AlertStatus.SUCCESS));
-            
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al generar el documento.", AlertStatus.ERROR));
         }
     }
     
