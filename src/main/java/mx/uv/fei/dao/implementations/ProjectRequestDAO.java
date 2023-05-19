@@ -121,4 +121,23 @@ public class ProjectRequestDAO implements IProjectRequest {
         return  firtsResult > 0 && secondResult > 0;
     }
 
+    @Override
+    public int getProjecRequestIDByDescription(String description) throws SQLException {
+        int result = 0;
+        String query = "SELECT ID_solicitudProyecto FROM SolicitudesProyecto WHERE motivos=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, description);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            result = resultSet.getInt("ID_solicitudProyecto");
+        };
+
+        databaseManager.closeConnection();
+        return result;
+    }
+
 }

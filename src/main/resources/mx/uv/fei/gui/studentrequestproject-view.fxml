@@ -180,7 +180,7 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button minWidth="90.0" mnemonicParsing="false" text="Cancelar">
+                        <Button minWidth="90.0" mnemonicParsing="false" onAction="#redirectToProjects" text="Cancelar">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>

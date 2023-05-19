@@ -57,6 +57,11 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
             } catch (SQLException requestProjectException) {
                 requestProjectException.printStackTrace();
             }
+            try {
+                redirectToProjects();
+            } catch (IOException redirectException) {
+                redirectException.printStackTrace();
+            }
         }
     }
 
