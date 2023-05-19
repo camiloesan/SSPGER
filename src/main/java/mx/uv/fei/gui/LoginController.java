@@ -24,7 +24,6 @@ public class LoginController {
     public static final String USER_STUDENT = "Estudiante";
     public static final String USER_PROFESSOR = "Profesor";
     public static final String USER_REPRESENTATIVE = "RepresentanteCA";
-    static SessionDetails sessionDetails;
 
     @FXML
     private void onActionButtonContinue() throws IOException {
@@ -45,29 +44,31 @@ public class LoginController {
         }
     }
 
+    static SessionDetails sessionDetails;
     private void redirectToWindow() throws SQLException, IOException {
         UserDAO accessAccountDAO = new UserDAO();
         String userType = accessAccountDAO.getAccessAccountTypeByUsername(textFieldUser.getText());
-        sessionDetails = SessionDetails.getInstance();
-        sessionDetails.setUsername(textFieldUser.getText());
-        sessionDetails.setUserType(userType);
+        String username = textFieldUser.getText();
+
         switch (userType) {
             case USER_ADMIN -> MainStage.changeView("usermanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             case USER_STUDENT -> {
                 StudentDAO studentDAO = new StudentDAO();
-                sessionDetails.setId(studentDAO.getStudentIdByUsername(textFieldUser.getText()));
+                String studentId = studentDAO.getStudentIdByUsername(username);
+                sessionDetails = SessionDetails.getInstance(username, userType, studentId);
                 MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
             }
             case USER_PROFESSOR -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
-                sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
-                sessionDetails.setUserType("Profesor");
+                String professorId = String.valueOf(professorDAO.getProfessorIdByUsername(username));
+                sessionDetails = SessionDetails.getInstance(username, userType, professorId);
+                System.out.println(System.identityHashCode(sessionDetails));
                 MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             }
             case USER_REPRESENTATIVE -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
-                sessionDetails.setId(String.valueOf(professorDAO.getProfessorIdByUsername(textFieldUser.getText())));
-                sessionDetails.setUserType("RepresentanteCA");
+                String professorId = String.valueOf(professorDAO.getProfessorIdByUsername(username));
+                sessionDetails = SessionDetails.getInstance(username, userType, professorId);
                 MainStage.changeView("projectproposals-view.fxml", 1100, 700 + MainStage.HEIGHT_OFFSET);
             }
         }

@@ -10,10 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.ListCell;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.SimpleProject;
-import mx.uv.fei.logic.TransferProject;
+import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -101,9 +98,8 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     
     @Override
     public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

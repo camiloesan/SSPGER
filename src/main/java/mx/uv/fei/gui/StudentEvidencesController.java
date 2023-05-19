@@ -3,17 +3,11 @@ package mx.uv.fei.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
-import mx.uv.fei.dao.implementations.ProjectRequestDAO;
-import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -170,12 +164,9 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     
     @Override
     public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
-
-
 }

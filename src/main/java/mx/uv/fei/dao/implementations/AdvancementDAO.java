@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdvancementDAO implements IAdvancement {
+    /**
+     * @param advancement new advancement
+     * @return rows affected, if the advancement was added or not.
+     * @throws SQLException if there was a problem with the database.
+     */
     @Override
     public int addAdvancement(Advancement advancement) throws SQLException {
         String query = "insert into Avances(nombre, descripcion, fechaInicio, fechaEntrega, ID_proyecto) values (?,?,?,?,?)";

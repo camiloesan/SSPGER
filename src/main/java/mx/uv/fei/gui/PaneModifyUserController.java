@@ -3,22 +3,18 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static mx.uv.fei.gui.MainStage.HEIGHT_OFFSET;
 
 public class PaneModifyUserController {
-    @FXML
-    private Label labelHeader;
     @FXML
     private ComboBox<String> comboBoxNewProfessorDegree;
     @FXML
@@ -44,17 +40,25 @@ public class PaneModifyUserController {
     @FXML
     private TextField textFieldNewStudentName;
     @FXML
-    private TextField textFieldNewUsername;
+    private TextField textFieldUserToModify;
 
     private final static ObservableList<String> observableListComboItemsUserType =
             FXCollections.observableArrayList(LoginController.USER_STUDENT,
                     LoginController.USER_PROFESSOR,
                     LoginController.USER_REPRESENTATIVE);
+    private final static ObservableList<String> observableListComboItemsDegree =
+            FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
 
     @FXML
     private void initialize() {
-        labelHeader.setText("Modificar usuario [" + UserManagementController.getUsername() + "]");
+        comboBoxUserTypeToModify.setValue(UserManagementController.getUserType());
+        switch (UserManagementController.getUserType()) {
+            case LoginController.USER_STUDENT -> gridPaneNewStudent.setVisible(true);
+            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> gridPaneNewProfessor.setVisible(true);
+        }
+        textFieldUserToModify.setText(UserManagementController.getUsername());
         comboBoxUserTypeToModify.setItems(observableListComboItemsUserType);
+        comboBoxNewProfessorDegree.setItems(observableListComboItemsDegree);
     }
 
     @FXML
@@ -81,8 +85,7 @@ public class PaneModifyUserController {
                 || comboBoxUserTypeToModify.getValue() == null) {
             DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
-        } else if (textFieldNewUsername.getText().length() > MAX_LENGTH_USERNAME
-                || textFieldNewPassword.getText().length() > MAX_LENGTH_PASSWORD){
+        } else if (textFieldNewPassword.getText().length() > MAX_LENGTH_PASSWORD){
             DialogGenerator.getDialog(new AlertMessage("Has sobrepasado el límite de caracteres, inténtalo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
@@ -90,7 +93,6 @@ public class PaneModifyUserController {
         }
     }
 
-    private static final int MAX_LENGTH_USERNAME = 28;
     private static final int MAX_LENGTH_PASSWORD = 64;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_LASTNAME = 80;
@@ -135,7 +137,6 @@ public class PaneModifyUserController {
     private void modifyProfessorUser() {
         AccessAccount accessAccount = new AccessAccount();
         UserDAO accessAccountDAO = new UserDAO();
-        accessAccount.setUsername(textFieldNewUsername.getText());
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
         Professor professor = new Professor();
@@ -153,7 +154,6 @@ public class PaneModifyUserController {
     private void modifyStudentUser() {
         AccessAccount accessAccount = new AccessAccount();
         UserDAO accessAccountDAO = new UserDAO();
-        accessAccount.setUsername(textFieldNewUsername.getText());
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
         Student student = new Student();
@@ -189,5 +189,18 @@ public class PaneModifyUserController {
     @FXML
     private void returnToUsersView() throws IOException {
         MainStage.changeView("usermanagement-view.fxml", 1000, 600 + HEIGHT_OFFSET);
+    }
+
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+
+    @FXML
+    private void logOut() throws IOException {
+        if (confirmedLogOut()) {
+            SessionDetails.cleanSessionDetails();
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+        }
     }
 }

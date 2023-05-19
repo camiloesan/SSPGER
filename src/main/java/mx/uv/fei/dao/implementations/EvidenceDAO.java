@@ -11,7 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides a set of functions involving manipulation of evidences in the database as well as consulting information.
+ */
 public class EvidenceDAO implements IEvidence {
+    /**
+     * @param evidence new evidence to save in the database
+     * @return rows affected if the admin was saved (1) or not (0)
+     * @throws SQLException if there was an error with the database.
+     */
     @Override
     public int addEvidence(Evidence evidence) throws SQLException {
         String query = "insert into Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante, fechaEntrega) values (?,?,?,?,?)";
@@ -30,6 +38,11 @@ public class EvidenceDAO implements IEvidence {
         return result;
     }
 
+    /**
+     * @param evidence evidence object to modify
+     * @return rows affected if the admin was saved (1) or not (0)
+     * @throws SQLException if there was an error connecting to the database
+     */
     @Override
     public int modifyEvidence(Evidence evidence) throws SQLException{
         int result;
@@ -48,6 +61,11 @@ public class EvidenceDAO implements IEvidence {
         return result;
     }
 
+    /**
+     * @param id id of evidence to update
+     * @param grade new grade to set
+     * @throws SQLException if there was an error connecting with to the database
+     */
     @Override
     public void updateEvidenceGradeById(int id, int grade) throws SQLException {
         String query = "update Evidencias set calificacion=(?), estado=(?) where ID_evidencia=(?)";
@@ -64,6 +82,11 @@ public class EvidenceDAO implements IEvidence {
         databaseManager.closeConnection();
     }
 
+    /**
+     * @param professorID the id of the professor you want to get their evidences
+     * @return list containing ALL evidences assigned to the professor
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public List<Evidence> getEvidenceListByProfessorID(int professorID) throws SQLException {
         String query = "SELECT * FROM Evidencias " +
@@ -94,6 +117,11 @@ public class EvidenceDAO implements IEvidence {
         return evidenceList;
     }
 
+    /**
+     * @param evidenceTitle the evidence title of the evidence you want to get the whole object of
+     * @return the evidence object
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public Evidence getEvidenceByEvidenceTitle(String evidenceTitle) throws SQLException {
         String query = "SELECT titulo, estado, calificacion, descripcion FROM Evidencias WHERE titulo=(?)";
@@ -114,6 +142,12 @@ public class EvidenceDAO implements IEvidence {
         }
         return evidence;
     }
+
+    /**
+     * @param evidenceTitle the evidence title you want to get the id from
+     * @return integer with the evidence id
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public int getAdvancementIDByEvidenceTitle(String evidenceTitle) throws SQLException {
         String query = "SELECT ID_avance FROM Evidencias WHERE titulo=(?)";
@@ -132,6 +166,12 @@ public class EvidenceDAO implements IEvidence {
 
         return result;
     }
+
+    /**
+     * @param evidenceTitle the evidence title you want to get the student id from
+     * @return the id of the student that created the evidence
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public String getStudentIDByEvidenceTitle(String evidenceTitle) throws SQLException {
         String query = "SELECT matriculaEstudiante FROM Evidencias WHERE titulo=(?)";

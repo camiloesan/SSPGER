@@ -13,11 +13,11 @@ import javafx.scene.text.TextFlow;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.DetailedProject;
+import mx.uv.fei.logic.SessionDetails;
 import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Optional;
 
 public class ViewProjectDetailsController implements IProfessorNavigationBar{
@@ -194,7 +194,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     @Override
     public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             try {
                 MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
             } catch (IOException ioException) {

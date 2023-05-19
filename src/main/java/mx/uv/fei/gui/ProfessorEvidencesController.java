@@ -1,40 +1,16 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
-import mx.uv.fei.dao.implementations.ProfessorDAO;
-import mx.uv.fei.dao.implementations.StudentDAO;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.Evidence;
-import mx.uv.fei.logic.TransferEvidence;
+import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Optional;
 
 public class ProfessorEvidencesController implements IProfessorNavigationBar {
-    @FXML
-    private Label labelTitleEvidence;
-    @FXML
-    private Label labelStatusEvidence;
-    @FXML
-    private Label labelGradeEvidence;
-    @FXML
-    private Label labelDescriptionEvidence;
-    @FXML
-    private Label labelAdvancementEvidence;
-    @FXML
-    private Label labelStudentEvidence;
     @FXML
     private TableView<Evidence> tableViewEvidence;
     @FXML
@@ -121,9 +97,8 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
 
     @Override
     public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

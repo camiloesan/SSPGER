@@ -200,7 +200,7 @@ class UserDAOTest {
     }
 
     @Test
-    void testDeleteUserByUsernameAdminShouldDelete() throws SQLException {
+    void testDeleteUserByUsernameShouldDelete() throws SQLException {
         UserDAO userDAO = new UserDAO();
         assertEquals(1, userDAO.deleteUserByUsername("dummy"));
     }
@@ -221,5 +221,11 @@ class UserDAOTest {
     void testGetAccessAccountTypeByUsernameShouldReturnProfessor() throws SQLException {
         UserDAO userDAO = new UserDAO();
         assertEquals("Profesor", userDAO.getAccessAccountTypeByUsername("dummy"));
+    }
+
+    @Test
+    void testGetAccessAccountTypeByUsernameShouldReturnStudent() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        assertEquals("Estudiante", userDAO.getAccessAccountTypeByUsername("dummy2"));
     }
 }

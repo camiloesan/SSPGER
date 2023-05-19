@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.PaneModifyUserController">
+<HBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.PaneAddUserController">
    <children>
       <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
          <children>
@@ -84,7 +84,7 @@
       </VBox>
       <VBox prefHeight="600.0" prefWidth="800.0">
          <children>
-            <Label text="Modificar Usuario">
+            <Label text="Añadir Usuario">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -97,60 +97,34 @@
                   <Insets left="15.0" right="15.0" />
                </VBox.margin>
             </Separator>
-            <HBox alignment="TOP_CENTER" fillHeight="false" prefHeight="131.0" prefWidth="799.0">
+            <GridPane prefHeight="133.0" prefWidth="800.0">
+               <columnConstraints>
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="468.00316038416724" minWidth="10.0" prefWidth="360.66905500640263" />
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="439.33522781493804" minWidth="10.0" prefWidth="437.33522781493804" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <GridPane prefHeight="130.0" prefWidth="510.0">
-                     <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="294.1181568281089" minWidth="10.0" prefWidth="241.76586173506837" />
-                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="338.2369283367135" minWidth="10.0" prefWidth="338.2369283367135" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Label text="Nueva contraseña: " GridPane.rowIndex="1" />
-                        <PasswordField fx:id="textFieldNewPassword" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Tipo de usuario: " GridPane.rowIndex="2" />
-                        <ComboBox fx:id="comboBoxUserTypeToModify" disable="true" onAction="#handleModifyUserTypeSelection" prefWidth="150.0" promptText="Tipo de usuario" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Usuario: " />
-                        <TextField fx:id="textFieldUserToModify" disable="true" editable="false" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </GridPane>
+                  <Label text="Nombre de usuario: " />
+                  <Label text="Contraseña: " GridPane.rowIndex="1" />
+                  <Label text="Tipo de usuario: " GridPane.rowIndex="2" />
+                  <TextField fx:id="textFieldUsername" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                  <PasswordField fx:id="passwordFieldPassword" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="comboBoxUserType" onAction="#handleAddUserTypeSelection" prefHeight="26.0" prefWidth="170.0" promptText="Tipo de usuario" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
-            </HBox>
-            <StackPane prefHeight="192.0" prefWidth="700.0">
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+            </GridPane>
+            <StackPane prefHeight="186.0" prefWidth="800.0">
                <children>
-                  <GridPane fx:id="gridPaneNewStudent" prefHeight="156.0" prefWidth="700.0" visible="false">
+                  <GridPane fx:id="gridPaneProfessor" prefHeight="160.0" prefWidth="511.0" visible="false">
                      <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="524.6702125970338" minWidth="10.0" prefWidth="350.6689879790279" />
-                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="452.66974504177887" minWidth="4.000025339162903" prefWidth="448.66974504177887" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Label text="Nueva matrícula: " />
-                        <Label text="Nuevo nombre: " GridPane.rowIndex="1" />
-                        <Label text="Nuevos apellidos: " GridPane.rowIndex="2" />
-                        <Label text="Nuevo Correo institucional: " GridPane.rowIndex="3" />
-                        <TextField fx:id="textFieldNewStudentId" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                        <TextField fx:id="textFieldNewStudentName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="textFieldNewStudentLastName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="textFieldNewStudentEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                     </children>
-                  </GridPane>
-                  <GridPane fx:id="gridPaneNewProfessor" prefHeight="192.0" prefWidth="679.0" visible="false">
-                     <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="487.3365896150555" minWidth="10.0" prefWidth="301.66866838973436" />
-                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="614.004183363563" minWidth="10.0" prefWidth="397.66940261767917" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="536.0035808995206" minWidth="10.0" prefWidth="360.0024160443751" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="442.66968495427346" minWidth="10.0" prefWidth="437.3363034659543" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -160,33 +134,61 @@
                      </rowConstraints>
                      <children>
                         <Label text="Nombre del profesor: " />
-                        <TextField fx:id="textFieldNewProfessorName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <TextField fx:id="textFieldProfessorName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
                         <Label text="Apellidos: " GridPane.rowIndex="1" />
-                        <TextField fx:id="textFieldNewProfessorLastName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="textFieldProfessorLastName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Grado: " GridPane.rowIndex="2" />
-                        <ComboBox fx:id="comboBoxNewProfessorDegree" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="comboBoxDegree" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Correo institucional: " GridPane.rowIndex="3" />
-                        <TextField fx:id="textFieldNewProfessorEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="textFieldProfessorEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="gridPaneStudent" prefHeight="156.0" prefWidth="466.0" visible="false">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="528.6702379361967" minWidth="10.0" prefWidth="360.0024318859347" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="438.66964580627257" minWidth="0.0" prefWidth="438.0029587945538" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Matrícula: " />
+                        <Label text="Nombre: " GridPane.rowIndex="1" />
+                        <Label text="Apellidos: " GridPane.rowIndex="2" />
+                        <Label text="Correo institucional: " GridPane.rowIndex="3" />
+                        <TextField fx:id="textFieldStudentId" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <TextField fx:id="textFieldStudentName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="textFieldStudentLastName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="textFieldStudentEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
             </StackPane>
-            <ButtonBar prefHeight="40.0" prefWidth="200.0">
+            <ButtonBar prefHeight="39.0" prefWidth="800.0">
                <buttons>
-                  <Button fx:id="buttonModify" mnemonicParsing="false" onAction="#buttonConfirmModificationAction" text="Modificar" />
+                  <Button fx:id="buttonSave" mnemonicParsing="false" onAction="#buttonSaveAction" prefHeight="26.0" prefWidth="75.0" text="Guardar" visible="false" />
                </buttons>
                <VBox.margin>
-                  <Insets />
+                  <Insets top="10.0" />
                </VBox.margin>
                <padding>
-                  <Insets right="250.0" />
+                  <Insets right="235.0" />
                </padding>
             </ButtonBar>
-            <Button mnemonicParsing="false" onAction="#returnToUsersView" text="Regresar">
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                <Button mnemonicParsing="false" onAction="#returnToMainMenu" text="Regresar" />
+              </buttons>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
                <VBox.margin>
-                  <Insets left="50.0" top="50.0" />
+                  <Insets bottom="50.0" top="50.0" />
                </VBox.margin>
-            </Button>
+            </ButtonBar>
          </children>
       </VBox>
    </children>

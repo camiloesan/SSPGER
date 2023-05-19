@@ -4,7 +4,7 @@ public class DetailedProject {
     private int projectID;
     private String academicBodyName;
     private String academicBodyID;
-    private String projectTitle; //for List consults
+    private String projectTitle;
     private String investigationProjectName;
     private String lgacDescription;
     private String investigationLine;

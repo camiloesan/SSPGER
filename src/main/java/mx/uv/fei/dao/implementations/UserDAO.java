@@ -16,14 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Provides a set of functions involving manipulation and authentication of users using the database
+ */
 public class UserDAO implements IUser {
     private static final Logger logger = Logger.getLogger(LoginController.class);
 
     /**
-     * Provides DAO functions to get all kinds of information related with the users (administrador,
-     * profesor, estudiante, representante del cuerpo académico), also provides an authentication method.
+     * @param accessAccount admin access account
+     * @return rows affected (1 or 0) if the admin user was added or not.
+     * @throws SQLException if the user couldn't be added or there was a problem connecting to the database.
      */
-
     @Override
     public int addAdminUser(AccessAccount accessAccount) throws SQLException {
         String query = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
@@ -46,6 +49,12 @@ public class UserDAO implements IUser {
         return result;
     }
 
+    /**
+     * @param accessAccount new accessAccount to add
+     * @param student new student to add
+     * @return successful transaction
+     * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
+     */
     @Override
     public boolean addStudentUserTransaction(AccessAccount accessAccount, Student student) throws SQLException {
         String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
@@ -82,6 +91,12 @@ public class UserDAO implements IUser {
         return resultFirstQuery > 0 && resultSecondQuery > 0;
     }
 
+    /**
+     * @param accessAccount new accessAccount to add
+     * @param professor new professor to add
+     * @return successful transaction
+     * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
+     */
     @Override
     public boolean addProfessorUserTransaction(AccessAccount accessAccount, Professor professor) throws SQLException {
         String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
@@ -114,6 +129,13 @@ public class UserDAO implements IUser {
         return resultFirstQuery > 0 && resultSecondQuery > 0;
     }
 
+    /**
+     * @param username username to modify(primary key)
+     * @param accessAccount new accessAccount
+     * @param student new student user
+     * @return successful transaction
+     * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
+     */
     @Override
     public boolean modifyStudentUserTransaction(String username, AccessAccount accessAccount, Student student) throws SQLException {
         String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?) and tipoUsuario!=(?)";
@@ -147,6 +169,13 @@ public class UserDAO implements IUser {
         return resultFirstQuery > 0 && resultSecondQuery > 0;
     }
 
+    /**
+     * @param username username to modify
+     * @param accessAccount new accessAccount data
+     * @param professor new professor data
+     * @return successful transaction
+     * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
+     */
     @Override
     public boolean modifyProfessorUserTransaction(String username, AccessAccount accessAccount, Professor professor) throws SQLException {
         String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?)";
@@ -184,6 +213,11 @@ public class UserDAO implements IUser {
         return resultFirstQuery > 0 && resultSecondQuery > 0;
     }
 
+    /**
+     * @param username username to delete
+     * @return rows affected
+     * @throws SQLException if there was a problem connecting to the database.
+     */
     @Override
     public int deleteUserByUsername(String username) throws SQLException {
         String query = "delete from CuentasAcceso where nombreUsuario=(?)";
@@ -200,6 +234,12 @@ public class UserDAO implements IUser {
         return result;
     }
 
+    /**
+     * @param username username to validate
+     * @param password password to validate username with
+     * @return username matches password
+     * @throws SQLException if there was a problem connecting to the database.
+     */
     @Override
     public boolean areCredentialsValid(String username, String password) throws SQLException {
         boolean isValid;
@@ -217,6 +257,11 @@ public class UserDAO implements IUser {
         return isValid;
     }
 
+    /**
+     * @param username username for searching usertype
+     * @return user type of the provided username
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public String getAccessAccountTypeByUsername(String username) throws SQLException {
         String query = "select tipoUsuario from CuentasAcceso where nombreUsuario=(?)";
@@ -236,6 +281,10 @@ public class UserDAO implements IUser {
         return type;
     }
 
+    /**
+     * @return return a list with ALL the access accounts in the database
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public List<AccessAccount> getAccessAccountsList() throws SQLException {
         String query = "select ID_usuario, nombreUsuario, tipoUsuario from CuentasAcceso";
@@ -253,25 +302,6 @@ public class UserDAO implements IUser {
             accessAccount.setUsername(resultSet.getString("nombreUsuario"));
             accessAccount.setUserType(resultSet.getString("tipoUsuario"));
             accessAccountList.add(accessAccount);
-        }
-
-        return accessAccountList;
-    }
-
-    @Override
-    public List<String> getUsernamesByUsertype(String userType) throws SQLException {
-        String query = "select nombreUsuario from CuentasAcceso where tipoUsuario=(?)";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, userType);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        databaseManager.closeConnection();
-
-        List<String> accessAccountList = new ArrayList<>();
-        while(resultSet.next()) {
-            accessAccountList.add(resultSet.getString("nombreUsuario"));
         }
 
         return accessAccountList;

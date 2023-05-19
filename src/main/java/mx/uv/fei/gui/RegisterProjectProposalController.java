@@ -17,6 +17,7 @@ import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.Project;
+import mx.uv.fei.logic.SessionDetails;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -216,7 +217,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         projectDAO.setCodirectorIDtoProject(project);
     }
     
-    public void returnToProjectManagement() throws IOException {
+    public void returnToProjectManagement() {
         try {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -267,7 +268,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     
     @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             try {
                 MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
             } catch (IOException ioException) {

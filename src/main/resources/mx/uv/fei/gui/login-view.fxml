@@ -19,10 +19,10 @@
          <children>
             <Label text="Iniciar Sesion" textFill="WHITE">
                <font>
-                  <Font name="Cantarell Regular" size="19.0" />
+                  <Font size="18.0" />
                </font>
                <HBox.margin>
-                  <Insets left="30.0" />
+                  <Insets left="50.0" />
                </HBox.margin>
             </Label>
          </children>

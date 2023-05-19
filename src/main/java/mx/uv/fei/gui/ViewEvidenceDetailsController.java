@@ -7,6 +7,7 @@ import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.Evidence;
+import mx.uv.fei.logic.SessionDetails;
 import mx.uv.fei.logic.TransferEvidence;
 
 import java.io.IOException;
@@ -99,7 +100,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
     @Override
     public void redirectToEvidences() throws  IOException, SQLException {
-        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+        if (LoginController.sessionDetails.getUserType() == "Profesor"
+                || LoginController.sessionDetails.getUserType() == "RepresentanteCA") {
             MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
             MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
@@ -108,7 +110,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
     @Override
     public void redirectToProjects() throws IOException {
-        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+        if (LoginController.sessionDetails.getUserType() == "Profesor" ||
+                LoginController.sessionDetails.getUserType() == "RepresentanteCA") {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } else {
             MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
@@ -117,7 +120,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
     @Override
     public void redirectToRequest() throws IOException {
-        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+        if (LoginController.sessionDetails.getUserType() == "Profesor"
+                || LoginController.sessionDetails.getUserType() == "RepresentanteCA") {
             MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
@@ -129,9 +133,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
     @Override
     public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

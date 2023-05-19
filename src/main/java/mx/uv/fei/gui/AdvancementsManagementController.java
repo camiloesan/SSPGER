@@ -8,10 +8,7 @@ import javafx.scene.control.*;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
-import mx.uv.fei.logic.Advancement;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.TransferAdvancement;
+import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -45,7 +42,11 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     
     @FXML
     private void initialize() throws SQLException {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+
+        SessionDetails sd = SessionDetails.getInstance("xxxx", "xxxx", "abcd");
+        System.out.println("id: " + System.identityHashCode(sd) + " nombre: " + sd.getUsername());
+
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         ProfessorDAO professorDAO = new ProfessorDAO();
         professorId = professorDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
         fillComboBoxProjectToAssign();
@@ -238,12 +239,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     
     @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
-            try {
-                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            SessionDetails.cleanSessionDetails();
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
 }
