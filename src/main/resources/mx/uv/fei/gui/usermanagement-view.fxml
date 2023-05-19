@@ -75,9 +75,14 @@
             <Font name="System Bold" size="18.0" />
          </font>
          <VBox.margin>
-            <Insets left="35.0" top="35.0" />
+            <Insets bottom="25.0" left="35.0" top="30.0" />
          </VBox.margin>
       </Label>
+      <Separator prefWidth="200.0">
+         <VBox.margin>
+            <Insets left="15.0" right="15.0" />
+         </VBox.margin>
+      </Separator>
           <HBox prefHeight="513.0" prefWidth="798.0">
               <padding>
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />

@@ -46,7 +46,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         SessionDetails sd = SessionDetails.getInstance("xxxx", "xxxx", "abcd");
         System.out.println("id: " + System.identityHashCode(sd) + " nombre: " + sd.getUsername());
 
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         ProfessorDAO professorDAO = new ProfessorDAO();
         professorId = professorDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
         fillComboBoxProjectToAssign();
@@ -239,7 +239,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     
     @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

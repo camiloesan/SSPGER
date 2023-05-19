@@ -24,8 +24,8 @@ public class UserDAO implements IUser {
 
     /**
      * @param accessAccount admin access account
-     * @return rows affected (1 or 0)
-     * @throws SQLException default sql exception
+     * @return rows affected (1 or 0) if the admin user was added or not.
+     * @throws SQLException if the user couldn't be added or there was a problem connecting to the database.
      */
     @Override
     public int addAdminUser(AccessAccount accessAccount) throws SQLException {
@@ -53,7 +53,7 @@ public class UserDAO implements IUser {
      * @param accessAccount new accessAccount to add
      * @param student new student to add
      * @return successful transaction
-     * @throws SQLException default sql exception
+     * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
      */
     @Override
     public boolean addStudentUserTransaction(AccessAccount accessAccount, Student student) throws SQLException {
@@ -95,7 +95,7 @@ public class UserDAO implements IUser {
      * @param accessAccount new accessAccount to add
      * @param professor new professor to add
      * @return successful transaction
-     * @throws SQLException default sql exception
+     * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
      */
     @Override
     public boolean addProfessorUserTransaction(AccessAccount accessAccount, Professor professor) throws SQLException {
@@ -134,7 +134,7 @@ public class UserDAO implements IUser {
      * @param accessAccount new accessAccount
      * @param student new student user
      * @return successful transaction
-     * @throws SQLException default sql exception
+     * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
      */
     @Override
     public boolean modifyStudentUserTransaction(String username, AccessAccount accessAccount, Student student) throws SQLException {
@@ -174,7 +174,7 @@ public class UserDAO implements IUser {
      * @param accessAccount new accessAccount data
      * @param professor new professor data
      * @return successful transaction
-     * @throws SQLException default sql exception
+     * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
      */
     @Override
     public boolean modifyProfessorUserTransaction(String username, AccessAccount accessAccount, Professor professor) throws SQLException {
@@ -216,7 +216,7 @@ public class UserDAO implements IUser {
     /**
      * @param username username to delete
      * @return rows affected
-     * @throws SQLException default sql exception
+     * @throws SQLException if there was a problem connecting to the database.
      */
     @Override
     public int deleteUserByUsername(String username) throws SQLException {
@@ -238,7 +238,7 @@ public class UserDAO implements IUser {
      * @param username username to validate
      * @param password password to validate username with
      * @return username matches password
-     * @throws SQLException default sql exception
+     * @throws SQLException if there was a problem connecting to the database.
      */
     @Override
     public boolean areCredentialsValid(String username, String password) throws SQLException {
@@ -260,7 +260,7 @@ public class UserDAO implements IUser {
     /**
      * @param username username for searching usertype
      * @return user type of the provided username
-     * @throws SQLException default sql exception
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     @Override
     public String getAccessAccountTypeByUsername(String username) throws SQLException {
@@ -283,7 +283,7 @@ public class UserDAO implements IUser {
 
     /**
      * @return return a list with ALL the access accounts in the database
-     * @throws SQLException default sql exception
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     @Override
     public List<AccessAccount> getAccessAccountsList() throws SQLException {

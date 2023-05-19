@@ -2,14 +2,18 @@ package mx.uv.fei.logic;
 
 public class SessionDetails {
     private static SessionDetails instance;
-    private String username;
-    private String userType;
-    private String id;
+    private final String username;
+    private final String userType;
+    private final String id;
 
     public static SessionDetails getInstance(String username, String userType, String id) {
         if (instance == null) {
             instance = new SessionDetails(username, userType, id);
         }
+        return instance;
+    }
+
+    public static SessionDetails getInstance() {
         return instance;
     }
 
@@ -19,7 +23,7 @@ public class SessionDetails {
         this.id = id;
     }
 
-    public void cleanSessionDetails() {
+    public static void cleanSessionDetails() {
         instance = null;
     }
 
