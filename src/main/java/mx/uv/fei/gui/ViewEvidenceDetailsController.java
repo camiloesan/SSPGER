@@ -99,7 +99,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
     @Override
     public void redirectToEvidences() throws  IOException, SQLException {
-        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+        if (LoginController.sessionDetails.getUserType() == "Profesor"
+                || LoginController.sessionDetails.getUserType() == "RepresentanteCA") {
             MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
             MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
@@ -108,7 +109,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
     @Override
     public void redirectToProjects() throws IOException {
-        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+        if (LoginController.sessionDetails.getUserType() == "Profesor" ||
+                LoginController.sessionDetails.getUserType() == "RepresentanteCA") {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } else {
             MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
@@ -117,7 +119,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
     @Override
     public void redirectToRequest() throws IOException {
-        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+        if (LoginController.sessionDetails.getUserType() == "Profesor"
+                || LoginController.sessionDetails.getUserType() == "RepresentanteCA") {
             MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
