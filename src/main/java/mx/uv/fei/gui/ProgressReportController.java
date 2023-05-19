@@ -1,5 +1,8 @@
 package mx.uv.fei.gui;
 
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.geom.PageSize;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -9,12 +12,31 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.WritableImage;
+
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
-import mx.uv.fei.logic.Evidence;
-import mx.uv.fei.logic.TransferProject;
 import mx.uv.fei.logic.TransferStudent;
+import mx.uv.fei.logic.TransferProject;
+import mx.uv.fei.logic.Evidence;
+import mx.uv.fei.logic.AlertStatus;
+import mx.uv.fei.logic.AlertMessage;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.format.TextStyle;
@@ -24,6 +46,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class ProgressReportController implements IProfessorNavigationBar{
+    @FXML
+    private VBox vboxReportFormat;
     @FXML
     private HBox hboxLogOutLabel;
     @FXML
@@ -45,6 +69,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
     private TableColumn<Evidence, String> tableColumnWasDelivered;
     LocalDate actualDate = LocalDate.now();
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final String outputPath = System.getProperty("use.home") + "/Documents/Reportes/";
     
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
@@ -107,6 +132,71 @@ public class ProgressReportController implements IProfessorNavigationBar{
         tableViewEvidences.getItems().clear();
         tableViewEvidences.getItems().addAll(evidenceDAO.getDeliveredEvidences(TransferStudent.getStudentID()));
     }
+    
+    @FXML
+    private void generateProgressReport() throws IOException {
+        PdfWriter pdfWriter = null;
+        PdfDocument pdfDocument = null;
+        Document document = null;
+        
+        
+        try{
+            String documentName = "Reporte_" + TransferStudent.getStudentID() + "_" + actualDate  + ".pdf" ;
+            pdfWriter = new PdfWriter(new FileOutputStream( documentName));
+            pdfDocument = new PdfDocument(pdfWriter);
+            document = new Document(pdfDocument);
+            
+            WritableImage writableImage = vboxReportFormat.snapshot(null,null);
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
+            Image pdfImage = new Image(ImageDataFactory.create(bufferedImage,null));
+            document.add(pdfImage);
+            
+            DialogGenerator.getDialog(new AlertMessage("Se ha generado el reporte", AlertStatus.SUCCESS));
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al generar el PDF", AlertStatus.ERROR));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al generar el PDF", AlertStatus.ERROR));
+            System.out.println(ioException.getMessage());
+        } finally {
+            if (document != null) {
+                document.close();
+            }
+            if (pdfDocument != null) {
+                pdfDocument.close();
+            }
+            if (pdfWriter != null) {
+                pdfWriter.close();
+            }
+        }
+    }
+    
+    @FXML
+    private void generateProgressReportBOX() {
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage();
+        document.addPage(page);
+        
+        try {
+            WritableImage image = vboxReportFormat.snapshot(null,null);
+            
+            PDImageXObject pdImageXObject = LosslessFactory.createFromImage(document, SwingFXUtils.fromFXImage(image,null));
+            PDPageContentStream contentStream = new PDPageContentStream(document,page);
+            contentStream.drawImage(pdImageXObject,0,0);
+            contentStream.close();
+            
+            document.save("Reporte_" + TransferStudent.getStudentName() + "_" + actualDate);
+            document.close();
+            
+            DialogGenerator.getDialog(new AlertMessage("Documento guardado",AlertStatus.SUCCESS));
+            
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al generar el documento.", AlertStatus.ERROR));
+        }
+    }
+    
     @Override
     public void redirectToProfessorAdvancementManagement() throws IOException {
         try {

@@ -143,18 +143,18 @@
          </Label>
          <ButtonBar prefHeight="76.0" prefWidth="583.0" HBox.hgrow="ALWAYS">
            <buttons>
-             <Button mnemonicParsing="false" text="Guardar" />
+             <Button mnemonicParsing="false" onAction="#generateProgressReport" text="Guardar" />
            </buttons>
             <HBox.margin>
                <Insets right="20.0" />
             </HBox.margin>
          </ButtonBar>
       </HBox>
-      <VBox fx:id="vboxReportFormat" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+      <VBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
          <children>
             <ScrollPane prefHeight="745.0" prefWidth="899.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox alignment="TOP_CENTER" prefWidth="898.0">
+                  <VBox fx:id="vboxReportFormat" alignment="TOP_CENTER" prefWidth="898.0">
                      <children>
                         <HBox alignment="BOTTOM_LEFT" prefHeight="54.0" prefWidth="898.0" VBox.vgrow="NEVER">
                            <children>
