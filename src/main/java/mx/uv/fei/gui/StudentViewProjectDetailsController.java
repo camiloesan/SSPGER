@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.DetailedProject;
+import mx.uv.fei.logic.SessionDetails;
 import mx.uv.fei.logic.TransferProject;
 
 import java.io.IOException;
@@ -150,9 +151,8 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     
     @Override
     public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

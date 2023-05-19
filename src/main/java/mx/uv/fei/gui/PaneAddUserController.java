@@ -42,7 +42,10 @@ public class PaneAddUserController {
     @FXML
     private Button buttonSave;
     private final static ObservableList<String> observableListComboItemsUserType =
-            FXCollections.observableArrayList(LoginController.USER_ADMIN, LoginController.USER_STUDENT, LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE);
+            FXCollections.observableArrayList(LoginController.USER_ADMIN,
+                    LoginController.USER_STUDENT,
+                    LoginController.USER_PROFESSOR,
+                    LoginController.USER_REPRESENTATIVE);
     private final static ObservableList<String> observableListComboItemsDegree =
             FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
 
@@ -212,6 +215,7 @@ public class PaneAddUserController {
     @FXML
     private void logOut() throws IOException {
         if (confirmedLogOut()) {
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

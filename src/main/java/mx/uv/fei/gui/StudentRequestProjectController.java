@@ -4,14 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
-import mx.uv.fei.dao.implementations.StudentDAO;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.ProjectRequest;
-import mx.uv.fei.logic.TransferProject;
+import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -87,9 +81,8 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
 
     @Override
     public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

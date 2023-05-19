@@ -10,13 +10,11 @@ import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.ProjectRequest;
+import mx.uv.fei.logic.SessionDetails;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
@@ -46,18 +44,6 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
-
-        /*
-        Runnable helloRunnable = () -> {
-            try {
-                fillTableViewProjectRequests();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        };
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(helloRunnable, 0, 3, TimeUnit.SECONDS);
-        */
     }
 
     @FXML
@@ -161,7 +147,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     @Override
     public void actionLogOut() throws IOException {
         if(confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

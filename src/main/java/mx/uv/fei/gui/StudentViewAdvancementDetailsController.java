@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.logic.Advancement;
+import mx.uv.fei.logic.SessionDetails;
 import mx.uv.fei.logic.TransferAdvancement;
 
 import java.io.IOException;
@@ -85,9 +86,8 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     
     @Override
     public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

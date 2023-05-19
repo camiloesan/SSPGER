@@ -199,6 +199,7 @@ public class PaneModifyUserController {
     @FXML
     private void logOut() throws IOException {
         if (confirmedLogOut()) {
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

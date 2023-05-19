@@ -10,10 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.ProjectDAO;
-import mx.uv.fei.logic.SimpleProject;
-import mx.uv.fei.logic.TransferProject;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
+import mx.uv.fei.logic.*;
 
 import java.sql.SQLException;
 import java.io.IOException;
@@ -206,7 +203,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     }
     
     @FXML
-    public void openProjectRegistration() throws IOException {
+    public void openProjectRegistration() {
         try {
             MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } catch (IOException ioException) {
@@ -257,7 +254,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     
     @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             try {
                 MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
             } catch (IOException ioException) {

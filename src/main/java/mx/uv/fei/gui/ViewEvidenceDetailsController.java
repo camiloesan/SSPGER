@@ -7,6 +7,7 @@ import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.Evidence;
+import mx.uv.fei.logic.SessionDetails;
 import mx.uv.fei.logic.TransferEvidence;
 
 import java.io.IOException;
@@ -132,9 +133,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
     @Override
     public void actionLogOut() throws IOException {
-        LoginController.sessionDetails.cleanSessionDetails();
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
