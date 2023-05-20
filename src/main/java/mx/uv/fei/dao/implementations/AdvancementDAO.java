@@ -51,7 +51,7 @@ public class AdvancementDAO implements IAdvancement {
                 advancementDetail.setAdvancementDescription(resultSet.getString("descripcion"));
                 advancementDetail.setAdvancementStartDate(resultSet.getString("fechaInicio"));
                 advancementDetail.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
-                //advancementDetail.setProjectId(resultSet.getInt("ID_Proyecto"));
+                advancementDetail.setProjectId(resultSet.getInt("ID_Proyecto"));
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

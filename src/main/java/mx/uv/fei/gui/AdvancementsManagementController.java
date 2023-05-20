@@ -46,7 +46,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         SessionDetails sd = SessionDetails.getInstance("xxxx", "xxxx", "abcd");
         System.out.println("id: " + System.identityHashCode(sd) + " nombre: " + sd.getUsername());
 
-
         TableColumn<Advancement, String> advancementNameColumn = new TableColumn<>("Nombre");
         advancementNameColumn.setCellValueFactory(new PropertyValueFactory<>("advancementName"));
         TableColumn<Advancement, String> startDateColumn = new TableColumn<>("Fecha Inicio");
@@ -194,14 +193,11 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         professorId = Integer.parseInt(SessionDetails.getInstance().getId());
         List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementName(professorId));
         tableViewAdvancements.getItems().addAll(advancementList);
-        //advancementList.forEach(element -> listViewAdvancements.getItems().add(element.getAdvancementName()));
     }
     
     public void openAdvancementDetails() throws IOException {
         if (tableViewAdvancements.getSelectionModel().getSelectedItem() != null) {
-            //String advancementName = listViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementName();
             int advancementId = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementID();
-            //TransferAdvancement.setAdvancementName(advancementName);
             System.out.println(advancementId);
             TransferAdvancement.setAdvancementID(advancementId);
             Parent detailsVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("paneadvancementdetails-view.fxml")));
