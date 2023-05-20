@@ -35,7 +35,9 @@ public class PaneAdvancementDetailsController {
     
     public void getDetailedAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement detaildedAdvancement = (advancementDAO.getAdvancementDetailByName(getAdvancementName()));
+        Advancement detaildedAdvancement = (advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID()));
+        System.out.println(TransferAdvancement.getAdvancementID());
+        System.out.println(detaildedAdvancement.getAdvancementID());
         
         labelAdvancementName.setText(detaildedAdvancement.getAdvancementName());
         
@@ -55,7 +57,7 @@ public class PaneAdvancementDetailsController {
     public void deleteAdvancement(){
         AdvancementDAO advancementDAO = new AdvancementDAO();
         try {
-            advancementDAO.deleteAdvancementByName(getAdvancementName());
+            advancementDAO.deleteAdvancementById(TransferAdvancement.getAdvancementID());
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo eliminar el avance, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }

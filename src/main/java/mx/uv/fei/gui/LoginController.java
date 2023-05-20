@@ -56,7 +56,7 @@ public class LoginController {
                 StudentDAO studentDAO = new StudentDAO();
                 String studentId = studentDAO.getStudentIdByUsername(username);
                 sessionDetails = SessionDetails.getInstance(username, userType, studentId);
-                MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+                MainStage.changeView("studentadvancement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             }
             case USER_PROFESSOR -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
@@ -69,7 +69,7 @@ public class LoginController {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 String professorId = String.valueOf(professorDAO.getProfessorIdByUsername(username));
                 sessionDetails = SessionDetails.getInstance(username, userType, professorId);
-                MainStage.changeView("projectproposals-view.fxml", 1100, 700 + MainStage.HEIGHT_OFFSET);
+                MainStage.changeView("projectproposals-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             }
         }
     }

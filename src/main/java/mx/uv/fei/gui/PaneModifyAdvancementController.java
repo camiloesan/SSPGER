@@ -95,7 +95,7 @@ public class PaneModifyAdvancementController {
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(newAdvancementDeadline.getValue())));
         advancement.setProjectId(projectDAO.getProjectIDByTitle(comboNewProjectToAssign.getValue()));
         advancement.setAdvancementDescription(newAdvancementDescription.getText());
-        advancementDAO.modifyAdvancementByName(TransferAdvancement.getAdvancementName(), advancement);
+        advancementDAO.modifyAdvancementById(TransferAdvancement.getAdvancementID(), advancement);
     }
 
     private boolean areModifyAdvancementFieldsValid() {

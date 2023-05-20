@@ -43,7 +43,7 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     
     public void getDetailedAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement detaildedAdvancement = (advancementDAO.getAdvancementDetailByName(getAdvancementName()));
+        Advancement detaildedAdvancement = (advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID()));
         
         labelAdvancementName.setText(detaildedAdvancement.getAdvancementName());
         
