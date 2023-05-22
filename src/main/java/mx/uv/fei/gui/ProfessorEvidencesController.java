@@ -67,6 +67,7 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     @FXML
     private void fillTableViewEvidence() throws SQLException {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
+        tableViewEvidence.getItems().clear();
         tableViewEvidence.getItems().addAll(evidenceDAO.getEvidenceListByProfessorID(Integer.parseInt(LoginController.sessionDetails.getId())));
     }
 

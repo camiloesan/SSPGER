@@ -87,7 +87,7 @@ class ProjectRequestDAOTest {
     }
 
     @Test
-    void testCreateProjectRequest() throws SQLException {
+    void testCreateProjectRequestSucces() throws SQLException {
         var projectRequest = new ProjectRequest();
         var projectRequestDAO = new ProjectRequestDAO();
         var projectDAO = new ProjectDAO();
@@ -102,7 +102,7 @@ class ProjectRequestDAOTest {
     }
 
     @Test
-    void testAcceptProjectRequest() throws SQLException {
+    void testAcceptProjectRequestSucces() throws SQLException {
         var projectRequest = new ProjectRequest();
         var projectRequestDAO = new ProjectRequestDAO();
         var projectDAO = new ProjectDAO();
@@ -120,7 +120,7 @@ class ProjectRequestDAOTest {
     }
 
     @Test
-    void testDeclineProjectRequest() throws SQLException {
+    void testDeclineProjectRequestSucces() throws SQLException {
         var projectRequest = new ProjectRequest();
         var projectRequestDAO = new ProjectRequestDAO();
         var projectDAO = new ProjectDAO();
@@ -149,7 +149,8 @@ class ProjectRequestDAOTest {
 
         projectRequestDAO.createProjectRequest(projectRequest);
 
-        assertThrows(SQLTransientConnectionException.class, () -> projectRequestDAO.validateProjectRequest("incorrect",
+        assertThrows(SQLTransientConnectionException.class, () ->
+                projectRequestDAO.validateProjectRequest("incorrect",
                 projectRequestDAO.getProjecRequestIDByDescription("example")));
     }
 

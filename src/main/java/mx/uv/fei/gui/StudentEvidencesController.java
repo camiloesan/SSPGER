@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
+import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.IOException;
@@ -105,6 +106,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
     private void fillTableViewEvidence() throws SQLException {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
+        tableViewEvidence.getItems().clear();
         tableViewEvidence.getItems().addAll(evidenceDAO
                 .getEvidenceListByStudent(LoginController.sessionDetails.getId()));
     }
@@ -112,6 +114,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
     private void fillTableViewAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
+        tableViewAdvancement.getItems().clear();
         tableViewAdvancement.getItems().addAll(advancementDAO
                 .getAdvancementByStudentID(LoginController.sessionDetails.getId()));
     }
