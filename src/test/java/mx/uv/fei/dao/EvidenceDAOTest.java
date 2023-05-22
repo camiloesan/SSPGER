@@ -3,10 +3,14 @@ package mx.uv.fei.dao;
 import mx.uv.fei.dao.implementations.*;
 import mx.uv.fei.logic.*;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EvidenceDAOTest {
 
@@ -61,23 +65,109 @@ class EvidenceDAOTest {
         student.setUsername("example");
 
         studentDAO.insertStudent(student);
+
+        var projectRequest = new ProjectRequest();
+        var projectRequestDAO = new ProjectRequestDAO();
+
+        projectRequest.setProjectID(projectDAO.getProjectIDByTitle("example"));
+        projectRequest.setStudentId("example");
+        projectRequest.setDescription("example");
+
+        projectRequestDAO.createProjectRequest(projectRequest);
+
+        projectRequestDAO.validateProjectRequest("Aceptado",
+                projectRequestDAO.getProjecRequestIDByDescription("example"));
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() throws SQLException {
+        var advancementDAO = new AdvancementDAO();
+
+        advancementDAO.deleteAdvancementById(advancementDAO.getAdvancementIDByStudentID("example"));
+
+        var projectDAO = new ProjectDAO();
+
+        projectDAO.deleteProjectByTitle("example");
+
+        var studentDAO = new StudentDAO();
+
+        studentDAO.deleteStudent("example");
+
+        var userDAO = new UserDAO();
+
+        userDAO.deleteUserByUsername("example");
 
     }
 
     @Test
-    void testAddProjectEvidenceShouldNotAdd() throws SQLException {
+    void testAddEvidenceSucces() throws SQLException {
+        var advancementDAO = new AdvancementDAO();
+        var evidenceDAO = new EvidenceDAO();
+        var evidence = new Evidence();
 
+        evidence.setEvidenceTitle("example");
+        evidence.setEvidenceDescription("example");
+        evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
+
+        int expectedResult = 1;
+        int result = evidenceDAO.addEvidence(evidence);
+        assertEquals(expectedResult,result);
     }
 
     @Test
-    void updateProjectEvidenceGradeById() {
+    void testModifyEvidenceSucces() throws SQLException {
+        var advancementDAO = new AdvancementDAO();
+        var evidenceDAO = new EvidenceDAO();
+        var evidence = new Evidence();
+
+        evidence.setEvidenceTitle("example");
+        evidence.setEvidenceDescription("example");
+        evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
+
+        evidenceDAO.addEvidence(evidence);
+        var evidenceToModify = evidenceDAO.getEvidenceByEvidenceTitle("example");
+
+        evidenceToModify.setEvidenceTitle("exampleModify");
+
+        int expectedResult = 1;
+        int result = evidenceDAO.modifyEvidence(evidenceToModify);
+        assertEquals(expectedResult,result);
     }
 
     @Test
-    void getProjectEvidenceByStudentId() {
+    void testUpdateGradeEvidenceSucces() throws SQLException {
+        var advancementDAO = new AdvancementDAO();
+        var evidenceDAO = new EvidenceDAO();
+        var evidence = new Evidence();
+
+        evidence.setEvidenceTitle("example");
+        evidence.setEvidenceDescription("example");
+        evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
+
+        evidenceDAO.addEvidence(evidence);
+        var evidenceToUpdateGrade = evidenceDAO.getEvidenceByEvidenceTitle("example");
+
+        int expectedResult = 1;
+        int result = evidenceDAO.updateEvidenceGradeById(evidenceToUpdateGrade.getEvidenceId(), 10);
+        assertEquals(expectedResult,result);
     }
+
+    @Test
+    void testDeleteEvidenceSucces() throws SQLException {
+        var advancementDAO = new AdvancementDAO();
+        var evidenceDAO = new EvidenceDAO();
+        var evidence = new Evidence();
+
+        evidence.setEvidenceTitle("example");
+        evidence.setEvidenceDescription("example");
+        evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
+
+        evidenceDAO.addEvidence(evidence);
+        var evidenceResult = evidenceDAO.getEvidenceByEvidenceTitle("example");
+
+        int expectedResult = 1;
+        int result = evidenceDAO.deleteEvidenceByID(evidenceResult.getEvidenceId());
+        assertEquals(expectedResult,result);
+    }
+
 }

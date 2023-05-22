@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IEvidence {
     int addEvidence(Evidence evidence) throws SQLException;
-    void updateEvidenceGradeById(int id, int grade) throws SQLException;
+    int updateEvidenceGradeById(int id, int grade) throws SQLException;
     int modifyEvidence(Evidence evidence) throws SQLException;
     List<Evidence> getEvidenceListByProfessorID(int professorID) throws SQLException;
 

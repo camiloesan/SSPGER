@@ -167,7 +167,8 @@ class ProjectRequestDAOTest {
         projectRequestDAO.addProjectRequestTransaction(projectRequest);
 
         int expectedResult = 1;
-        int result = projectRequestDAO.deleteProjectRequest(projectRequestDAO.getProjecRequestIDByDescription("exampleDelete"));
+        int result = projectRequestDAO.deleteProjectRequest(
+                projectRequestDAO.getProjecRequestIDByDescription("exampleDelete"));
         assertEquals(expectedResult, result);
     }
 }
