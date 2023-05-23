@@ -54,7 +54,7 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceId());
-            MainStage.changeView("viewevidencedetails-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("viewevidencedetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Debes seleccionar una evidencia para continuar", AlertStatus.WARNING));
         }

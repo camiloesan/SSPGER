@@ -43,7 +43,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
         if (listViewAdvancementsNames.getSelectionModel().getSelectedItem() != null) {
             String advancementName = listViewAdvancementsNames.getSelectionModel().getSelectedItem();
             TransferAdvancement.setAdvancementName(advancementName);
-            MainStage.changeView("studentviewadvancementdetails-view.fxml",900,600);
+            MainStage.changeView("studentviewadvancementdetails-view.fxml",1000,600);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un avance para ver los detalles.", AlertStatus.WARNING));
         }
@@ -51,17 +51,17 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     
     @Override
     public void redirectToAdvancements() throws IOException {
-        MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentadvancement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToEvidences() throws  IOException, SQLException {
-        MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProjects() throws IOException{
-        MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentviewprojects-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override

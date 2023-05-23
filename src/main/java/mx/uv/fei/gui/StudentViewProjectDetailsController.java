@@ -121,22 +121,22 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     private void redirectToProjectRequest() throws IOException {
         TransferProject.setProjectID(projectID);
         TransferProject.setReceptionWorkName(getTextWorkReceptionName());
-        MainStage.changeView("studentrequestproject-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentrequestproject-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToAdvancements() throws IOException {
-        MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentadvancement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToEvidences() throws  IOException, SQLException {
-        MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProjects() throws IOException{
-        MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentviewprojects-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
