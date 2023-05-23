@@ -64,12 +64,6 @@ CREATE TABLE Proyectos (
     UNIQUE (nombreTrabajoRecepcional)
 );
 
-CREATE TABLE ProyectosEstudiantes (
-	ID_ProyectoEstudiante int not null auto_increment,
-	ID_proyecto int not null,
-	matriculaEstudiante varchar(10) not null,
-	PRIMARY KEY(ID_ProyectoEstudiante)
-);
 
 CREATE TABLE ModalidadesTR(
 	ID_modalidadTR int not null auto_increment,

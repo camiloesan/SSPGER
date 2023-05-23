@@ -93,12 +93,11 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         } catch(SQLException evidenceDAOException) {
             evidenceDAOException.printStackTrace();
         }
-        File initialDirectory = new File(System.getProperty("user.home")
+        return new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
                 +projectName+ "/"
                 +labelAdvancementEvidence.getText()+"/"
                 +studentID);
-        return initialDirectory;
     }
 
 
