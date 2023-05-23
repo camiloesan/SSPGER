@@ -6,9 +6,9 @@ public class Evidence {
     private String evidenceStatus;
     private int evidenceGrade;
     private String evidenceDescription;
-    private int professorId;
+    private String advancementName;
     private int advancementId;
-    private int projectId;
+    private String studentName;
     private String studentId;
     private String deliverDate;
 
@@ -52,28 +52,12 @@ public class Evidence {
         this.evidenceDescription = evidenceDescription;
     }
 
-    public int getProfessorId() {
-        return professorId;
-    }
-
-    public void setProfessorId(int professorId) {
-        this.professorId = professorId;
-    }
-
     public int getAdvancementId() {
         return advancementId;
     }
 
     public void setAdvancementId(int advancementId) {
         this.advancementId = advancementId;
-    }
-
-    public int getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
     }
 
     public String getStudentId() {
@@ -90,5 +74,21 @@ public class Evidence {
     
     public void setDeliverDate(String deliverDate) {
         this.deliverDate = deliverDate;
+    }
+
+    public String getAdvancementName() {
+        return advancementName;
+    }
+
+    public void setAdvancementName(String advancementName) {
+        this.advancementName = advancementName;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 }

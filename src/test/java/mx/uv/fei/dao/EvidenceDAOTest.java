@@ -82,7 +82,7 @@ class EvidenceDAOTest {
     void tearDown() throws SQLException {
         var advancementDAO = new AdvancementDAO();
 
-        advancementDAO.deleteAdvancementById(advancementDAO.getAdvancementIDByStudentID("example"));
+        advancementDAO.deleteAdvancementById(0);
 
         var projectDAO = new ProjectDAO();
 
@@ -106,7 +106,7 @@ class EvidenceDAOTest {
 
         evidence.setEvidenceTitle("example");
         evidence.setEvidenceDescription("example");
-        evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
+        evidence.setAdvancementId(0);
 
         int expectedResult = 1;
         int result = evidenceDAO.addEvidence(evidence);
@@ -121,7 +121,7 @@ class EvidenceDAOTest {
 
         evidence.setEvidenceTitle("example");
         evidence.setEvidenceDescription("example");
-        evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
+        evidence.setAdvancementId(0);
 
         evidenceDAO.addEvidence(evidence);
         var evidenceToModify = evidenceDAO.getEvidenceByEvidenceID(0);
@@ -141,7 +141,7 @@ class EvidenceDAOTest {
 
         evidence.setEvidenceTitle("example");
         evidence.setEvidenceDescription("example");
-        evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
+        evidence.setAdvancementId(0);
 
         evidenceDAO.addEvidence(evidence);
         var evidenceToUpdateGrade = evidenceDAO.getEvidenceByEvidenceID(0);
@@ -159,7 +159,7 @@ class EvidenceDAOTest {
 
         evidence.setEvidenceTitle("example");
         evidence.setEvidenceDescription("example");
-        evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
+        evidence.setAdvancementId(0);
 
         evidenceDAO.addEvidence(evidence);
         var evidenceResult = evidenceDAO.getEvidenceByEvidenceID(0);

@@ -223,8 +223,8 @@ public class AdvancementDAO implements IAdvancement {
     }
 
     @Override
-    public int getAdvancementIDByStudentID(String studentID) throws SQLException {
-        String query = "SELECT Avances.ID_proyecto FROM Avances " +
+    public String getProjectNameByStudentID(String studentID) throws SQLException {
+        String query = "SELECT Proyectos.nombreTrabajoRecepcional FROM Avances " +
                 "INNER JOIN Proyectos ON Avances.ID_proyecto = Proyectos.ID_proyecto " +
                 "INNER JOIN SolicitudesProyecto ON Proyectos.ID_proyecto = SolicitudesProyecto.ID_proyecto " +
                 "WHERE matriculaEstudiante = (?) AND SolicitudesProyecto.estado = 'Aceptado'";
@@ -235,9 +235,9 @@ public class AdvancementDAO implements IAdvancement {
         preparedStatement.setString(1, studentID);
 
         ResultSet resultSet = preparedStatement.executeQuery();
-        int result = 0;
+        String result = null;
         while (resultSet.next()) {
-            result = resultSet.getInt("ID_proyecto");
+            result = resultSet.getString("nombreTrabajoRecepcional");
         }
 
         databaseManager.closeConnection();

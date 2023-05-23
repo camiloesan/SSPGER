@@ -194,6 +194,41 @@ public class EvidenceDAO implements IEvidence {
         return result;
     }
 
+    @Override
+    public Evidence getEvidenceInfoByID(int evidenceID) throws SQLException {
+        String query = "SELECT  Evidencias.titulo, " +
+                "Evidencias.estado, " +
+                "Evidencias.calificacion, " +
+                "Evidencias.descripcion, " +
+                "Avances.nombre, " +
+                "Estudiantes.nombre, " +
+                "Evidencias.fechaEntrega FROM Evidencias " +
+                "INNER JOIN Avances ON Avances.ID_avance = Evidencias.ID_avance " +
+                "INNER JOIN Proyectos ON Avances.ID_proyecto = Proyectos.ID_proyecto " +
+                "INNER JOIN SolicitudesProyecto ON Proyectos.ID_proyecto = SolicitudesProyecto.ID_proyecto " +
+                "INNER JOIN Estudiantes ON Evidencias.matriculaEstudiante = Estudiantes.matricula " +
+                "WHERE Evidencias.ID_evidencia = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, evidenceID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        Evidence evidence = new Evidence();
+        while (resultSet.next()) {
+            evidence.setEvidenceTitle(resultSet.getString("titulo"));
+            evidence.setEvidenceStatus(resultSet.getString("estado"));
+            evidence.setEvidenceGrade(resultSet.getInt("calificacion"));
+            evidence.setEvidenceDescription(resultSet.getString("descripcion"));
+            evidence.setAdvancementName(resultSet.getString("Avances.nombre"));
+            evidence.setStudentName(resultSet.getString("Estudiantes.nombre"));
+            evidence.setDeliverDate(resultSet.getString("fechaEntrega"));
+        }
+        return evidence;
+    }
+
     public int deleteEvidenceByID (int evidenceID) throws SQLException {
         String query = "delete from Evidencias where ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -207,23 +242,26 @@ public class EvidenceDAO implements IEvidence {
         return result;
     }
 
-    public List<Evidence> getListEvidenceName() throws SQLException {
-        String query = "SELECT titulo FROM Evidencias";
+    public String getProjectNameByEvidenceID(int evidenceID) throws SQLException {
+        String query = "SELECT Proyectos.nombreTrabajoRecepcional FROM Evidencias " +
+                "INNER JOIN Avances ON Avances.ID_avance = Evidencias.ID_avance " +
+                "INNER JOIN Proyectos ON Avances.ID_proyecto = Proyectos.ID_proyecto " +
+                "INNER JOIN SolicitudesProyecto ON Proyectos.ID_proyecto = SolicitudesProyecto.ID_proyecto " +
+                "WHERE Evidencias.ID_evidencia = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, evidenceID);
         ResultSet resultSet = preparedStatement.executeQuery();
-        databaseManager.closeConnection();
-
-        List<Evidence> advancementNameList = new ArrayList<>();
-        while(resultSet.next()) {
-            Evidence evidence = new Evidence();
-            evidence.setEvidenceTitle(resultSet.getString("titulo"));
-            advancementNameList.add(evidence);
+        String result = "";
+        while (resultSet.next()) {
+            result = resultSet.getString("nombreTrabajoRecepcional");
         }
 
-        return advancementNameList;
+        databaseManager.closeConnection();
+
+        return result;
     }
 
     @Override

@@ -71,7 +71,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
         if (evidenceFile != null) {
             labelFileTitle.setText(evidenceFile.getName());
             labelFileTitle.setVisible(true);
-            createPath(getProjectID(), getAdvancementName(), getStudentID());
+            createPath(getProjectName(), getAdvancementName(), getStudentID());
             copyFile(evidenceFile);
         }
     }
@@ -81,7 +81,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
         FileChooser fileChooser = new FileChooser();
         File initialDirectory = new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
-                +getProjectID()+ "/"
+                + getProjectName()+ "/"
                 +getAdvancementName() +"/"
                 +getStudentID());
         fileChooser.setInitialDirectory(initialDirectory);
@@ -110,7 +110,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     private void copyFile(File file) {
         File fileToSave = new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
-                +getProjectID()+ "/"
+                + getProjectName()+ "/"
                 +getAdvancementName() +"/"
                 +getStudentID()+"/"
                 +file.getName());
@@ -121,16 +121,16 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
         }
     }
 
-    private String getProjectID() {
+    private String getProjectName() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        int projectID = 0;
+        String projectID = null;
         try {
             projectID = advancementDAO
-                    .getAdvancementIDByStudentID(LoginController.sessionDetails.getId());
+                    .getProjectNameByStudentID(LoginController.sessionDetails.getId());
         } catch (SQLException getProjectIDException) {
             getProjectIDException.printStackTrace();
         }
-        return String.valueOf(projectID);
+        return projectID;
     }
 
     private String getStudentID() {

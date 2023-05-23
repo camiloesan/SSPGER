@@ -3,11 +3,15 @@ package mx.uv.fei.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.*;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -35,65 +39,71 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     }
 
     @FXML
-    public void fillTitleStatusGradeDescriptionEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        try {
-            Evidence evidence = evidenceDAO.getEvidenceByEvidenceID(TransferEvidence.getEvidenceId());
-            labelTitleEvidence.setText(evidence.getEvidenceTitle());
-            labelStatusEvidence.setText(evidence.getEvidenceStatus());
-            labelGradeEvidence.setText(String.valueOf(evidence.getEvidenceGrade()));
-            labelDescriptionEvidence.setText(evidence.getEvidenceDescription());
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-    }
-
-    @FXML
     private void openPaneGradeEvidence() throws IOException {
         TransferEvidence.setEvidenceId(TransferEvidence.getEvidenceId());
         TransferEvidence.setEvidenceName(TransferEvidence.getEvidenceName());
         MainStage.changeView("panegradeevidence-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
-    @FXML
-    public void fillAdvancementEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        try {
-            int advancementID = evidenceDAO.getAdvancementIDByEvidenceID(TransferEvidence.getEvidenceId());
-            labelAdvancementEvidence.setText("");
-            try {
-                String advancementName = advancementDAO.getAdvancementNameByID(advancementID);
-                labelAdvancementEvidence.setText(advancementName);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-    }
-    @FXML
-    public void fillStudentEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        StudentDAO studentDAO = new StudentDAO();
-        try {
-            String studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
-            try {
-                String nameStudent = studentDAO.getNamebyStudentID(studentID);
-                labelStudentEvidence.setText(nameStudent);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-    }
+
     @FXML
     public void fillEvidence() {
-        fillTitleStatusGradeDescriptionEvidence();
-        fillAdvancementEvidence();
-        fillStudentEvidence();
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        Evidence evidenceInfo = null;
+        try {
+            evidenceInfo = evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
+        } catch (SQLException evidenceInfoException) {
+            evidenceInfoException.printStackTrace();
+        }
+        labelTitleEvidence.setText(evidenceInfo.getEvidenceTitle());
+        labelStatusEvidence.setText(evidenceInfo.getEvidenceStatus());
+        labelGradeEvidence.setText(String.valueOf(evidenceInfo.getEvidenceGrade()));
+        labelDescriptionEvidence.setText(evidenceInfo.getEvidenceDescription());
+        labelAdvancementEvidence.setText(evidenceInfo.getAdvancementName());
+        labelStudentEvidence.setText(evidenceInfo.getStudentName());
     }
+
+    @FXML
+    private void visualizeFiles() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Evidencias");
+        fileChooser.setInitialDirectory(getInitialDirectory());
+        File evidenceFile = fileChooser.showOpenDialog(new Stage());
+        if (evidenceFile != null) {
+            String operativeSystem = System.getProperty("os.name").toLowerCase();
+            Runtime runtime = Runtime.getRuntime();
+            if (operativeSystem.contains("win")) {
+                runtime.exec("cmd /c start " + evidenceFile.getAbsolutePath());
+            } else if (operativeSystem.contains("mac")) {
+                runtime.exec("open " + evidenceFile.getAbsolutePath());
+            } else if (operativeSystem.contains("nix")
+                    || operativeSystem.contains("nux")
+                    || operativeSystem.contains("bsd")) {
+                runtime.exec("xdg-open " + evidenceFile.getAbsolutePath());
+            } else {
+                System.out.println("No se puede determinar el sistema operativo.");
+            }
+        }
+    }
+
+    private File getInitialDirectory() {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        String projectName = null;
+        String studentID = null;
+        try {
+            projectName = evidenceDAO.getProjectNameByEvidenceID(TransferEvidence.getEvidenceId());
+            studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
+        } catch(SQLException evidenceDAOException) {
+            evidenceDAOException.printStackTrace();
+        }
+        File initialDirectory = new File(System.getProperty("user.home")
+                +"/IdeaProjects/SSPGER/evidences/"
+                +projectName+ "/"
+                +labelAdvancementEvidence.getText()+"/"
+                +studentID);
+        return initialDirectory;
+    }
+
 
     @Override
     public void redirectToAdvancements() throws IOException {
@@ -101,7 +111,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
                 LoginController.sessionDetails.getUserType().equals("RepresentanteCA")) {
             MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
-            MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("studentadvancement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 
@@ -111,7 +121,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
                 || LoginController.sessionDetails.getUserType().equals("RepresentanteCA")) {
             MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
-            MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("studentevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 
@@ -121,7 +131,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
                 LoginController.sessionDetails.getUserType().equals("RepresentanteCA")) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } else {
-            MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("studentviewprojects-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ViewEvidenceDetailsController">
+<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ViewEvidenceDetailsController">
    <children>
       <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
          <children>
@@ -163,19 +170,56 @@
                   <RowConstraints maxHeight="401.0" minHeight="60.0" prefHeight="74.0" valignment="CENTER" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Titulo de la evidencia:" GridPane.columnIndex="1" />
-                  <Label text="Estado:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Calificacion:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="Descripcion:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label text="Nombre del avance:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label text="Nombre del estudiante:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label fx:id="labelTitleEvidence" text="Label" GridPane.columnIndex="2" />
-                  <Label fx:id="labelStatusEvidence" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Label fx:id="labelGradeEvidence" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Label fx:id="labelDescriptionEvidence" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <Label fx:id="labelAdvancementEvidence" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Label fx:id="labelStudentEvidence" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Label text="Titulo de la evidencia:" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Jomolhari" size="21.0" />
+                     </font></Label>
+                  <Label text="Estado:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Jomolhari" size="20.0" />
+                     </font></Label>
+                  <Label text="Calificacion:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Jomolhari" size="20.0" />
+                     </font></Label>
+                  <Label text="Descripcion:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Jomolhari" size="20.0" />
+                     </font></Label>
+                  <Label text="Nombre del avance:" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Jomolhari" size="20.0" />
+                     </font></Label>
+                  <Label text="Nombre del estudiante:" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="Jomolhari" size="20.0" />
+                     </font></Label>
+                  <Label fx:id="labelTitleEvidence" text="Label" wrapText="true" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="Noto Serif Regular" size="18.0" />
+                     </font></Label>
+                  <Label fx:id="labelStatusEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Noto Serif Regular" size="18.0" />
+                     </font></Label>
+                  <Label fx:id="labelGradeEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Noto Serif Regular" size="18.0" />
+                     </font></Label>
+                  <Label fx:id="labelDescriptionEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Noto Serif Regular" size="18.0" />
+                     </font></Label>
+                  <Label fx:id="labelAdvancementEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Noto Serif Regular" size="18.0" />
+                     </font></Label>
+                  <Label fx:id="labelStudentEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="Noto Serif Regular" size="18.0" />
+                     </font></Label>
                   <Button mnemonicParsing="false" onAction="#openPaneGradeEvidence" text="Calificar" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                  <Button mnemonicParsing="false" onAction="#visualizeFiles" text="Visualizar archivos" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                </children>
                <VBox.margin>
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />

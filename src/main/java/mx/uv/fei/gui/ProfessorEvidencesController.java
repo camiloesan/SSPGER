@@ -50,10 +50,10 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     @FXML
     public void redirectToViewEvidenceDetails() throws IOException {
         if (isItemSelected()) {
-            TransferEvidence.setEvidenceName(tableViewEvidence
+            TransferEvidence.setEvidenceId(tableViewEvidence
                     .getSelectionModel()
                     .getSelectedItem()
-                    .getEvidenceTitle());
+                    .getEvidenceId());
             MainStage.changeView("viewevidencedetails-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Debes seleccionar una evidencia para continuar", AlertStatus.WARNING));

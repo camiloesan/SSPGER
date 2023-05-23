@@ -9,7 +9,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
-import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.File;
@@ -86,14 +85,14 @@ public class AddEvidenceController implements IStudentNavigationBar {
 
     private String getProjectID() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        int projectID = 0;
+        String projectID = null;
         try {
             projectID = advancementDAO
-                    .getAdvancementIDByStudentID(LoginController.sessionDetails.getId());
+                    .getProjectNameByStudentID(LoginController.sessionDetails.getId());
         } catch (SQLException getProjectIDException) {
             getProjectIDException.printStackTrace();
         }
-        return String.valueOf(projectID);
+        return projectID;
     }
 
     private String getAdvancementName() {
