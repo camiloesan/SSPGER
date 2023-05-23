@@ -42,9 +42,30 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         return response;
     }
 
+    private boolean confirmedRequests() {
+        ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+        boolean result;
+        int requests = 0;
+        try {
+             requests = projectRequestDAO.getProjectRequestsByStudentID(SessionDetails.getInstance().getId(),
+                    TransferProject.getProjectID());
+             System.out.println(requests);
+        } catch (SQLException requestsException) {
+            requestsException.printStackTrace();
+        }
+        if (requests>0) {
+            DialogGenerator.getDialog(new AlertMessage("Solo se acepta una solicitud por proyecto",
+                    AlertStatus.WARNING));
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
+    }
+
     @FXML
     private void requestProject() {
-        if (confirmedFields() && confirmedRequestProject()) {
+        if (confirmedRequests() && confirmedFields() && confirmedRequestProject()) {
             ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
             try {
                 projectRequestDAO.createProjectRequest(getProjectRequestAttributes());
