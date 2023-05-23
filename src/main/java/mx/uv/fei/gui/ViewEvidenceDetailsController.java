@@ -6,9 +6,7 @@ import javafx.scene.control.Label;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
-import mx.uv.fei.logic.Evidence;
-import mx.uv.fei.logic.SessionDetails;
-import mx.uv.fei.logic.TransferEvidence;
+import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -49,6 +47,14 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
             sqlException.printStackTrace();
         }
     }
+
+    @FXML
+    private void openPaneGradeEvidence() throws IOException {
+        TransferEvidence.setEvidenceId(TransferEvidence.getEvidenceId());
+        TransferEvidence.setEvidenceName(TransferEvidence.getEvidenceName());
+        MainStage.changeView("panegradeevidence-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+    }
+
     @FXML
     public void fillAdvancementEvidence() {
         EvidenceDAO evidenceDAO = new EvidenceDAO();

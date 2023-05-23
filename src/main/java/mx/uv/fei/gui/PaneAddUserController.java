@@ -89,7 +89,7 @@ public class PaneAddUserController {
     }
 
     private void addProfessorUser() {
-        UserDAO accessAccountDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         accessAccount.setUsername(textFieldUsername.getText());
         accessAccount.setUserPassword(passwordFieldPassword.getText());
@@ -100,7 +100,7 @@ public class PaneAddUserController {
         professor.setProfessorDegree(comboBoxDegree.getValue());
         professor.setProfessorEmail(textFieldProfessorEmail.getText());
         try {
-            accessAccountDAO.addProfessorUserTransaction(accessAccount, professor);
+            userDAO.addProfessorUserTransaction(accessAccount, professor);
             DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));

@@ -6,9 +6,6 @@ ALTER TABLE Estudiantes
 ALTER TABLE Profesores ADD
     CONSTRAINT FK_Profesores_CuentasAcceso FOREIGN KEY (nombreUsuario) REFERENCES CuentasAcceso (nombreUsuario) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE CuerpoAcademico ADD
-    CONSTRAINT FK_CuerpoAcademico_Profesores FOREIGN KEY (responsable) REFERENCES Profesores (ID_profesor) ON DELETE CASCADE ON UPDATE CASCADE;
-
 ALTER TABLE Proyectos
     ADD CONSTRAINT FK_Proyectos_LGAC FOREIGN KEY (LGAC) REFERENCES LGAC (ID_lgac) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT FK_Proyectos_ModalidadesTR FOREIGN KEY (ID_modalidadTR) REFERENCES ModalidadesTR (ID_modalidadTR) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -24,7 +21,3 @@ ALTER TABLE Evidencias
 ALTER TABLE SolicitudesProyecto
     ADD CONSTRAINT FK_SolicitudesProyecto_Proyectos FOREIGN KEY (ID_proyecto) REFERENCES Proyectos (ID_proyecto) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT FK_SolicitudesProyecto_Estudiantes FOREIGN KEY (matriculaEstudiante) REFERENCES Estudiantes (matricula) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE ProyectosEstudiantes
-    ADD CONSTRAINT FK_ProyectosEstudiantes_Proyectos FOREIGN KEY(ID_proyecto) REFERENCES Proyectos(ID_proyecto) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT FK_ProyectosEstudiantes_Estudiantes FOREIGN KEY(matriculaEstudiante) REFERENCES Estudiantes(matricula) ON DELETE CASCADE ON UPDATE CASCADE;

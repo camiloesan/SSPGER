@@ -128,31 +128,30 @@
       </HBox>
    </VBox>
    <VBox HBox.hgrow="ALWAYS">
-      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #334b49;">
-         <Label text="Peticiones de proyecto" textFill="WHITE">
-            <HBox.margin>
-               <Insets left="16.0" top="14.0" />
-            </HBox.margin>
-         </Label>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0">
-         <TableView fx:id="tableViewRequests" onMouseClicked="#handleItemClick" prefHeight="307.0" prefWidth="357.0">
+      <Label alignment="TOP_LEFT" text="Peticiones de proyecto" textAlignment="JUSTIFY">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="21.0" left="35.0" top="30.0" />
+         </VBox.margin>
+      </Label>
+      <Separator prefWidth="799.0" />
+      <HBox alignment="CENTER" prefHeight="531.0" prefWidth="799.0">
+         <TableView fx:id="tableViewRequests" onMouseClicked="#handleItemClick" prefHeight="472.0" prefWidth="300.0">
             <columnResizePolicy>
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
             <HBox.margin>
                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
             </HBox.margin>
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding>
          </TableView>
          <Separator orientation="VERTICAL" prefHeight="200.0">
             <HBox.margin>
                <Insets bottom="60.0" top="60.0" />
             </HBox.margin>
          </Separator>
-         <VBox alignment="TOP_CENTER" prefHeight="529.0" prefWidth="492.0" spacing="25.0">
+         <VBox alignment="TOP_CENTER" prefHeight="472.0" prefWidth="523.0" spacing="25.0">
             <HBox.margin>
                <Insets bottom="25.0" top="25.0" />
             </HBox.margin>

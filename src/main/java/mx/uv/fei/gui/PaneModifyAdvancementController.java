@@ -78,12 +78,21 @@ public class PaneModifyAdvancementController {
             if (response.get() == DialogGenerator.BUTTON_YES) {
                 try {
                     modifyAdvancement();
+                    clearFields();
                     DialogGenerator.getDialog(new AlertMessage("Se modificó el avance exitosamente", AlertStatus.SUCCESS));
                 } catch (SQLException sqlException) {
                     DialogGenerator.getDialog(new AlertMessage("Ocurrió un error, no se pudo modificar el avance", AlertStatus.ERROR));
                 }
             }
         }
+    }
+
+    private void clearFields() {
+        newAdvancementName.clear();
+        newAdvancementStartDate.setValue(null);
+        newAdvancementDeadline.setValue(null);
+        comboNewProjectToAssign.setValue(null);
+        newAdvancementDescription.clear();
     }
 
     private void modifyAdvancement() throws SQLException {

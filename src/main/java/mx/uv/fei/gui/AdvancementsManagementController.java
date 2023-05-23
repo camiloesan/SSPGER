@@ -42,10 +42,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     
     @FXML
     private void initialize() throws SQLException {
-
-        SessionDetails sd = SessionDetails.getInstance("xxxx", "xxxx", "abcd");
-        System.out.println("id: " + System.identityHashCode(sd) + " nombre: " + sd.getUsername());
-
         TableColumn<Advancement, String> advancementNameColumn = new TableColumn<>("Nombre");
         advancementNameColumn.setCellValueFactory(new PropertyValueFactory<>("advancementName"));
         TableColumn<Advancement, String> startDateColumn = new TableColumn<>("Fecha Inicio");
@@ -122,6 +118,9 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage("No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
             }
+
+            clearFields();
+
             try {
                 fillTableViewAdvancements();
             } catch (SQLException sqlException) {
@@ -144,6 +143,14 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         if (result == 0) {
             //some
         }
+    }
+
+    private void clearFields() {
+        advancementName.clear();
+        advancementStartDate.setValue(null);
+        advancementDeadline.setValue(null);
+        comboProjectToAssign.setValue(null);
+        advancementDescription.clear();
     }
 
     private boolean areScheduleAdvancementFieldsValid() {
@@ -198,7 +205,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     public void openAdvancementDetails() throws IOException {
         if (tableViewAdvancements.getSelectionModel().getSelectedItem() != null) {
             int advancementId = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementID();
-            System.out.println(advancementId);
             TransferAdvancement.setAdvancementID(advancementId);
             Parent detailsVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("paneadvancementdetails-view.fxml")));
             tabViewAdvancements.setContent(detailsVbox);
