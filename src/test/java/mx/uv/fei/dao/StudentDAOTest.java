@@ -43,8 +43,8 @@ class StudentDAOTest {
        StudentDAO studentDAO = new StudentDAO();
 
        accessAccountDAO.deleteUserByUsername("example");
-       studentDAO.deleteStudent("ZS21013860");
-       studentDAO.deleteStudent("example");
+       //studentDAO.deleteStudentByID("ZS21013860");
+       //studentDAO.deleteStudentByID("example");
     }
 
     @Test

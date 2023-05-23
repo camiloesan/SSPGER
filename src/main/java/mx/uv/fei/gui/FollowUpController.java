@@ -42,7 +42,7 @@ public class FollowUpController implements IProfessorNavigationBar{
     private void fillStudentList() throws SQLException {
         StudentDAO studentDAO = new StudentDAO();
         listViewStudents.getItems().clear();
-        listViewStudents.getItems().addAll(studentDAO.getStudentsByProject(getTransferProjectID()));
+        listViewStudents.getItems().addAll(studentDAO.getStudentsByProjectID(getTransferProjectID()));
     }
     
     private void setStudentNames() {

@@ -32,68 +32,7 @@ public class ProfessorDAO implements IProfessor {
 
         return result;
     }
-    @Override
-    public int updateProfessorByName(Professor updatedProfessor, String professorNameToUpdate) throws SQLException {
-        int result;
-        String sqlQuery = "UPDATE Profesores SET grado = (?), nombre = (?), apellidos = (?), correoInstitucional = (?) WHERE nombre = (?)";
-        
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        
-        preparedStatement.setString(1,updatedProfessor.getProfessorDegree());
-        preparedStatement.setString(2,updatedProfessor.getProfessorName());
-        preparedStatement.setString(3,updatedProfessor.getProfessorLastName());
-        preparedStatement.setString(4,updatedProfessor.getProfessorEmail());
-        
-        preparedStatement.setString(5, professorNameToUpdate);
-        
-        result = preparedStatement.executeUpdate();
-        databaseManager.closeConnection();
-        
-        return result;
-    }
-    
-    @Override
-    public List<Professor> getAllProfessors() throws SQLException {
-        String sqlQuery = "SELECT grado, nombre, apellidos, correoInstitucional FROM Profesores";
-        
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<Professor> professors = new ArrayList<>();
-        while (resultSet.next()) {
-            Professor professor = new Professor();
-            professor.setProfessorName(resultSet.getString("nombre"));
-            professor.setProfessorLastName(resultSet.getString("apellidos"));
-            professor.setProfessorEmail(resultSet.getString("correoInstitucional"));
-            
-            professors.add(professor);
-        }
-        databaseManager.closeConnection();
-        
-        return professors;
-    }
-    
-    @Override
-    public int deleteProfessorByName(String professorNameToDelete) throws SQLException {
-        int result;
-        String sqlQuery = "DELETE FROM Profesores WHERE nombre = (?)";
-        
-        DatabaseManager databaseManager = new  DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        
-        preparedStatement.setString(1,professorNameToDelete);
-        
-        result = preparedStatement.executeUpdate();
-        databaseManager.closeConnection();
-        
-        return result;
-    }
-    
+
     @Override
     public List<String> getProfessorsNames() throws SQLException {
         String sqlQuery = "SELECT CONCAT(grado, ' ',nombre, ' ', apellidos) AS nombreCompleto FROM Profesores;";
@@ -134,12 +73,12 @@ public class ProfessorDAO implements IProfessor {
     }
     
     /**
-     * @param projecID
+     * @param projectID
      * @return stirng with director & codirector names
      * @throws SQLException
      */
     @Override
-    public String getProfessorsByProject(int projecID) throws SQLException {
+    public String getProfessorsByProject(int projectID) throws SQLException {
         String sqlQuery = "SELECT CONCAT(D.nombre, ' ',D.apellidos, ', ', CD.nombre, ' ',CD.apellidos) AS Directors FROM Profesores D " +
                 "INNER JOIN Proyectos P on D.ID_profesor = P.ID_director " +
                 "INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor " +
@@ -151,7 +90,7 @@ public class ProfessorDAO implements IProfessor {
             Connection connection = databaseManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
             
-            preparedStatement.setInt(1,projecID);
+            preparedStatement.setInt(1, projectID);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 professorNames = resultSet.getString("Directors");

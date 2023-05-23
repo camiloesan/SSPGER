@@ -112,7 +112,7 @@ public class StudentDAO implements IStudent {
     }
     
     @Override
-    public List<Student> getStudentsByProject(int projectID) throws SQLException {
+    public List<Student> getStudentsByProjectID(int projectID) throws SQLException {
         String sqlQuery = "SELECT E.matricula, CONCAT(E.nombre, ' ', E.apellidos) AS Alumno FROM Estudiantes E " +
                 "INNER JOIN SolicitudesProyecto SP on E.matricula = SP.matriculaEstudiante " +
                 "INNER JOIN Proyectos P on SP.ID_proyecto = P.ID_proyecto " +

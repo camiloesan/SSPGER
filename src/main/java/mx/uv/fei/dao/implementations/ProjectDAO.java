@@ -88,7 +88,7 @@ public class ProjectDAO implements IProject {
     @Override
     public int setCodirectorIDtoProject(Project projectCodirectorName) throws SQLException {
         int result = 0;
-        String sqlQuery = "UPDATE Proyectos PRY SET PRY.ID_codirector = (SELECT PRF.ID_profesor FROM Profesores PRF WHERE ? LIKE CONCAT('%',PRF.nombre,'%')) WHERE PRY.nombreTrabajoRecepcional = ?";
+        String sqlQuery = "UPDATE Proyectos PRY SET PRY.ID_codirector = (SELECT PRF.ID_profesor FROM Profesores PRF WHERE (?) LIKE CONCAT('%',PRF.nombre,'%')) WHERE PRY.nombreTrabajoRecepcional = ?";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -228,7 +228,7 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public List<SimpleProject> getProjectsByCollaboration(int professorID) throws SQLException {
-        String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional, estado FROM Proyectos WHERE ID_codirector = ? OR ID_director = ?";
+        String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional, estado FROM Proyectos WHERE ID_codirector = (?) OR ID_director = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();

@@ -41,7 +41,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private static final int MAX_LENGTH_DESCRIPTION = 800;
     
     @FXML
-    private void initialize() throws SQLException {
+    private void initialize() {
         TableColumn<Advancement, String> advancementNameColumn = new TableColumn<>("Nombre");
         advancementNameColumn.setCellValueFactory(new PropertyValueFactory<>("advancementName"));
         TableColumn<Advancement, String> startDateColumn = new TableColumn<>("Fecha Inicio");
@@ -52,8 +52,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         tableViewAdvancements.getColumns().addAll(advancementNameColumn, startDateColumn, endDateColumn);
 
         labelUsername.setText(SessionDetails.getInstance().getUsername());
-        ProfessorDAO professorDAO = new ProfessorDAO();
-        professorId = professorDAO.getProfessorIdByUsername(LoginController.sessionDetails.getUsername());
+        professorId = Integer.parseInt(SessionDetails.getInstance().getId());
         fillComboBoxProjectToAssign();
         formatDatePickers();
         fillTableViewAdvancements();
@@ -84,11 +83,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
             if (response.get() == DialogGenerator.BUTTON_YES) {
                 deleteAdvancement(advancementId);
-                try {
-                    fillTableViewAdvancements();
-                } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la tabla", AlertStatus.WARNING));
-                }
+                fillTableViewAdvancements();
             }
         } else {
             DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un avance para eliminarlo", AlertStatus.WARNING));
@@ -120,12 +115,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             }
 
             clearFields();
-
-            try {
-                fillTableViewAdvancements();
-            } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la tabla, inténtelo más tarde", AlertStatus.WARNING));
-            }
+            fillTableViewAdvancements();
         }
     }
 
@@ -194,11 +184,16 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         }
     }
     
-    public void fillTableViewAdvancements() throws SQLException {
+    public void fillTableViewAdvancements() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         tableViewAdvancements.getItems().clear();
         professorId = Integer.parseInt(SessionDetails.getInstance().getId());
-        List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementName(professorId));
+        List<Advancement> advancementList = null;
+        try {
+           advancementList = new ArrayList<>(advancementDAO.getListAdvancementName(professorId));
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
+        }
         tableViewAdvancements.getItems().addAll(advancementList);
     }
     

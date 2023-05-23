@@ -139,5 +139,4 @@ public class ProjectRequestDAO implements IProjectRequest {
         databaseManager.closeConnection();
         return result;
     }
-
 }

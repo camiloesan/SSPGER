@@ -11,5 +11,5 @@ public interface IStudent {
     String getNamebyStudentID(String studentID) throws SQLException;
     String getStudentIdByUsername(String username) throws SQLException;
     String getStudentIDByProfessorID(int professorID) throws SQLException;
-    List<Student> getStudentsByProject(int projectID) throws SQLException;
+    List<Student> getStudentsByProjectID(int projectID) throws SQLException;
 }

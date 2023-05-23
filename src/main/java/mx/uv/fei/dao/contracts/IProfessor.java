@@ -7,10 +7,7 @@ import java.util.List;
 
 public interface IProfessor {
     int addProfessor(Professor professor) throws SQLException;
-    int updateProfessorByName(Professor updatedProfessor, String professorNameToUpdate) throws SQLException;
-    List<Professor> getAllProfessors() throws SQLException;
-    int deleteProfessorByName(String professorNameToDelete) throws SQLException;
     List<String> getProfessorsNames() throws SQLException;
     int getProfessorIdByUsername(String username) throws SQLException;
-    String  getProfessorsByProject(int projecID) throws SQLException;
+    String  getProfessorsByProject(int projectID) throws SQLException;
 }

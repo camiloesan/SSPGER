@@ -113,31 +113,6 @@ public class TimelineController {
             advancementRectangle.setLayoutY(labelProjectNameY-5);
             advancementRectangle.setViewOrder(-1.0);
             advancementRectangle.setCursor(Cursor.CLOSED_HAND);
-
-            var scaleTrans = new ScaleTransition(javafx.util.Duration.millis(250), advancementRectangle);
-            scaleTrans.setFromX(1.0);
-            scaleTrans.setFromY(1.0);
-            scaleTrans.setToX(1.2);
-            scaleTrans.setToY(1.2);
-            advancementRectangle.setOnMouseEntered(e -> {
-                scaleTrans.setRate(1.0);
-                advancementRectangle.setViewOrder(-1.0);
-                scaleTrans.play();
-            });
-            advancementRectangle.setOnMouseExited(e -> {
-                scaleTrans.setRate(-1.0);
-                advancementRectangle.setViewOrder(0.0);
-                scaleTrans.play();
-            });
-            advancementRectangle.setOnMouseClicked(e -> {
-                TransferAdvancement.setAdvancementName(advancementObject.getAdvancementName());
-                try {
-                    MainStage.changeView("paneadvancementdetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
-
             anchorPane.getChildren().add(advancementRectangle);
             labelProjectNameY += 70;
         }
