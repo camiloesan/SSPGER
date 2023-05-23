@@ -122,14 +122,14 @@ public class ProjectRequestDAO implements IProjectRequest {
     }
 
     @Override
-    public int getProjecRequestIDByDescription(String description) throws SQLException {
+    public int getProjecRequestIDByStudentID(String studentID) throws SQLException {
         int result = 0;
-        String query = "SELECT ID_solicitudProyecto FROM SolicitudesProyecto WHERE motivos=(?)";
+        String query = "SELECT ID_solicitudProyecto FROM SolicitudesProyecto WHERE matriculaEstudiante=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-        preparedStatement.setString(1, description);
+        preparedStatement.setString(1, studentID);
 
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {

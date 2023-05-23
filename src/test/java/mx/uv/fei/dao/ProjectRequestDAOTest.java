@@ -12,7 +12,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.DataTruncation;
 import java.sql.SQLException;
 import java.sql.SQLTransientConnectionException;
 
@@ -115,7 +114,7 @@ class ProjectRequestDAOTest {
 
         int expectedResult = 1;
         int result = projectRequestDAO.validateProjectRequest("Aceptado",
-                projectRequestDAO.getProjecRequestIDByDescription("example"));
+                projectRequestDAO.getProjecRequestIDByStudentID("example"));
         assertEquals(expectedResult,result);
     }
 
@@ -133,7 +132,7 @@ class ProjectRequestDAOTest {
 
         int expectedResult = 1;
         int result = projectRequestDAO.validateProjectRequest("Rechazado",
-                projectRequestDAO.getProjecRequestIDByDescription("example"));
+                projectRequestDAO.getProjecRequestIDByStudentID("example"));
         assertEquals(expectedResult,result);
     }
 
@@ -151,7 +150,7 @@ class ProjectRequestDAOTest {
 
         assertThrows(SQLTransientConnectionException.class, () ->
                 projectRequestDAO.validateProjectRequest("incorrect",
-                projectRequestDAO.getProjecRequestIDByDescription("example")));
+                projectRequestDAO.getProjecRequestIDByStudentID("example")));
     }
 
     @Test
@@ -168,7 +167,7 @@ class ProjectRequestDAOTest {
 
         int expectedResult = 1;
         int result = projectRequestDAO.deleteProjectRequest(
-                projectRequestDAO.getProjecRequestIDByDescription("exampleDelete"));
+                projectRequestDAO.getProjecRequestIDByStudentID("exampleDelete"));
         assertEquals(expectedResult, result);
     }
 }

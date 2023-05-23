@@ -75,7 +75,7 @@ class EvidenceDAOTest {
         projectRequestDAO.createProjectRequest(projectRequest);
 
         projectRequestDAO.validateProjectRequest("Aceptado",
-                projectRequestDAO.getProjecRequestIDByDescription("example"));
+                projectRequestDAO.getProjecRequestIDByStudentID("example"));
     }
 
     @AfterEach
