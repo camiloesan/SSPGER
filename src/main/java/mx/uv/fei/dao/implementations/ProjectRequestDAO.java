@@ -122,6 +122,27 @@ public class ProjectRequestDAO implements IProjectRequest {
     }
 
     @Override
+    public int getProjectRequestsByStudentID(String studentID, int projectID) throws SQLException {
+        int result = 0;
+        String query = "SELECT COUNT(matriculaEstudiante) AS matriculaEstudiante FROM SolicitudesProyecto " +
+                "INNER JOIN Proyectos ON SolicitudesProyecto.ID_proyecto = Proyectos.ID_proyecto " +
+                "WHERE matriculaEstudiante = ? AND SolicitudesProyecto.ID_proyecto = ?";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, studentID);
+        preparedStatement.setInt(2, projectID);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            result = resultSet.getInt("matriculaEstudiante");
+        };
+
+        databaseManager.closeConnection();
+        return result;
+    }
+
     public int getProjecRequestIDByStudentID(String studentID) throws SQLException {
         int result = 0;
         String query = "SELECT ID_solicitudProyecto FROM SolicitudesProyecto WHERE matriculaEstudiante=(?)";
