@@ -193,7 +193,7 @@ public class PaneModifyUserController {
 
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 
     @FXML

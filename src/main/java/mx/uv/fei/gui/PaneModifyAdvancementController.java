@@ -9,6 +9,7 @@ import mx.uv.fei.logic.Advancement;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.TransferAdvancement;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,6 +31,7 @@ public class PaneModifyAdvancementController {
     private Label labelHeader;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_DESCRIPTION = 800;
+    private static final Logger logger = Logger.getLogger(PaneModifyAdvancementController.class);
 
     @FXML
     private void initialize() {
@@ -63,6 +65,7 @@ public class PaneModifyAdvancementController {
             comboNewProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
@@ -75,13 +78,14 @@ public class PaneModifyAdvancementController {
     private void modifyAdvancementButtonAction() {
         if (areModifyAdvancementFieldsValid()) {
             Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea modificar el avance?");
-            if (response.get() == DialogGenerator.BUTTON_YES) {
+            if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
                 try {
                     modifyAdvancement();
                     clearFields();
                     DialogGenerator.getDialog(new AlertMessage("Se modificó el avance exitosamente", AlertStatus.SUCCESS));
                 } catch (SQLException sqlException) {
                     DialogGenerator.getDialog(new AlertMessage("Ocurrió un error, no se pudo modificar el avance", AlertStatus.ERROR));
+                    logger.error(sqlException);
                 }
             }
         }

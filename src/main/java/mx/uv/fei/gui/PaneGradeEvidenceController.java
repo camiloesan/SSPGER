@@ -7,6 +7,7 @@ import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.TransferEvidence;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ public class PaneGradeEvidenceController {
     private Label labelEvidenceToGrade;
     @FXML
     private TextField textFieldGrade;
+    private static final Logger logger = Logger.getLogger(PaneGradeEvidenceController.class);
 
     @FXML
     private void initialize() {
@@ -53,6 +55,7 @@ public class PaneGradeEvidenceController {
                 DialogGenerator.getDialog(new AlertMessage("Se actualizó la calificación satisfactoriamente", AlertStatus.SUCCESS));
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la calificación, inténtelo más tarde", AlertStatus.ERROR));
+                logger.error(sqlException);
             }
         }
     }

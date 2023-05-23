@@ -1,6 +1,5 @@
 package mx.uv.fei.gui;
 
-import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -12,9 +11,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
-import mx.uv.fei.logic.Advancement;
-import mx.uv.fei.logic.TransferAdvancement;
-import mx.uv.fei.logic.TransferProject;
+import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -32,18 +30,26 @@ public class TimelineController {
     private ScrollPane scrollPaneTimeline;
     @FXML
     private Label labelTitle;
+    private static final Logger logger = Logger.getLogger(TimelineController.class);
 
     @FXML
-    private void initialize() throws SQLException {
+    private void initialize() {
         String projectName;
         projectName = TransferProject.getReceptionWorkName();
         labelTitle.setText("Cronograma de avances [" +  projectName + "]");
         generateTimeline();
     }
 
-    private void generateTimeline() throws SQLException {
+    private void generateTimeline() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        List<Advancement> advancementList = advancementDAO.getAdvancementListByProjectId(TransferProject.getProjectID());
+        List<Advancement> advancementList = null;
+        try {
+            advancementList = advancementDAO.getAdvancementListByProjectId(TransferProject.getProjectID());
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+
         AnchorPane anchorPane = new AnchorPane();
 
         int labelDatesX = 260;
@@ -68,6 +74,7 @@ public class TimelineController {
         todayDateLine.setStartX(labelDatesX);
         todayDateLine.setStartY(50);
         todayDateLine.setEndX(labelDatesX);
+        assert advancementList != null;
         todayDateLine.setEndY(labelProjectNameY + (advancementList.size() * 70));
         todayDateLine.setStroke(Color.web("#61192C"));
         anchorPane.getChildren().add(todayDateLine);

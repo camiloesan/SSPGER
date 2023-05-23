@@ -5,12 +5,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class UserManagementController {
+    private static final Logger logger = Logger.getLogger(UserManagementController.class);
     @FXML
     private TableView<AccessAccount> tableViewAccessAccounts;
     private static String username;
@@ -26,7 +29,7 @@ public class UserManagementController {
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         TableColumn<AccessAccount, String> userTypeColumn = new TableColumn<>("Tipo de usuario");
         userTypeColumn.setCellValueFactory(new PropertyValueFactory<>("userType"));
-        tableViewAccessAccounts.getColumns().addAll(idColumn, usernameColumn, userTypeColumn);
+        tableViewAccessAccounts.getColumns().addAll(Arrays.asList(idColumn, usernameColumn, userTypeColumn));
         fillTableViewAccessAccounts();
     }
 
@@ -36,13 +39,14 @@ public class UserManagementController {
             tableViewAccessAccounts.getItems().addAll(accessAccountDAO.getAccessAccountsList());
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
     @FXML
     private void openModifyUserPane() throws IOException {
-        if (tableViewAccessAccounts.getSelectionModel().getSelectedItem() != null) {
-            if (tableViewAccessAccounts.getSelectionModel().getSelectedItem().getUserType().equals(LoginController.USER_ADMIN)) {
+        if (isItemSelected()) {
+            if (isSelectedUserAdmin()) {
                 DialogGenerator.getDialog(new AlertMessage("No se pueden modificar los usuarios administrador", AlertStatus.WARNING));
             } else {
                 setUsername(tableViewAccessAccounts.getSelectionModel().getSelectedItem().getUsername());
@@ -55,10 +59,10 @@ public class UserManagementController {
     }
 
     @FXML
-    private void buttonDeleteAction() throws SQLException {
+    private void buttonDeleteAction() {
         if (isItemSelected()) {
             String username = tableViewAccessAccounts.getSelectionModel().getSelectedItem().getUsername();
-            if (isUserAdmin(username)) {
+            if (isSelectedUserAdmin()) {
                 DialogGenerator.getDialog(new AlertMessage("No se pueden eliminar los usuarios administrador", AlertStatus.WARNING));
             } else {
                 deleteUser(username);
@@ -79,20 +83,24 @@ public class UserManagementController {
         MainStage.changeView("paneadduser.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
-    private boolean isUserAdmin(String username) throws SQLException {
-        UserDAO accessAccountDAO = new UserDAO();
-        return accessAccountDAO.getAccessAccountTypeByUsername(username).equals(LoginController.USER_ADMIN);
+    private boolean isSelectedUserAdmin() {
+        return tableViewAccessAccounts.getSelectionModel().getSelectedItem().getUserType().equals(LoginController.USER_ADMIN);
     }
 
     public boolean confirmedDeleteUser(String displayUsername) {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar al usuario " + displayUsername + "?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 
-    private void deleteUser(String username) throws SQLException {
+    private void deleteUser(String username) {
         UserDAO accessAccountDAO = new UserDAO();
         if(confirmedDeleteUser(username)) {
-            accessAccountDAO.deleteUserByUsername(username);
+            try {
+                accessAccountDAO.deleteUserByUsername(username);
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo eliminar al usuario, error con la base de datos", AlertStatus.ERROR));
+                logger.error(sqlException);
+            }
         }
     }
 
@@ -114,7 +122,7 @@ public class UserManagementController {
 
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 
     @FXML

@@ -7,17 +7,13 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
-import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class AdvancementsManagementController implements IProfessorNavigationBar {
     @FXML
@@ -49,7 +45,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         TableColumn<Advancement, String> endDateColumn = new TableColumn<>("Fecha Fin");
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("advancementDeadline"));
 
-        tableViewAdvancements.getColumns().addAll(advancementNameColumn, startDateColumn, endDateColumn);
+        tableViewAdvancements.getColumns().addAll(Arrays.asList(advancementNameColumn, startDateColumn, endDateColumn));
 
         labelUsername.setText(SessionDetails.getInstance().getUsername());
         professorId = Integer.parseInt(SessionDetails.getInstance().getId());
@@ -81,7 +77,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         if (isItemSelected()) {
             int advancementId = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementID();
             Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
-            if (response.get() == DialogGenerator.BUTTON_YES) {
+            if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
                 deleteAdvancement(advancementId);
                 fillTableViewAdvancements();
             }
@@ -120,7 +116,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
 
     private void scheduleAdvancement() throws SQLException {
-        int result = 0;
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement = new Advancement();
@@ -129,10 +124,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(advancementDeadline.getValue())));
         advancement.setProjectId(projectDAO.getProjectIDByTitle(comboProjectToAssign.getValue()));
         advancement.setAdvancementDescription(advancementDescription.getText());
-        result = advancementDAO.addAdvancement(advancement);
-        if (result == 0) {
-            //some
-        }
+        advancementDAO.addAdvancement(advancement);
     }
 
     private void clearFields() {
@@ -194,6 +186,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
         }
+        assert advancementList != null;
         tableViewAdvancements.getItems().addAll(advancementList);
     }
     
@@ -246,7 +239,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
     
     @Override public void actionLogOut() throws IOException {

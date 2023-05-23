@@ -11,9 +11,11 @@ import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.ProjectRequest;
 import mx.uv.fei.logic.SessionDetails;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class ProjectRequestsController implements IProfessorNavigationBar {
@@ -30,6 +32,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
     Text textDescription;
     private static String VALIDATION_REQUEST;
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
 
     @FXML
     private void initialize() {
@@ -38,11 +41,12 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         TableColumn<ProjectRequest, String> projectColumn = new TableColumn<>("Estado");
         projectColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        tableViewRequests.getColumns().addAll(studentIdColumn, projectColumn);
+        tableViewRequests.getColumns().addAll(Arrays.asList(studentIdColumn, projectColumn));
         try {
             fillTableViewProjectRequests();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
@@ -57,11 +61,13 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
                 studentName = studentDAO.getNamebyStudentID(tableViewRequests.getSelectionModel().getSelectedItem().getStudentId());
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage("No se pudo obtener la información del estudiante, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+                logger.error(sqlException);
             }
             try {
                 projectName = projectDAO.getProjectNameById(tableViewRequests.getSelectionModel().getSelectedItem().getProjectID());
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage("No se pudo obtener la información del proyecto, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+                logger.error(sqlException);
             }
 
             textDescription.setText("Motivos del estudiante [" + studentName + "] para el proyecto [" + projectName + "]");
@@ -116,7 +122,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     private void fillTableViewProjectRequests() throws SQLException {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         tableViewRequests.getItems().clear();
-        tableViewRequests.getItems().addAll(projectRequestDAO.getProjectRequestsListByProfessorId(Integer.parseInt(LoginController.sessionDetails.getId())));
+        tableViewRequests.getItems().addAll(projectRequestDAO.getProjectRequestsListByProfessorId(Integer.parseInt(SessionDetails.getInstance().getId())));
     }
 
     @Override
@@ -141,7 +147,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     private boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 
     @Override

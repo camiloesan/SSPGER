@@ -20,7 +20,7 @@ import java.util.Objects;
  * Provides a set of functions involving manipulation and authentication of users using the database
  */
 public class UserDAO implements IUser {
-    private static final Logger logger = Logger.getLogger(LoginController.class);
+    private static final Logger logger = Logger.getLogger(UserDAO.class);
 
     /**
      * @param accessAccount admin access account
@@ -38,12 +38,8 @@ public class UserDAO implements IUser {
         preparedStatement.setString(2, accessAccount.getUserPassword());
         preparedStatement.setString(3, LoginController.USER_ADMIN);
 
-        int result = 0;
-        try {
-            result = preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            logger.error(sqlException.getStackTrace());
-        }
+        int result;
+        result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
         return result;
@@ -82,8 +78,9 @@ public class UserDAO implements IUser {
         } catch (SQLException sqlException) {
             try {
                 connection.rollback();
+                logger.error(sqlException);
             } catch (SQLException sqlException1) {
-                logger.error(sqlException1.getStackTrace());
+                logger.fatal(sqlException1);
             }
         } finally {
             databaseManager.closeConnection();
@@ -123,6 +120,7 @@ public class UserDAO implements IUser {
             connection.commit();
         } catch (SQLException sqlException) {
             connection.rollback();
+            logger.error(sqlException);
         } finally {
             databaseManager.closeConnection();
         }
@@ -163,6 +161,7 @@ public class UserDAO implements IUser {
             connection.commit();
         } catch (SQLException sqlException) {
             connection.rollback();
+            logger.error(sqlException);
         } finally {
             databaseManager.closeConnection();
         }
@@ -205,6 +204,7 @@ public class UserDAO implements IUser {
                 connection.commit();
             } catch (SQLException sqlException) {
                 connection.rollback();
+                logger.error(sqlException);
             } finally {
                 databaseManager.closeConnection();
             }

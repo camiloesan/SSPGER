@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -47,7 +48,9 @@ public class PaneAddUserController {
                     LoginController.USER_PROFESSOR,
                     LoginController.USER_REPRESENTATIVE);
     private final static ObservableList<String> observableListComboItemsDegree =
-            FXCollections.observableArrayList("Dr." ,"Dra.", "MCC.");
+            FXCollections.observableArrayList("Dr.", "Dra.", "MCC.");
+    private static final Logger logger = Logger.getLogger(PaneAddUserController.class);
+
 
     @FXML
     private void initialize() {
@@ -72,7 +75,21 @@ public class PaneAddUserController {
                 case LoginController.USER_ADMIN -> addAdminUser();
                 default -> DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
             }
+            clearFields();
         }
+    }
+
+    private void clearFields() {
+        comboBoxDegree.setValue(null);
+        passwordFieldPassword.setText("");
+        textFieldProfessorEmail.setText("");
+        textFieldProfessorName.setText("");
+        textFieldProfessorLastName.setText("");
+        textFieldStudentEmail.setText("");
+        textFieldStudentId.setText("");
+        textFieldStudentName.setText("");
+        textFieldStudentLastName.setText("");
+        textFieldUsername.setText("");
     }
 
     private void addAdminUser() {
@@ -85,6 +102,7 @@ public class PaneAddUserController {
             accessAccountDAO.addAdminUser(accessAccount);
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo agregar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
@@ -104,6 +122,7 @@ public class PaneAddUserController {
             DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
@@ -122,7 +141,8 @@ public class PaneAddUserController {
             accessAccountDAO.addStudentUserTransaction(accessAccount, student);
             DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo más tarde", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
@@ -209,7 +229,7 @@ public class PaneAddUserController {
 
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 
     @FXML
