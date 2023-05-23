@@ -1,5 +1,6 @@
 package mx.uv.fei.gui;
 
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -37,18 +38,17 @@ public class TimelineController {
         String projectName;
         projectName = TransferProject.getReceptionWorkName();
         labelTitle.setText("Cronograma de avances [" +  projectName + "]");
-        generateTimeline();
-    }
-
-    private void generateTimeline() {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        List<Advancement> advancementList = null;
         try {
-            advancementList = advancementDAO.getAdvancementListByProjectId(TransferProject.getProjectID());
+            generateTimeline();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos", AlertStatus.ERROR));
             logger.error(sqlException);
         }
+    }
+
+    private void generateTimeline() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        List<Advancement> advancementList =  advancementDAO.getAdvancementListByProjectId(TransferProject.getProjectID());
 
         AnchorPane anchorPane = new AnchorPane();
 
@@ -74,7 +74,6 @@ public class TimelineController {
         todayDateLine.setStartX(labelDatesX);
         todayDateLine.setStartY(50);
         todayDateLine.setEndX(labelDatesX);
-        assert advancementList != null;
         todayDateLine.setEndY(labelProjectNameY + (advancementList.size() * 70));
         todayDateLine.setStroke(Color.web("#61192C"));
         anchorPane.getChildren().add(todayDateLine);
@@ -120,6 +119,31 @@ public class TimelineController {
             advancementRectangle.setLayoutY(labelProjectNameY-5);
             advancementRectangle.setViewOrder(-1.0);
             advancementRectangle.setCursor(Cursor.CLOSED_HAND);
+
+            var scaleTrans = new ScaleTransition(javafx.util.Duration.millis(250), advancementRectangle);
+            scaleTrans.setFromX(1.0);
+            scaleTrans.setFromY(1.0);
+            scaleTrans.setToX(1.2);
+            scaleTrans.setToY(1.2);
+            advancementRectangle.setOnMouseEntered(e -> {
+                scaleTrans.setRate(1.0);
+                advancementRectangle.setViewOrder(-1.0);
+                scaleTrans.play();
+            });
+            advancementRectangle.setOnMouseExited(e -> {
+                scaleTrans.setRate(-1.0);
+                advancementRectangle.setViewOrder(0.0);
+                scaleTrans.play();
+            });
+            advancementRectangle.setOnMouseClicked(e -> {
+                TransferAdvancement.setAdvancementName(advancementObject.getAdvancementName());
+                try {
+                    MainStage.changeView("paneadvancementdetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+
             anchorPane.getChildren().add(advancementRectangle);
             labelProjectNameY += 70;
         }
@@ -129,7 +153,7 @@ public class TimelineController {
 
     @FXML
     private void returnToPreviousWindow() throws IOException {
-        switch (LoginController.sessionDetails.getUserType()) {
+        switch (SessionDetails.getInstance().getUserType()) {
             case "Profesor", "RepresentanteCA" -> MainStage.changeView("projectproposals-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             case "Estudiante" -> MainStage.changeView("studentviewprojects-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }

@@ -69,6 +69,6 @@ public class PaneAdvancementDetailsController {
     
     public boolean confirmedDeletion() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + getAdvancementName() + "\"?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 }
