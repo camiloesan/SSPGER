@@ -137,10 +137,19 @@ public class TimelineController {
             });
             advancementRectangle.setOnMouseClicked(e -> {
                 TransferAdvancement.setAdvancementName(advancementObject.getAdvancementName());
-                try {
-                    MainStage.changeView("paneadvancementdetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                TransferAdvancement.setAdvancementID(advancementObject.getAdvancementID());
+                if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)) {
+                    try {
+                        MainStage.changeView("studentviewadvancementdetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    try {
+                        MainStage.changeView("paneadvancementdetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             });
 

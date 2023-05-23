@@ -63,7 +63,7 @@ public class AdvancementDAO implements IAdvancement {
     }
 
     public List<Advancement> getAdvancementListByProjectId(int projectId) throws SQLException {
-        String query = "select nombre, descripcion, fechaInicio, fechaEntrega, ID_proyecto from Avances where ID_proyecto=(?)";
+        String query = "select nombre, descripcion, fechaInicio, fechaEntrega, ID_avance, ID_proyecto from Avances where ID_proyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -79,6 +79,7 @@ public class AdvancementDAO implements IAdvancement {
             advancement.setAdvancementDescription(resultSet.getString("descripcion"));
             advancement.setAdvancementStartDate(resultSet.getString("fechainicio"));
             advancement.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
+            advancement.setAdvancementID(resultSet.getInt("ID_avance"));
             advancement.setProjectId(resultSet.getInt("ID_proyecto"));
             advancementList.add(advancement);
         }
