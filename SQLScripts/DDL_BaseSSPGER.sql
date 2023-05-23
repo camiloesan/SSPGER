@@ -18,7 +18,8 @@ CREATE TABLE Estudiantes (
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
 	nombreUsuario varchar(28),
-    PRIMARY KEY(matricula)
+    PRIMARY KEY(matricula),
+    UNIQUE (correoInstitucional)
 );
 
 CREATE TABLE Profesores (
@@ -28,7 +29,8 @@ CREATE TABLE Profesores (
 	apellidos varchar(80),
 	correoInstitucional nvarchar(30),
 	nombreUsuario varchar(28),
-    PRIMARY KEY(ID_profesor)
+    PRIMARY KEY(ID_profesor),
+    UNIQUE (correoInstitucional)
 );
 
 CREATE TABLE CuerpoAcademico (
@@ -36,7 +38,6 @@ CREATE TABLE CuerpoAcademico (
 	nombreCA varchar (45),
     DES_adscripción varchar(40),
     unidad_adscripción varchar(40),
-    responsable int,
     PRIMARY KEY (claveCA)
 );
 
@@ -59,7 +60,8 @@ CREATE TABLE Proyectos (
 	bibliografiaRecomendada nvarchar(6000),
 	estado enum('Verificado','Por revisar','Declinado') default 'Por revisar',
 	etapa enum('Proyecto guiado', 'Trabajo Recepcional') default 'Proyecto guiado',
-    PRIMARY KEY(ID_proyecto)
+    PRIMARY KEY(ID_proyecto),
+    UNIQUE (nombreTrabajoRecepcional)
 );
 
 CREATE TABLE ProyectosEstudiantes (
@@ -90,7 +92,6 @@ CREATE TABLE Avances (
 	fechaInicio date not null,
 	fechaEntrega date not null,
 	ID_proyecto int,
-    UNIQUE(nombre),
     PRIMARY KEY(ID_avance)
 );
 
@@ -105,21 +106,6 @@ CREATE TABLE Evidencias (
 	fechaEntrega Date,
     CHECK (calificacion>=0 and calificacion<=10),
     PRIMARY KEY(ID_Evidencia)
-);
-
-CREATE TABLE Reportes (
-	ID_reporte int not null auto_increment,
-	titulo varchar (30),
-	descripcion varchar (200),
-	ID_profesor int,
-	PRIMARY KEY(ID_reporte)
-);
-
-CREATE TABLE ReporteEstudiantes (
-	ID_reporteEstudiante int not null auto_increment,
-	matricula varchar(10),
-	ID_reporte int,
-	PRIMARY KEY(ID_reporteEstudiante)
 );
 
 CREATE TABLE SolicitudesProyecto (
