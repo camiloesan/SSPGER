@@ -26,11 +26,11 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         statusEvidence.setCellValueFactory(new PropertyValueFactory<>("evidenceStatus"));
         tableViewEvidence.getColumns().addAll(titleEvidence, statusEvidence);
 
-        TableColumn<Advancement, String> nameAdvancement = new TableColumn<>("Nombre Evidencia");
+        TableColumn<Advancement, String> nameAdvancement = new TableColumn<>("Avance");
         nameAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementName"));
         TableColumn<Advancement, String> starAdvancement = new TableColumn<>("Fecha de inicio");
         starAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementStartDate"));
-        TableColumn<Advancement, String> finishAdvancement = new TableColumn<>("Fecha de inicio");
+        TableColumn<Advancement, String> finishAdvancement = new TableColumn<>("Fecha de cierre");
         finishAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementDeadline"));
         tableViewAdvancement.getColumns().addAll(nameAdvancement, starAdvancement, finishAdvancement);
         try {
@@ -44,17 +44,17 @@ public class StudentEvidencesController implements IStudentNavigationBar {
 
     @Override
     public void redirectToAdvancements() throws IOException {
-        MainStage.changeView("studentadvancement-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentadvancement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
     public void redirectToEvidences() throws  IOException, SQLException {
-        MainStage.changeView("studentevidences-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
     public void redirectToProjects() throws IOException {
-        MainStage.changeView("studentviewprojects-view.fxml",900, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentviewprojects-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getAdvancementName());
-            MainStage.changeView("addevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("addevidence-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 
@@ -88,18 +88,18 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceTitle());
-            MainStage.changeView("modifyevidence-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView("modifyevidence-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 
     @FXML
     public void redirectToViewEvidenceDetails() throws IOException {
         if (evidenceIsSelect()) {
-            TransferEvidence.setEvidenceName(tableViewEvidence
+            TransferEvidence.setEvidenceId(tableViewEvidence
                     .getSelectionModel()
                     .getSelectedItem()
-                    .getEvidenceTitle());
-            MainStage.changeView("viewevidencedetails-view.fxml", 900, 600 + MainStage.HEIGHT_OFFSET);
+                    .getEvidenceId());
+            MainStage.changeView("viewevidencedetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 

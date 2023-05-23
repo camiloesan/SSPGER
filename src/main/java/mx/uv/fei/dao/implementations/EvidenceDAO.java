@@ -121,18 +121,17 @@ public class EvidenceDAO implements IEvidence {
     }
 
     /**
-     * @param evidenceTitle the evidence title of the evidence you want to get the whole object of
+     * @param evidenceID the evidence title of the evidence you want to get the whole object of
      * @return the evidence object
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
-    @Override
-    public Evidence getEvidenceByEvidenceTitle(String evidenceTitle) throws SQLException {
-        String query = "SELECT ID_evidencia, titulo, estado, calificacion, descripcion FROM Evidencias WHERE titulo=(?)";
+    public Evidence getEvidenceByEvidenceID(int evidenceID) throws SQLException {
+        String query = "SELECT ID_evidencia, titulo, estado, calificacion, descripcion FROM Evidencias WHERE ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, evidenceTitle);
+        preparedStatement.setInt(1, evidenceID);
         ResultSet resultSet = preparedStatement.executeQuery();
         databaseManager.closeConnection();
 
@@ -148,18 +147,18 @@ public class EvidenceDAO implements IEvidence {
     }
 
     /**
-     * @param evidenceTitle the evidence title you want to get the id from
+     * @param evidenceID the evidence title you want to get the id from
      * @return integer with the evidence id
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     @Override
-    public int getAdvancementIDByEvidenceTitle(String evidenceTitle) throws SQLException {
-        String query = "SELECT ID_avance FROM Evidencias WHERE titulo=(?)";
+    public int getAdvancementIDByEvidenceID(int evidenceID) throws SQLException {
+        String query = "SELECT ID_avance FROM Evidencias WHERE ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, evidenceTitle);
+        preparedStatement.setInt(1, evidenceID);
         ResultSet resultSet = preparedStatement.executeQuery();
         int result = 0;
         while (resultSet.next()) {
@@ -172,18 +171,18 @@ public class EvidenceDAO implements IEvidence {
     }
 
     /**
-     * @param evidenceTitle the evidence title you want to get the student id from
+     * @param evidenceID the evidence title you want to get the student id from
      * @return the id of the student that created the evidence
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     @Override
-    public String getStudentIDByEvidenceTitle(String evidenceTitle) throws SQLException {
-        String query = "SELECT matriculaEstudiante FROM Evidencias WHERE titulo=(?)";
+    public String getStudentIDByEvidenceID(int evidenceID) throws SQLException {
+        String query = "SELECT matriculaEstudiante FROM Evidencias WHERE ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, evidenceTitle);
+        preparedStatement.setInt(1, evidenceID);
         ResultSet resultSet = preparedStatement.executeQuery();
         String result = "";
         while (resultSet.next()) {

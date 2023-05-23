@@ -3,7 +3,6 @@ package mx.uv.fei.dao;
 import mx.uv.fei.dao.implementations.*;
 import mx.uv.fei.logic.*;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -100,7 +99,7 @@ class EvidenceDAOTest {
     }
 
     @Test
-    void testAddEvidenceSucces() throws SQLException {
+    void testAddEvidenceSuccess() throws SQLException {
         var advancementDAO = new AdvancementDAO();
         var evidenceDAO = new EvidenceDAO();
         var evidence = new Evidence();
@@ -115,7 +114,7 @@ class EvidenceDAOTest {
     }
 
     @Test
-    void testModifyEvidenceSucces() throws SQLException {
+    void testModifyEvidenceSuccess() throws SQLException {
         var advancementDAO = new AdvancementDAO();
         var evidenceDAO = new EvidenceDAO();
         var evidence = new Evidence();
@@ -125,7 +124,7 @@ class EvidenceDAOTest {
         evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
 
         evidenceDAO.addEvidence(evidence);
-        var evidenceToModify = evidenceDAO.getEvidenceByEvidenceTitle("example");
+        var evidenceToModify = evidenceDAO.getEvidenceByEvidenceID(0);
 
         evidenceToModify.setEvidenceTitle("exampleModify");
 
@@ -135,7 +134,7 @@ class EvidenceDAOTest {
     }
 
     @Test
-    void testUpdateGradeEvidenceSucces() throws SQLException {
+    void testUpdateGradeEvidenceSuccess() throws SQLException {
         var advancementDAO = new AdvancementDAO();
         var evidenceDAO = new EvidenceDAO();
         var evidence = new Evidence();
@@ -145,7 +144,7 @@ class EvidenceDAOTest {
         evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
 
         evidenceDAO.addEvidence(evidence);
-        var evidenceToUpdateGrade = evidenceDAO.getEvidenceByEvidenceTitle("example");
+        var evidenceToUpdateGrade = evidenceDAO.getEvidenceByEvidenceID(0);
 
         int expectedResult = 1;
         int result = evidenceDAO.updateEvidenceGradeById(evidenceToUpdateGrade.getEvidenceId(), 10);
@@ -153,7 +152,7 @@ class EvidenceDAOTest {
     }
 
     @Test
-    void testDeleteEvidenceSucces() throws SQLException {
+    void testDeleteEvidenceSuccess() throws SQLException {
         var advancementDAO = new AdvancementDAO();
         var evidenceDAO = new EvidenceDAO();
         var evidence = new Evidence();
@@ -163,7 +162,7 @@ class EvidenceDAOTest {
         evidence.setAdvancementId(advancementDAO.getAdvancementIDByStudentID("example"));
 
         evidenceDAO.addEvidence(evidence);
-        var evidenceResult = evidenceDAO.getEvidenceByEvidenceTitle("example");
+        var evidenceResult = evidenceDAO.getEvidenceByEvidenceID(0);
 
         int expectedResult = 1;
         int result = evidenceDAO.deleteEvidenceByID(evidenceResult.getEvidenceId());

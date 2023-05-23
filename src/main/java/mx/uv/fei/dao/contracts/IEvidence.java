@@ -10,17 +10,11 @@ public interface IEvidence {
     int updateEvidenceGradeById(int id, int grade) throws SQLException;
     int modifyEvidence(Evidence evidence) throws SQLException;
     List<Evidence> getEvidenceListByProfessorID(int professorID) throws SQLException;
-
-    Evidence getEvidenceByEvidenceTitle(String id) throws SQLException;
-
-    int getAdvancementIDByEvidenceTitle(String evidenceTitle) throws SQLException;
-
-    String getStudentIDByEvidenceTitle(String evidenceTitle) throws SQLException;
-
+    Evidence getEvidenceByEvidenceID(int evidenceID) throws SQLException;
+    int getAdvancementIDByEvidenceID(int evidenceTitle) throws SQLException;
+    String getStudentIDByEvidenceID(int evidenceID) throws SQLException;
     int deleteEvidenceByID(int evidenceID) throws SQLException;
-
     List<Evidence> getEvidenceListByStudent(String studentID) throws SQLException;
-
     String getAdvancementNameByStudentID(String studentID, int advancementID) throws SQLException;
     List<Evidence> getDeliveredEvidences(String studentID) throws SQLException;
 }

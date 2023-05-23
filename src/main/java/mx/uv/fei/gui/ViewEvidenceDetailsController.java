@@ -38,7 +38,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     public void fillTitleStatusGradeDescriptionEvidence() {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         try {
-            Evidence evidence = evidenceDAO.getEvidenceByEvidenceTitle(TransferEvidence.getEvidenceName());
+            Evidence evidence = evidenceDAO.getEvidenceByEvidenceID(TransferEvidence.getEvidenceId());
             labelTitleEvidence.setText(evidence.getEvidenceTitle());
             labelStatusEvidence.setText(evidence.getEvidenceStatus());
             labelGradeEvidence.setText(String.valueOf(evidence.getEvidenceGrade()));
@@ -60,7 +60,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         AdvancementDAO advancementDAO = new AdvancementDAO();
         try {
-            int advancementID = evidenceDAO.getAdvancementIDByEvidenceTitle(TransferEvidence.getEvidenceName());
+            int advancementID = evidenceDAO.getAdvancementIDByEvidenceID(TransferEvidence.getEvidenceId());
             labelAdvancementEvidence.setText("");
             try {
                 String advancementName = advancementDAO.getAdvancementNameByID(advancementID);
@@ -77,7 +77,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         StudentDAO studentDAO = new StudentDAO();
         try {
-            String studentID = evidenceDAO.getStudentIDByEvidenceTitle(TransferEvidence.getEvidenceName());
+            String studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
             try {
                 String nameStudent = studentDAO.getNamebyStudentID(studentID);
                 labelStudentEvidence.setText(nameStudent);

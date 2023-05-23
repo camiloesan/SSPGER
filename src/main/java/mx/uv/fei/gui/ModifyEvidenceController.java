@@ -39,7 +39,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
         try {
             nameAdvancement = evidenceDAO
                     .getAdvancementNameByStudentID(LoginController.sessionDetails.getId(),
-                            evidenceDAO.getAdvancementIDByEvidenceTitle(TransferEvidence.getEvidenceName()));
+                            evidenceDAO.getAdvancementIDByEvidenceID(TransferEvidence.getEvidenceId()));
         } catch (SQLException nameAdavancementException) {
             nameAdavancementException.printStackTrace();
         }
