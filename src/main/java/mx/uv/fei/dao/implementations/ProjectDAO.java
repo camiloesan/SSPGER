@@ -22,7 +22,7 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public int addProject(Project project) throws SQLException {
-        int result = 0;
+        int result;
         String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, duracionAprox, ID_modalidadTR, nombreTrabajoRecepcional, requisitos, alumnosParticipantes, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, bibliografiaRecomendada) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
         DatabaseManager databaseManager = new DatabaseManager();
@@ -57,7 +57,7 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public int setDirectorIDtoProject(Project projectDirectorName) throws SQLException {
-        int result = 0;
+        int result;
         String sqlQuery = "UPDATE Proyectos PRY SET PRY.ID_director = (SELECT PRF.ID_profesor FROM Profesores PRF WHERE ? LIKE CONCAT('%',PRF.nombre,'%')) WHERE PRY.nombreTrabajoRecepcional = ?";
         
         DatabaseManager databaseManager = new DatabaseManager();
