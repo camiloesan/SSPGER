@@ -162,30 +162,24 @@ public class ProjectDAO implements IProject {
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
-        ArrayList<SimpleProject> detailedProjects = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1,projectState);
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1,projectState);
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        ArrayList<SimpleProject> simpleProjects = new ArrayList<>();
+        while (resultSet.next()) {
+            SimpleProject itemSimpleProject = new SimpleProject();
             
-            ResultSet resultSet = preparedStatement.executeQuery();
+            itemSimpleProject.setProjectID(resultSet.getInt("ID_proyecto"));
+            itemSimpleProject.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+            itemSimpleProject.setProjectState(resultSet.getString("estado"));
             
-            detailedProjects= new ArrayList<>();
-            while (resultSet.next()) {
-                SimpleProject itemSimpleProject = new SimpleProject();
-                
-                itemSimpleProject.setProjectID(resultSet.getInt("ID_proyecto"));
-                itemSimpleProject.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
-                itemSimpleProject.setProjectState(resultSet.getString("estado"));
-                
-                detailedProjects.add(itemSimpleProject);
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        } finally {
-            databaseManager.closeConnection();
+            simpleProjects.add(itemSimpleProject);
         }
+        databaseManager.closeConnection();
 
-        return detailedProjects;
+        return simpleProjects;
     }
     
     /**
