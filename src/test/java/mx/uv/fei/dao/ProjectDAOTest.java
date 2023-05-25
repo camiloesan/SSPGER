@@ -43,17 +43,6 @@ class ProjectDAOTest {
         testProfessor2.setProfessorDegree("Dr.");
         userDAO.addProfessorUserTransaction(testAccessAccount2,testProfessor2);
         
-        var testAccessAccount3 = new AccessAccount();
-        var testProfessor3 = new Professor();
-        testAccessAccount3.setUsername("testAcc3");
-        testAccessAccount3.setUserPassword("testPass3");
-        testAccessAccount3.setUserType("Profesor");
-        testProfessor3.setProfessorName("ProfeNom3");
-        testProfessor3.setProfessorLastName("ProfeAp3");
-        testProfessor3.setProfessorEmail("exaple3@mail.com");
-        testProfessor3.setProfessorDegree("Dr.");
-        userDAO.addProfessorUserTransaction(testAccessAccount3,testProfessor3);
-        
         var declinedProject = new Project();
         declinedProject.setAcademicBodyId("UV-CA-127");
         declinedProject.setInvestigationProjectName("proyecto investigación DECLINADO");
@@ -139,7 +128,6 @@ class ProjectDAOTest {
         
         userDAO.deleteUserByUsername("testAcc1");
         userDAO.deleteUserByUsername("testAcc2");
-        userDAO.deleteUserByUsername("testAcc3");
         
         projectDAO.deleteProjectByTitle("trabajo recepcional DECLINADO");
         projectDAO.deleteProjectByTitle("trabajo recepcional VERIFICADO");
