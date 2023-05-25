@@ -149,14 +149,14 @@ class ProjectDAOTest {
         System.out.println("Test getProjectsByState with projectState parameter = 'Verificado'");
         var projectDAO = new ProjectDAO();
         
-        List<SimpleProject> expectedList = new ArrayList<>();
+        var expectedList = new ArrayList<>();
         var simpleVerifiedProject = new SimpleProject();
         simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional VERIFICADO"));
         simpleVerifiedProject.setProjectTitle("trabajo recepcional VERIFICADO");
         simpleVerifiedProject.setProjectState("Verificado");
         expectedList.add(simpleVerifiedProject);
         
-        List<SimpleProject> actualList = new ArrayList<>(projectDAO.getProjectsByState("Verificado"));
+        var actualList = new ArrayList<>(projectDAO.getProjectsByState("Verificado"));
         assertEquals(expectedList,actualList);
     }
     
@@ -165,15 +165,14 @@ class ProjectDAOTest {
         System.out.println("Test getProjectsByState with projectState parameter = 'Declinado'");
         var projectDAO = new ProjectDAO();
 
-        List<SimpleProject> expectedList = new ArrayList<>();
+        var expectedList = new ArrayList<>();
         var simpleDeclinedProject = new SimpleProject();
-        
         simpleDeclinedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DECLINADO"));
         simpleDeclinedProject.setProjectTitle("trabajo recepcional DECLINADO");
         simpleDeclinedProject.setProjectState("Declinado");
         expectedList.add(simpleDeclinedProject);
         
-        List<SimpleProject> actualList = new ArrayList<>(projectDAO.getProjectsByState("Declinado"));
+        var actualList = new ArrayList<>(projectDAO.getProjectsByState("Declinado"));
         assertEquals(expectedList,actualList);
     }
     
@@ -182,15 +181,14 @@ class ProjectDAOTest {
         System.out.println("Test getProjectsByState with projectState parameter = 'Por revisar'");
         var projectDAO = new ProjectDAO();
         
-        List<SimpleProject> expectedList = new ArrayList<>();
+        var expectedList = new ArrayList<>();
         var simpleUnverifiedProject = new SimpleProject();
-        
         simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional POR REVISAR"));
         simpleUnverifiedProject.setProjectTitle("trabajo recepcional POR REVISAR");
         simpleUnverifiedProject.setProjectState("Por revisar");
         expectedList.add(simpleUnverifiedProject);
         
-        List<SimpleProject> actualList = new ArrayList<>(projectDAO.getProjectsByState("Por revisar"));
+        var actualList = new ArrayList<>(projectDAO.getProjectsByState("Por revisar"));
         assertEquals(expectedList,actualList);
     }
     
