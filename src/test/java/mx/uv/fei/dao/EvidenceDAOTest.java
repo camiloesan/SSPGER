@@ -86,7 +86,7 @@ class EvidenceDAOTest {
 
         var projectDAO = new ProjectDAO();
 
-        projectDAO.deleteProjectByTitle("example");
+        projectDAO.deleteProjectByID(0);
 
         var studentDAO = new StudentDAO();
 

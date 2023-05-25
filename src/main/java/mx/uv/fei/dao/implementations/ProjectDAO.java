@@ -431,13 +431,13 @@ public class ProjectDAO implements IProject {
     }
 
     @Override
-    public int deleteProjectByTitle(String title) throws SQLException {
-        String query = "DELETE FROM Proyectos WHERE nombreTrabajoRecepcional=(?)";
+    public int deleteProjectByID(int projectID) throws SQLException {
+        String query = "DELETE FROM Proyectos WHERE ID_proyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, title);
+        preparedStatement.setInt(1, projectID);
         int result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
         return result;
