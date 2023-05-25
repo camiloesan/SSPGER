@@ -112,7 +112,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
 
     private void hideDeleteProject() {
-        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+        if (SessionDetails.getInstance().getUserType().equals("Profesor")) {
             buttonDeleteProject.setVisible(false);
         }
     }
