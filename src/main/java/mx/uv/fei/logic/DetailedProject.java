@@ -1,5 +1,7 @@
 package mx.uv.fei.logic;
 
+import java.util.Objects;
+
 public class DetailedProject {
     private int projectID;
     private String academicBodyName;
@@ -164,11 +166,34 @@ public class DetailedProject {
         this.projectState = projectState;
     }
     
-    public String getProjectStage() {
-        return projectStage;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DetailedProject other = (DetailedProject) o;
+        return projectID == other.projectID
+                && Objects.equals(academicBodyName, other.academicBodyName)
+                && Objects.equals(investigationProjectName, other.investigationProjectName)
+                && Objects.equals(lgacName, other.lgacName)
+                && Objects.equals(investigationLine, other.investigationLine)
+                && Objects.equals(approxDuration, other.approxDuration)
+                && Objects.equals(receptionWorkModality, other.receptionWorkModality)
+                && Objects.equals(receptionWorkName, other.receptionWorkName)
+                && Objects.equals(requisites, other.requisites)
+                && Objects.equals(director, other.director)
+                && Objects.equals(coDirector, other.coDirector)
+                && numberStudents == other.numberStudents
+                && Objects.equals(investigationDescription, other.investigationDescription)
+                && Objects.equals(receptionWorkDescription, other.receptionWorkDescription)
+                && Objects.equals(expectedResults, other.expectedResults)
+                && Objects.equals(bibliography, other.bibliography)
+                && Objects.equals(projectState, other.projectState);
     }
     
-    public void setProjectStage(String projectStage) {
-        this.projectStage = projectStage;
+    @Override
+    public int hashCode() {
+        return Objects.hash(projectID, academicBodyName, investigationProjectName, lgacName, investigationLine,
+                approxDuration, receptionWorkModality, receptionWorkName, requisites, director, coDirector,
+                numberStudents, investigationDescription, receptionWorkDescription, expectedResults, bibliography, projectState);
     }
 }

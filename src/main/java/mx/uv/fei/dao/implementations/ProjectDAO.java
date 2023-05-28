@@ -164,7 +164,7 @@ public class ProjectDAO implements IProject {
             SimpleProject itemSimpleProject = new SimpleProject();
             
             itemSimpleProject.setProjectID(resultSet.getInt("ID_proyecto"));
-            itemSimpleProject.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+            itemSimpleProject.setReceptionWorkName(resultSet.getString("nombreTrabajoRecepcional"));
             itemSimpleProject.setProjectState(resultSet.getString("estado"));
             
             simpleProjects.add(itemSimpleProject);
@@ -192,7 +192,7 @@ public class ProjectDAO implements IProject {
         while (resultSet.next()) {
             SimpleProject itemProjectTitle = new SimpleProject();
             itemProjectTitle.setProjectID(resultSet.getInt("ID_proyecto"));
-            itemProjectTitle.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+            itemProjectTitle.setReceptionWorkName(resultSet.getString("nombreTrabajoRecepcional"));
             itemProjectTitle.setProjectState(resultSet.getString("estado"));
             projectTitles.add(itemProjectTitle);
         }
@@ -223,7 +223,7 @@ public class ProjectDAO implements IProject {
         while (resultSet.next()) {
             SimpleProject projectTitle = new SimpleProject();
             projectTitle.setProjectID(resultSet.getInt("ID_proyecto"));
-            projectTitle.setProjectTitle(resultSet.getString("nombreTrabajoRecepcional"));
+            projectTitle.setReceptionWorkName(resultSet.getString("nombreTrabajoRecepcional"));
             projectTitle.setProjectState(resultSet.getString("estado"));
             projectTitles.add(projectTitle);
         }
@@ -254,7 +254,7 @@ public class ProjectDAO implements IProject {
             detailedProject.setProjectID(resultSet.getInt("ID_proyecto"));
             detailedProject.setAcademicBodyName(resultSet.getString("Cuerpo Académico"));
             detailedProject.setInvestigationProjectName(resultSet.getString("nombreProyectoInvestigación"));
-            detailedProject.setLgacDescription(resultSet.getString("LGAC"));
+            detailedProject.setLgacName(resultSet.getString("LGAC"));
             detailedProject.setInvestigationLine(resultSet.getString("lineaInvestigacion"));
             detailedProject.setApproxDuration(resultSet.getString("duracionAprox"));
             detailedProject.setReceptionWorkModality(resultSet.getString("modalidadTR"));
@@ -290,8 +290,8 @@ public class ProjectDAO implements IProject {
         List<String> lgacList = new ArrayList<>();
         while (resultSet.next()) {
             DetailedProject lgacItem = new DetailedProject();
-            lgacItem.setLgacDescription(resultSet.getString("ItemLGAC"));
-            lgacList.add(lgacItem.getLgacDescription());
+            lgacItem.setLgacName(resultSet.getString("ItemLGAC"));
+            lgacList.add(lgacItem.getLgacName());
         }
         
         databaseManager.closeConnection();
