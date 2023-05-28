@@ -99,6 +99,26 @@ class ProjectDAOTest {
         unverifiedProject.setRecommendedBibliography("bibliografía POR REVISAR");
         projectDAO.addProject(unverifiedProject);
         
+        var projectDetails = new Project();
+        projectDetails.setAcademicBodyId("UV-CA-127");
+        projectDetails.setInvestigationProjectName("proyecto investigación DETALLE");
+        projectDetails.setLGAC_Id(1);
+        projectDetails.setInvestigationLine("linea investigación DETALLE");
+        projectDetails.setApproximateDuration("12 meses");
+        projectDetails.setModalityId(1);
+        projectDetails.setReceptionWorkName("trabajo recepcional DETALLE");
+        projectDetails.setRequisites("requisitos DETALLE");
+        projectDetails.setDirectorName("Dr. ProfeNom1 ProfeAp1");
+        projectDetails.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
+        projectDetails.setStudentsParticipating(1);
+        projectDetails.setInvestigationProjectDescription("descripción de investigación DETALLE");
+        projectDetails.setReceptionWorkDescription("descripción trabajo recepcional DETALLE");
+        projectDetails.setExpectedResults("resultados esperados DETALLE");
+        projectDetails.setRecommendedBibliography("bibliografía DETALLE");
+        projectDAO.addProject(projectDetails);
+        projectDAO.setDirectorIDtoProject(projectDetails);
+        projectDAO.setCodirectorIDtoProject(projectDetails);
+        
         var projectCollaboration = new Project();
         projectCollaboration.setAcademicBodyId("UV-CA-127");
         projectCollaboration.setInvestigationProjectName("proyecto investigación COLABORACIÓN");
@@ -132,6 +152,7 @@ class ProjectDAOTest {
         projectDAO.deleteProjectByTitle("trabajo recepcional DECLINADO");
         projectDAO.deleteProjectByTitle("trabajo recepcional VERIFICADO");
         projectDAO.deleteProjectByTitle("trabajo recepcional POR REVISAR");
+        projectDAO.deleteProjectByTitle("trabajo recepcional DETALLE");
         projectDAO.deleteProjectByTitle("trabajo recepcional COLABORACIÓN");
         projectDAO.deleteProjectByTitle("Ejemplo trabajo recepcional");
         projectDAO.deleteProjectByTitle("Ejemplo trabajo setDirector");
@@ -174,7 +195,7 @@ class ProjectDAOTest {
         var expectedList = new ArrayList<>();
         var simpleVerifiedProject = new SimpleProject();
         simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional VERIFICADO"));
-        simpleVerifiedProject.setProjectTitle("trabajo recepcional VERIFICADO");
+        simpleVerifiedProject.setReceptionWorkName("trabajo recepcional VERIFICADO");
         simpleVerifiedProject.setProjectState("Verificado");
         expectedList.add(simpleVerifiedProject);
         
@@ -190,7 +211,7 @@ class ProjectDAOTest {
         var expectedList = new ArrayList<>();
         var simpleDeclinedProject = new SimpleProject();
         simpleDeclinedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DECLINADO"));
-        simpleDeclinedProject.setProjectTitle("trabajo recepcional DECLINADO");
+        simpleDeclinedProject.setReceptionWorkName("trabajo recepcional DECLINADO");
         simpleDeclinedProject.setProjectState("Declinado");
         expectedList.add(simpleDeclinedProject);
         
@@ -206,16 +227,22 @@ class ProjectDAOTest {
         var expectedList = new ArrayList<>();
         var simpleUnverifiedProject = new SimpleProject();
         simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional POR REVISAR"));
-        simpleUnverifiedProject.setProjectTitle("trabajo recepcional POR REVISAR");
+        simpleUnverifiedProject.setReceptionWorkName("trabajo recepcional POR REVISAR");
         simpleUnverifiedProject.setProjectState("Por revisar");
         
         var simpleUnverifiedProject2 = new SimpleProject();
-        simpleUnverifiedProject2.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional COLABORACIÓN"));
-        simpleUnverifiedProject2.setProjectTitle("trabajo recepcional COLABORACIÓN");
+        simpleUnverifiedProject2.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
+        simpleUnverifiedProject2.setReceptionWorkName("trabajo recepcional DETALLE");
         simpleUnverifiedProject2.setProjectState("Por revisar");
+        
+        var simpleUnverifiedProject3 = new SimpleProject();
+        simpleUnverifiedProject3.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional COLABORACIÓN"));
+        simpleUnverifiedProject3.setReceptionWorkName("trabajo recepcional COLABORACIÓN");
+        simpleUnverifiedProject3.setProjectState("Por revisar");
         
         expectedList.add(simpleUnverifiedProject);
         expectedList.add(simpleUnverifiedProject2);
+        expectedList.add(simpleUnverifiedProject3);
         
         var actualList = new ArrayList<>(projectDAO.getProjectsByState("Por revisar"));
         assertEquals(expectedList,actualList);
@@ -230,27 +257,33 @@ class ProjectDAOTest {
         
         var simpleDeclinedProject = new SimpleProject();
         simpleDeclinedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DECLINADO"));
-        simpleDeclinedProject.setProjectTitle("trabajo recepcional DECLINADO");
+        simpleDeclinedProject.setReceptionWorkName("trabajo recepcional DECLINADO");
         simpleDeclinedProject.setProjectState("Declinado");
         
         var simpleVerifiedProject = new SimpleProject();
         simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional VERIFICADO"));
-        simpleVerifiedProject.setProjectTitle("trabajo recepcional VERIFICADO");
+        simpleVerifiedProject.setReceptionWorkName("trabajo recepcional VERIFICADO");
         simpleVerifiedProject.setProjectState("Verificado");
         
         var simpleUnverifiedProject = new SimpleProject();
         simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional POR REVISAR"));
-        simpleUnverifiedProject.setProjectTitle("trabajo recepcional POR REVISAR");
+        simpleUnverifiedProject.setReceptionWorkName("trabajo recepcional POR REVISAR");
         simpleUnverifiedProject.setProjectState("Por revisar");
+        
+        var simpleProjectDetail = new SimpleProject();
+        simpleProjectDetail.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
+        simpleProjectDetail.setReceptionWorkName("trabajo recepcional DETALLE");
+        simpleProjectDetail.setProjectState("Por revisar");
         
         var simpleProjectCollaboration = new SimpleProject();
         simpleProjectCollaboration.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional COLABORACIÓN"));
-        simpleProjectCollaboration.setProjectTitle("trabajo recepcional COLABORACIÓN");
+        simpleProjectCollaboration.setReceptionWorkName("trabajo recepcional COLABORACIÓN");
         simpleProjectCollaboration.setProjectState("Por revisar");
         
         expectedList.add(simpleDeclinedProject);
         expectedList.add(simpleVerifiedProject);
         expectedList.add(simpleUnverifiedProject);
+        expectedList.add(simpleProjectDetail);
         expectedList.add(simpleProjectCollaboration);
         
         var actualList = new ArrayList<>(projectDAO.getAllProjects());
@@ -260,16 +293,14 @@ class ProjectDAOTest {
     @Test
     void testGetProjectsByCollaboration() throws SQLException {
         System.out.println("Test getProjectsByCollaboration");
-        var userDAO = new UserDAO();
         var projectDAO = new ProjectDAO();
         var professorDAO = new ProfessorDAO();
-        
         
         List<SimpleProject> expectedList = new ArrayList<>();
         var simpleCollaborationProject = new SimpleProject();
         
         simpleCollaborationProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional COLABORACIÓN"));
-        simpleCollaborationProject.setProjectTitle("trabajo recepcional COLABORACIÓN");
+        simpleCollaborationProject.setReceptionWorkName("trabajo recepcional COLABORACIÓN");
         simpleCollaborationProject.setProjectState("Por revisar");
         expectedList.add(simpleCollaborationProject);
         
@@ -279,7 +310,7 @@ class ProjectDAOTest {
         System.out.println("Contenido de expectedList:");
         for (SimpleProject project : expectedList) {
             System.out.println("ID: " + project.getProjectID());
-            System.out.println("Título: " + project.getProjectTitle());
+            System.out.println("Título: " + project.getReceptionWorkName());
             System.out.println("Estado: " + project.getProjectState());
             System.out.println("--------------------");
         }
@@ -288,7 +319,7 @@ class ProjectDAOTest {
         System.out.println("Contenido de actualList:");
         for (SimpleProject project : actualList) {
             System.out.println("ID: " + project.getProjectID());
-            System.out.println("Título: " + project.getProjectTitle());
+            System.out.println("Título: " + project.getReceptionWorkName());
             System.out.println("Estado: " + project.getProjectState());
             System.out.println("--------------------");
         }
@@ -299,6 +330,72 @@ class ProjectDAOTest {
     @Test
     void testGetProjectInfoByID() throws SQLException {
         System.out.println("Test getProjectInfoByID");
+        var projectDAO = new ProjectDAO();
+        
+        DetailedProject expectedDetailedProject = new DetailedProject();
+        expectedDetailedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
+        expectedDetailedProject.setAcademicBodyName("Ingeniería y Tecnología de Software");
+        expectedDetailedProject.setInvestigationProjectName("proyecto investigación DETALLE");
+        expectedDetailedProject.setLgacName("L1. Gestión, modelado y desarrollo de software");
+        expectedDetailedProject.setInvestigationLine("linea investigación DETALLE");
+        expectedDetailedProject.setApproxDuration("12 meses");
+        expectedDetailedProject.setReceptionWorkModality("Monografía");
+        expectedDetailedProject.setReceptionWorkName("trabajo recepcional DETALLE");
+        expectedDetailedProject.setRequisites("requisitos DETALLE");
+        expectedDetailedProject.setDirector("Dr. ProfeNom1 ProfeAp1");
+        expectedDetailedProject.setCoDirector("Dr. ProfeNom2 ProfeAp2");
+        expectedDetailedProject.setNumberStudents(1);
+        expectedDetailedProject.setInvestigationDescription("descripción de investigación DETALLE");
+        expectedDetailedProject.setReceptionWorkDescription("descripción trabajo recepcional DETALLE");
+        expectedDetailedProject.setExpectedResults("resultados esperados DETALLE");
+        expectedDetailedProject.setBibliography("bibliografía DETALLE");
+        expectedDetailedProject.setProjectState("Por revisar");
+        
+        DetailedProject actualDetailedProject = projectDAO.getProjectInfoByID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
+        
+        // Mostrar los atributos del objeto esperado
+        System.out.println("Objeto esperado:");
+        System.out.println(expectedDetailedProject.getProjectID());
+        System.out.println(expectedDetailedProject.getAcademicBodyName());
+        System.out.println(expectedDetailedProject.getInvestigationProjectName());
+        System.out.println(expectedDetailedProject.getLgacName());
+        System.out.println(expectedDetailedProject.getInvestigationLine());
+        System.out.println(expectedDetailedProject.getApproxDuration());
+        System.out.println(expectedDetailedProject.getReceptionWorkModality());
+        System.out.println(expectedDetailedProject.getReceptionWorkName());
+        System.out.println(expectedDetailedProject.getRequisites());
+        System.out.println(expectedDetailedProject.getDirector());
+        System.out.println(expectedDetailedProject.getCoDirector());
+        System.out.println(expectedDetailedProject.getNumberStudents());
+        System.out.println(expectedDetailedProject.getInvestigationDescription());
+        System.out.println(expectedDetailedProject.getReceptionWorkDescription());
+        System.out.println(expectedDetailedProject.getExpectedResults());
+        System.out.println(expectedDetailedProject.getBibliography());
+        System.out.println(expectedDetailedProject.getProjectState());
+        System.out.println("------------------------------------------");
+        
+        // Mostrar los atributos del objeto actual
+        System.out.println("Objeto actual:");
+        System.out.println(actualDetailedProject.getProjectID());
+        System.out.println(actualDetailedProject.getAcademicBodyName());
+        System.out.println(actualDetailedProject.getInvestigationProjectName());
+        System.out.println(actualDetailedProject.getLgacName());
+        System.out.println(actualDetailedProject.getInvestigationLine());
+        System.out.println(actualDetailedProject.getApproxDuration());
+        System.out.println(actualDetailedProject.getReceptionWorkModality());
+        System.out.println(actualDetailedProject.getReceptionWorkName());
+        System.out.println(actualDetailedProject.getRequisites());
+        System.out.println(actualDetailedProject.getDirector());
+        System.out.println(actualDetailedProject.getCoDirector());
+        System.out.println(actualDetailedProject.getNumberStudents());
+        System.out.println(actualDetailedProject.getInvestigationDescription());
+        System.out.println(actualDetailedProject.getReceptionWorkDescription());
+        System.out.println(actualDetailedProject.getExpectedResults());
+        System.out.println(actualDetailedProject.getBibliography());
+        System.out.println(actualDetailedProject.getProjectState());
+        System.out.println("------------------------------------------");
+        
+        assertEquals(expectedDetailedProject, actualDetailedProject);
     }
     
     @Test

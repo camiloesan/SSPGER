@@ -78,7 +78,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
         Text investigationProjectName = new Text(detailedProject.getInvestigationProjectName());
         textInvestigationProjectName.getChildren().add(investigationProjectName);
         
-        labelLGAC.setText(detailedProject.getLgacDescription());
+        labelLGAC.setText(detailedProject.getLgacName());
         
         Text investigationLine = new Text(detailedProject.getInvestigationLine());
         textInvestigationLine.getChildren().add(investigationLine);
