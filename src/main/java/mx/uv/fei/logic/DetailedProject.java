@@ -4,9 +4,8 @@ public class DetailedProject {
     private int projectID;
     private String academicBodyName;
     private String academicBodyID;
-    private String projectTitle;
     private String investigationProjectName;
-    private String lgacDescription;
+    private String lgacName;
     private String investigationLine;
     private String approxDuration;
     private String receptionWorkModality;
@@ -20,7 +19,6 @@ public class DetailedProject {
     private String expectedResults;
     private String bibliography;
     private String projectState;
-    private String projectStage;
 
     public int getProjectID() {
         return projectID;
@@ -46,14 +44,6 @@ public class DetailedProject {
         this.academicBodyID = academicBodyID;
     }
     
-    public String getProjectTitle() {
-        return projectTitle;
-    }
-
-    public void setProjectTitle(String projectTitle){
-        this.projectTitle = projectTitle;
-    }
-
     public String getInvestigationProjectName() {
         return investigationProjectName;
     }
@@ -62,12 +52,12 @@ public class DetailedProject {
         this.investigationProjectName = investigationProjectName;
     }
 
-    public String getLgacDescription() {
-        return lgacDescription;
+    public String getLgacName() {
+        return lgacName;
     }
 
-    public void setLgacDescription(String lgacDescription) {
-        this.lgacDescription = lgacDescription;
+    public void setLgacName(String lgacName) {
+        this.lgacName = lgacName;
     }
 
     public String getInvestigationLine() {
@@ -93,15 +83,15 @@ public class DetailedProject {
     public void setReceptionWorkModality(String receptionWorkModality) {
         this.receptionWorkModality = receptionWorkModality;
     }
-
+    
     public String getReceptionWorkName() {
         return receptionWorkName;
     }
-
+    
     public void setReceptionWorkName(String receptionWorkName) {
         this.receptionWorkName = receptionWorkName;
     }
-
+    
     public String getRequisites() {
         return requisites;
     }

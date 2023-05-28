@@ -13,12 +13,12 @@ public class SimpleProject extends DetailedProject{
         }
         SimpleProject simpleProject = (SimpleProject) obj;
         return getProjectID() == simpleProject.getProjectID()
-                && Objects.equals(getProjectTitle(), simpleProject.getProjectTitle())
+                && Objects.equals(getReceptionWorkName(), simpleProject.getReceptionWorkName())
                 && Objects.equals(getProjectState(), simpleProject.getProjectState());
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(getProjectID(), getProjectTitle());
+        return Objects.hash(getProjectID(), getReceptionWorkName());
     }
 }
