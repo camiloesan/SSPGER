@@ -8,6 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides a set of methods to connect to the advancements table on the database.
+ */
 public class AdvancementDAO implements IAdvancement {
     /**
      * @param advancement new advancement
@@ -32,6 +35,11 @@ public class AdvancementDAO implements IAdvancement {
         return result;
     }
 
+    /**
+     * @param advancementId id of the advancement you want to get details from 
+     * @return an object Advancement with all its information
+     * @throws SQLException if there was an error on the database
+     */
     @Override
     public Advancement getAdvancementDetailById(int advancementId) throws SQLException {
         String query = "select nombre, descripcion, fechaInicio, fechaEntrega, ID_avance from Avances where ID_avance=(?)";
@@ -62,6 +70,11 @@ public class AdvancementDAO implements IAdvancement {
         return advancementDetail;
     }
 
+    /**
+     * @param projectId project id you want to get all the advancements from
+     * @return a list containing the advancements of the given project as a list
+     * @throws SQLException if there was an error connecting to the database.
+     */
     public List<Advancement> getAdvancementListByProjectId(int projectId) throws SQLException {
         String query = "select nombre, descripcion, fechaInicio, fechaEntrega, ID_avance, ID_proyecto from Avances where ID_proyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -87,8 +100,13 @@ public class AdvancementDAO implements IAdvancement {
         return advancementList;
     }
 
+    /**
+     * @param professorID id of the professor you want to get their advancements
+     * @return List containing ALL advancements corresponding to the requested professor
+     * @throws SQLException if there was an error connecting to the database
+     */
     @Override
-    public ArrayList<Advancement> getListAdvancementName(int professorID) throws SQLException {
+    public ArrayList<Advancement> getListAdvancementNamesByProfessorId(int professorID) throws SQLException {
         String query = "SELECT A.nombre, A.fechaInicio, A.fechaEntrega, A.ID_avance FROM Avances A INNER JOIN Proyectos P on A.ID_proyecto = P.ID_proyecto INNER JOIN Profesores P2 on P.ID_director = P2.ID_profesor WHERE P2.ID_profesor = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -116,9 +134,14 @@ public class AdvancementDAO implements IAdvancement {
         
         return advancementNameList;
     }
-    
+
+    /**
+     * @param studentID id of the student you want to get their advancements
+     * @return list of advancements corresponding to a student
+     * @throws SQLException if there was an error connecting to the database
+     */
     @Override
-    public List<Advancement> getListAdvancementNameStudent(String studentID) throws SQLException {
+    public List<Advancement> getListAdvancementNamesByStudentId(String studentID) throws SQLException {
         String sqlQuery = "SELECT A.nombre FROM Avances A INNER JOIN Proyectos P ON A.ID_proyecto = P.ID_proyecto INNER JOIN SolicitudesProyecto SP on P.ID_proyecto = SP.ID_proyecto WHERE SP.matriculaEstudiante = ? AND SP.estado = 'Aceptado'";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -142,7 +165,13 @@ public class AdvancementDAO implements IAdvancement {
         }
         return advancementList;
     }
-    
+
+    /**
+     * @param advancementId id of the advancements to modify
+     * @param advancement the new advancement object to replace the old one
+     * @return rows affected (0 or 1) whether the advancement was added or not
+     * @throws SQLException if there was an error connecting to the database
+     */
     @Override
     public int modifyAdvancementById(int advancementId, Advancement advancement) throws SQLException {
         String query = "update Avances set nombre=(?), descripcion=(?), fechaInicio=(?), fechaEntrega=(?), ID_proyecto=(?) where ID_avance=(?)";
@@ -162,6 +191,11 @@ public class AdvancementDAO implements IAdvancement {
         return result;
     }
 
+    /**
+     * @param advancementId id of the advancement you want to delete from the database
+     * @return rows affected (0 or 1) whether the advancement was deleted or not
+     * @throws SQLException if there was an error connecting to the database
+     */
     @Override
     public int deleteAdvancementById(int advancementId) throws SQLException {
         String query = "delete from Avances where ID_avance=(?)";
@@ -176,26 +210,11 @@ public class AdvancementDAO implements IAdvancement {
         return result;
     }
 
-    @Override
-    public String getAdvancementNameByID(int id) throws SQLException {
-        String query = "SELECT nombre FROM Avances WHERE ID_avance = (?)";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, id);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        String result = "";
-        while (resultSet.next()) {
-            result = resultSet.getString("nombre");
-        }
-
-        databaseManager.closeConnection();
-
-        return result;
-    }
-
+    /**
+     * @param studentID the student id you want to get their advancements
+     * @return list containing ALL the advancements of the given student id
+     * @throws SQLException if there was an error connecting to the database
+     */
     @Override
     public List<Advancement> getAdvancementByStudentID(String studentID) throws SQLException {
         String query = "SELECT Avances.ID_avance, Avances.nombre, Avances.fechaInicio, Avances.fechaEntrega FROM Avances " +
@@ -223,6 +242,11 @@ public class AdvancementDAO implements IAdvancement {
         return advancementList;
     }
 
+    /**
+     * @param studentID the student id you want to get their project name
+     * @return the number of rows affected
+     * @throws SQLException if there was an error connecting to the database
+     */
     @Override
     public String getProjectNameByStudentID(String studentID) throws SQLException {
         String query = "SELECT Proyectos.nombreTrabajoRecepcional FROM Avances " +
@@ -245,5 +269,4 @@ public class AdvancementDAO implements IAdvancement {
 
         return result;
     }
-
 }

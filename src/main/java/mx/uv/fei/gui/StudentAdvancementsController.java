@@ -35,7 +35,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
         String studentId = studentDAO.getStudentIdByUsername(LoginController.sessionDetails.getUsername());
         
         listViewAdvancementsNames.getItems().clear();
-        List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNameStudent(studentId));
+        List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByStudentId(studentId));
         advancementList.forEach(element -> listViewAdvancementsNames.getItems().add(element.getAdvancementName()));
     }
     
@@ -71,7 +71,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
     
     @Override

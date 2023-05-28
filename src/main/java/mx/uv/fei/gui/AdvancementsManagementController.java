@@ -182,7 +182,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         professorId = Integer.parseInt(SessionDetails.getInstance().getId());
         List<Advancement> advancementList = null;
         try {
-           advancementList = new ArrayList<>(advancementDAO.getListAdvancementName(professorId));
+           advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByProfessorId(professorId));
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
         }
