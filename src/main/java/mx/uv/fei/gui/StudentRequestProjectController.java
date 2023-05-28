@@ -49,7 +49,6 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         try {
              requests = projectRequestDAO.getProjectRequestsByStudentID(SessionDetails.getInstance().getId(),
                     TransferProject.getProjectID());
-             System.out.println(requests);
         } catch (SQLException requestsException) {
             requestsException.printStackTrace();
         }

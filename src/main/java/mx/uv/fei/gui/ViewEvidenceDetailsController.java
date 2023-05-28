@@ -68,17 +68,23 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         File evidenceFile = fileChooser.showOpenDialog(new Stage());
         if (evidenceFile != null) {
             String operativeSystem = System.getProperty("os.name").toLowerCase();
-            Runtime runtime = Runtime.getRuntime();
-            if (operativeSystem.contains("win")) {
-                runtime.exec("cmd /c start " + evidenceFile.getAbsolutePath());
-            } else if (operativeSystem.contains("mac")) {
-                runtime.exec("open " + evidenceFile.getAbsolutePath());
-            } else if (operativeSystem.contains("nix")
-                    || operativeSystem.contains("nux")
-                    || operativeSystem.contains("bsd")) {
-                runtime.exec("xdg-open " + evidenceFile.getAbsolutePath());
-            } else {
-                System.out.println("No se puede determinar el sistema operativo.");
+            switch (operativeSystem) {
+                case "windows":
+                    Runtime.getRuntime().exec("cmd /c start \"\" \"" +
+                            evidenceFile.getAbsolutePath() + "\"");
+                    break;
+                case "mac os x":
+                    Runtime.getRuntime().exec("open \"" + evidenceFile.getAbsolutePath() + "\"");
+                    break;
+                case "linux":
+                    ProcessBuilder processBuilder = new ProcessBuilder("xdg-open",
+                            evidenceFile.getAbsolutePath());
+                    processBuilder.start();
+                    break;
+                default:
+                    DialogGenerator.getDialog(new AlertMessage("Se desconoce su sistema operativo",
+                            AlertStatus.ERROR));
+                    break;
             }
         }
     }

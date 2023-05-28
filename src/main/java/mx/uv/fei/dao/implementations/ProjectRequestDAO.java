@@ -86,40 +86,7 @@ public class ProjectRequestDAO implements IProjectRequest {
         return projectRequestList;
     }
 
-    @Override
-    public boolean addProjectRequestTransaction(ProjectRequest projectRequest) throws SQLException {
-        String firtsQuery = "INSERT INTO SolicitudesProyecto(ID_proyecto, matriculaEstudiante, motivos) VALUES(?,?,?)";
-        String secondQuery = "INSERT INTO ProyectosEstudiantes(ID_proyecto, matriculaEstudiante) VALUES (?,?)";
 
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-
-        PreparedStatement firtsPreparedStatement = connection.prepareStatement(firtsQuery);
-        PreparedStatement secondPreparedStatement = connection.prepareStatement(secondQuery);
-
-        firtsPreparedStatement.setInt(1, projectRequest.getProjectID());
-        firtsPreparedStatement.setString(2, projectRequest.getStudentId());
-        firtsPreparedStatement.setString(3, projectRequest.getDescription());
-
-        secondPreparedStatement.setInt(1, projectRequest.getProjectID());
-        secondPreparedStatement.setString(2, projectRequest.getStudentId());
-
-        int firtsResult = 0;
-        int secondResult = 0;
-
-        try {
-            connection.setAutoCommit(false);
-            firtsResult = firtsPreparedStatement.executeUpdate();
-            secondResult = secondPreparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException sqlException) {
-            connection.rollback();
-            sqlException.printStackTrace();
-        } finally {
-            databaseManager.closeConnection();
-        }
-        return  firtsResult > 0 && secondResult > 0;
-    }
 
     @Override
     public int getProjectRequestsByStudentID(String studentID, int projectID) throws SQLException {
