@@ -302,6 +302,13 @@ class ProjectDAOTest {
         simpleCollaborationProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional COLABORACIÓN"));
         simpleCollaborationProject.setReceptionWorkName("trabajo recepcional COLABORACIÓN");
         simpleCollaborationProject.setProjectState("Por revisar");
+        
+        var simpleCollaborationProject2 = new SimpleProject();
+        simpleCollaborationProject2.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
+        simpleCollaborationProject2.setReceptionWorkName("trabajo recepcional DETALLE");
+        simpleCollaborationProject2.setProjectState("Por revisar");
+        
+        expectedList.add(simpleCollaborationProject2);
         expectedList.add(simpleCollaborationProject);
         
         var actualList = new ArrayList<>(projectDAO.getProjectsByCollaboration(professorDAO.getProfessorIdByUsername("testAcc1")));
