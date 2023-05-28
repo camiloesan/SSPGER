@@ -86,10 +86,14 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     }
     
     @Override
-    public void redirectToProjects() {}
-    
+    public void redirectToProjects() throws IOException {
+        MainStage.changeView("studentviewprojects-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+    }
+
     @Override
-    public void redirectToRequest() {}
+    public void redirectToRequest() throws IOException {
+        MainStage.changeView("studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+    }
     
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");

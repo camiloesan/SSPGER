@@ -65,8 +65,8 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     }
     
     @Override
-    public void redirectToRequest() {
-    
+    public void redirectToRequest() throws IOException {
+        MainStage.changeView("studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {

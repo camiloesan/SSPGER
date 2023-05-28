@@ -142,6 +142,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         if (LoginController.sessionDetails.getUserType().equals("Profesor")
                 || LoginController.sessionDetails.getUserType().equals("RepresentanteCA")) {
             MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } else {
+            MainStage.changeView("studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 

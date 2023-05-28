@@ -138,10 +138,10 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     public void redirectToProjects() throws IOException{
         MainStage.changeView("studentviewprojects-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
     }
-    
+
     @Override
-    public void redirectToRequest() {
-    
+    public void redirectToRequest() throws IOException {
+        MainStage.changeView("studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {
