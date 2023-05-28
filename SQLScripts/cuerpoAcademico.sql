@@ -1,0 +1,1 @@
+INSERT INTO CuerpoAcademico (nombreCA, claveCA, DES_adscripción, unidad_adscripción) VALUES ('Ingeniería y Tecnología de Software', 'UV-CA-127', 'Económico-Administrativa Xalapa', 'Facultad de Estadística e Informática');

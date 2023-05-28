@@ -74,7 +74,7 @@ class ProjectRequestDAOTest {
     void tearDown() throws SQLException{
         var projectDAO = new ProjectDAO();
 
-        projectDAO.deleteProjectByTitle("example");
+        projectDAO.deleteProjectByID(0);
 
         var userDAO = new UserDAO();
 
@@ -163,7 +163,7 @@ class ProjectRequestDAOTest {
         projectRequest.setStudentId("example");
         projectRequest.setDescription("exampleDelete");
 
-        projectRequestDAO.addProjectRequestTransaction(projectRequest);
+
 
         int expectedResult = 1;
         int result = projectRequestDAO.deleteProjectRequest(

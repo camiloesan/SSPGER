@@ -112,20 +112,9 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
 
     private void hideDeleteProject() {
-        if (LoginController.sessionDetails.getUserType() == "Profesor") {
+        if (SessionDetails.getInstance().getUserType().equals("Profesor")) {
             buttonDeleteProject.setVisible(false);
         }
-    }
-
-    private String getTextWorkReceptionName() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Node node : textReceptionWorkName.getChildren()) {
-            if (node instanceof Text) {
-                Text textWorkReceptionName = (Text) node;
-                stringBuilder.append(textWorkReceptionName.getText());
-            }
-        }
-        return stringBuilder.toString();
     }
 
     private boolean confirmedDeleteProject() {
@@ -138,7 +127,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
         if (confirmedDeleteProject()) {
             ProjectDAO projectDAO = new ProjectDAO();
             try {
-                projectDAO.deleteProjectByTitle(getTextWorkReceptionName());
+                projectDAO.deleteProjectByID(TransferProject.getProjectID());
             } catch (SQLException deleteException) {
                 deleteException.printStackTrace();
             }

@@ -70,7 +70,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
             String operativeSystem = System.getProperty("os.name").toLowerCase();
             Runtime runtime = Runtime.getRuntime();
             if (operativeSystem.contains("win")) {
-                runtime.exec("cmd /c start " + evidenceFile.getAbsolutePath());
+                runtime.exec("cmd /c start \"\" \"" + evidenceFile.getAbsolutePath() + "\"" );
             } else if (operativeSystem.contains("mac")) {
                 runtime.exec("open " + evidenceFile.getAbsolutePath());
             } else if (operativeSystem.contains("nix")
