@@ -1,8 +1,6 @@
 package mx.uv.fei.gui;
 
-import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.geom.PageSize;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -38,6 +36,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import org.apache.log4j.Logger;
 
 public class ProgressReportController implements IProfessorNavigationBar{
     @FXML
@@ -63,14 +62,19 @@ public class ProgressReportController implements IProfessorNavigationBar{
     private TableColumn<Evidence, String> tableColumnWasDelivered;
     LocalDate actualDate = LocalDate.now();
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private final String outputPath = System.getProperty("use.home") + "/Documents/Reportes/";
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
-    public void initialize() throws SQLException {
+    public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        setInfoLabels();
         prepareTableViewEvidences();
-        fillTableViewEvidences();
-        setTableHeight();
+        try {
+            setInfoLabels();
+            fillTableViewEvidences();
+            setTableHeight();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
         labelDate.setText(actualDate.format(dateFormat));
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
@@ -79,7 +83,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
         ProfessorDAO professorDAO = new ProfessorDAO();
         labelHeaderDate.setText(actualDate.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, new Locale("es")) + " " + actualDate.getYear());
         labelStudent.setText(TransferStudent.getStudentName());
-        labelDirectors.setText(professorDAO.getProfessorsByProject(TransferProject.getProjectID()));
+        labelDirectors.setText(professorDAO.getDirectorsNamesByProject(TransferProject.getProjectID()));
         labelReceptionWork.setText(TransferProject.getReceptionWorkName());
     }
     
@@ -107,12 +111,12 @@ public class ProgressReportController implements IProfessorNavigationBar{
         tableViewEvidences.getColumns().addAll(tableColumnProduct,tableColumnDeliverDate,tableColumnWasDelivered);
     }
     
-    private int getNumberOfEvidences() {
+    private int getNumberOfEvidences() throws SQLException{
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         return evidenceDAO.getDeliveredEvidences(TransferStudent.getStudentID()).size();
     }
     
-    private void setTableHeight() {
+    private void setTableHeight() throws SQLException{
         double rowHeight = 24.0;
         double headerHeight = 28.0;
         double minHeight = headerHeight + (getNumberOfEvidences() * rowHeight);
@@ -121,7 +125,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
         tableViewEvidences.setPrefHeight(minHeight);
     }
     
-    private void fillTableViewEvidences(){
+    private void fillTableViewEvidences() throws SQLException{
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         tableViewEvidences.getItems().clear();
         tableViewEvidences.getItems().addAll(evidenceDAO.getDeliveredEvidences(TransferStudent.getStudentID()));

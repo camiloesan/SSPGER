@@ -9,13 +9,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
-import mx.uv.fei.logic.Advancement;
-import mx.uv.fei.logic.SessionDetails;
-import mx.uv.fei.logic.TransferAdvancement;
+import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
+import org.apache.log4j.Logger;
 
 public class StudentViewAdvancementDetailsController implements IStudentNavigationBar{
     @FXML
@@ -30,10 +29,16 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     private Label labelDeadline;
     @FXML
     private HBox hboxLogOutLabel;
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
-    public void initialize() throws SQLException {
+    public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        getDetailedAdvancement();
+        try {
+            getDetailedAdvancement();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     

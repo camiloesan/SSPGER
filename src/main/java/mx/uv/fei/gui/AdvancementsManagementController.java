@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
+import org.apache.log4j.Logger;
 
 public class AdvancementsManagementController implements IProfessorNavigationBar {
     @FXML
@@ -35,6 +36,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private int professorId;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_DESCRIPTION = 800;
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
     @FXML
     private void initialize() {

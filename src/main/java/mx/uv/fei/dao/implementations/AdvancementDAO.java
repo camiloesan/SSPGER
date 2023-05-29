@@ -46,27 +46,20 @@ public class AdvancementDAO implements IAdvancement {
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
-        Advancement advancementDetail = null;
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, advancementId);
+        ResultSet resultSet = preparedStatement.executeQuery();
         
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, advancementId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            
-            advancementDetail = new Advancement();
-            if (resultSet.next()) {
-                advancementDetail.setAdvancementName(resultSet.getString("nombre"));
-                advancementDetail.setAdvancementDescription(resultSet.getString("descripcion"));
-                advancementDetail.setAdvancementStartDate(resultSet.getString("fechaInicio"));
-                advancementDetail.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
-                advancementDetail.setAdvancementID(resultSet.getInt("ID_avance"));
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        } finally {
-            databaseManager.closeConnection();
+        Advancement advancementDetail = new Advancement();
+        if (resultSet.next()) {
+            advancementDetail.setAdvancementName(resultSet.getString("nombre"));
+            advancementDetail.setAdvancementDescription(resultSet.getString("descripcion"));
+            advancementDetail.setAdvancementStartDate(resultSet.getString("fechaInicio"));
+            advancementDetail.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
+            advancementDetail.setAdvancementID(resultSet.getInt("ID_avance"));
         }
-
+        
+        databaseManager.closeConnection();
         return advancementDetail;
     }
 
@@ -146,23 +139,18 @@ public class AdvancementDAO implements IAdvancement {
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
-        List<Advancement> advancementList = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1,studentID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            
-            advancementList = new ArrayList<>();
-            while (resultSet.next()) {
-                Advancement advancementItem = new Advancement();
-                advancementItem.setAdvancementName(resultSet.getString("nombre"));
-                advancementList.add(advancementItem);
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        } finally {
-            databaseManager.closeConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1,studentID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        List<Advancement> advancementList = new ArrayList<>();
+        while (resultSet.next()) {
+            Advancement advancementItem = new Advancement();
+            advancementItem.setAdvancementName(resultSet.getString("nombre"));
+            advancementList.add(advancementItem);
         }
+        
+        databaseManager.closeConnection();
         return advancementList;
     }
 
