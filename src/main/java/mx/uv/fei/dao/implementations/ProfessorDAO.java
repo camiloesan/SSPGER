@@ -57,11 +57,12 @@ public class ProfessorDAO implements IProfessor {
     @Override
     public int getProfessorIdByUsername(String username) throws SQLException {
         String query = "select ID_profesor from Profesores where nombreUsuario=(?)";
+        
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-
         preparedStatement.setString(1, username);
+        
         ResultSet resultSet = preparedStatement.executeQuery();
         int id = 0;
         while (resultSet.next()) {
@@ -78,29 +79,24 @@ public class ProfessorDAO implements IProfessor {
      * @throws SQLException
      */
     @Override
-    public String getProfessorsByProject(int projectID) throws SQLException {
+    public String getDirectorsNamesByProject(int projectID) throws SQLException {
         String sqlQuery = "SELECT CONCAT(D.nombre, ' ',D.apellidos, ', ', CD.nombre, ' ',CD.apellidos) AS Directors FROM Profesores D " +
                 "INNER JOIN Proyectos P on D.ID_profesor = P.ID_director " +
                 "INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor " +
                 "WHERE P.ID_proyecto = (?)";
+        String professorNames = null;
         
         DatabaseManager databaseManager = new DatabaseManager();
-        String professorNames = null;
-        try {
-            Connection connection = databaseManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            
-            preparedStatement.setInt(1, projectID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                professorNames = resultSet.getString("Directors");
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace(); //log exception
-        } finally {
-            databaseManager.closeConnection();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            professorNames = resultSet.getString("Directors");
         }
         
+        databaseManager.closeConnection();
         return professorNames;
     }
 }
