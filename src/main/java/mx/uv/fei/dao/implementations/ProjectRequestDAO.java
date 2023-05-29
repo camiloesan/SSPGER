@@ -10,8 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Provides a set of methods to connect to the Project Request on the database.
+ */
 public class ProjectRequestDAO implements IProjectRequest {
+
+    /**
+     * @param projectRequest new Project Request object
+     * @return rows affected, if the Project Request was added or not.
+     * @throws SQLException if there was a problem with the database.
+     */
     @Override
     public int createProjectRequest(ProjectRequest projectRequest) throws SQLException {
         int result;
@@ -29,8 +37,14 @@ public class ProjectRequestDAO implements IProjectRequest {
         return result;
     }
 
+    /**
+     * @param validation new validation of the Project Request.
+     * @param projectRequestID reference of Project Request to update.
+     * @return rows affected, if the Project Request was validated or not.
+     * @throws SQLException if there was a problem with the database.
+     */
     @Override
-    public int validateProjectRequest(String validation, int projectPetitionID) throws SQLException {
+    public int validateProjectRequest(String validation, int projectRequestID) throws SQLException {
         int result;
         String query = "UPDATE SolicitudesProyecto SET estado=(?) WHERE ID_solicitudProyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -38,22 +52,26 @@ public class ProjectRequestDAO implements IProjectRequest {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1, validation);
-        preparedStatement.setInt(2, projectPetitionID);
+        preparedStatement.setInt(2, projectRequestID);
         result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
         return result;
     }
-
+    /**
+     * @param projectRequestID reference of Project Request to delete.
+     * @return rows affected, if the Project Request was validated or not.
+     * @throws SQLException if there was a problem with the database.
+     */
     @Override
-    public int deleteProjectRequest(int projectPetitionID) throws SQLException {
+    public int deleteProjectRequest(int projectRequestID) throws SQLException {
         int result;
         String query = "DELETE FROM SolicitudesProyecto WHERE ID_solicitudProyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-        preparedStatement.setInt(1, projectPetitionID);
+        preparedStatement.setInt(1, projectRequestID);
         result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
@@ -89,17 +107,15 @@ public class ProjectRequestDAO implements IProjectRequest {
 
 
     @Override
-    public int getProjectRequestsByStudentID(String studentID, int projectID) throws SQLException {
+    public int getProjectRequestsByStudentID(String studentID) throws SQLException {
         int result = 0;
         String query = "SELECT COUNT(matriculaEstudiante) AS matriculaEstudiante FROM SolicitudesProyecto " +
-                "INNER JOIN Proyectos ON SolicitudesProyecto.ID_proyecto = Proyectos.ID_proyecto " +
-                "WHERE matriculaEstudiante = ? AND SolicitudesProyecto.ID_proyecto = ?";
+                "WHERE matriculaEstudiante = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1, studentID);
-        preparedStatement.setInt(2, projectID);
 
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
@@ -110,7 +126,8 @@ public class ProjectRequestDAO implements IProjectRequest {
         return result;
     }
 
-    public int getProjecRequestIDByStudentID(String studentID) throws SQLException {
+    @Override
+    public int getProjectRequestIDByStudentID(String studentID) throws SQLException {
         int result = 0;
         String query = "SELECT ID_solicitudProyecto FROM SolicitudesProyecto WHERE matriculaEstudiante=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -127,4 +144,29 @@ public class ProjectRequestDAO implements IProjectRequest {
         databaseManager.closeConnection();
         return result;
     }
+
+    @Override
+    public ProjectRequest getProjectRequestInfoByStudentID(String studentID) throws SQLException{
+        ProjectRequest projectRequest = new ProjectRequest();
+        String query = "SELECT Proyectos.nombreTrabajoRecepcional, SolicitudesProyecto.estado, motivos" +
+                " FROM SolicitudesProyecto " +
+                "INNER JOIN Proyectos on SolicitudesProyecto.ID_proyecto = Proyectos.ID_proyecto " +
+                "WHERE SolicitudesProyecto.matriculaEstudiante = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, studentID);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            projectRequest.setProjectName(resultSet.getString("nombreTrabajoRecepcional"));
+            projectRequest.setStatus(resultSet.getString("estado"));
+            projectRequest.setDescription(resultSet.getString("motivos"));
+        };
+
+        databaseManager.closeConnection();
+        return projectRequest;
+    }
+
 }

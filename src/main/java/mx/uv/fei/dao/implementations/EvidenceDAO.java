@@ -332,4 +332,24 @@ public class EvidenceDAO implements IEvidence {
         }
         return deliveredEvidences;
     }
+
+    @Override
+    public int getEvidenceIDByEvidenceTitle(String evidenceTitle) throws SQLException {
+        int result = 0;
+        String query = "SELECT ID_evidencia FROM Evidencias WHERE titulo = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, evidenceTitle);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            result = resultSet.getInt("ID_evidencia");
+        }
+
+        databaseManager.closeConnection();
+
+        return result;
+    }
 }

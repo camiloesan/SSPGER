@@ -10,8 +10,7 @@ public interface IProjectRequest {
     int validateProjectRequest(String validation, int projectPetitionID) throws SQLException;
     int deleteProjectRequest(int projectPetitionID) throws  SQLException;
     List<ProjectRequest> getProjectRequestsListByProfessorId(int professorId) throws SQLException;
-
-    int getProjectRequestsByStudentID(String studentID, int projectRequestID) throws SQLException;
-
-    int getProjecRequestIDByStudentID(String studentID) throws SQLException;
+    int getProjectRequestsByStudentID(String studentID) throws SQLException;
+    int getProjectRequestIDByStudentID(String studentID) throws SQLException;
+    ProjectRequest getProjectRequestInfoByStudentID(String studentID) throws SQLException;
 }

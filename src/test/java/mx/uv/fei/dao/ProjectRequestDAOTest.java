@@ -11,8 +11,10 @@ import mx.uv.fei.logic.Student;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.sql.SQLTransientConnectionException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -74,7 +76,7 @@ class ProjectRequestDAOTest {
     void tearDown() throws SQLException{
         var projectDAO = new ProjectDAO();
 
-        projectDAO.deleteProjectByID(0);
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("example"));
 
         var userDAO = new UserDAO();
 
@@ -101,6 +103,19 @@ class ProjectRequestDAOTest {
     }
 
     @Test
+    void testCreateProjectRequestDataTooLong() throws SQLException {
+        var projectRequestDAO = new ProjectRequestDAO();
+        var projectRequest = new ProjectRequest();
+        var projectDAO = new ProjectDAO();
+
+        projectRequest.setProjectID(projectDAO.getProjectIDByTitle("example"));
+        projectRequest.setStudentId("exampleDataTrunc");
+        projectRequest.setDescription("exampleDataTrunc");
+
+        assertThrows(SQLSyntaxErrorException.class, () -> projectRequestDAO.createProjectRequest(projectRequest));
+    }
+
+    @Test
     void testAcceptProjectRequestSucces() throws SQLException {
         var projectRequest = new ProjectRequest();
         var projectRequestDAO = new ProjectRequestDAO();
@@ -114,7 +129,7 @@ class ProjectRequestDAOTest {
 
         int expectedResult = 1;
         int result = projectRequestDAO.validateProjectRequest("Aceptado",
-                projectRequestDAO.getProjecRequestIDByStudentID("example"));
+                projectRequestDAO.getProjectRequestIDByStudentID("example"));
         assertEquals(expectedResult,result);
     }
 
@@ -132,7 +147,7 @@ class ProjectRequestDAOTest {
 
         int expectedResult = 1;
         int result = projectRequestDAO.validateProjectRequest("Rechazado",
-                projectRequestDAO.getProjecRequestIDByStudentID("example"));
+                projectRequestDAO.getProjectRequestIDByStudentID("example"));
         assertEquals(expectedResult,result);
     }
 
@@ -150,11 +165,11 @@ class ProjectRequestDAOTest {
 
         assertThrows(SQLTransientConnectionException.class, () ->
                 projectRequestDAO.validateProjectRequest("incorrect",
-                projectRequestDAO.getProjecRequestIDByStudentID("example")));
+                projectRequestDAO.getProjectRequestIDByStudentID("example")));
     }
 
     @Test
-    void testDeleteProjectRequestTest() throws SQLException{
+    void testDeleteProjectRequestSucces() throws SQLException{
         var projectRequestDAO = new ProjectRequestDAO();
         var projectRequest = new ProjectRequest();
         var projectDAO = new ProjectDAO();
@@ -163,11 +178,31 @@ class ProjectRequestDAOTest {
         projectRequest.setStudentId("example");
         projectRequest.setDescription("exampleDelete");
 
-
+        projectRequestDAO.createProjectRequest(projectRequest);
 
         int expectedResult = 1;
         int result = projectRequestDAO.deleteProjectRequest(
-                projectRequestDAO.getProjecRequestIDByStudentID("exampleDelete"));
+                projectRequestDAO.getProjectRequestIDByStudentID("example"));
         assertEquals(expectedResult, result);
     }
+
+    @Test
+    void testDeleteProjectRequestIncorrect() throws SQLException{
+        var projectRequestDAO = new ProjectRequestDAO();
+        var projectRequest = new ProjectRequest();
+        var projectDAO = new ProjectDAO();
+
+        projectRequest.setProjectID(projectDAO.getProjectIDByTitle("example"));
+        projectRequest.setStudentId("example");
+        projectRequest.setDescription("exampleDelete");
+
+        projectRequestDAO.createProjectRequest(projectRequest);
+
+        int expectedResult = 0;
+        int result = projectRequestDAO.deleteProjectRequest(
+                projectRequestDAO.getProjectRequestIDByStudentID("wrong-example"));
+        assertEquals(expectedResult, result);
+    }
+
+
 }

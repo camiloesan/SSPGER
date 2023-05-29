@@ -3,6 +3,7 @@ package mx.uv.fei.logic;
 public class ProjectRequest {
     private int projectPetitionID;
     private int projectID;
+    private String projectName;
     private String studentId;
     private String status;
     private String description;
@@ -45,5 +46,13 @@ public class ProjectRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

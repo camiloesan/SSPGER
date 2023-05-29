@@ -47,13 +47,12 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         boolean result;
         int requests = 0;
         try {
-             requests = projectRequestDAO.getProjectRequestsByStudentID(SessionDetails.getInstance().getId(),
-                    TransferProject.getProjectID());
+             requests = projectRequestDAO.getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
         } catch (SQLException requestsException) {
             requestsException.printStackTrace();
         }
         if (requests>0) {
-            DialogGenerator.getDialog(new AlertMessage("Solo se acepta una solicitud por proyecto",
+            DialogGenerator.getDialog(new AlertMessage("Ya haz solicitado un proyecto",
                     AlertStatus.WARNING));
             result = false;
         } else {
