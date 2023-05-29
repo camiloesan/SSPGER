@@ -307,6 +307,11 @@ public class EvidenceDAO implements IEvidence {
         return result;
     }
     
+    /**
+     * @param studentID
+     * @return list of Evidences delivered by a Student
+     * @throws SQLException if there was a problem connecting to the database
+     */
     @Override
     public List<Evidence> getDeliveredEvidences(String studentID) {
         String sqlQuery = "SELECT titulo, fechaEntrega FROM Evidencias WHERE matriculaEstudiante = (?)";

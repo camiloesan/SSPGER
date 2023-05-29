@@ -66,6 +66,11 @@ public class StudentDAO implements IStudent {
         return result;
     }
     
+    /**
+     * @param username student username
+     * @return student ID
+     * @throws SQLException if there was a problem connecting to the database
+     */
     @Override
     public String getStudentIdByUsername(String username) throws SQLException {
         String sqlQuery = "SELECT matricula FROM Estudiantes WHERE nombreUsuario = (?)";
@@ -111,6 +116,11 @@ public class StudentDAO implements IStudent {
         return studentID;
     }
     
+    /**
+     * @param projectID the id of a registered project
+     * @return list of students corresponding to a project
+     * @throws SQLException if there was a problem connecting to the database
+     */
     @Override
     public List<Student> getStudentsByProjectID(int projectID) throws SQLException {
         String sqlQuery = "SELECT E.matricula, CONCAT(E.nombre, ' ', E.apellidos) AS Alumno FROM Estudiantes E " +
