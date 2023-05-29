@@ -14,6 +14,7 @@ import mx.uv.fei.logic.TransferAdvancement;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
+import org.apache.log4j.Logger;
 
 public class PaneAdvancementDetailsController {
     @FXML
@@ -24,9 +25,14 @@ public class PaneAdvancementDetailsController {
     private Label labelStartDate;
     @FXML
     private Label labelDeadline;
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
-    public void initialize() throws SQLException {
-        getDetailedAdvancement();
+    public void initialize() {
+        try {
+            getDetailedAdvancement();
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
+        }
     }
     
     public String getAdvancementName() {

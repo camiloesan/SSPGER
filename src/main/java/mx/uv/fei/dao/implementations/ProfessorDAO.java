@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfessorDAO implements IProfessor {
+    /**
+     * @param professor professor to register in the database
+     * @return number of affected rows
+     * @throws SQLException if there was a problem connecting to the database
+     */
     @Override
     public int addProfessor(Professor professor) throws SQLException{
         int result;
@@ -32,7 +37,11 @@ public class ProfessorDAO implements IProfessor {
 
         return result;
     }
-
+    
+    /**
+     * @return list of registered professors
+     * @throws SQLException if there was a problem connecting to the database
+     */
     @Override
     public List<String> getProfessorsNames() throws SQLException {
         String sqlQuery = "SELECT CONCAT(grado, ' ',nombre, ' ', apellidos) AS nombreCompleto FROM Profesores;";
@@ -53,7 +62,12 @@ public class ProfessorDAO implements IProfessor {
         
         return professorsNames;
     }
-
+    
+    /**
+     * @param username professor username
+     * @return id of a professor
+     * @throws SQLException is there was a problem connecting to the database
+     */
     @Override
     public int getProfessorIdByUsername(String username) throws SQLException {
         String query = "select ID_profesor from Profesores where nombreUsuario=(?)";
@@ -74,9 +88,9 @@ public class ProfessorDAO implements IProfessor {
     }
     
     /**
-     * @param projectID
-     * @return stirng with director & codirector names
-     * @throws SQLException
+     * @param projectID the id of a project registered on the database
+     * @return string with director & codirector names
+     * @throws SQLException if there was a problem connecting to the database
      */
     @Override
     public String getDirectorsNamesByProject(int projectID) throws SQLException {

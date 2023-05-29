@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.apache.log4j.Logger;
+
 public class StudentAdvancementsController implements IStudentNavigationBar{
     @FXML
     private Label labelUsername;
@@ -21,11 +23,18 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     private ListView<String> listViewAdvancementsNames;
     @FXML
     private HBox hboxLogOutLabel;
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
     @FXML
-    private void initialize() throws SQLException {
+    private void initialize()  {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        fillListViewAdvancements();
+        try {
+            fillListViewAdvancements();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+        
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
