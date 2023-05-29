@@ -62,7 +62,6 @@ public class LoginController {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 String professorId = String.valueOf(professorDAO.getProfessorIdByUsername(username));
                 sessionDetails = SessionDetails.getInstance(username, userType, professorId);
-                System.out.println(System.identityHashCode(sessionDetails));
                 MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             }
             case USER_REPRESENTATIVE -> {
