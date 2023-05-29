@@ -59,7 +59,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
-    public void initialize() throws SQLException {
+    public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         try {
             getDetailedProject();
