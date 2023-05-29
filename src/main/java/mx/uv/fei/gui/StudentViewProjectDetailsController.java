@@ -13,7 +13,10 @@ import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.DetailedProject;
 import mx.uv.fei.logic.SessionDetails;
 import mx.uv.fei.logic.TransferProject;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
 
+import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -52,9 +55,15 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     @FXML
     private TextFlow textBibliography;
     private int projectID;
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
-    public void initialize() throws SQLException {
-        getDetailedProject();
+    public void initialize() {
+        try {
+            getDetailedProject();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información del proyecto.", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
@@ -62,7 +71,7 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
         return TransferProject.getProjectID();
     }
     
-    public void getDetailedProject() throws SQLException {
+    private void getDetailedProject() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         DetailedProject detailedProject = (projectDAO.getProjectInfoByID(getTransferProjectID()));
 

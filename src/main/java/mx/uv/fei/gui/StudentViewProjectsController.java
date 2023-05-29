@@ -27,13 +27,13 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     private static final String VERIFIED_PROJECT_STATUS = "Verificado";
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
-    public void initialize() throws SQLException {
+    public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         try {
             fillListViewProjects();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
-            logger.error(sqlException.getMessage());
+            logger.error(sqlException.getStackTrace());
         }
         setProjectTitles();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
