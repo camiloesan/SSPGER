@@ -196,4 +196,27 @@ public class DetailedProject {
                 approxDuration, receptionWorkModality, receptionWorkName, requisites, director, coDirector,
                 numberStudents, investigationDescription, receptionWorkDescription, expectedResults, bibliography, projectState);
     }
+    
+    @Override
+    public String toString() {
+        return "DetailedProject{" +
+                "projectID=" + projectID +
+                ", academicBodyName='" + academicBodyName + '\'' +
+                ", investigationProjectName='" + investigationProjectName + '\'' +
+                ", lgacName='" + lgacName + '\'' +
+                ", investigationLine='" + investigationLine + '\'' +
+                ", approxDuration='" + approxDuration + '\'' +
+                ", receptionWorkModality='" + receptionWorkModality + '\'' +
+                ", receptionWorkName='" + receptionWorkName + '\'' +
+                ", requisites='" + requisites + '\'' +
+                ", director='" + director + '\'' +
+                ", coDirector='" + coDirector + '\'' +
+                ", numberStudents=" + numberStudents +
+                ", investigationDescription='" + investigationDescription + '\'' +
+                ", receptionWorkDescription='" + receptionWorkDescription + '\'' +
+                ", expectedResults='" + expectedResults + '\'' +
+                ", bibliography='" + bibliography + '\'' +
+                ", projectState='" + projectState + '\'' +
+                '}';
+    }
 }
