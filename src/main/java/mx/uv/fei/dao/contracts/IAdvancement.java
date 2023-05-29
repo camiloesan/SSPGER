@@ -16,4 +16,5 @@ public interface IAdvancement {
     List<Advancement> getAdvancementByStudentID(String studentID) throws SQLException;
     String getProjectNameByStudentID(String studentID) throws SQLException;
     int getAdvancementIDByAdvancementName(String advancementName) throws SQLException;
+    int getLastAdvancementID() throws SQLException;
 }
