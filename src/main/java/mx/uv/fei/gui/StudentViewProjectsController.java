@@ -11,6 +11,7 @@ import javafx.scene.control.ListCell;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,12 +24,17 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     private ListView<SimpleProject> listViewVerifiedProjects;
     @FXML
     private HBox hboxLogOutLabel;
-    
     private static final String VERIFIED_PROJECT_STATUS = "Verificado";
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        fillListViewProjects();
+        try {
+            fillListViewProjects();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+            logger.error(sqlException.getMessage());
+        }
         setProjectTitles();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
@@ -44,12 +50,12 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
         listViewVerifiedProjects.setCellFactory(param -> new ListCell<>(){
             @Override
             protected void updateItem(SimpleProject item, boolean empty){
-                super.updateItem(item, empty);
-                if(empty) {
-                    setText(null);
-                } else {
-                    setText(item.getReceptionWorkName());
-                }
+            super.updateItem(item, empty);
+            if(empty) {
+                setText(null);
+            } else {
+                setText(item.getReceptionWorkName());
+            }
             }
         });
     }
@@ -86,7 +92,9 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     }
     
     @Override
-    public void redirectToProjects() {}
+    public void redirectToProjects() throws IOException{
+        MainStage.changeView("studentviewprojects-view.fxml",1000,700 + MainStage.HEIGHT_OFFSET);
+    }
     
     @Override
     public void redirectToRequest() {}
