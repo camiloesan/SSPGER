@@ -18,6 +18,7 @@ import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.Project;
 import mx.uv.fei.logic.SessionDetails;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -61,18 +62,24 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     @FXML
     private HBox hboxLogOutLabel;
     
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        fillLgacCombo();
-        fillProfessorsCombos();
-        fillReceptionWorkModalityCombo();
+        try {
+            fillLgacCombo();
+            fillProfessorsCombos();
+            fillReceptionWorkModalityCombo();
+            fillAcademicBodycombo();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información necesaria para el registro.",AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
         fillStudentsCombo();
-        fillABcombo();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    public void fillLgacCombo() throws SQLException {
+    private void fillLgacCombo() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         ObservableList<String> lgacComboItems = FXCollections.observableArrayList();
         List<String> lgacList = new ArrayList<>(projectDAO.getLgacList());
@@ -81,7 +88,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         comboLGAC.setItems(lgacComboItems);
     }
     
-    public void fillProfessorsCombos() throws SQLException {
+    private void fillProfessorsCombos() throws SQLException {
         ProfessorDAO professorDAO = new ProfessorDAO();
         ObservableList<String> professorsNames = FXCollections.observableArrayList();
         List<String> professorsList = new ArrayList<>(professorDAO.getProfessorsNames());
@@ -91,7 +98,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         comboCodirectors.setItems(professorsNames);
     }
     
-    public void fillReceptionWorkModalityCombo() throws SQLException {
+    private void fillReceptionWorkModalityCombo() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         ObservableList<String> rwModalities = FXCollections.observableArrayList();
         List<String> rwModalitiesList = new ArrayList<>(projectDAO.getRWModalitiesList());
@@ -101,21 +108,20 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     
     }
     
-    public void fillStudentsCombo() {
+    private void fillStudentsCombo() {
         ObservableList<Integer> numberOfStudents = FXCollections.observableArrayList(1, 2, 3, 4, 5);
         comboStudents.setItems(numberOfStudents);
     }
     
-    public void fillABcombo() throws SQLException {
+    private void fillAcademicBodycombo() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         ObservableList<String> academicBodyID = FXCollections.observableArrayList();
         List<String> academicBodyIDList = new ArrayList<>(projectDAO.getAcademicBodyIDs());
         academicBodyID.addAll(academicBodyIDList);
-        
         comboAB.setItems(academicBodyID);
     }
     
-    public boolean emptyFields() {
+    private boolean emptyFields() {
         return comboAB.getValue() == null
                 || comboLGAC.getValue() == null
                 || textAreaInvestigationLine.getText().isBlank()
@@ -132,7 +138,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
                 || textAreaRecommendedBibliography.getText().isBlank();
     }
     
-    public boolean overSizeData() {
+    private boolean overSizeData() {
         return textAreaInvestigationProjectName.getText().length() > 200
                 || textAreaInvestigationLine.getText().length() > 300
                 || textFieldAproxDuration.getText().length() > 10
@@ -144,7 +150,8 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
                 || textAreaRecommendedBibliography.getText().length() > 6000;
     }
     
-    public void clear() {
+    @FXML
+    private void clearFields() {
         comboAB.setValue(comboAB.getPromptText());
         textAreaInvestigationProjectName.clear();
         comboLGAC.setValue(comboLGAC.getPromptText());
@@ -162,7 +169,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         textAreaRecommendedBibliography.clear();
     }
     
-    public boolean validFields() {
+    private boolean validFields() {
         boolean flag;
         
         if (emptyFields()) {
@@ -179,20 +186,21 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         return flag;
     }
     
-    public void register() {
+    @FXML
+    private void register() {
         if (validFields()){
             try {
                 registerProject();
                 DialogGenerator.getDialog(new AlertMessage("Se registró el anteproyecto exitosamente", AlertStatus.SUCCESS));
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage("Error al registrar el anteproyecto, inténtelo más tarde", AlertStatus.ERROR));
-                clear();
-                sqlException.printStackTrace();
+                clearFields();
+                logger.error(sqlException);
             }
         }
     }
     
-    public void registerProject() throws SQLException {
+    private void registerProject() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         Project project = new Project();
         
@@ -217,48 +225,28 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         projectDAO.setCodirectorIDtoProject(project);
     }
     
-    public void returnToProjectManagement() {
-        try {
-            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+    public void returnToProjectManagement() throws IOException{
+        MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProfessorAdvancementManagement() throws IOException {
-        try {
-            MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        try {
-            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProfessorEvidenceManager() throws IOException {
-        try {
-            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProjectRequests() throws IOException {
-        try {
-            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {
@@ -266,14 +254,11 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     
-    @Override public void actionLogOut() throws IOException {
+    @Override
+    public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
             SessionDetails.cleanSessionDetails();
-            try {
-                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
 }
