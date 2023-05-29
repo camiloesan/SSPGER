@@ -11,6 +11,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.io.IOException;
@@ -53,14 +54,19 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private static final String UNVERIFIED_PROJECT_STATE = "Por revisar";
     private static final String VERIFIED_PROJECT_STATE = "Verificado";
     private static final String DECLINED_PROJECT_STATE = "Declinado";
-    private static String PROJECT_VALIDATION;
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
  
     public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         prepareTableViewProjects();
         buttonSeguimiento.setVisible(false);
         if(!isRCA()) {
-            fillProjectTableByRole();
+            try {
+                fillProjectTableByRole();
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+                logger.error(sqlException);
+            }
             tableColumnProjectID.setVisible(false);
             buttonAcceptProject.setVisible(false);
             buttonDeclineProject.setVisible(false);
@@ -68,7 +74,12 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
             comboProjectStates.setVisible(false);
         } else {
             fillProjectStateCombo();
-            fillUnfilteredTable();
+            try {
+                fillUnfilteredTable();
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+                logger.error(sqlException);
+            }
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
@@ -142,21 +153,36 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     }
     
     @FXML
-    private void refreshFilteredTable() throws SQLException {
+    private void refreshFilteredTable(){
         if (noFilterSelected()) {
             if(isRCA()){
-                fillUnfilteredTable();
+                try {
+                    fillUnfilteredTable();
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+                    logger.error(sqlException);
+                }
             } else {
-                fillProjectTableByRole();
+                try {
+                    fillProjectTableByRole();
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+                    logger.error(sqlException);
+                }
             }
-        } else{
+        } else {
             String selectedItem = comboProjectStates.getSelectionModel().getSelectedItem();
-            switch (selectedItem) {
-                case ALL_COMBO_OPTION -> fillUnfilteredTable();
-                case PARTICIPATING_COMBO_OPTION -> fillProjectTableByRole();
-                case UNVERIFIED_COMBO_OPTION -> fillFilteredProjects(UNVERIFIED_PROJECT_STATE);
-                case VERIFIED_COMBO_OPTION -> fillFilteredProjects(VERIFIED_PROJECT_STATE);
-                case DECLINED_COMBO_OPTION -> fillFilteredProjects(DECLINED_PROJECT_STATE);
+            try {
+                switch (selectedItem) {
+                    case ALL_COMBO_OPTION -> fillUnfilteredTable();
+                    case PARTICIPATING_COMBO_OPTION -> fillProjectTableByRole();
+                    case UNVERIFIED_COMBO_OPTION -> fillFilteredProjects(UNVERIFIED_PROJECT_STATE);
+                    case VERIFIED_COMBO_OPTION -> fillFilteredProjects(VERIFIED_PROJECT_STATE);
+                    case DECLINED_COMBO_OPTION -> fillFilteredProjects(DECLINED_PROJECT_STATE);
+                }
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+                logger.error(sqlException);
             }
             labelHeader.setText(comboProjectStates.getSelectionModel().getSelectedItem());
         }
@@ -187,12 +213,12 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private void acceptProject() {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
             ProjectDAO projectDAO = new ProjectDAO();
-            PROJECT_VALIDATION = "Verificado";
             try {
-                projectDAO.updateProjectState(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID(), PROJECT_VALIDATION);
+                projectDAO.updateProjectState(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID(), VERIFIED_PROJECT_STATE);
                 refreshFilteredTable();
             } catch (SQLException requestException) {
-                requestException.printStackTrace();
+                DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar el estado.",AlertStatus.ERROR));
+                logger.error(requestException);
             }
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para Aceptarlo", AlertStatus.WARNING));
@@ -203,12 +229,12 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private void declineProject() {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
             ProjectDAO projectDAO = new ProjectDAO();
-            PROJECT_VALIDATION = "Declinado";
             try {
-                projectDAO.updateProjectState((tableViewProjects.getSelectionModel().getSelectedItem().getProjectID()), PROJECT_VALIDATION);
+                projectDAO.updateProjectState((tableViewProjects.getSelectionModel().getSelectedItem().getProjectID()), DECLINED_PROJECT_STATE);
                 refreshFilteredTable();
             } catch (SQLException requestException) {
-                requestException.printStackTrace();
+                DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar el estado.",AlertStatus.ERROR));
+                logger.error(requestException);
             }
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para Rechazarlo", AlertStatus.WARNING));
@@ -217,47 +243,27 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     
     @FXML
     private void openProjectRegistration() throws IOException {
-        try {
-            MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("registerprojectproposal-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProfessorAdvancementManagement() throws IOException {
-        try {
-            MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        try {
-            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProfessorEvidenceManager() throws IOException {
-        try {
-            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProjectRequests() throws IOException {
-        try {
-            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     private boolean confirmedLogOut() {
@@ -268,11 +274,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
             SessionDetails.cleanSessionDetails();
-            try {
-                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
 }
