@@ -157,6 +157,8 @@ class ProjectDAOTest {
         projectDAO.deleteProjectByTitle("Ejemplo trabajo recepcional");
         projectDAO.deleteProjectByTitle("Ejemplo trabajo setDirector");
         projectDAO.deleteProjectByTitle("Ejemplo trabajo setCodirector");
+        projectDAO.deleteProjectByTitle("Ejemplo trabajo para Verificar");
+        projectDAO.deleteProjectByTitle("Ejemplo trabajo para Declinar");
     }
 
     @Test
@@ -185,6 +187,120 @@ class ProjectDAOTest {
         int actualResult = projectDAO.addProject(project);
         
         assertEquals(expectedResult, actualResult);
+    }
+    
+    @Test
+    void testSetDirectorIDtoProject() throws SQLException {
+        System.out.println("Test setDirectorIDtoProject");
+        var projectDAO = new ProjectDAO();
+        
+        var projectDirectorsSet = new Project();
+        projectDirectorsSet.setAcademicBodyId("UV-CA-127");
+        projectDirectorsSet.setInvestigationProjectName("Ejemplo proyecto investigación");
+        projectDirectorsSet.setLGAC_Id(1);
+        projectDirectorsSet.setInvestigationLine("Ejemplo linea investigación");
+        projectDirectorsSet.setApproximateDuration("12 meses");
+        projectDirectorsSet.setModalityId(1);
+        projectDirectorsSet.setReceptionWorkName("Ejemplo trabajo setDirector");
+        projectDirectorsSet.setRequisites("Ejemplo requisitos");
+        projectDirectorsSet.setDirectorName("Dr. ProfeNom1 ProfeAp1");
+        projectDirectorsSet.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
+        projectDirectorsSet.setStudentsParticipating(1);
+        projectDirectorsSet.setInvestigationProjectDescription("Ejemplo descripción de investigación");
+        projectDirectorsSet.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
+        projectDirectorsSet.setExpectedResults("Ejemplo resultados esperados");
+        projectDirectorsSet.setRecommendedBibliography("Ejemplo bibliografía");
+        projectDAO.addProject(projectDirectorsSet);
+        
+        int expectedResult = 1;
+        int actualResult = projectDAO.setDirectorIDtoProject(projectDirectorsSet);
+        assertEquals(expectedResult,actualResult);
+    }
+    
+    @Test
+    void testSetCodirectorIDtoProject() throws SQLException {
+        System.out.println("Test setCodirectorIDtoProject");
+        var projectDAO = new ProjectDAO();
+        
+        var projectCodirectorsSet = new Project();
+        projectCodirectorsSet.setAcademicBodyId("UV-CA-127");
+        projectCodirectorsSet.setInvestigationProjectName("Ejemplo proyecto investigación");
+        projectCodirectorsSet.setLGAC_Id(1);
+        projectCodirectorsSet.setInvestigationLine("Ejemplo linea investigación");
+        projectCodirectorsSet.setApproximateDuration("12 meses");
+        projectCodirectorsSet.setModalityId(1);
+        projectCodirectorsSet.setReceptionWorkName("Ejemplo trabajo setCodirector");
+        projectCodirectorsSet.setRequisites("Ejemplo requisitos");
+        projectCodirectorsSet.setDirectorName("Dr. ProfeNom1 ProfeAp1");
+        projectCodirectorsSet.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
+        projectCodirectorsSet.setStudentsParticipating(1);
+        projectCodirectorsSet.setInvestigationProjectDescription("Ejemplo descripción de investigación");
+        projectCodirectorsSet.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
+        projectCodirectorsSet.setExpectedResults("Ejemplo resultados esperados");
+        projectCodirectorsSet.setRecommendedBibliography("Ejemplo bibliografía");
+        projectDAO.addProject(projectCodirectorsSet);
+        
+        int expectedResult = 1;
+        int actualResult = projectDAO.setCodirectorIDtoProject(projectCodirectorsSet);
+        assertEquals(expectedResult,actualResult);
+    }
+    
+    @Test
+    void testUpdateProjectStateToVerified() throws SQLException {
+        System.out.println("Test updateProjectState");
+        var projectDAO = new ProjectDAO();
+        
+        var projectToUpdate = new Project();
+        projectToUpdate.setAcademicBodyId("UV-CA-127");
+        projectToUpdate.setInvestigationProjectName("Ejemplo proyecto investigación");
+        projectToUpdate.setLGAC_Id(1);
+        projectToUpdate.setInvestigationLine("Ejemplo linea investigación");
+        projectToUpdate.setApproximateDuration("12 meses");
+        projectToUpdate.setModalityId(1);
+        projectToUpdate.setReceptionWorkName("Ejemplo trabajo para Verificar");
+        projectToUpdate.setRequisites("Ejemplo requisitos");
+        projectToUpdate.setDirectorName("Dr. ProfeNom1 ProfeAp1");
+        projectToUpdate.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
+        projectToUpdate.setStudentsParticipating(1);
+        projectToUpdate.setInvestigationProjectDescription("Ejemplo descripción de investigación");
+        projectToUpdate.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
+        projectToUpdate.setExpectedResults("Ejemplo resultados esperados");
+        projectToUpdate.setRecommendedBibliography("Ejemplo bibliografía");
+        projectDAO.addProject(projectToUpdate);
+        
+        int expectedResult = 1;
+        int actualResult = projectDAO.updateProjectState(projectDAO.getProjectIDByTitle("Ejemplo trabajo para Verificar"),"Verificado");
+        
+        assertEquals(expectedResult,actualResult);
+    }
+    
+    @Test
+    void testUpdateProjectStateToDeclined() throws SQLException {
+        System.out.println("Test updateProjectState");
+        var projectDAO = new ProjectDAO();
+        
+        var projectToUpdate = new Project();
+        projectToUpdate.setAcademicBodyId("UV-CA-127");
+        projectToUpdate.setInvestigationProjectName("Ejemplo proyecto investigación");
+        projectToUpdate.setLGAC_Id(1);
+        projectToUpdate.setInvestigationLine("Ejemplo linea investigación");
+        projectToUpdate.setApproximateDuration("12 meses");
+        projectToUpdate.setModalityId(1);
+        projectToUpdate.setReceptionWorkName("Ejemplo trabajo para Declinar");
+        projectToUpdate.setRequisites("Ejemplo requisitos");
+        projectToUpdate.setDirectorName("Dr. ProfeNom1 ProfeAp1");
+        projectToUpdate.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
+        projectToUpdate.setStudentsParticipating(1);
+        projectToUpdate.setInvestigationProjectDescription("Ejemplo descripción de investigación");
+        projectToUpdate.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
+        projectToUpdate.setExpectedResults("Ejemplo resultados esperados");
+        projectToUpdate.setRecommendedBibliography("Ejemplo bibliografía");
+        projectDAO.addProject(projectToUpdate);
+        
+        int expectedResult = 1;
+        int actualResult = projectDAO.updateProjectState(projectDAO.getProjectIDByTitle("Ejemplo trabajo para declinar"),"Declinado");
+        
+        assertEquals(expectedResult,actualResult);
     }
 
     @Test
@@ -362,45 +478,11 @@ class ProjectDAOTest {
         
         // Mostrar los atributos del objeto esperado
         System.out.println("Objeto esperado:");
-        System.out.println(expectedDetailedProject.getProjectID());
-        System.out.println(expectedDetailedProject.getAcademicBodyName());
-        System.out.println(expectedDetailedProject.getInvestigationProjectName());
-        System.out.println(expectedDetailedProject.getLgacName());
-        System.out.println(expectedDetailedProject.getInvestigationLine());
-        System.out.println(expectedDetailedProject.getApproxDuration());
-        System.out.println(expectedDetailedProject.getReceptionWorkModality());
-        System.out.println(expectedDetailedProject.getReceptionWorkName());
-        System.out.println(expectedDetailedProject.getRequisites());
-        System.out.println(expectedDetailedProject.getDirector());
-        System.out.println(expectedDetailedProject.getCoDirector());
-        System.out.println(expectedDetailedProject.getNumberStudents());
-        System.out.println(expectedDetailedProject.getInvestigationDescription());
-        System.out.println(expectedDetailedProject.getReceptionWorkDescription());
-        System.out.println(expectedDetailedProject.getExpectedResults());
-        System.out.println(expectedDetailedProject.getBibliography());
-        System.out.println(expectedDetailedProject.getProjectState());
-        System.out.println("------------------------------------------");
+        System.out.println(expectedDetailedProject);
         
         // Mostrar los atributos del objeto actual
         System.out.println("Objeto actual:");
-        System.out.println(actualDetailedProject.getProjectID());
-        System.out.println(actualDetailedProject.getAcademicBodyName());
-        System.out.println(actualDetailedProject.getInvestigationProjectName());
-        System.out.println(actualDetailedProject.getLgacName());
-        System.out.println(actualDetailedProject.getInvestigationLine());
-        System.out.println(actualDetailedProject.getApproxDuration());
-        System.out.println(actualDetailedProject.getReceptionWorkModality());
-        System.out.println(actualDetailedProject.getReceptionWorkName());
-        System.out.println(actualDetailedProject.getRequisites());
-        System.out.println(actualDetailedProject.getDirector());
-        System.out.println(actualDetailedProject.getCoDirector());
-        System.out.println(actualDetailedProject.getNumberStudents());
-        System.out.println(actualDetailedProject.getInvestigationDescription());
-        System.out.println(actualDetailedProject.getReceptionWorkDescription());
-        System.out.println(actualDetailedProject.getExpectedResults());
-        System.out.println(actualDetailedProject.getBibliography());
-        System.out.println(actualDetailedProject.getProjectState());
-        System.out.println("------------------------------------------");
+        System.out.println(expectedDetailedProject);
         
         assertEquals(expectedDetailedProject, actualDetailedProject);
     }
@@ -447,66 +529,32 @@ class ProjectDAOTest {
         List<String> actualList = new ArrayList<>(projectDAO.getAcademicBodyIDs());
         assertEquals(expectedList, actualList);
     }
-
-    @Test
-    void testUpdateProjectState() throws SQLException {
-        System.out.println("Test updateProjectState");
-        
-    }
     
     @Test
-    void testSetDirectorIDtoProject() throws SQLException {
-        System.out.println("Test setDirectorIDtoProject");
+    void testDeleteProjectByTitle() throws SQLException {
+        System.out.println("Test deleteProjectByTitle");
         var projectDAO = new ProjectDAO();
         
-        var projectDirectorsSet = new Project();
-        projectDirectorsSet.setAcademicBodyId("UV-CA-127");
-        projectDirectorsSet.setInvestigationProjectName("Ejemplo proyecto investigación");
-        projectDirectorsSet.setLGAC_Id(1);
-        projectDirectorsSet.setInvestigationLine("Ejemplo linea investigación");
-        projectDirectorsSet.setApproximateDuration("12 meses");
-        projectDirectorsSet.setModalityId(1);
-        projectDirectorsSet.setReceptionWorkName("Ejemplo trabajo setDirector");
-        projectDirectorsSet.setRequisites("Ejemplo requisitos");
-        projectDirectorsSet.setDirectorName("Dr. ProfeNom1 ProfeAp1");
-        projectDirectorsSet.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
-        projectDirectorsSet.setStudentsParticipating(1);
-        projectDirectorsSet.setInvestigationProjectDescription("Ejemplo descripción de investigación");
-        projectDirectorsSet.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
-        projectDirectorsSet.setExpectedResults("Ejemplo resultados esperados");
-        projectDirectorsSet.setRecommendedBibliography("Ejemplo bibliografía");
-        projectDAO.addProject(projectDirectorsSet);
+        var projectCollaboration = new Project();
+        projectCollaboration.setAcademicBodyId("UV-CA-127");
+        projectCollaboration.setInvestigationProjectName("proyecto investigación ELIMINAR");
+        projectCollaboration.setLGAC_Id(1);
+        projectCollaboration.setInvestigationLine("linea investigación ELIMINAR");
+        projectCollaboration.setApproximateDuration("12 meses");
+        projectCollaboration.setModalityId(1);
+        projectCollaboration.setReceptionWorkName("trabajo recepcional ELIMINAR");
+        projectCollaboration.setRequisites("requisitos ELIMINAR");
+        projectCollaboration.setDirectorName("Dr. ProfeNom1 ProfeAp1");
+        projectCollaboration.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
+        projectCollaboration.setStudentsParticipating(1);
+        projectCollaboration.setInvestigationProjectDescription("descripción de investigación ELIMINAR");
+        projectCollaboration.setReceptionWorkDescription("descripción trabajo recepcional ELIMINAR");
+        projectCollaboration.setExpectedResults("resultados esperados ELIMINAR");
+        projectCollaboration.setRecommendedBibliography("bibliografía ELIMINAR");
+        projectDAO.addProject(projectCollaboration);
         
         int expectedResult = 1;
-        int actualResult = projectDAO.setDirectorIDtoProject(projectDirectorsSet);
-        assertEquals(expectedResult,actualResult);
-    }
-    
-    @Test
-    void testSetCodirectorIDtoProject() throws SQLException {
-        System.out.println("Test setCodirectorIDtoProject");
-        var projectDAO = new ProjectDAO();
-        
-        var projectCodirectorsSet = new Project();
-        projectCodirectorsSet.setAcademicBodyId("UV-CA-127");
-        projectCodirectorsSet.setInvestigationProjectName("Ejemplo proyecto investigación");
-        projectCodirectorsSet.setLGAC_Id(1);
-        projectCodirectorsSet.setInvestigationLine("Ejemplo linea investigación");
-        projectCodirectorsSet.setApproximateDuration("12 meses");
-        projectCodirectorsSet.setModalityId(1);
-        projectCodirectorsSet.setReceptionWorkName("Ejemplo trabajo setCodirector");
-        projectCodirectorsSet.setRequisites("Ejemplo requisitos");
-        projectCodirectorsSet.setDirectorName("Dr. ProfeNom1 ProfeAp1");
-        projectCodirectorsSet.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
-        projectCodirectorsSet.setStudentsParticipating(1);
-        projectCodirectorsSet.setInvestigationProjectDescription("Ejemplo descripción de investigación");
-        projectCodirectorsSet.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
-        projectCodirectorsSet.setExpectedResults("Ejemplo resultados esperados");
-        projectCodirectorsSet.setRecommendedBibliography("Ejemplo bibliografía");
-        projectDAO.addProject(projectCodirectorsSet);
-        
-        int expectedResult = 1;
-        int actualResult = projectDAO.setCodirectorIDtoProject(projectCodirectorsSet);
+        int actualResult = projectDAO.deleteProjectByTitle("trabajo recepcional ELIMINAR");
         assertEquals(expectedResult,actualResult);
     }
 }
