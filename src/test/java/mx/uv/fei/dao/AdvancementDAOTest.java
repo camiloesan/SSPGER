@@ -77,7 +77,7 @@ AdvancementDAOTest {
         projectRequest.setStudentId("zsTest");
         projectRequest.setDescription("henlo");
         projectRequestDAO.createProjectRequest(projectRequest);
-        projectRequestDAO.validateProjectRequest("Aceptado", projectRequestDAO.getProjecRequestIDByStudentID("zsTest"));
+        projectRequestDAO.validateProjectRequest("Aceptado", projectRequestDAO.getProjectRequestIDByStudentID("zsTest"));
     }
 
     @AfterEach
@@ -86,7 +86,7 @@ AdvancementDAOTest {
         ProjectDAO projectDAO = new ProjectDAO();
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-        projectRequestDAO.deleteProjectRequest(projectRequestDAO.getProjecRequestIDByStudentID("zsTest"));
+        projectRequestDAO.deleteProjectRequest(projectRequestDAO.getProjectRequestIDByStudentID("zsTest"));
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
         advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
         userDAO.deleteUserByUsername("testProf");
@@ -96,6 +96,7 @@ AdvancementDAOTest {
     @Test
     void testGetAdvancementDetailsByIdObject() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
+        System.out.println(advancementDAO.getLastAdvancementID());
         Advancement expectedAdvancement = advancementDAO.getAdvancementDetailById(advancementDAO.getLastAdvancementID());
         assertEquals(advancement, expectedAdvancement);
     }
