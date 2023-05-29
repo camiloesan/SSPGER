@@ -48,7 +48,7 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
                 if(empty) {
                     setText(null);
                 } else {
-                    setText(item.getProjectTitle());
+                    setText(item.getReceptionWorkName());
                 }
             }
         });
