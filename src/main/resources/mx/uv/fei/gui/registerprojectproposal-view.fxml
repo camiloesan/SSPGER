@@ -425,7 +425,7 @@
                     <buttons>
                         <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#returnToProjectManagement"
                                 text="Regresar"/>
-                        <Button fx:id="buttonCliear" mnemonicParsing="false" onAction="#clear" text="Limpiar"/>
+                        <Button fx:id="buttonCliear" mnemonicParsing="false" onAction="#clearFields" text="Limpiar"/>
                         <Button fx:id="buttonRegister" mnemonicParsing="false" onAction="#register"
                                 text="Registrar"/>
                     </buttons>
