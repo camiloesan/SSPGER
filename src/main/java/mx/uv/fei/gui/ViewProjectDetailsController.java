@@ -12,9 +12,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
-import mx.uv.fei.logic.DetailedProject;
-import mx.uv.fei.logic.SessionDetails;
-import mx.uv.fei.logic.TransferProject;
+import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -58,9 +57,16 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     @FXML
     private Button buttonDeleteProject;
     
-    public void initialize() throws SQLException {
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    
+    public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        getDetailedProject();
+        try {
+            getDetailedProject();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
         hideDeleteProject();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
@@ -123,56 +129,37 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
 
     @FXML
-    public void deleteProject() {
+    public void deleteProject() throws IOException{
         if (confirmedDeleteProject()) {
             ProjectDAO projectDAO = new ProjectDAO();
             try {
                 projectDAO.deleteProjectByID(TransferProject.getProjectID());
             } catch (SQLException deleteException) {
-                deleteException.printStackTrace();
+                DialogGenerator.getDialog(new AlertMessage("No se pudo borrar el proyecto.", AlertStatus.ERROR));
+                logger.error(deleteException);
             }
-            try {
-                redirectToProfessorProjectManagement();
-            } catch (IOException changeException) {
-                changeException.printStackTrace();
-            }
+            redirectToProfessorProjectManagement();
         }
     }
     
     @Override
     public void redirectToProfessorAdvancementManagement() throws IOException {
-        try {
-            MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        try {
-            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProfessorEvidenceManager() throws IOException {
-        try {
-            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProjectRequests() throws IOException {
-        try {
-            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {
@@ -184,11 +171,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
             SessionDetails.cleanSessionDetails();
-            try {
-                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
 }
