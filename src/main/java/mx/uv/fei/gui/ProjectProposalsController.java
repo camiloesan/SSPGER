@@ -105,7 +105,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
     private void openProjectTimeline() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
-            TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getProjectTitle());
+            TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getReceptionWorkName());
             TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
             MainStage.changeView("timeline-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
@@ -176,7 +176,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private void openFollowUp() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
         TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
-        TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getProjectTitle());
+        TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getReceptionWorkName());
         MainStage.changeView("followup-view.fxml",1000,600);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver seguimiento de los alumnos.", AlertStatus.WARNING));
