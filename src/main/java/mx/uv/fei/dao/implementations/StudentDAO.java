@@ -74,15 +74,18 @@ public class StudentDAO implements IStudent {
         Connection connection = databaseManager.getConnection();
         
         String studentID = null;
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1,username);
-        
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            studentID = resultSet.getString("matricula");
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1,username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                studentID = resultSet.getString("matricula");
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            databaseManager.closeConnection();
         }
-        
-        databaseManager.closeConnection();
         return studentID;
     }
 
@@ -104,7 +107,6 @@ public class StudentDAO implements IStudent {
         while (resultSet.next()) {
             studentID = resultSet.getString("matricula");
         }
-        
         databaseManager.closeConnection();
         return studentID;
     }
@@ -120,19 +122,22 @@ public class StudentDAO implements IStudent {
         Connection connection = databaseManager.getConnection();
         
         List<Student> studentList = new ArrayList<>();
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setInt(1,projectID);
-        
-        ResultSet resultSet = preparedStatement.executeQuery();
-        
-        while (resultSet.next()){
-            Student student = new Student();
-            student.setStudentID(resultSet.getString("matricula"));
-            student.setFullName(resultSet.getString("Alumno"));
-            studentList.add(student);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1,projectID);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            while (resultSet.next()){
+                Student student = new Student();
+                student.setStudentID(resultSet.getString("matricula"));
+                student.setFullName(resultSet.getString("Alumno"));
+                studentList.add(student);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace(); // log exception
         }
         
-        databaseManager.closeConnection();
         return studentList;
     }
 }

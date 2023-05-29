@@ -64,7 +64,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
-    public void initialize() {
+    public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         try {
             fillLgacCombo();

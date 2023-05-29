@@ -14,7 +14,6 @@ import mx.uv.fei.logic.TransferProject;
 import mx.uv.fei.logic.TransferStudent;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,16 +26,10 @@ public class FollowUpController implements IProfessorNavigationBar{
     private ListView<Student> listViewStudents;
     @FXML
     private HBox hboxLogOutLabel;
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
-    public void initialize() {
+    public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        try {
-            fillStudentList();
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        fillStudentList();
         setStudentNames();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
