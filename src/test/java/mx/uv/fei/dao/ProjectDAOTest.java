@@ -149,16 +149,17 @@ class ProjectDAOTest {
         userDAO.deleteUserByUsername("testAcc1");
         userDAO.deleteUserByUsername("testAcc2");
         
-        projectDAO.deleteProjectByTitle("trabajo recepcional DECLINADO");
-        projectDAO.deleteProjectByTitle("trabajo recepcional VERIFICADO");
-        projectDAO.deleteProjectByTitle("trabajo recepcional POR REVISAR");
-        projectDAO.deleteProjectByTitle("trabajo recepcional DETALLE");
-        projectDAO.deleteProjectByTitle("trabajo recepcional COLABORACIÓN");
-        projectDAO.deleteProjectByTitle("Ejemplo trabajo recepcional");
-        projectDAO.deleteProjectByTitle("Ejemplo trabajo setDirector");
-        projectDAO.deleteProjectByTitle("Ejemplo trabajo setCodirector");
-        projectDAO.deleteProjectByTitle("Ejemplo trabajo para Verificar");
-        projectDAO.deleteProjectByTitle("Ejemplo trabajo para Declinar");
+        
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional DECLINADO"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional VERIFICADO"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional POR REVISAR"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional COLABORACIÓN"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo setDirector"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo setCodirector"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo para Verificar"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo para Declinar"));
     }
 
     @Test
@@ -554,7 +555,7 @@ class ProjectDAOTest {
         projectDAO.addProject(projectCollaboration);
         
         int expectedResult = 1;
-        int actualResult = projectDAO.deleteProjectByTitle("trabajo recepcional ELIMINAR");
+        int actualResult = projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional ELIMINAR"));
         assertEquals(expectedResult,actualResult);
     }
 }
