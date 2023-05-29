@@ -370,7 +370,12 @@ public class ProjectDAO implements IProject {
         databaseManager.closeConnection();
         return projectNamesList;
     }
-
+    
+    /**
+     * @param projectId
+     * @return project name
+     * @throws SQLException
+     */
     @Override
     public String getProjectNameById(int projectId) throws SQLException {
         String query = "select nombreTrabajoRecepcional from Proyectos where ID_proyecto=(?)";
@@ -389,7 +394,12 @@ public class ProjectDAO implements IProject {
 
         return projectName;
     }
-
+    
+    /**
+     * @param title
+     * @return number of affected rows
+     * @throws SQLException
+     */
     @Override
     public int deleteProjectByTitle(String title) throws SQLException {
         String query = "DELETE FROM Proyectos WHERE nombreTrabajoRecepcional=(?)";
