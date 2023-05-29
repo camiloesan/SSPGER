@@ -308,25 +308,28 @@ public class EvidenceDAO implements IEvidence {
     }
     
     @Override
-    public List<Evidence> getDeliveredEvidences(String studentID) throws SQLException{
+    public List<Evidence> getDeliveredEvidences(String studentID) {
         String sqlQuery = "SELECT titulo, fechaEntrega FROM Evidencias WHERE matriculaEstudiante = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
         
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1,studentID);
-        
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<Evidence> deliveredEvidences = new ArrayList<>();
-        while (resultSet.next()) {
-            Evidence evidence = new Evidence();
-            evidence.setEvidenceTitle(resultSet.getString("titulo"));
-            evidence.setDeliverDate(resultSet.getString("fechaEntrega"));
-            deliveredEvidences.add(evidence);
+        List<Evidence> deliveredEvidences = null;
+        try {
+            Connection connection = databaseManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1,studentID);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            deliveredEvidences = new ArrayList<>();
+            while (resultSet.next()) {
+                Evidence evidence = new Evidence();
+                evidence.setEvidenceTitle(resultSet.getString("titulo"));
+                evidence.setDeliverDate(resultSet.getString("fechaEntrega"));
+                deliveredEvidences.add(evidence);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace(); //log exception
         }
-        
-        databaseManager.closeConnection();
         return deliveredEvidences;
     }
 

@@ -56,7 +56,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private static final String DECLINED_PROJECT_STATE = "Declinado";
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
  
-    public void initialize() {
+    public void initialize() throws SQLException {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         prepareTableViewProjects();
         buttonSeguimiento.setVisible(false);
