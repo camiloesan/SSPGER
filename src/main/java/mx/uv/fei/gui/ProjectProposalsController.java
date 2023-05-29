@@ -94,7 +94,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         tableColumnProjectID.setCellValueFactory(new PropertyValueFactory<>("projectID"));
         
         tableColumnProjectTitle = new TableColumn<>("Título");
-        tableColumnProjectTitle.setCellValueFactory(new PropertyValueFactory<>("projectTitle"));
+        tableColumnProjectTitle.setCellValueFactory(new PropertyValueFactory<>("receptionWorkName"));
         
         tableColumnProjectState = new TableColumn<>("Estado");
         tableColumnProjectState.setCellValueFactory(new  PropertyValueFactory<>("projectState"));
@@ -268,7 +268,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     
     private boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
     
     @Override public void actionLogOut() throws IOException {
