@@ -42,7 +42,7 @@ public class AdvancementDAO implements IAdvancement {
      */
     @Override
     public Advancement getAdvancementDetailById(int advancementId) throws SQLException {
-        String query = "select nombre, descripcion, fechaInicio, fechaEntrega, ID_avance from Avances where ID_avance=(?)";
+        String query = "select nombre, descripcion, fechaInicio, fechaEntrega, ID_avance, ID_proyecto from Avances where ID_avance=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
@@ -60,6 +60,7 @@ public class AdvancementDAO implements IAdvancement {
                 advancementDetail.setAdvancementStartDate(resultSet.getString("fechaInicio"));
                 advancementDetail.setAdvancementDeadline(resultSet.getString("fechaEntrega"));
                 advancementDetail.setAdvancementID(resultSet.getInt("ID_avance"));
+                advancementDetail.setProjectId(resultSet.getInt("ID_proyecto"));
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -269,4 +270,28 @@ public class AdvancementDAO implements IAdvancement {
 
         return result;
     }
+
+    /**
+     * ONLY FOR TEST PURPOSES
+     * @return latest id entered
+     * @throws SQLException if there was a problem connecting to the database
+     */
+    @Override
+    public int getLastAdvancementID() throws SQLException {
+        String query = "select max(ID_avance) from Avances";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        int result = 0;
+        while (resultSet.next()) {
+            result = resultSet.getInt("max(ID_avance)");
+        }
+        databaseManager.closeConnection();
+
+        return result;
+    }
+
+
 }

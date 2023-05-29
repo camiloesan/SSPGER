@@ -56,4 +56,16 @@ public class Advancement {
     public void setAdvancementID(int advancementID) {
         this.advancementID = advancementID;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Advancement that = (Advancement) o;
+        return advancementName.equals(that.advancementName) &&
+                advancementDescription.equals(that.advancementDescription) &&
+                advancementStartDate.equals(that.advancementStartDate) &&
+                advancementDeadline.equals(that.advancementDeadline) &&
+                projectId == that.projectId;
+    }
 }
