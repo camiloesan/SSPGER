@@ -1,3 +1,5 @@
+USE SSPGER;
+
 INSERT INTO ModalidadesTR (modalidadTR)
 VALUES ('Monografía'),
        ('Revisión Multivocal de la Literatura'),
