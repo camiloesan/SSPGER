@@ -308,7 +308,7 @@ public class EvidenceDAO implements IEvidence {
     }
     
     /**
-     * @param studentID
+     * @param studentID student id to get their evidences
      * @return list of Evidences delivered by a Student
      * @throws SQLException if there was a problem connecting to the database
      */

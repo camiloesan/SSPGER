@@ -38,7 +38,7 @@ public class AdvancementDAO implements IAdvancement {
     /**
      * @param advancementId id of the advancement you want to get details from 
      * @return an object Advancement with all its information
-     * @throws SQLException if there was an error on the database
+     * @throws SQLException if there was an error connecting to the database or getting the information
      */
     @Override
     public Advancement getAdvancementDetailById(int advancementId) throws SQLException {

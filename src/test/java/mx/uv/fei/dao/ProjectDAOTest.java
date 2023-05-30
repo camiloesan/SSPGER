@@ -428,7 +428,7 @@ class ProjectDAOTest {
         expectedList.add(simpleCollaborationProject2);
         expectedList.add(simpleCollaborationProject);
         
-        var actualList = new ArrayList<>(projectDAO.getProjectsByCollaboration(professorDAO.getProfessorIdByUsername("testAcc1")));
+        var actualList = new ArrayList<>(projectDAO.getProjectsByParticipation(professorDAO.getProfessorIdByUsername("testAcc1")));
         
         // Mostrar expectedList
         System.out.println("Contenido de expectedList:");
