@@ -14,6 +14,7 @@ import mx.uv.fei.logic.TransferAdvancement;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
+import org.apache.log4j.Logger;
 
 public class PaneAdvancementDetailsController {
     @FXML
@@ -25,8 +26,15 @@ public class PaneAdvancementDetailsController {
     @FXML
     private Label labelDeadline;
     
-    public void initialize() throws SQLException {
-        getDetailedAdvancement();
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    
+    public void initialize() {
+        try {
+            getDetailedAdvancement();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
     }
     
     public String getAdvancementName() {
