@@ -313,28 +313,25 @@ public class EvidenceDAO implements IEvidence {
      * @throws SQLException if there was a problem connecting to the database
      */
     @Override
-    public List<Evidence> getDeliveredEvidences(String studentID) {
+    public List<Evidence> getDeliveredEvidences(String studentID) throws SQLException{
         String sqlQuery = "SELECT titulo, fechaEntrega FROM Evidencias WHERE matriculaEstudiante = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
         
-        List<Evidence> deliveredEvidences = null;
-        try {
-            Connection connection = databaseManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1,studentID);
-            
-            ResultSet resultSet = preparedStatement.executeQuery();
-            deliveredEvidences = new ArrayList<>();
-            while (resultSet.next()) {
-                Evidence evidence = new Evidence();
-                evidence.setEvidenceTitle(resultSet.getString("titulo"));
-                evidence.setDeliverDate(resultSet.getString("fechaEntrega"));
-                deliveredEvidences.add(evidence);
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace(); //log exception
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1,studentID);
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Evidence> deliveredEvidences = new ArrayList<>();
+        while (resultSet.next()) {
+            Evidence evidence = new Evidence();
+            evidence.setEvidenceTitle(resultSet.getString("titulo"));
+            evidence.setDeliverDate(resultSet.getString("fechaEntrega"));
+            deliveredEvidences.add(evidence);
         }
+        
+        databaseManager.closeConnection();
         return deliveredEvidences;
     }
 
