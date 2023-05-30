@@ -1,6 +1,8 @@
 package mx.uv.fei.gui;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import mx.uv.fei.logic.SessionDetails;
 
 import java.io.IOException;
@@ -8,6 +10,13 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class StudentProjectRequestController implements IStudentNavigationBar {
+    @FXML
+    Label labelUsername;
+
+    @FXML
+    public void initialize() {
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
+    }
 
     @Override
     public void redirectToAdvancements() throws IOException {

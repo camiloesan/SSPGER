@@ -47,6 +47,8 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     @FXML
     private Label labelStudents;
     @FXML
+    private Label labelUsername;
+    @FXML
     private TextFlow textInvestigationDescription;
     @FXML
     private TextFlow textReceptionWorkDescription;
@@ -58,6 +60,7 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
     public void initialize() {
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         try {
             getDetailedProject();
         } catch (SQLException sqlException) {

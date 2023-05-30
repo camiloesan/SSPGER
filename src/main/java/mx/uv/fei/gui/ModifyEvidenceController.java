@@ -24,12 +24,15 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     @FXML
     Label labelFileTitle;
     @FXML
+    Label labelUsername;
+    @FXML
     TextField textFieldEvidenceTitle;
     @FXML
     TextArea textAreaEvidenceDescription;
 
     @FXML
     public void initialize() {
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         labelAdvancementTitle.setText(getAdvancementName());
     }
 

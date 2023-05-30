@@ -17,9 +17,12 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     TableView<Advancement> tableViewAdvancement;
     @FXML
     private TableView<Evidence> tableViewEvidence;
+    @FXML
+    Label labelUsername;
 
     @FXML
     private void initialize() {
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         TableColumn<Evidence, String> titleEvidence = new TableColumn<>("Título");
         titleEvidence.setCellValueFactory(new PropertyValueFactory<>("evidenceTitle"));
         TableColumn<Evidence, String> statusEvidence = new TableColumn<>("Estado");

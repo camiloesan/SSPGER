@@ -24,12 +24,15 @@ public class AddEvidenceController implements IStudentNavigationBar {
     @FXML
     Label labelNameFile;
     @FXML
+    Label labelUsername;
+    @FXML
     TextField textFieldEvidenceTitle;
     @FXML
     TextArea textAreaEvidenceDescription;
 
     @FXML
     public void initialize() {
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         labelAdvancementName.setText(TransferAdvancement.getAdvancementName());
     }
 

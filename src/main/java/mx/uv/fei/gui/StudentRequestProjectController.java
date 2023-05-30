@@ -16,6 +16,8 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
     private Label labelProjectTitle;
     @FXML
     private TextArea textAreaDescription;
+    @FXML
+    Label labelUsername;
 
     private boolean confirmedRequestProject() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea solicitar este proyecto?");
@@ -113,6 +115,7 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
 
     @FXML
     public void initialize() {
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         labelProjectTitle.setText("Proyecto a solicitar: " + TransferProject.getReceptionWorkName());
     }
 }
