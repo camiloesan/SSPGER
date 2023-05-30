@@ -9,5 +9,5 @@ public interface IProfessor {
     int addProfessor(Professor professor) throws SQLException;
     List<String> getProfessorsNames() throws SQLException;
     int getProfessorIdByUsername(String username) throws SQLException;
-    String  getProfessorsByProject(int projectID) throws SQLException;
+    String getDirectorsByProject(int projectID) throws SQLException;
 }

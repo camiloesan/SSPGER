@@ -15,9 +15,9 @@ import java.util.List;
 
 public class ProjectDAO implements IProject {
     /**
-     * @param project
+     * @param project project to register in the database
      * @return number of affected rows
-     * @throws SQLException
+     * @throws SQLException if there was problem connecting to the database or adding the project
      */
     @Override
     public int addProject(Project project) throws SQLException {
@@ -50,9 +50,9 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param projectDirectorName
+     * @param projectDirectorName project to set its director
      * @return number of affected rows
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or updating the project
      */
     @Override
     public int setDirectorIDtoProject(Project projectDirectorName) throws SQLException {
@@ -72,9 +72,9 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param projectCodirectorName
+     * @param projectCodirectorName project to set its codirector
      * @return number of affected rows
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or updating the project
      */
     @Override
     public int setCodirectorIDtoProject(Project projectCodirectorName) throws SQLException {
@@ -98,10 +98,10 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param projectId
-     * @param state
+     * @param projectId the id of a project to update
+     * @param state new state
      * @return number of affected rows
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or updating the project
      */
     @Override
     public int updateProjectState(int projectId, String state) throws SQLException {
@@ -117,11 +117,16 @@ public class ProjectDAO implements IProject {
         preparedStatement.setInt(2,projectId);
 
         result = preparedStatement.executeUpdate();
+        
         databaseManager.closeConnection();
-
         return result;
     }
-
+    
+    /**
+     * @param title project title to get its id
+     * @return the id of a registered project
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public int getProjectIDByTitle(String title) throws SQLException {
         String query = "SELECT ID_proyecto FROM Proyectos WHERE nombreTrabajoRecepcional = (?)";
@@ -131,20 +136,19 @@ public class ProjectDAO implements IProject {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, title);
         ResultSet resultSet = preparedStatement.executeQuery();
-        int result = 0;
+        int projectId = 0;
         while (resultSet.next()) {
-            result = resultSet.getInt("ID_proyecto");
+            projectId = resultSet.getInt("ID_proyecto");
         }
 
         databaseManager.closeConnection();
-
-        return result;
+        return projectId;
     }
     
     /**
-     * @param projectState
+     * @param projectState state to get the projects
      * @return List of simple projects by state
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
     public List<SimpleProject> getProjectsByState(String projectState) throws SQLException {
@@ -168,14 +172,14 @@ public class ProjectDAO implements IProject {
             
             simpleProjects.add(itemSimpleProject);
         }
+        
         databaseManager.closeConnection();
-
         return simpleProjects;
     }
     
     /**
      * @return List with all registered projects
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
     public List<SimpleProject> getAllProjects() throws SQLException {
@@ -201,12 +205,12 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param professorID
+     * @param professorID profesor id to get their projects
      * @return list of simple projects by director
-     * @throws SQLException
+     * @throws SQLException  if there was a problem connecting to the database or getting the information
      */
     @Override
-    public List<SimpleProject> getProjectsByCollaboration(int professorID) throws SQLException {
+    public List<SimpleProject> getProjectsByParticipation(int professorID) throws SQLException {
         String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional, estado FROM Proyectos WHERE ID_codirector = (?) OR ID_director = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
@@ -232,9 +236,9 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param projectID
+     * @param projectID the id of a registered project
      * @return project with all its details
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
     public DetailedProject getProjectInfoByID(int projectID) throws SQLException{
@@ -275,7 +279,7 @@ public class ProjectDAO implements IProject {
     
     /**
      * @return list with LGAC
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
     public List<String> getLgacList() throws SQLException {
@@ -300,7 +304,7 @@ public class ProjectDAO implements IProject {
     
     /**
      * @return list with reception work modalities
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
     public List<String> getRWModalitiesList() throws SQLException {
@@ -325,7 +329,7 @@ public class ProjectDAO implements IProject {
     
     /**
      * @return list with academic bodies IDs
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
     public List<String> getAcademicBodyIDs() throws SQLException {
@@ -350,7 +354,7 @@ public class ProjectDAO implements IProject {
     /**
      * @param directorId
      * @return list with reception works names
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
     public List<String> getProjectNamesByIdDirector(int directorId) throws SQLException {
@@ -374,7 +378,7 @@ public class ProjectDAO implements IProject {
     /**
      * @param projectId
      * @return project name
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
     public String getProjectNameById(int projectId) throws SQLException {
@@ -396,9 +400,9 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param title
+     * @param projectID the id of a registered project
      * @return number of affected rows
-     * @throws SQLException
+     * @throws SQLException if there was a problem connecting to the database or deleting the project
      */
     @Override
     public int deleteProjectByID(int projectID) throws SQLException {

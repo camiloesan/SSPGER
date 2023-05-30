@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfessorDAO implements IProfessor {
+    /**
+     * @param professor professor to register in the database
+     * @return number of affected rows
+     * @throws SQLException if there was a problem connecting to the database or adding the professor
+     */
     @Override
     public int addProfessor(Professor professor) throws SQLException{
         int result;
@@ -32,7 +37,11 @@ public class ProfessorDAO implements IProfessor {
 
         return result;
     }
-
+    
+    /**
+     * @return list with all profesor's names
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public List<String> getProfessorsNames() throws SQLException {
         String sqlQuery = "SELECT CONCAT(grado, ' ',nombre, ' ', apellidos) AS nombreCompleto FROM Profesores;";
@@ -53,7 +62,12 @@ public class ProfessorDAO implements IProfessor {
         
         return professorsNames;
     }
-
+    
+    /**
+     * @param username professor username to get their id
+     * @return the id of a registered professor
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public int getProfessorIdByUsername(String username) throws SQLException {
         String query = "select ID_profesor from Profesores where nombreUsuario=(?)";
@@ -73,34 +87,30 @@ public class ProfessorDAO implements IProfessor {
     }
     
     /**
-     * @param projectID
-     * @return stirng with director & codirector names
-     * @throws SQLException
+     * @param projectID project id to get its directors
+     * @return string with director & codirector names
+     * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
-    public String getProfessorsByProject(int projectID) throws SQLException {
+    public String getDirectorsByProject(int projectID) throws SQLException {
         String sqlQuery = "SELECT CONCAT(D.nombre, ' ',D.apellidos, ', ', CD.nombre, ' ',CD.apellidos) AS Directors FROM Profesores D " +
                 "INNER JOIN Proyectos P on D.ID_profesor = P.ID_director " +
                 "INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor " +
                 "WHERE P.ID_proyecto = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
-        String professorNames = null;
-        try {
-            Connection connection = databaseManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            
-            preparedStatement.setInt(1, projectID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                professorNames = resultSet.getString("Directors");
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace(); //log exception
-        } finally {
-            databaseManager.closeConnection();
-        }
+        Connection connection = databaseManager.getConnection();
         
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        String professorNames = null;
+        while (resultSet.next()) {
+            professorNames = resultSet.getString("Directors");
+        }
+
+            databaseManager.closeConnection();
         return professorNames;
     }
 }

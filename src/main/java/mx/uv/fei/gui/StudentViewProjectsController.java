@@ -15,6 +15,7 @@ import mx.uv.fei.logic.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
+import org.apache.log4j.Logger;
 
 public class StudentViewProjectsController implements IStudentNavigationBar{
     @FXML
@@ -25,10 +26,16 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     private HBox hboxLogOutLabel;
     
     private static final String VERIFIED_PROJECT_STATUS = "Verificado";
+    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
-    public void initialize() throws SQLException {
+    public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        fillListViewProjects();
+        try {
+            fillListViewProjects();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
         setProjectTitles();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }

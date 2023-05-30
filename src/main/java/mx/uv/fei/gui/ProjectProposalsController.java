@@ -56,7 +56,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private static final String DECLINED_PROJECT_STATE = "Declinado";
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
  
-    public void initialize() throws SQLException {
+    public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         prepareTableViewProjects();
         buttonSeguimiento.setVisible(false);
@@ -128,7 +128,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         ProjectDAO projectDAO = new ProjectDAO();
         buttonSeguimiento.setVisible(true);
         tableViewProjects.getItems().clear();
-        tableViewProjects.getItems().addAll(projectDAO.getProjectsByCollaboration(Integer.parseInt(LoginController.sessionDetails.getId())));
+        tableViewProjects.getItems().addAll(projectDAO.getProjectsByParticipation(Integer.parseInt(LoginController.sessionDetails.getId())));
     }
     
     private void fillFilteredProjects(String projectState) throws SQLException {

@@ -79,22 +79,18 @@ public class StudentDAO implements IStudent {
         Connection connection = databaseManager.getConnection();
         
         String studentID = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1,username);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                studentID = resultSet.getString("matricula");
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        } finally {
-            databaseManager.closeConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1,username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            studentID = resultSet.getString("matricula");
         }
+
+        databaseManager.closeConnection();
         return studentID;
     }
 
-    @Override
+    /*@Override
     public String getStudentIDByProfessorID(int professorID) throws SQLException {
         String query = "SELECT Estudiantes.matricula " +
                 "FROM Estudiantes " +
@@ -114,7 +110,7 @@ public class StudentDAO implements IStudent {
         }
         databaseManager.closeConnection();
         return studentID;
-    }
+    }*/
     
     /**
      * @param projectID the id of a registered project
@@ -131,23 +127,19 @@ public class StudentDAO implements IStudent {
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1,projectID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
         List<Student> studentList = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1,projectID);
-            
-            ResultSet resultSet = preparedStatement.executeQuery();
-            
-            while (resultSet.next()){
-                Student student = new Student();
-                student.setStudentID(resultSet.getString("matricula"));
-                student.setFullName(resultSet.getString("Alumno"));
-                studentList.add(student);
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace(); // log exception
+        while (resultSet.next()){
+            Student student = new Student();
+            student.setStudentID(resultSet.getString("matricula"));
+            student.setFullName(resultSet.getString("Alumno"));
+            studentList.add(student);
         }
         
+        databaseManager.closeConnection();
         return studentList;
     }
 }
