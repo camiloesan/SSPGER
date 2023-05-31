@@ -14,7 +14,6 @@ import mx.uv.fei.logic.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -50,7 +49,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     }
     @FXML
     private void modifyEvidence() {
-        if (fullFields() && confirmedModify()) {
+        if (fieldsCorrect() && confirmedModify()) {
             EvidenceDAO evidenceDAO = new EvidenceDAO();
             Evidence evidence = new Evidence();
 
@@ -58,10 +57,18 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
             evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
             evidence.setEvidenceId(TransferEvidence.getEvidenceId());
 
+            int resultDAO = 0;
             try {
-                evidenceDAO.modifyEvidence(evidence);
+                resultDAO = evidenceDAO.modifyEvidence(evidence);
             } catch (SQLException modifyEvidenceException) {
                 modifyEvidenceException.printStackTrace();
+            }
+            if(resultDAO == 1) {
+                DialogGenerator.getDialog(new AlertMessage
+                        ("La evidencia ha sido actualizada con exito", AlertStatus.SUCCESS));
+            } else {
+                DialogGenerator.getDialog(new AlertMessage
+                        ("Algo salió mal, su evidencia no fue guardad", AlertStatus.ERROR));
             }
         }
     }
@@ -94,13 +101,22 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
             evidenceFile.delete();
         }
     }
-    private boolean fullFields() {
-        boolean result;
+    private boolean fieldsCorrect() {
+        boolean result = false;
         if (textFieldEvidenceTitle.getText().isBlank() || textAreaEvidenceDescription.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage("Rellena los campos correctamente", AlertStatus.WARNING));
-            result = false;
         } else {
-            result = true;
+            final int MAX_TITLE_EVIDENCE_LENGTH = 30;
+            final int MAX_DESCRIPTION_EVIDENCE_LENGTH = 100;
+            if (textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH
+                    || textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Exediste el máximo de carateres (30 para el título, 100 para los motivos)",
+                        AlertStatus.WARNING));
+                result = false;
+            } else {
+                result = true;
+            }
         }
         return result;
     }
@@ -140,15 +156,14 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
         return LoginController.sessionDetails.getId();
     }
 
-    private Path createPath(String projectID, String advancementName, String studentName) {
+    private void createPath(String projectID, String advancementName, String studentName) {
         File path = new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
                 +projectID+"/"
                 +advancementName+"/"+studentName);
-        if (path.exists() == false) {
+        if (!path.exists()) {
             path.mkdirs();
         }
-        return path.toPath();
     }
 
     @Override

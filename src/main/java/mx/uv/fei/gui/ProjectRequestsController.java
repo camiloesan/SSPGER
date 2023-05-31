@@ -122,7 +122,8 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     private void fillTableViewProjectRequests() throws SQLException {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         tableViewRequests.getItems().clear();
-        tableViewRequests.getItems().addAll(projectRequestDAO.getProjectRequestsListByProfessorId(Integer.parseInt(SessionDetails.getInstance().getId())));
+        tableViewRequests.getItems().addAll(projectRequestDAO.
+                getProjectRequestsListByProfessorId(Integer.parseInt(SessionDetails.getInstance().getId())));
     }
 
     @Override

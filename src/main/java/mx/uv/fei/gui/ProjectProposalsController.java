@@ -214,7 +214,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
             ProjectDAO projectDAO = new ProjectDAO();
             try {
-                projectDAO.updateProjectState(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID(), VERIFIED_PROJECT_STATE);
+                projectDAO.updateProjectState(tableViewProjects
+                        .getSelectionModel().getSelectedItem().getProjectID(), VERIFIED_PROJECT_STATE);
                 refreshFilteredTable();
             } catch (SQLException requestException) {
                 DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar el estado.",AlertStatus.ERROR));

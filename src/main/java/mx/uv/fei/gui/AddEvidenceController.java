@@ -14,7 +14,6 @@ import mx.uv.fei.logic.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class AddEvidenceController implements IStudentNavigationBar {
 
     @FXML
     private void sendEvidence() {
-        if (fullFields() && confirmedEvidence()) {
+        if (fieldsCorrect() && confirmedEvidence()) {
             EvidenceDAO evidenceDAO = new EvidenceDAO();
             Evidence evidence = new Evidence();
 
@@ -47,15 +46,21 @@ public class AddEvidenceController implements IStudentNavigationBar {
             evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
             evidence.setStudentId(LoginController.sessionDetails.getId());
 
+            int resultDAO= 0;
             try {
-                evidenceDAO.addEvidence(evidence);
+                resultDAO = evidenceDAO.addEvidence(evidence);
             } catch (SQLException addEvidenceException) {
                 DialogGenerator.getDialog(new AlertMessage
                         ("Algo salió mal, vuelva a intentarlo más tarde", AlertStatus.ERROR));
                 addEvidenceException.printStackTrace();
             }
-            DialogGenerator.getDialog(new AlertMessage
-                    ("La evidencia ha sido guardado con exito", AlertStatus.SUCCESS));
+            if(resultDAO == 1) {
+                DialogGenerator.getDialog(new AlertMessage
+                        ("La evidencia ha sido guardado con exito", AlertStatus.SUCCESS));
+            } else {
+                DialogGenerator.getDialog(new AlertMessage
+                        ("Algo salió mal, su evidencia no fue guardad", AlertStatus.ERROR));
+            }
         }
     }
 
@@ -106,7 +111,7 @@ public class AddEvidenceController implements IStudentNavigationBar {
         return LoginController.sessionDetails.getId();
     }
 
-    private Path createPath(String projectID, String advancementName, String studentName) {
+    private void createPath(String projectID, String advancementName, String studentName) {
         File path = new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
                 +projectID+"/"
@@ -114,7 +119,6 @@ public class AddEvidenceController implements IStudentNavigationBar {
         if (!path.exists()) {
             path.mkdirs();
         }
-        return path.toPath();
     }
 
     @Override
@@ -137,13 +141,22 @@ public class AddEvidenceController implements IStudentNavigationBar {
         MainStage.changeView("studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
-    private boolean fullFields() {
-        boolean result;
+    private boolean fieldsCorrect() {
+        boolean result = false;
         if (textFieldEvidenceTitle.getText().isBlank() || textAreaEvidenceDescription.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage("Rellena los campos correctamente", AlertStatus.WARNING));
-            result = false;
         } else {
-            result = true;
+            final int MAX_TITLE_EVIDENCE_LENGTH = 30;
+            final int MAX_DESCRIPTION_EVIDENCE_LENGTH = 100;
+            if (textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH
+                    || textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Exediste el máximo de carateres (30 para el título, 100 para los motivos)",
+                        AlertStatus.WARNING));
+                result = false;
+            } else {
+                result = true;
+            }
         }
         return result;
     }

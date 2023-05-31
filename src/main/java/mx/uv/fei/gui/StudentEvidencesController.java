@@ -40,7 +40,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
             fillTableViewEvidence();
             fillTableViewAdvancement();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos," +
+                    " inténtelo de nuevo más tarde", AlertStatus.ERROR));
             sqlException.printStackTrace();
         }
     }

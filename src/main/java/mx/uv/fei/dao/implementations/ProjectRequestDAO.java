@@ -101,6 +101,8 @@ public class ProjectRequestDAO implements IProjectRequest {
             projectRequestList.add(projectRequest);
         }
 
+        databaseManager.closeConnection();
+
         return projectRequestList;
     }
 
