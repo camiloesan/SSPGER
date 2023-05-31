@@ -5,10 +5,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.ProjectRequest;
-import mx.uv.fei.logic.SessionDetails;
+import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -57,14 +54,25 @@ public class StudentProjectRequestController implements IStudentNavigationBar {
     }
 
     @FXML
-    public void deleteProjectRequest() {
+    public void deleteProjectRequest() throws IOException {
         if (confirmedDelete()) {
             ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+            int result = 0;
+
             try {
-                projectRequestDAO.deleteProjectRequest(projectRequestDAO
+                result = projectRequestDAO.deleteProjectRequest(projectRequestDAO
                         .getProjectRequestIDByStudentID(SessionDetails.getInstance().getId()));
+                redirectToProjects();
             } catch (SQLException deleteProjectRequestException) {
                 deleteProjectRequestException.printStackTrace();
+            }
+
+            if (result == 1) {
+                DialogGenerator.getDialog(new AlertMessage(
+                                "Se eliminó con exito la petición", AlertStatus.SUCCESS));
+            } else {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo modificar la petición", AlertStatus.WARNING));
             }
         }
     }

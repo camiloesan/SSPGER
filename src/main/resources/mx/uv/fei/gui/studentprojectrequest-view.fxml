@@ -175,7 +175,6 @@
                               <Button mnemonicParsing="false" onAction="#deleteProjectRequest" text="Eliminar" />
                            </children>
                         </VBox>
-                        <Button mnemonicParsing="false" text="Modificar" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
