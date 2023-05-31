@@ -132,9 +132,18 @@ public class ProgressReportController implements IProfessorNavigationBar{
         tableViewEvidences.getItems().clear();
         tableViewEvidences.getItems().addAll(evidenceDAO.getDeliveredEvidences(TransferStudent.getStudentID()));
     }
-    
+
     @FXML
-    private void generateProgressReport() throws IOException {
+    private void generatePDF() {
+        try {
+            pdfGenerator();
+        } catch (IOException ioException) {
+            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al terminar de generar el PDF", AlertStatus.ERROR));
+            logger.error(ioException);
+        }
+    }
+
+    private void pdfGenerator() throws IOException {
         PdfWriter pdfWriter = null;
         PdfDocument pdfDocument = null;
         Document document = null;
@@ -152,12 +161,11 @@ public class ProgressReportController implements IProfessorNavigationBar{
             
             DialogGenerator.getDialog(new AlertMessage("Se ha generado el reporte", AlertStatus.SUCCESS));
         } catch (FileNotFoundException fileNotFoundException) {
-            fileNotFoundException.printStackTrace();
             DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al generar el PDF", AlertStatus.ERROR));
+            logger.error(fileNotFoundException);
         } catch (IOException ioException) {
-            ioException.printStackTrace();
-            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al generar el PDF", AlertStatus.ERROR));
-            System.out.println(ioException.getMessage());
+            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al crear el PDF", AlertStatus.ERROR));
+            logger.error(ioException);
         } finally {
             if (document != null) {
                 document.close();
