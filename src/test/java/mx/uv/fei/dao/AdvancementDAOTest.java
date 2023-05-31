@@ -94,6 +94,18 @@ AdvancementDAOTest {
     }
 
     @Test
+    void testAddAdvancementShouldNotAdd() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        Advancement advancement1 = new Advancement();
+        advancement1.setAdvancementName("zxb");
+        advancement1.setAdvancementDescription("zxb");
+        advancement1.setAdvancementStartDate("2023-05-29");
+        advancement1.setAdvancementDeadline("2023-06-27");
+        advancement1.setProjectId(0);
+        advancementDAO.addAdvancement(advancement1);
+    }
+
+    @Test
     void testGetAdvancementDetailsByIdObject() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         System.out.println(advancementDAO.getLastAdvancementID());

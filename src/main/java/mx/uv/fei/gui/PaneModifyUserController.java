@@ -64,18 +64,21 @@ public class PaneModifyUserController {
     @FXML
     private void buttonConfirmModificationAction() {
         if (areAccessAccountFieldsValid()) {
-            switch (comboBoxUserTypeToModify.getValue()) {
-                case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
-                    if (areProfessorFieldsValid()) {
-                        modifyProfessorUser();
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea modificar al usuario?");
+            if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
+                switch (comboBoxUserTypeToModify.getValue()) {
+                    case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
+                        if (areProfessorFieldsValid()) {
+                            modifyProfessorUser();
+                        }
                     }
-                }
-                case LoginController.USER_STUDENT -> {
-                    if (areStudentFieldsValid()) {
-                        modifyStudentUser();
+                    case LoginController.USER_STUDENT -> {
+                        if (areStudentFieldsValid()) {
+                            modifyStudentUser();
+                        }
                     }
+                    default -> DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
                 }
-                default -> DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
             }
         }
     }

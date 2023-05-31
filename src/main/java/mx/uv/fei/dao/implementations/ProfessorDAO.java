@@ -88,7 +88,7 @@ public class ProfessorDAO implements IProfessor {
     
     /**
      * @param projectID project id to get its directors
-     * @return string with director & codirector names
+     * @return string with director and codirector names
      * @throws SQLException if there was a problem connecting to the database or getting the information
      */
     @Override
