@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -41,6 +42,7 @@ public class PaneModifyUserController {
     private TextField textFieldNewStudentName;
     @FXML
     private TextField textFieldUserToModify;
+    private static final Logger logger = Logger.getLogger(PaneModifyUserController.class);
 
     private final static ObservableList<String> observableListComboItemsUserType =
             FXCollections.observableArrayList(LoginController.USER_STUDENT,
@@ -54,7 +56,8 @@ public class PaneModifyUserController {
         comboBoxUserTypeToModify.setValue(UserManagementController.getUserType());
         switch (UserManagementController.getUserType()) {
             case LoginController.USER_STUDENT -> gridPaneNewStudent.setVisible(true);
-            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> gridPaneNewProfessor.setVisible(true);
+            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> gridPaneNewProfessor
+                    .setVisible(true);
         }
         textFieldUserToModify.setText(UserManagementController.getUsername());
         comboBoxUserTypeToModify.setItems(observableListComboItemsUserType);
@@ -64,7 +67,8 @@ public class PaneModifyUserController {
     @FXML
     private void buttonConfirmModificationAction() {
         if (areAccessAccountFieldsValid()) {
-            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea modificar al usuario?");
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                    "¿Está seguro que desea modificar al usuario?");
             if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
                 switch (comboBoxUserTypeToModify.getValue()) {
                     case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
@@ -77,7 +81,8 @@ public class PaneModifyUserController {
                             modifyStudentUser();
                         }
                     }
-                    default -> DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
+                    default -> DialogGenerator.getDialog(new AlertMessage(
+                            "Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
                 }
             }
         }
@@ -86,10 +91,12 @@ public class PaneModifyUserController {
     private boolean areAccessAccountFieldsValid() {
         if (textFieldNewPassword.getText().isBlank()
                 || comboBoxUserTypeToModify.getValue() == null) {
-            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if (textFieldNewPassword.getText().length() > MAX_LENGTH_PASSWORD){
-            DialogGenerator.getDialog(new AlertMessage("Has sobrepasado el límite de caracteres, inténtalo de nuevo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Has sobrepasado el límite de caracteres, inténtalo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;
@@ -107,12 +114,14 @@ public class PaneModifyUserController {
                 || textFieldNewProfessorLastName.getText().isBlank()
                 || comboBoxNewProfessorDegree.getValue() == null
                 || textFieldNewProfessorEmail.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if(textFieldNewProfessorName.getText().length() > MAX_LENGTH_NAME
                 || textFieldNewProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME
                 || textFieldNewProfessorEmail.getText().length() > MAX_LENGTH_EMAIL) {
-            DialogGenerator.getDialog(new AlertMessage("Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;
@@ -124,13 +133,15 @@ public class PaneModifyUserController {
                 || textFieldNewStudentName.getText().isBlank()
                 || textFieldNewStudentLastName.getText().isBlank()
                 || textFieldNewStudentEmail.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if (textFieldNewStudentId.getText().length() > MAX_LENGTH_STUDENT_ID
                 || textFieldNewStudentName.getText().length() > MAX_LENGTH_NAME
                 || textFieldNewStudentLastName.getText().length() > MAX_LENGTH_LASTNAME
                 || textFieldNewStudentEmail.getText().length() > MAX_LENGTH_EMAIL) {
-            DialogGenerator.getDialog(new AlertMessage("Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;
@@ -148,9 +159,12 @@ public class PaneModifyUserController {
         professor.setProfessorDegree(comboBoxNewProfessorDegree.getValue());
         professor.setProfessorEmail(textFieldNewProfessorEmail.getText());
         try {
-            accessAccountDAO.modifyProfessorUserTransaction(UserManagementController.getUsername(), accessAccount, professor);
+            accessAccountDAO
+                    .modifyProfessorUserTransaction(UserManagementController.getUsername(), accessAccount, professor);
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo modificar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo modificar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
@@ -165,9 +179,12 @@ public class PaneModifyUserController {
         student.setLastName(textFieldNewStudentLastName.getText());
         student.setAcademicEmail(textFieldNewStudentEmail.getText());
         try {
-            accessAccountDAO.modifyStudentUserTransaction(UserManagementController.getUsername(), accessAccount, student);
+            accessAccountDAO
+                    .modifyStudentUserTransaction(UserManagementController.getUsername(), accessAccount, student);
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo modificar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo modificar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
@@ -195,7 +212,8 @@ public class PaneModifyUserController {
     }
 
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 

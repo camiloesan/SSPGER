@@ -32,7 +32,8 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
         try {
             fillListViewAdvancements();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información",AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información",AlertStatus.ERROR));
             logger.error(sqlException);
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
@@ -45,7 +46,8 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
         String studentId = studentDAO.getStudentIdByUsername(LoginController.sessionDetails.getUsername());
         
         listViewAdvancementsNames.getItems().clear();
-        List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByStudentId(studentId));
+        List<Advancement> advancementList = new ArrayList<>(advancementDAO
+                .getListAdvancementNamesByStudentId(studentId));
         advancementList.forEach(element -> listViewAdvancementsNames.getItems().add(element.getAdvancementName()));
     }
     
@@ -55,7 +57,8 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
             TransferAdvancement.setAdvancementName(advancementName);
             MainStage.changeView("studentviewadvancementdetails-view.fxml",1000,600);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un avance para ver los detalles.", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un avance para ver los detalles.", AlertStatus.WARNING));
         }
     }
     
@@ -80,7 +83,8 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     }
     
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
     

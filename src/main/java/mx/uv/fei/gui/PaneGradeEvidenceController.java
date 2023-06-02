@@ -33,13 +33,15 @@ public class PaneGradeEvidenceController {
             try {
                 grade = Integer.parseInt(textFieldGrade.getText());
             } catch (Exception e) {
-                DialogGenerator.getDialog(new AlertMessage("El formato no es válido, inténtalo de nuevo", AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "El formato no es válido, inténtalo de nuevo", AlertStatus.WARNING));
                 return false;
             }
             if (grade >= 0 && grade <= 10) {
                 return true;
             } else {
-                DialogGenerator.getDialog(new AlertMessage("El rango permitido es del 0 al 10", AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "El rango permitido es del 0 al 10", AlertStatus.WARNING));
                 return false;
             }
         }
@@ -52,9 +54,11 @@ public class PaneGradeEvidenceController {
             int grade = Integer.parseInt(textFieldGrade.getText());
             try {
                 evidenceDAO.updateEvidenceGradeById(TransferEvidence.getEvidenceId(), grade);
-                DialogGenerator.getDialog(new AlertMessage("Se actualizó la calificación satisfactoriamente", AlertStatus.SUCCESS));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Se actualizó la calificación satisfactoriamente", AlertStatus.SUCCESS));
             } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar la calificación, inténtelo más tarde", AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo actualizar la calificación, inténtelo más tarde", AlertStatus.ERROR));
                 logger.error(sqlException);
             }
         }

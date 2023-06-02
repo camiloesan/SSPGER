@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     private TableView<Evidence> tableViewEvidence;
     @FXML
     private Label labelUsername;
+    private static final Logger logger = Logger.getLogger(ProfessorEvidencesController.class);
 
     @FXML
     private void initialize() {
@@ -28,23 +30,9 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
         try {
             fillTableViewEvidence();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
-            sqlException.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void openPaneGradeEvidence() throws IOException {
-        if (isItemSelected()) {
-            int evidenceId = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceId();
-            String evidenceName = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceTitle();
-
-            TransferEvidence.setEvidenceId(evidenceId);
-            TransferEvidence.setEvidenceName(evidenceName);
-
-            MainStage.changeView("panegradeevidence-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } else {
-            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar una evidencia para continuar", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos," +
+                    " inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
@@ -55,9 +43,11 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceId());
-            MainStage.changeView("viewevidencedetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "viewevidencedetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar una evidencia para continuar", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Debes seleccionar una evidencia para continuar", AlertStatus.WARNING));
         }
     }
 
@@ -69,7 +59,8 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     private void fillTableViewEvidence() throws SQLException {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         tableViewEvidence.getItems().clear();
-        tableViewEvidence.getItems().addAll(evidenceDAO.getEvidenceListByProfessorID(Integer.parseInt(LoginController.sessionDetails.getId())));
+        tableViewEvidence.getItems().addAll(evidenceDAO
+                .getEvidenceListByProfessorID(Integer.parseInt(LoginController.sessionDetails.getId())));
     }
 
     @Override
@@ -78,11 +69,12 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     }
 
     @Override
-    public void redirectToProfessorProjectManagement() throws IOException{
+    public void redirectToProfessorProjectManagement() throws IOException {
         if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
-            MainStage.changeView("professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }
     }
 
@@ -97,7 +89,8 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     }
 
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
 

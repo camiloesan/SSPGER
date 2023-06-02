@@ -41,14 +41,16 @@ public class TimelineController {
         try {
             generateTimeline();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información de la base de datos", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
 
     private void generateTimeline() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        List<Advancement> advancementList =  advancementDAO.getAdvancementListByProjectId(TransferProject.getProjectID());
+        List<Advancement> advancementList = advancementDAO
+                .getAdvancementListByProjectId(TransferProject.getProjectID());
 
         AnchorPane anchorPane = new AnchorPane();
 
@@ -97,8 +99,10 @@ public class TimelineController {
         for (Advancement advancementObject : advancementList) {
             i++;
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDateTime dateStart = LocalDate.parse(advancementObject.getAdvancementStartDate(), dateTimeFormatter).atStartOfDay();
-            LocalDateTime dateEnd = LocalDate.parse(advancementObject.getAdvancementDeadline(), dateTimeFormatter).atStartOfDay();
+            LocalDateTime dateStart = LocalDate.parse(advancementObject.getAdvancementStartDate(),
+                    dateTimeFormatter).atStartOfDay();
+            LocalDateTime dateEnd = LocalDate.parse(advancementObject.getAdvancementDeadline(),
+                    dateTimeFormatter).atStartOfDay();
             long daysBetween = Duration.between(dateStart, dateEnd).toDays();
             long offsetDays = Duration.between(LocalDate.now().atStartOfDay(), dateStart).toDays();
 
@@ -140,15 +144,17 @@ public class TimelineController {
                 TransferAdvancement.setAdvancementID(advancementObject.getAdvancementID());
                 if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)) {
                     try {
-                        MainStage.changeView("studentviewadvancementdetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                        MainStage.changeView("studentviewadvancementdetails-view.fxml", 1000, 600 +
+                                MainStage.HEIGHT_OFFSET);
+                    } catch (IOException ioException) {
+                        logger.error(ioException);
                     }
                 } else {
                     try {
-                        MainStage.changeView("paneadvancementdetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                        MainStage.changeView("paneadvancementdetails-view.fxml", 1000, 600 +
+                                MainStage.HEIGHT_OFFSET);
+                    } catch (IOException ioException) {
+                        logger.error(ioException);
                     }
                 }
             });
@@ -163,9 +169,12 @@ public class TimelineController {
     @FXML
     private void returnToPreviousWindow() throws IOException {
         switch (SessionDetails.getInstance().getUserType()) {
-            case "Profesor" -> MainStage.changeView("professorviewprojects-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-            case "RepresentanteCA" -> MainStage.changeView("projectproposals-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-            case "Estudiante" -> MainStage.changeView("studentviewprojects-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            case "Profesor" -> MainStage.changeView(
+                    "professorviewprojects-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            case "RepresentanteCA" -> MainStage.changeView(
+                    "projectproposals-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            case "Estudiante" -> MainStage.changeView(
+                    "studentviewprojects-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 }

@@ -70,7 +70,8 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         try {
             fillCombos();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información necesaria para el registro.",AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información necesaria para el registro.",AlertStatus.ERROR));
             logger.error(sqlException);
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
@@ -178,11 +179,13 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         boolean flag;
         
         if (emptyFields()) {
-            DialogGenerator.getDialog(new AlertMessage("Se deben llenar todos los campos.", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Se deben llenar todos los campos.", AlertStatus.WARNING));
             flag = false;
         } else {
             if (overSizeData()) {
-                DialogGenerator.getDialog(new AlertMessage("La información sobrepasa el límite de caracteres.", AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "La información sobrepasa el límite de caracteres.", AlertStatus.WARNING));
                 flag = false;
             } else {
                 flag = true;
@@ -196,9 +199,11 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         if (validFields()){
             try {
                 registerProject();
-                DialogGenerator.getDialog(new AlertMessage("Se registró el anteproyecto exitosamente", AlertStatus.SUCCESS));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Se registró el anteproyecto exitosamente", AlertStatus.SUCCESS));
             } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("Error al registrar el anteproyecto, inténtelo más tarde", AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Error al registrar el anteproyecto, inténtelo más tarde", AlertStatus.ERROR));
                 clearFields();
                 logger.error(sqlException);
             }
@@ -245,7 +250,8 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
-            MainStage.changeView("professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }
     }
     
@@ -260,7 +266,8 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     }
     
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     
