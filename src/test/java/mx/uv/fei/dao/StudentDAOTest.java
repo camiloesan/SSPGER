@@ -63,7 +63,7 @@ class StudentDAOTest {
         student.setAcademicEmail("example");
         student.setUsername("exampleToInsert");
 
-        userDAO.addStudentUserTransaction(accessAccount, student);
+        userDAO.addUser(accessAccount);
 
         int expectedResult = 1;
         int result = studentDAO.insertStudent(student);
