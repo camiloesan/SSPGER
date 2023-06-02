@@ -33,7 +33,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
     Text textDescription;
     private static final String ACCEPT_REQUEST = "Aceptado";
-    private static final String DECLINE_REQUEST = "Rechazadoado";
+    private static final String DECLINE_REQUEST = "Rechazado";
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
 
     @FXML
