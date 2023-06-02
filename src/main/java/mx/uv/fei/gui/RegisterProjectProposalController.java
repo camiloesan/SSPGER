@@ -39,7 +39,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     @FXML
     private TextArea textAreaInvestigationLine;
     @FXML
-    private TextField textFieldAproxDuration;
+    private ComboBox<String> comboDuration;
     @FXML
     private ComboBox<String> comboRecptionWorkModality;
     @FXML
@@ -83,6 +83,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         fillReceptionWorkModalityCombo();
         fillAcademicBodycombo();
         fillStudentsCombo();
+        fillDurationCombo();
     }
     
     private void fillLgacCombo() throws SQLException {
@@ -119,6 +120,11 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         comboStudents.setItems(numberOfStudents);
     }
     
+    private void fillDurationCombo() {
+        ObservableList<String> numberOfStudents = FXCollections.observableArrayList("6 meses", "12 meses", "18 meses");
+        comboDuration.setItems(numberOfStudents);
+    }
+    
     private void fillAcademicBodycombo() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
         ObservableList<String> academicBodyID = FXCollections.observableArrayList();
@@ -131,7 +137,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         return comboAB.getValue() == null
                 || comboLGAC.getValue() == null
                 || textAreaInvestigationLine.getText().isBlank()
-                || textFieldAproxDuration.getText().isBlank()
+                || comboDuration.getValue() == null
                 || comboRecptionWorkModality.getValue() == null
                 || textAreaReceptionWorkName.getText().isBlank()
                 || textAreaRequisites.getText().isBlank()
@@ -147,7 +153,6 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     private boolean overSizeData() {
         return textAreaInvestigationProjectName.getText().length() > 200
                 || textAreaInvestigationLine.getText().length() > 300
-                || textFieldAproxDuration.getText().length() > 10
                 || textAreaReceptionWorkName.getText().length() > 200
                 || textAreaRequisites.getText().length() > 500
                 || textAreaInvestigationProjectDescription.getText().length() > 5000
@@ -162,7 +167,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         textAreaInvestigationProjectName.clear();
         comboLGAC.setValue(comboLGAC.getPromptText());
         textAreaInvestigationLine.clear();
-        textFieldAproxDuration.clear();
+        comboDuration.setValue(comboDuration.getPromptText());
         comboRecptionWorkModality.setValue(comboRecptionWorkModality.getPromptText());
         textAreaReceptionWorkName.clear();
         textAreaRequisites.clear();
@@ -218,7 +223,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         project.setInvestigationProjectName(textAreaInvestigationProjectName.getText());
         project.setLGAC_Id(comboLGAC.getSelectionModel().getSelectedIndex() + 1);
         project.setInvestigationLine(textAreaInvestigationLine.getText());
-        project.setApproximateDuration(textFieldAproxDuration.getText());
+        project.setApproximateDuration(comboDuration.getSelectionModel().getSelectedItem());
         project.setModalityId(comboRecptionWorkModality.getSelectionModel().getSelectedIndex() + 1);
         project.setReceptionWorkName(textAreaReceptionWorkName.getText());
         project.setRequisites(textAreaRequisites.getText());

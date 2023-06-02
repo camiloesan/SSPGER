@@ -79,7 +79,8 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     
     private void getDetailedProject() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
-        DetailedProject detailedProject = (projectDAO.getProjectInfoByID(getTransferProjectID()));
+        int projectID = getTransferProjectID();
+        DetailedProject detailedProject = (projectDAO.getProjectInfoByID(projectID));
         
         labelAcademicBody.setText(detailedProject.getAcademicBodyName());
         

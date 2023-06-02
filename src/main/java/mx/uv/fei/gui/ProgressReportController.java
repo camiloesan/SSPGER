@@ -123,10 +123,17 @@ public class ProgressReportController implements IProfessorNavigationBar{
     private void setTableHeight() throws SQLException{
         double rowHeight = 24.0;
         double headerHeight = 28.0;
-        double minHeight = headerHeight + (getNumberOfEvidences() * rowHeight);
+        double minHeight;
+        
+        if (getNumberOfEvidences() == 0) {
+            minHeight = rowHeight * 5;
+        } else {
+            minHeight = headerHeight + (getNumberOfEvidences() * rowHeight);
+        }
         tableViewEvidences.setMinHeight(minHeight);
         tableViewEvidences.setMaxHeight(minHeight);
         tableViewEvidences.setPrefHeight(minHeight);
+        
     }
     
     private void fillTableViewEvidences() throws SQLException{

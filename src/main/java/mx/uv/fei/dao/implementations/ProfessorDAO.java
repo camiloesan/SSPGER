@@ -13,32 +13,6 @@ import java.util.List;
 
 public class ProfessorDAO implements IProfessor {
     /**
-     * @param professor professor to register in the database
-     * @return number of affected rows
-     * @throws SQLException if there was a problem connecting to the database or adding the professor
-     */
-    @Override
-    public int addProfessor(Professor professor) throws SQLException{
-        int result;
-        String sqlQuery = "INSERT INTO Profesores (grado, nombre, apellidos, correoInstitucional, nombreUsuario) VALUES (?,?,?,?,?)";
-
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        
-        preparedStatement.setString(1,professor.getProfessorDegree());
-        preparedStatement.setString(2, professor.getProfessorName());
-        preparedStatement.setString(3,professor.getProfessorLastName());
-        preparedStatement.setString(4,professor.getProfessorEmail());
-        preparedStatement.setString(5, professor.getUsername());
-
-        result = preparedStatement.executeUpdate();
-        databaseManager.closeConnection();
-
-        return result;
-    }
-    
-    /**
      * @return list with all profesor's names
      * @throws SQLException if there was a problem connecting to the database or getting the information
      */
@@ -64,6 +38,7 @@ public class ProfessorDAO implements IProfessor {
     }
     
     /**
+     * CANNOT BE TESTED
      * @param username professor username to get their id
      * @return the id of a registered professor
      * @throws SQLException if there was a problem connecting to the database or getting the information
@@ -93,7 +68,8 @@ public class ProfessorDAO implements IProfessor {
      */
     @Override
     public String getDirectorsByProject(int projectID) throws SQLException {
-        String sqlQuery = "SELECT CONCAT(D.nombre, ' ',D.apellidos, ', ', CD.nombre, ' ',CD.apellidos) AS Directors FROM Profesores D " +
+        String sqlQuery = "SELECT CONCAT(D.grado,' ', D.nombre, ' ',D.apellidos, ', ', CD.grado, ' ', CD.nombre, ' ',CD.apellidos) AS Directors " +
+                "FROM Profesores D " +
                 "INNER JOIN Proyectos P on D.ID_profesor = P.ID_director " +
                 "INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor " +
                 "WHERE P.ID_proyecto = (?)";

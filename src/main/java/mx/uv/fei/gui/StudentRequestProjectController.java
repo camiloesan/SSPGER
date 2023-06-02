@@ -20,6 +20,7 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
     @FXML
     Label labelUsername;
     private static final Logger logger = Logger.getLogger(StudentRequestProjectController.class);
+    private static final int DESCRIPTION_PROJECT_REQUEST_MAX_LENGTH = 850;
 
     private boolean confirmedRequestProject() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
@@ -37,14 +38,19 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
     }
 
     private boolean confirmedFields() {
-        boolean response;
+        boolean result;
         if (textAreaDescription.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage("Añade tus motivos a la petición", AlertStatus.WARNING));
-            response = false;
+            result = false;
         } else {
-            response = true;
+            if (textAreaDescription.getText().length() > DESCRIPTION_PROJECT_REQUEST_MAX_LENGTH) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Sobrepasó el límite de caracteres (850)", AlertStatus.WARNING));
+            }
+            result = true;
         }
-        return response;
+
+        return result;
     }
 
     private boolean confirmedRequests() {

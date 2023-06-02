@@ -32,7 +32,8 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     Button buttonReject;
     @FXML
     Text textDescription;
-    private static String VALIDATION_REQUEST;
+    private static final String ACCEPT_REQUEST = "Aceptado";
+    private static final String DECLINE_REQUEST = "Rechazado";
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
 
     @FXML
@@ -93,40 +94,42 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
     private void acceptRequest() {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-        VALIDATION_REQUEST = "Aceptado";
-        try {
-            projectRequestDAO.validateProjectRequest(VALIDATION_REQUEST, tableViewRequests
-                    .getSelectionModel()
-                    .getSelectedItem()
-                    .getProjectPetitionID());
-        } catch (SQLException requestException) {
-            requestException.printStackTrace();
-        }
-        tableViewRequests.getItems().clear();
-        try {
-            fillTableViewProjectRequests();
-        } catch (SQLException tableException) {
-            tableException.printStackTrace();
+        if (projectRequestIsSelected()) {
+            try {
+                projectRequestDAO.validateProjectRequest(ACCEPT_REQUEST, tableViewRequests
+                        .getSelectionModel()
+                        .getSelectedItem()
+                        .getProjectPetitionID());
+            } catch (SQLException requestException) {
+                requestException.printStackTrace();
+            }
+            tableViewRequests.getItems().clear();
+            try {
+                fillTableViewProjectRequests();
+            } catch (SQLException tableException) {
+                tableException.printStackTrace();
+            }
         }
     }
 
     @FXML
     private void rejectRequest() {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-        VALIDATION_REQUEST = "Rechazado";
-        try {
-            projectRequestDAO.validateProjectRequest(VALIDATION_REQUEST,tableViewRequests
-                    .getSelectionModel()
-                    .getSelectedItem()
-                    .getProjectPetitionID());
-        } catch (SQLException requestException) {
-            requestException.printStackTrace();
-        }
-        tableViewRequests.getItems().clear();
-        try {
-            fillTableViewProjectRequests();
-        } catch (SQLException tableException) {
-            tableException.printStackTrace();
+        if (projectRequestIsSelected()) {
+            try {
+                projectRequestDAO.validateProjectRequest(DECLINE_REQUEST, tableViewRequests
+                        .getSelectionModel()
+                        .getSelectedItem()
+                        .getProjectPetitionID());
+            } catch (SQLException requestException) {
+                requestException.printStackTrace();
+            }
+            tableViewRequests.getItems().clear();
+            try {
+                fillTableViewProjectRequests();
+            } catch (SQLException tableException) {
+                tableException.printStackTrace();
+            }
         }
     }
 
@@ -135,6 +138,17 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         tableViewRequests.getItems().clear();
         tableViewRequests.getItems().addAll(projectRequestDAO.
                 getProjectRequestsListByProfessorId(Integer.parseInt(SessionDetails.getInstance().getId())));
+    }
+
+    private boolean projectRequestIsSelected() {
+        boolean result;
+        if (tableViewRequests.getSelectionModel().getSelectedItem() == null) {
+            DialogGenerator.getDialog(new AlertMessage("Selecccione una petición", AlertStatus.WARNING));
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
     }
 
     @Override

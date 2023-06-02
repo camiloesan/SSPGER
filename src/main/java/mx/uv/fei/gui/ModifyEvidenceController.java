@@ -29,6 +29,8 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     TextField textFieldEvidenceTitle;
     @FXML
     TextArea textAreaEvidenceDescription;
+    private static final int MAX_TITLE_EVIDENCE_LENGTH = 30;
+    private static final int MAX_DESCRIPTION_EVIDENCE_LENGTH = 100;
     private static final Logger logger = Logger.getLogger(ModifyEvidenceController.class);
 
     @FXML
@@ -113,8 +115,6 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
             DialogGenerator.getDialog(new AlertMessage(
                     "Rellena los campos correctamente", AlertStatus.WARNING));
         } else {
-            final int MAX_TITLE_EVIDENCE_LENGTH = 30;
-            final int MAX_DESCRIPTION_EVIDENCE_LENGTH = 100;
             if (textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH
                     || textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH) {
                 DialogGenerator.getDialog(new AlertMessage(

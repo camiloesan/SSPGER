@@ -94,7 +94,7 @@ AdvancementDAOTest {
     }
 
     @Test
-    void testAddAdvancementWrongProjectId() {
+    void testAddAdvancementProjectIdDoesNotExist() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         Advancement advancement1 = new Advancement();
         advancement1.setAdvancementName("zxb");
@@ -104,6 +104,33 @@ AdvancementDAOTest {
         advancement1.setProjectId(0);
         assertThrows(SQLException.class, () -> advancementDAO.addAdvancement(advancement1));
     }
+
+    @Test
+    void testAddAdvancementWrongDateFormat() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        ProjectDAO projectDAO = new ProjectDAO();
+        Advancement advancement1 = new Advancement();
+        advancement1.setAdvancementName("zxb");
+        advancement1.setAdvancementDescription("zxb");
+        advancement1.setAdvancementStartDate("202x3-0x5-x2xx9");
+        advancement1.setAdvancementDeadline("2023-0x6x-2x7");
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        assertThrows(SQLException.class, () -> advancementDAO.addAdvancement(advancement1));
+    }
+
+    @Test
+    void testAddAdvancementAdvancementNameTooLong() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        ProjectDAO projectDAO = new ProjectDAO();
+        Advancement advancement1 = new Advancement();
+        advancement1.setAdvancementName("zxbxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        advancement1.setAdvancementDescription("zxb");
+        advancement1.setAdvancementStartDate("2023-05-29");
+        advancement1.setAdvancementDeadline("2023-06-27");
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        assertThrows(SQLException.class, () -> advancementDAO.addAdvancement(advancement1));
+    }
+
 
     @Test
     void testGetAdvancementDetailsByIdObject() throws SQLException {
@@ -134,6 +161,46 @@ AdvancementDAOTest {
     }
 
     @Test
+    void testModifyAdvancementByIdDoesNotExist() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        ProjectDAO projectDAO = new ProjectDAO();
+        Advancement advancement1 = new Advancement();
+        advancement1.setAdvancementName("new");
+        advancement1.setAdvancementDescription("new");
+        advancement1.setAdvancementStartDate("2022-03-24");
+        advancement1.setAdvancementDeadline("2024-02-03");
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+
+        assertEquals(0, advancementDAO.modifyAdvancementById(0, advancement1));
+    }
+
+    @Test
+    void testModifyAdvancementByIdWrongDateFormat() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        ProjectDAO projectDAO = new ProjectDAO();
+        Advancement advancement1 = new Advancement();
+        advancement1.setAdvancementName("new");
+        advancement1.setAdvancementDescription("new");
+        advancement1.setAdvancementStartDate("202x2-03-24");
+        advancement1.setAdvancementDeadline("2024-02x-03");
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        assertThrows(SQLException.class, () -> advancementDAO.modifyAdvancementById(advancementDAO.getLastAdvancementID(), advancement1));
+    }
+
+    @Test
+    void testModifyAdvancementByIdNameTooLong() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        ProjectDAO projectDAO = new ProjectDAO();
+        Advancement advancement1 = new Advancement();
+        advancement1.setAdvancementName("newxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        advancement1.setAdvancementDescription("new");
+        advancement1.setAdvancementStartDate("2022-03-24");
+        advancement1.setAdvancementDeadline("2024-02-03");
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        assertThrows(SQLException.class, () -> advancementDAO.modifyAdvancementById(advancementDAO.getLastAdvancementID(), advancement1));
+    }
+
+    @Test
     void testModifyAdvancementByIdWrongAdvancementId() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectDAO projectDAO = new ProjectDAO();
@@ -148,7 +215,7 @@ AdvancementDAOTest {
     }
 
     @Test
-    void testDeleteAdvancementByIdShouldNotWrongAdvancementId() throws SQLException {
+    void testDeleteAdvancementByIdDoesNotExist() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         assertEquals(0, advancementDAO.deleteAdvancementById(0));
     }
