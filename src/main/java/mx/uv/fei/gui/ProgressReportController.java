@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.format.TextStyle;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -182,38 +183,26 @@ public class ProgressReportController implements IProfessorNavigationBar{
     
     @Override
     public void redirectToProfessorAdvancementManagement() throws IOException {
-        try {
-            MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("advancementsmanagement-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        try {
+        if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
+        } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
+            MainStage.changeView("professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }
     }
     
     @Override
     public void redirectToProfessorEvidenceManager() throws IOException {
-        try {
-            MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("professorevidences-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     @Override
     public void redirectToProjectRequests() throws IOException {
-        try {
-            MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {

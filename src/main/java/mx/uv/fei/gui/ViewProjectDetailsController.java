@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ViewProjectDetailsController implements IProfessorNavigationBar{
@@ -149,7 +150,11 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
+            MainStage.changeView("professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        }
     }
     
     @Override

@@ -163,7 +163,8 @@ public class TimelineController {
     @FXML
     private void returnToPreviousWindow() throws IOException {
         switch (SessionDetails.getInstance().getUserType()) {
-            case "Profesor", "RepresentanteCA" -> MainStage.changeView("projectproposals-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            case "Profesor" -> MainStage.changeView("professorviewprojects-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            case "RepresentanteCA" -> MainStage.changeView("projectproposals-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             case "Estudiante" -> MainStage.changeView("studentviewprojects-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }

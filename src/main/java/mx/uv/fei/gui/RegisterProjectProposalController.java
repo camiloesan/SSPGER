@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class RegisterProjectProposalController implements IProfessorNavigationBar{
@@ -229,8 +230,9 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         projectDAO.setCodirectorIDtoProject(project);
     }
     
-    public void returnToProjectManagement() throws IOException{
-        MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+    @FXML
+    private void returnToProjectManagement() throws IOException{
+        redirectToProfessorProjectManagement();
     }
     
     @Override
@@ -240,7 +242,11 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
+            MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
+            MainStage.changeView("professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+        }
     }
     
     @Override
