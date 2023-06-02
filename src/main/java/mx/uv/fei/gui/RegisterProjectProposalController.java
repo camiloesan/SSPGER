@@ -67,16 +67,20 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         try {
-            fillLgacCombo();
-            fillProfessorsCombos();
-            fillReceptionWorkModalityCombo();
-            fillAcademicBodycombo();
+            fillCombos();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información necesaria para el registro.",AlertStatus.ERROR));
             logger.error(sqlException);
         }
-        fillStudentsCombo();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+
+    private void fillCombos() throws SQLException {
+        fillLgacCombo();
+        fillProfessorsCombos();
+        fillReceptionWorkModalityCombo();
+        fillAcademicBodycombo();
+        fillStudentsCombo();
     }
     
     private void fillLgacCombo() throws SQLException {
@@ -187,7 +191,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     }
     
     @FXML
-    private void register() {
+    private void actionRegister() {
         if (validFields()){
             try {
                 registerProject();

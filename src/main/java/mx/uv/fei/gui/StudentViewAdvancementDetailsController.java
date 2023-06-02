@@ -49,16 +49,17 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     
     public void getDetailedAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement detaildedAdvancement = (advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID()));
+        int advancementID = TransferAdvancement.getAdvancementID();
+        Advancement detailedAdvancement = (advancementDAO.getAdvancementDetailById(advancementID));
         
-        labelAdvancementName.setText(detaildedAdvancement.getAdvancementName());
+        labelAdvancementName.setText(detailedAdvancement.getAdvancementName());
         
-        Text advancementDescription = new Text(detaildedAdvancement.getAdvancementDescription());
+        Text advancementDescription = new Text(detailedAdvancement.getAdvancementDescription());
         textAdvancementDescription.getChildren().add(advancementDescription);
         
-        labelStartDate.setText(detaildedAdvancement.getAdvancementStartDate());
+        labelStartDate.setText(detailedAdvancement.getAdvancementStartDate());
         
-        labelDeadline.setText(detaildedAdvancement.getAdvancementDeadline());
+        labelDeadline.setText(detailedAdvancement.getAdvancementDeadline());
     }
     
     public void returnToAdvancementList() throws IOException {

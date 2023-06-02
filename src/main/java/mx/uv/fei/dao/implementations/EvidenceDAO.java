@@ -313,7 +313,7 @@ public class EvidenceDAO implements IEvidence {
      * @throws SQLException if there was a problem connecting to the database
      */
     @Override
-    public List<Evidence> getDeliveredEvidences(String studentID) throws SQLException{
+    public List<Evidence> getDeliveredEvidencesByStudentID(String studentID) throws SQLException{
         String sqlQuery = "SELECT titulo, fechaEntrega FROM Evidencias WHERE matriculaEstudiante = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();

@@ -110,7 +110,7 @@ public class ProfessorDAO implements IProfessor {
             professorNames = resultSet.getString("Directors");
         }
 
-            databaseManager.closeConnection();
+        databaseManager.closeConnection();
         return professorNames;
     }
 }

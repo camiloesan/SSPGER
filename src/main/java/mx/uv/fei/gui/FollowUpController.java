@@ -48,8 +48,9 @@ public class FollowUpController implements IProfessorNavigationBar{
     @FXML
     private void fillStudentList() throws SQLException {
         StudentDAO studentDAO = new StudentDAO();
+        int projectID = getTransferProjectID();
         listViewStudents.getItems().clear();
-        listViewStudents.getItems().addAll(studentDAO.getStudentsByProjectID(getTransferProjectID()));
+        listViewStudents.getItems().addAll(studentDAO.getStudentsByProjectID(projectID));
     }
     
     private void setStudentNames() {

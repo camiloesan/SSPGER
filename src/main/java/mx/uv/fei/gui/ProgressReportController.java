@@ -85,8 +85,8 @@ public class ProgressReportController implements IProfessorNavigationBar{
         ProfessorDAO professorDAO = new ProfessorDAO();
         labelHeaderDate.setText(actualDate.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, new Locale("es")) + " " + actualDate.getYear());
         labelStudent.setText(TransferStudent.getStudentName());
-        labelDirectors.setText(professorDAO.getDirectorsByProject(TransferProject.getProjectID()));
         labelReceptionWork.setText(TransferProject.getReceptionWorkName());
+        labelDirectors.setText(professorDAO.getDirectorsByProject(TransferProject.getProjectID()));
     }
     
     private void prepareTableViewEvidences() {
@@ -115,7 +115,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
     
     private int getNumberOfEvidences() throws SQLException{
         EvidenceDAO evidenceDAO = new EvidenceDAO();
-        return evidenceDAO.getDeliveredEvidences(TransferStudent.getStudentID()).size();
+        return evidenceDAO.getDeliveredEvidencesByStudentID(TransferStudent.getStudentID()).size();
     }
     
     private void setTableHeight() throws SQLException{
@@ -129,8 +129,9 @@ public class ProgressReportController implements IProfessorNavigationBar{
     
     private void fillTableViewEvidences() throws SQLException{
         EvidenceDAO evidenceDAO = new EvidenceDAO();
+        String studentID = TransferStudent.getStudentID();
         tableViewEvidences.getItems().clear();
-        tableViewEvidences.getItems().addAll(evidenceDAO.getDeliveredEvidences(TransferStudent.getStudentID()));
+        tableViewEvidences.getItems().addAll(evidenceDAO.getDeliveredEvidencesByStudentID(studentID));
     }
 
     @FXML
