@@ -35,7 +35,8 @@ public class FollowUpController implements IProfessorNavigationBar{
         try {
             fillStudentList();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
         setStudentNames();
@@ -75,7 +76,8 @@ public class FollowUpController implements IProfessorNavigationBar{
             TransferStudent.setStudentName(listViewStudents.getSelectionModel().getSelectedItem().getFullName());
             MainStage.changeView("progressreport-view.fxml",1120,700);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un Alumno para generar un reporte", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un Alumno para generar un reporte", AlertStatus.WARNING));
         }
     }
     
@@ -89,7 +91,8 @@ public class FollowUpController implements IProfessorNavigationBar{
         if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
-            MainStage.changeView("professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }
     }
     
@@ -104,18 +107,15 @@ public class FollowUpController implements IProfessorNavigationBar{
     }
     
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     
     @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
             LoginController.sessionDetails.cleanSessionDetails();
-            try {
-                MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
 }

@@ -7,6 +7,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     Label labelStudentEvidence;
     @FXML
     Label labelUsername;
+    private static final Logger logger = Logger.getLogger(ViewEvidenceDetailsController.class);
 
     @FXML
     private void initialize() {
@@ -50,7 +52,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         try {
             evidenceInfo = evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
         } catch (SQLException evidenceInfoException) {
-            evidenceInfoException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage("Error al recuperar la información", AlertStatus.ERROR));
+            logger.error(evidenceInfoException);
         }
         labelTitleEvidence.setText(evidenceInfo.getEvidenceTitle());
         labelStatusEvidence.setText(evidenceInfo.getEvidenceStatus());
@@ -97,7 +100,9 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
             projectName = evidenceDAO.getProjectNameByEvidenceID(TransferEvidence.getEvidenceId());
             studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
         } catch(SQLException evidenceDAOException) {
-            evidenceDAOException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar información para la carpeta de evidencias", AlertStatus.ERROR));
+            logger.error(evidenceDAOException);
         }
         return new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
@@ -111,9 +116,11 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     public void redirectToAdvancements() throws IOException {
         if (LoginController.sessionDetails.getUserType().equals("Profesor") ||
                 LoginController.sessionDetails.getUserType().equals("RepresentanteCA")) {
-            MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
-            MainStage.changeView("studentadvancement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "studentadvancement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 
@@ -143,12 +150,14 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
                 || LoginController.sessionDetails.getUserType().equals("RepresentanteCA")) {
             MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
-            MainStage.changeView("studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
 

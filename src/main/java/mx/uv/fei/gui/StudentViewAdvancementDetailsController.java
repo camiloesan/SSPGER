@@ -37,7 +37,8 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
         try {
             getDetailedAdvancement();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información", AlertStatus.ERROR));
             logger.error(sqlException);
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
@@ -87,7 +88,8 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     }
     
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     

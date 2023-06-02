@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     TextField textFieldEvidenceTitle;
     @FXML
     TextArea textAreaEvidenceDescription;
+    private static final Logger logger = Logger.getLogger(ModifyEvidenceController.class);
 
     @FXML
     public void initialize() {
@@ -43,7 +45,9 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
                     .getAdvancementNameByStudentID(LoginController.sessionDetails.getId(),
                             evidenceDAO.getAdvancementIDByEvidenceID(TransferEvidence.getEvidenceId()));
         } catch (SQLException nameAdavancementException) {
-            nameAdavancementException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recupera nombre del avance", AlertStatus.ERROR));
+            logger.error(nameAdavancementException);
         }
         return nameAdvancement;
     }
@@ -61,7 +65,9 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
             try {
                 resultDAO = evidenceDAO.modifyEvidence(evidence);
             } catch (SQLException modifyEvidenceException) {
-                modifyEvidenceException.printStackTrace();
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Error al modificar avance", AlertStatus.ERROR));
+                logger.error(modifyEvidenceException);
             }
             if(resultDAO == 1) {
                 DialogGenerator.getDialog(new AlertMessage
@@ -74,7 +80,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     }
 
     @FXML
-    private void addFile() {
+    private void addFile() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Evidencia");
         File evidenceFile = fileChooser.showOpenDialog(new Stage());
@@ -104,7 +110,8 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     private boolean fieldsCorrect() {
         boolean result = false;
         if (textFieldEvidenceTitle.getText().isBlank() || textAreaEvidenceDescription.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage("Rellena los campos correctamente", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Rellena los campos correctamente", AlertStatus.WARNING));
         } else {
             final int MAX_TITLE_EVIDENCE_LENGTH = 30;
             final int MAX_DESCRIPTION_EVIDENCE_LENGTH = 100;
@@ -113,7 +120,6 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
                 DialogGenerator.getDialog(new AlertMessage(
                         "Exediste el máximo de carateres (30 para el título, 100 para los motivos)",
                         AlertStatus.WARNING));
-                result = false;
             } else {
                 result = true;
             }
@@ -122,22 +128,19 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     }
 
     private boolean confirmedModify() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Estás seguro que deseas modificar la evidencia?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Estás seguro que deseas modificar la evidencia?");
         return response.get() == DialogGenerator.BUTTON_YES;
     }
 
-    private void copyFile(File file) {
+    private void copyFile(File file) throws IOException {
         File fileToSave = new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
                 + getProjectName()+ "/"
                 +getAdvancementName() +"/"
                 +getStudentID()+"/"
                 +file.getName());
-        try {
-            Files.copy(file.toPath(), fileToSave.toPath());
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        Files.copy(file.toPath(), fileToSave.toPath());
     }
 
     private String getProjectName() {
@@ -147,7 +150,9 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
             projectID = advancementDAO
                     .getProjectNameByStudentID(LoginController.sessionDetails.getId());
         } catch (SQLException getProjectIDException) {
-            getProjectIDException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recupera nombre del proyecto", AlertStatus.ERROR));
+            logger.error(getProjectIDException);
         }
         return projectID;
     }
@@ -186,8 +191,17 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
         MainStage.changeView("studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
+    public boolean confirmedLogOut() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
+        return (response.get() == DialogGenerator.BUTTON_YES);
+    }
+
     @Override
     public void actionLogOut() throws IOException {
-
+        if (confirmedLogOut()) {
+            SessionDetails.cleanSessionDetails();
+            MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
+        }
     }
 }

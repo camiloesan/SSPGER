@@ -64,7 +64,8 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
         try {
             getDetailedProject();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información del proyecto.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información del proyecto.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
@@ -157,7 +158,8 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     }
     
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     

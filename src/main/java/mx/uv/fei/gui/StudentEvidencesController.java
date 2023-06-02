@@ -7,6 +7,7 @@ import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     private TableView<Evidence> tableViewEvidence;
     @FXML
     Label labelUsername;
+    private static final Logger logger = Logger.getLogger(StudentEvidencesController.class);
 
     @FXML
     private void initialize() {
@@ -42,7 +44,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos," +
                     " inténtelo de nuevo más tarde", AlertStatus.ERROR));
-            sqlException.printStackTrace();
+            logger.error(sqlException);
         }
     }
 
@@ -103,7 +105,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceId());
-            MainStage.changeView("viewevidencedetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "viewevidencedetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 
@@ -126,7 +129,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     private boolean advancementIsSelected() {
         boolean verification;
         if (tableViewAdvancement.getSelectionModel().getSelectedItem() == null) {
-            DialogGenerator.getDialog(new AlertMessage("Selecciona un avance para agregarle una evidencia", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Selecciona un avance para agregarle una evidencia", AlertStatus.WARNING));
             verification = false;
         } else {
             verification = true;
@@ -142,7 +146,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
             try {
                 evidenceDAO.deleteEvidenceByID(evidenceID);
             } catch (SQLException deleteException) {
-                deleteException.printStackTrace();
+                DialogGenerator.getDialog(new AlertMessage("Error al eliminar evidencia", AlertStatus.ERROR));
+                logger.error(deleteException);
             }
         }
     }
@@ -160,12 +165,14 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     }
 
     private boolean confirmedDelete() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar la evidencia?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea eliminar la evidencia?");
         return response.get() == DialogGenerator.BUTTON_YES;
     }
 
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     

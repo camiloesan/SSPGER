@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ public class StudentProjectRequestController implements IStudentNavigationBar {
     Label labelDescriptionProjectRequest;
     @FXML
     GridPane gridPaneProjectRequestData;
+    private static final Logger logger = Logger.getLogger(StudentProjectRequestController.class);
 
     @FXML
     public void initialize() {
@@ -40,7 +42,9 @@ public class StudentProjectRequestController implements IStudentNavigationBar {
             projectRequest = projectRequestDAO
                     .getProjectRequestInfoByStudentID(SessionDetails.getInstance().getId());
         } catch (SQLException projectRequestInfoException) {
-            projectRequestInfoException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar información de la petición", AlertStatus.ERROR));
+            logger.error(projectRequestInfoException);
         }
 
         if (projectrequests == 0) {
@@ -64,7 +68,9 @@ public class StudentProjectRequestController implements IStudentNavigationBar {
                         .getProjectRequestIDByStudentID(SessionDetails.getInstance().getId()));
                 redirectToProjects();
             } catch (SQLException deleteProjectRequestException) {
-                deleteProjectRequestException.printStackTrace();
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Error al eliminar la información", AlertStatus.ERROR));
+                logger.error(deleteProjectRequestException);
             }
 
             if (result == 1) {

@@ -18,10 +18,6 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
     @FXML
     private Label labelUsername;
     @FXML
-    private Label labelHeader;
-    @FXML
-    private Button buttonVerDetalles;
-    @FXML
     private TableView<SimpleProject> tableViewProjects;
     @FXML
     private TableColumn<SimpleProject, Integer> tableColumnProjectID;
@@ -40,7 +36,8 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
         try {
             fillProjectTableByRole();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
@@ -76,7 +73,8 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
         try {
             fillProjectTableByRole();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -87,7 +85,8 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
             TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
             MainStage.changeView("viewprojectdetails-view.fxml",1000,600);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
         }
     }
 
@@ -101,21 +100,29 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
     private void openFollowUp() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
             TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
-            TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getReceptionWorkName());
+            TransferProject.setReceptionWorkName(tableViewProjects
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getReceptionWorkName());
             MainStage.changeView("followup-view.fxml",1000,600);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver seguimiento de los alumnos.", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un proyecto para ver seguimiento de los alumnos.", AlertStatus.WARNING));
         }
     }
 
     @FXML
     private void openProjectTimeline() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
-            TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getReceptionWorkName());
+            TransferProject.setReceptionWorkName(tableViewProjects.
+                    getSelectionModel()
+                    .getSelectedItem()
+                    .getReceptionWorkName());
             TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
             MainStage.changeView("timeline-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver el cronograma", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un proyecto para ver el cronograma", AlertStatus.WARNING));
         }
     }
 
@@ -140,7 +147,8 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
     }
 
     private boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 

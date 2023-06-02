@@ -24,10 +24,6 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
     private Label labelHeader;
     @FXML
-    private Button buttonVerDetalles;
-    @FXML
-    private Label labelFilter;
-    @FXML
     private ComboBox<String> comboProjectStates;
     @FXML
     private TableView<SimpleProject> tableViewProjects;
@@ -39,10 +35,6 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private TableColumn<SimpleProject, String> tableColumnProjectState;
     @FXML
     private HBox hboxLogOutLabel;
-    @FXML
-    private Button buttonAcceptProject;
-    @FXML
-    private Button buttonDeclineProject;
     @FXML
     private Button buttonSeguimiento;
     
@@ -64,14 +56,11 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         try {
             fillUnfilteredTable();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información.",AlertStatus.ERROR));
             logger.error(sqlException);
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
-    }
-    
-    private boolean isRCA() {
-        return Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA");
     }
     
     private void prepareTableViewProjects() {
@@ -102,11 +91,15 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
     private void openProjectTimeline() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
-            TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getReceptionWorkName());
+            TransferProject.setReceptionWorkName(tableViewProjects
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getReceptionWorkName());
             TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
             MainStage.changeView("timeline-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver el cronograma", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un proyecto para ver el cronograma", AlertStatus.WARNING));
         }
     }
     
@@ -145,7 +138,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
             try {
                 fillUnfilteredTable();
             } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo recuperar la información.",AlertStatus.ERROR));
                 logger.error(sqlException);
             }
         } else {
@@ -159,7 +153,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
                     case DECLINED_COMBO_OPTION -> fillFilteredProjects(DECLINED_PROJECT_STATE);
                 }
             } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo recuperar la información.",AlertStatus.ERROR));
                 logger.error(sqlException);
             }
             labelHeader.setText(comboProjectStates.getSelectionModel().getSelectedItem());
@@ -172,7 +167,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
             TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
             MainStage.changeView("viewprojectdetails-view.fxml",1000,600);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un proyecto para ver los detalles.", AlertStatus.WARNING));
         }
     }
     
@@ -180,10 +176,14 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private void openFollowUp() throws IOException {
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
         TransferProject.setProjectID(tableViewProjects.getSelectionModel().getSelectedItem().getProjectID());
-        TransferProject.setReceptionWorkName(tableViewProjects.getSelectionModel().getSelectedItem().getReceptionWorkName());
+        TransferProject.setReceptionWorkName(tableViewProjects
+                .getSelectionModel()
+                .getSelectedItem()
+                .getReceptionWorkName());
         MainStage.changeView("followup-view.fxml",1000,600);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para ver seguimiento de los alumnos.", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un proyecto para ver seguimiento de los alumnos.", AlertStatus.WARNING));
         }
     }
 
@@ -196,11 +196,13 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
                         .getSelectionModel().getSelectedItem().getProjectID(), VERIFIED_PROJECT_STATE);
                 refreshFilteredTable();
             } catch (SQLException requestException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar el estado.",AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo actualizar el estado.",AlertStatus.ERROR));
                 logger.error(requestException);
             }
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para Aceptarlo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un proyecto para Aceptarlo", AlertStatus.WARNING));
         }
     }
 
@@ -209,14 +211,19 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         if (tableViewProjects.getSelectionModel().getSelectedItem() != null) {
             ProjectDAO projectDAO = new ProjectDAO();
             try {
-                projectDAO.updateProjectState((tableViewProjects.getSelectionModel().getSelectedItem().getProjectID()), DECLINED_PROJECT_STATE);
+                projectDAO.updateProjectState((tableViewProjects
+                        .getSelectionModel()
+                        .getSelectedItem()
+                        .getProjectID()), DECLINED_PROJECT_STATE);
                 refreshFilteredTable();
             } catch (SQLException requestException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo actualizar el estado.",AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo actualizar el estado.",AlertStatus.ERROR));
                 logger.error(requestException);
             }
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un proyecto para Rechazarlo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un proyecto para Rechazarlo", AlertStatus.WARNING));
         }
     }
     
@@ -246,7 +253,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     }
     
     private boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
     

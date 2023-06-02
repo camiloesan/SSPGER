@@ -194,7 +194,8 @@ public class DetailedProject {
     public int hashCode() {
         return Objects.hash(projectID, academicBodyName, investigationProjectName, lgacName, investigationLine,
                 approxDuration, receptionWorkModality, receptionWorkName, requisites, director, coDirector,
-                numberStudents, investigationDescription, receptionWorkDescription, expectedResults, bibliography, projectState);
+                numberStudents, investigationDescription, receptionWorkDescription, expectedResults, bibliography,
+                projectState);
     }
     
     @Override
