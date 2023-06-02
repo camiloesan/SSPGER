@@ -149,7 +149,6 @@ class ProjectDAOTest {
         userDAO.deleteUserByUsername("testAcc1");
         userDAO.deleteUserByUsername("testAcc2");
         
-        
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional DECLINADO"));
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional VERIFICADO"));
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional POR REVISAR"));

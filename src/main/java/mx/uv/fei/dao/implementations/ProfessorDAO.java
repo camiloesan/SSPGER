@@ -38,6 +38,7 @@ public class ProfessorDAO implements IProfessor {
     }
     
     /**
+     * CANNOT BE TESTED
      * @param username professor username to get their id
      * @return the id of a registered professor
      * @throws SQLException if there was a problem connecting to the database or getting the information
@@ -67,7 +68,7 @@ public class ProfessorDAO implements IProfessor {
      */
     @Override
     public String getDirectorsByProject(int projectID) throws SQLException {
-        String sqlQuery = "SELECT CONCAT(D.nombre, ' ',D.apellidos, ', ', CD.nombre, ' ',CD.apellidos) AS Directors " +
+        String sqlQuery = "SELECT CONCAT(D.grado,' ', D.nombre, ' ',D.apellidos, ', ', CD.grado, ' ', CD.nombre, ' ',CD.apellidos) AS Directors " +
                 "FROM Profesores D " +
                 "INNER JOIN Proyectos P on D.ID_profesor = P.ID_director " +
                 "INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor " +
