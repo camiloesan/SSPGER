@@ -13,32 +13,6 @@ import java.util.List;
 
 public class ProfessorDAO implements IProfessor {
     /**
-     * @param professor professor to register in the database
-     * @return number of affected rows
-     * @throws SQLException if there was a problem connecting to the database or adding the professor
-     */
-    @Override
-    public int addProfessor(Professor professor) throws SQLException{
-        int result;
-        String sqlQuery = "INSERT INTO Profesores (grado, nombre, apellidos, correoInstitucional, nombreUsuario) VALUES (?,?,?,?,?)";
-
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        
-        preparedStatement.setString(1,professor.getProfessorDegree());
-        preparedStatement.setString(2, professor.getProfessorName());
-        preparedStatement.setString(3,professor.getProfessorLastName());
-        preparedStatement.setString(4,professor.getProfessorEmail());
-        preparedStatement.setString(5, professor.getUsername());
-
-        result = preparedStatement.executeUpdate();
-        databaseManager.closeConnection();
-
-        return result;
-    }
-    
-    /**
      * @return list with all profesor's names
      * @throws SQLException if there was a problem connecting to the database or getting the information
      */
