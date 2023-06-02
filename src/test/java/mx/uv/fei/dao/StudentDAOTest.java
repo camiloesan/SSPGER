@@ -16,15 +16,6 @@ class StudentDAOTest {
 
     @BeforeEach
     void setUp() throws SQLException {
-        AccessAccount accessAccount = new AccessAccount();
-        UserDAO accessAccountDAO = new UserDAO();
-
-        accessAccount.setUsername("example");
-        accessAccount.setUserPassword("example");
-        accessAccount.setUserType("Estudiante");
-
-        accessAccountDAO.addAdminUser(accessAccount);
-
         Student student = new Student();
         StudentDAO studentDAO = new StudentDAO();
 
@@ -35,6 +26,15 @@ class StudentDAOTest {
         student.setUsername("example");
 
         studentDAO.insertStudent(student);
+
+        AccessAccount accessAccount = new AccessAccount();
+        UserDAO accessAccountDAO = new UserDAO();
+
+        accessAccount.setUsername("example");
+        accessAccount.setUserPassword("example");
+        accessAccount.setUserType("Estudiante");
+
+        accessAccountDAO.addStudentUserTransaction(accessAccount, student);
     }
 
     @AfterEach
@@ -42,24 +42,32 @@ class StudentDAOTest {
        UserDAO accessAccountDAO = new UserDAO();
        StudentDAO studentDAO = new StudentDAO();
 
+       studentDAO.deleteStudent("example");
        accessAccountDAO.deleteUserByUsername("example");
-       //studentDAO.deleteStudentByID("ZS21013860");
-       //studentDAO.deleteStudentByID("example");
     }
 
     @Test
-    void testInsertStudentSucces() throws SQLException {
-        Student student = new Student();
-        StudentDAO studentDAO = new StudentDAO();
+    void testInsertStudentSuccess() throws SQLException {
+        var student = new Student();
+        var accessAccount = new AccessAccount();
+        var userDAO = new UserDAO();
+        var studentDAO = new StudentDAO();
 
-        student.setStudentID("ZS21013860");
-        student.setName("Bryam Danae");
-        student.setLastName("Morales García");
-        student.setAcademicEmail("zs21013865@estudiantes.uv.mx");
+        accessAccount.setUsername("exampleToInsert");
+        accessAccount.setUserPassword("example");
+        accessAccount.setUserType("Estudiante");
+
+        student.setStudentID("example");
+        student.setName("example");
+        student.setLastName("example");
+        student.setAcademicEmail("example");
+        student.setUsername("exampleToInsert");
+
+        userDAO.addStudentUserTransaction(accessAccount, student);
 
         int expectedResult = 1;
         int result = studentDAO.insertStudent(student);
-        assertEquals(expectedResult,result);
+        assertEquals(expectedResult, result);
     }
 
     @Test

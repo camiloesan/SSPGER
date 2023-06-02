@@ -22,7 +22,10 @@ public class ProjectDAO implements IProject {
     @Override
     public int addProject(Project project) throws SQLException {
         int result;
-        String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, duracionAprox, ID_modalidadTR, nombreTrabajoRecepcional, requisitos, alumnosParticipantes, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, bibliografiaRecomendada) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, " +
+                "duracionAprox, ID_modalidadTR, nombreTrabajoRecepcional, requisitos, alumnosParticipantes, " +
+                "descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, " +
+                "bibliografiaRecomendada) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -57,7 +60,8 @@ public class ProjectDAO implements IProject {
     @Override
     public int setDirectorIDtoProject(Project projectDirectorName) throws SQLException {
         int result;
-        String sqlQuery = "UPDATE Proyectos PRY SET PRY.ID_director = (SELECT PRF.ID_profesor FROM Profesores PRF WHERE ? LIKE CONCAT('%',PRF.nombre,'%')) WHERE PRY.nombreTrabajoRecepcional = ?";
+        String sqlQuery = "UPDATE Proyectos PRY SET PRY.ID_director = (SELECT PRF.ID_profesor FROM Profesores PRF " +
+                "WHERE ? LIKE CONCAT('%',PRF.nombre,'%')) WHERE PRY.nombreTrabajoRecepcional = ?";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -79,7 +83,8 @@ public class ProjectDAO implements IProject {
     @Override
     public int setCodirectorIDtoProject(Project projectCodirectorName) throws SQLException {
         int result = 0;
-        String sqlQuery = "UPDATE Proyectos PRY SET PRY.ID_codirector = (SELECT PRF.ID_profesor FROM Profesores PRF WHERE (?) LIKE CONCAT('%',PRF.nombre,'%')) WHERE PRY.nombreTrabajoRecepcional = ?";
+        String sqlQuery = "UPDATE Proyectos PRY SET PRY.ID_codirector = (SELECT PRF.ID_profesor FROM Profesores PRF " +
+                "WHERE (?) LIKE CONCAT('%',PRF.nombre,'%')) WHERE PRY.nombreTrabajoRecepcional = ?";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -152,7 +157,8 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public List<SimpleProject> getProjectsByState(String projectState) throws SQLException {
-        String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional, P.estado FROM Proyectos P WHERE estado = ?";
+        String sqlQuery = "SELECT P.ID_proyecto, P.nombreTrabajoRecepcional, P.estado FROM Proyectos P " +
+                "WHERE estado = ?";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -211,7 +217,8 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public List<SimpleProject> getProjectsByParticipation(int professorID) throws SQLException {
-        String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional, estado FROM Proyectos WHERE ID_codirector = (?) OR ID_director = (?)";
+        String sqlQuery = "SELECT ID_proyecto, nombreTrabajoRecepcional, estado FROM Proyectos " +
+                "WHERE ID_codirector = (?) OR ID_director = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -242,7 +249,17 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public DetailedProject getProjectInfoByID(int projectID) throws SQLException{
-        String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, CONCAT(LC.clave, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.grado,' ',PRF.nombre, ' ',PRF.apellidos) AS 'Director', CONCAT (CD.grado,' ',CD.nombre, ' ',CD.apellidos) AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada, P.estado FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA JOIN LGAC LC ON P.LGAC = LC.ID_lgac LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR INNER JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor WHERE P.ID_proyecto = ?";
+        String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, " +
+                "CONCAT(LC.clave, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, " +
+                "P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.grado,' ',PRF.nombre, ' ',PRF.apellidos) " +
+                "AS 'Director', CONCAT (CD.grado,' ',CD.nombre, ' ',CD.apellidos) " +
+                "AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, " +
+                "P.descripcionTrabajoRecepcional, P.resultadosEsperados ,P.bibliografiaRecomendada, P.estado " +
+                "FROM Proyectos P LEFT JOIN CuerpoAcademico CA ON P.claveCA = CA.claveCA " +
+                "JOIN LGAC LC ON P.LGAC = LC.ID_lgac " +
+                "LEFT JOIN ModalidadesTR MTR ON P.ID_modalidadTR = MTR.ID_modalidadTR " +
+                "INNER JOIN Profesores PRF ON P.ID_director = PRF.ID_profesor " +
+                "INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor WHERE P.ID_proyecto = ?";
       
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -266,8 +283,10 @@ public class ProjectDAO implements IProject {
             detailedProject.setDirector(resultSet.getString("Director"));
             detailedProject.setCoDirector(resultSet.getString("Co-Director"));
             detailedProject.setNumberStudents(resultSet.getInt("alumnosParticipantes"));
-            detailedProject.setInvestigationDescription(resultSet.getString("descripcionProyectoInvestigacion"));
-            detailedProject.setReceptionWorkDescription(resultSet.getString("descripcionTrabajoRecepcional"));
+            detailedProject.setInvestigationDescription(resultSet.getString(
+                    "descripcionProyectoInvestigacion"));
+            detailedProject.setReceptionWorkDescription(resultSet.getString(
+                    "descripcionTrabajoRecepcional"));
             detailedProject.setExpectedResults(resultSet.getString("resultadosEsperados"));
             detailedProject.setBibliography(resultSet.getString("bibliografiaRecomendada"));
             detailedProject.setProjectState(resultSet.getString("estado"));

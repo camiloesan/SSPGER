@@ -22,7 +22,8 @@ public class EvidenceDAO implements IEvidence {
      */
     @Override
     public int addEvidence(Evidence evidence) throws SQLException {
-        String query = "insert into Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante, fechaEntrega) values (?,?,?,?,?)";
+        String query = "insert into Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante, fechaEntrega) " +
+                "values (?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -126,7 +127,8 @@ public class EvidenceDAO implements IEvidence {
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     public Evidence getEvidenceByEvidenceID(int evidenceID) throws SQLException {
-        String query = "SELECT ID_evidencia, titulo, estado, calificacion, descripcion FROM Evidencias WHERE ID_evidencia=(?)";
+        String query = "SELECT ID_evidencia, titulo, estado, calificacion, descripcion FROM Evidencias " +
+                "WHERE ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 

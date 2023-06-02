@@ -80,7 +80,8 @@ public class ProjectRequestDAO implements IProjectRequest {
 
     @Override
     public List<ProjectRequest> getProjectRequestsListByProfessorId(int professorID) throws SQLException {
-        String query = "select Soli.ID_solicitudProyecto, Soli.matriculaEstudiante, Soli.estado, Soli.motivos, Soli.ID_proyecto from " +
+        String query = "select Soli.ID_solicitudProyecto, Soli.matriculaEstudiante, Soli.estado, Soli.motivos, " +
+                "Soli.ID_proyecto from " +
                 "SolicitudesProyecto Soli JOIN Proyectos Proy Join Profesores Prof " +
                 "on Proy.ID_proyecto = Soli.ID_proyecto and Proy.ID_director = Prof.ID_profesor " +
                 "where ID_profesor = (?)";

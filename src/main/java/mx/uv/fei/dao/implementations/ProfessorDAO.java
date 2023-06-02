@@ -67,7 +67,8 @@ public class ProfessorDAO implements IProfessor {
      */
     @Override
     public String getDirectorsByProject(int projectID) throws SQLException {
-        String sqlQuery = "SELECT CONCAT(D.nombre, ' ',D.apellidos, ', ', CD.nombre, ' ',CD.apellidos) AS Directors FROM Profesores D " +
+        String sqlQuery = "SELECT CONCAT(D.nombre, ' ',D.apellidos, ', ', CD.nombre, ' ',CD.apellidos) AS Directors " +
+                "FROM Profesores D " +
                 "INNER JOIN Proyectos P on D.ID_profesor = P.ID_director " +
                 "INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor " +
                 "WHERE P.ID_proyecto = (?)";

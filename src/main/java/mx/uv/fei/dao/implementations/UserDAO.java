@@ -53,8 +53,10 @@ public class UserDAO implements IUser {
      */
     @Override
     public boolean addStudentUserTransaction(AccessAccount accessAccount, Student student) throws SQLException {
-        String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
-        String secondQuery = "insert into Estudiantes(matricula, nombre, apellidos, correoInstitucional, nombreUsuario) values (?,?,?,?,?)";
+        String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) " +
+                "values (?,SHA2(?, 256),?)";
+        String secondQuery = "insert into Estudiantes(matricula, nombre, apellidos, correoInstitucional, " +
+                "nombreUsuario) values (?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         int resultFirstQuery = 0;
@@ -96,8 +98,10 @@ public class UserDAO implements IUser {
      */
     @Override
     public boolean addProfessorUserTransaction(AccessAccount accessAccount, Professor professor) throws SQLException {
-        String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) values (?,SHA2(?, 256),?)";
-        String secondQuery = "insert into Profesores(nombre, apellidos, grado, correoInstitucional, nombreUsuario) values (?,?,?,?,?)";
+        String firstQuery = "insert into CuentasAcceso(nombreUsuario, contrasena, tipoUsuario) " +
+                "values (?,SHA2(?, 256),?)";
+        String secondQuery = "insert into Profesores(nombre, apellidos, grado, correoInstitucional, nombreUsuario) " +
+                "values (?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -135,9 +139,12 @@ public class UserDAO implements IUser {
      * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
      */
     @Override
-    public boolean modifyStudentUserTransaction(String username, AccessAccount accessAccount, Student student) throws SQLException {
-        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?) and tipoUsuario!=(?)";
-        String secondQuery = "update Estudiantes set matricula=(?), nombre=(?), apellidos=(?), correoInstitucional=(?) where nombreUsuario=(?)";
+    public boolean modifyStudentUserTransaction(String username, AccessAccount accessAccount, Student student)
+            throws SQLException {
+        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) " +
+                "where nombreUsuario=(?) and tipoUsuario!=(?)";
+        String secondQuery = "update Estudiantes set matricula=(?), nombre=(?), apellidos=(?), " +
+                "correoInstitucional=(?) where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -176,9 +183,12 @@ public class UserDAO implements IUser {
      * @throws SQLException if the transaction was not successful or was a problem connecting to the database.
      */
     @Override
-    public boolean modifyProfessorUserTransaction(String username, AccessAccount accessAccount, Professor professor) throws SQLException {
-        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) where nombreUsuario=(?)";
-        String secondQuery = "update Profesores set nombre=(?), apellidos=(?), grado=(?), correoInstitucional=(?) where nombreUsuario=(?)";
+    public boolean modifyProfessorUserTransaction(String username, AccessAccount accessAccount, Professor professor)
+            throws SQLException {
+        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), tipoUsuario=(?) " +
+                "where nombreUsuario=(?)";
+        String secondQuery = "update Profesores set nombre=(?), apellidos=(?), grado=(?), correoInstitucional=(?) " +
+                "where nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
