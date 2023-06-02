@@ -121,15 +121,27 @@ class ProfessorDAOTest {
     }
     
     @Test
-    void testGetProfessorNamesEmptyResult() throws SQLException{
+    void testGetProfessorNamesDifferentResult() throws SQLException{
         System.out.println("Test empty list getProfessorNames");
         var professorDAO = new ProfessorDAO();
         
-        var expectedList = new ArrayList<>();
-        expectedList.add("Dr. ProfeNom3 ProfeAp5");
-        expectedList.add("Dr. ProfeNom4 ProfeAp6");
+        List<String> expectedList = new ArrayList<>();
+        expectedList.add("Dr. ProfeNom3 ProfeAp3");
+        expectedList.add("Dr. ProfeNom4 ProfeAp4");
         
         var actualList = new ArrayList<>(professorDAO.getProfessorsNames());
+        
+        System.out.println("Expected List:");
+        for (String name : expectedList) {
+            System.out.println(name);
+            System.out.println("--------------");
+        }
+        
+        System.out.println("Actual List:");
+        for (String name : actualList) {
+            System.out.println(name);
+            System.out.println("--------------");
+        }
         
         assertNotSame(expectedList, actualList);
     }
@@ -160,17 +172,11 @@ class ProfessorDAOTest {
         var professorDAO = new ProfessorDAO();
         var projectDAO = new ProjectDAO();
         
-        String expectedString = "Dr. ProfeNom1 ProfeAp1, Dr. ProfeNom2 ProfeAp2";
-        
         String actualString = professorDAO.getDirectorsByProject(projectDAO.getProjectIDByTitle("trabajo recepcional SIN DIRECTORES"));
-        
-        System.out.println("Expected String:");
-        System.out.println(expectedString);
-        System.out.println("--------------");
         System.out.println("Actual String:");
         System.out.println(actualString);
         System.out.println("--------------");
         
-        assertNotSame(expectedString,actualString);
+        assertNull(actualString);
     }
 }
