@@ -60,26 +60,12 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         prepareTableViewProjects();
         buttonSeguimiento.setVisible(false);
-        if(!isRCA()) {
-            try {
-                fillProjectTableByRole();
-            } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
-                logger.error(sqlException);
-            }
-            tableColumnProjectID.setVisible(false);
-            buttonAcceptProject.setVisible(false);
-            buttonDeclineProject.setVisible(false);
-            labelFilter.setVisible(false);
-            comboProjectStates.setVisible(false);
-        } else {
-            fillProjectStateCombo();
-            try {
-                fillUnfilteredTable();
-            } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
-                logger.error(sqlException);
-            }
+        fillProjectStateCombo();
+        try {
+            fillUnfilteredTable();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+            logger.error(sqlException);
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
@@ -126,9 +112,10 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     
     private void fillProjectTableByRole() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
+        int professorID = Integer.parseInt(LoginController.sessionDetails.getId());
         buttonSeguimiento.setVisible(true);
         tableViewProjects.getItems().clear();
-        tableViewProjects.getItems().addAll(projectDAO.getProjectsByParticipation(Integer.parseInt(LoginController.sessionDetails.getId())));
+        tableViewProjects.getItems().addAll(projectDAO.getProjectsByParticipation(professorID));
     }
     
     private void fillFilteredProjects(String projectState) throws SQLException {
@@ -155,20 +142,11 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     @FXML
     private void refreshFilteredTable(){
         if (noFilterSelected()) {
-            if(isRCA()){
-                try {
-                    fillUnfilteredTable();
-                } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
-                    logger.error(sqlException);
-                }
-            } else {
-                try {
-                    fillProjectTableByRole();
-                } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
-                    logger.error(sqlException);
-                }
+            try {
+                fillUnfilteredTable();
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+                logger.error(sqlException);
             }
         } else {
             String selectedItem = comboProjectStates.getSelectionModel().getSelectedItem();
