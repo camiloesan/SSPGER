@@ -124,20 +124,20 @@ public class TimelineController {
             advancementRectangle.setViewOrder(-1.0);
             advancementRectangle.setCursor(Cursor.CLOSED_HAND);
 
-            var scaleTrans = new ScaleTransition(javafx.util.Duration.millis(250), advancementRectangle);
-            scaleTrans.setFromX(1.0);
-            scaleTrans.setFromY(1.0);
-            scaleTrans.setToX(1.2);
-            scaleTrans.setToY(1.2);
+            var scaleTransition = new ScaleTransition(javafx.util.Duration.millis(250), advancementRectangle);
+            scaleTransition.setFromX(1.0);
+            scaleTransition.setFromY(1.0);
+            scaleTransition.setToX(1.2);
+            scaleTransition.setToY(1.2);
             advancementRectangle.setOnMouseEntered(mouseEvent -> {
-                scaleTrans.setRate(1.0);
+                scaleTransition.setRate(1.0);
                 advancementRectangle.setViewOrder(-1.0);
-                scaleTrans.play();
+                scaleTransition.play();
             });
             advancementRectangle.setOnMouseExited(mouseEvent -> {
-                scaleTrans.setRate(-1.0);
+                scaleTransition.setRate(-1.0);
                 advancementRectangle.setViewOrder(0.0);
-                scaleTrans.play();
+                scaleTransition.play();
             });
             advancementRectangle.setOnMouseClicked(mouseEvent -> {
                 TransferAdvancement.setAdvancementName(advancementObject.getAdvancementName());
