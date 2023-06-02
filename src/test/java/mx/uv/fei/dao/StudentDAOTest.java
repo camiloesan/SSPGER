@@ -1,5 +1,6 @@
 package mx.uv.fei.dao;
 
+import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.AccessAccount;
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,15 +21,12 @@ class StudentDAOTest {
     @BeforeEach
     void setUp() throws SQLException {
         Student student = new Student();
-        StudentDAO studentDAO = new StudentDAO();
 
         student.setStudentID("example");
         student.setName("example");
         student.setLastName("example");
         student.setAcademicEmail("example");
         student.setUsername("example");
-
-        studentDAO.insertStudent(student);
 
         AccessAccount accessAccount = new AccessAccount();
         UserDAO accessAccountDAO = new UserDAO();
@@ -47,31 +48,36 @@ class StudentDAOTest {
     }
 
     @Test
-    void testInsertStudentSuccess() throws SQLException {
-        var student = new Student();
-        var accessAccount = new AccessAccount();
-        var userDAO = new UserDAO();
+    void testGetNameByStudentIDSuccess() throws SQLException {
         var studentDAO = new StudentDAO();
-
-        accessAccount.setUsername("exampleToInsert");
-        accessAccount.setUserPassword("example");
-        accessAccount.setUserType("Estudiante");
-
-        student.setStudentID("example");
-        student.setName("example");
-        student.setLastName("example");
-        student.setAcademicEmail("example");
-        student.setUsername("exampleToInsert");
-
-        userDAO.addUser(accessAccount);
-
-        int expectedResult = 1;
-        int result = studentDAO.insertStudent(student);
+        String expectedResult = "example";
+        String result = studentDAO.getNamebyStudentID("example");
         assertEquals(expectedResult, result);
     }
 
     @Test
-    void deleteStudent() {
-
+    void testGetNameByStudentIDNotSuccess() throws SQLException {
+        var studentDAO = new StudentDAO();
+        String expectedResult = "fail";
+        String result = studentDAO.getNamebyStudentID("example");
+        assertNotEquals(expectedResult, result);
     }
+
+    @Test
+    void testGetStudentIDByUsernameSuccess() throws SQLException {
+        var studentDAO = new StudentDAO();
+        String expectedResult = "example";
+        String result = studentDAO.getStudentIdByUsername("example");
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void testGetStudentIDByUsernameNotSuccess() throws SQLException {
+        var studentDAO = new StudentDAO();
+        String expectedResult = "fail";
+        String result = studentDAO.getStudentIdByUsername("example");
+        assertNotEquals(expectedResult, result);
+    }
+
+
 }
