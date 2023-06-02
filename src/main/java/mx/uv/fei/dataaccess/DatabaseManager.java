@@ -7,8 +7,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class DatabaseManager {
@@ -16,6 +14,7 @@ public class DatabaseManager {
     private static String DATABASE_NAME;
     private static String DATABASE_USER;
     private static String DATABASE_PASSWORD;
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(DatabaseManager.class);
 
     public DatabaseManager() {
         String configFilePath = "src/main/java/mx/uv/fei/config.properties";
@@ -53,7 +52,7 @@ public class DatabaseManager {
                     connection.close();
                 }
             } catch (SQLException exception) {
-                Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, "error", exception);
+                logger.error(exception);
             }
         }
     }

@@ -4,9 +4,9 @@ public class Student {
     private String studentID;
     private String name;
     private String lastName;
+    private String fullName;
     private String academicEmail;
-    private int NRC;
-    private int userID;
+    private String username;
 
     public String getStudentID() {
         return studentID;
@@ -31,7 +31,15 @@ public class Student {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+    
+    public String getFullName() {
+        return fullName;
+    }
+    
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    
     public String getAcademicEmail() {
         return academicEmail;
     }
@@ -40,19 +48,11 @@ public class Student {
         this.academicEmail = academicEmail;
     }
 
-    public int getNRC() {
-        return NRC;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNRC(int NRC) {
-        this.NRC = NRC;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

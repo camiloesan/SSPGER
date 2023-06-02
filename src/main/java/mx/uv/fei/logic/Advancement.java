@@ -1,21 +1,13 @@
 package mx.uv.fei.logic;
 
 public class Advancement {
-    private int advancementId;
+
+    private int advancementID;
     private String advancementName;
     private String advancementDescription;
     private String advancementStartDate;
-    private String advancementEndDate;
-    private int professorId;
+    private String advancementDeadline;
     private int projectId;
-
-    public int getAdvancementId() {
-        return advancementId;
-    }
-
-    public void setAdvancementId(int advancementId) {
-        this.advancementId = advancementId;
-    }
 
     public String getAdvancementName() {
         return advancementName;
@@ -41,27 +33,39 @@ public class Advancement {
         this.advancementStartDate = advancementStartDate;
     }
 
-    public String getAdvancementEndDate() {
-        return advancementEndDate;
+    public String getAdvancementDeadline() {
+        return advancementDeadline;
     }
 
-    public void setAdvancementEndDate(String advancementEndDate) {
-        this.advancementEndDate = advancementEndDate;
+    public void setAdvancementDeadline(String advancementDeadline) {
+        this.advancementDeadline = advancementDeadline;
     }
-
-    public int getProfessorId() {
-        return professorId;
-    }
-
-    public void setProfessorId(int professorId) {
-        this.professorId = professorId;
-    }
-
+    
     public int getProjectId() {
         return projectId;
     }
 
     public void setProjectId(int projectId) {
         this.projectId = projectId;
+    }
+
+    public int getAdvancementID() {
+        return advancementID;
+    }
+
+    public void setAdvancementID(int advancementID) {
+        this.advancementID = advancementID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Advancement that = (Advancement) o;
+        return advancementName.equals(that.advancementName) &&
+                advancementDescription.equals(that.advancementDescription) &&
+                advancementStartDate.equals(that.advancementStartDate) &&
+                advancementDeadline.equals(that.advancementDeadline) &&
+                projectId == that.projectId;
     }
 }

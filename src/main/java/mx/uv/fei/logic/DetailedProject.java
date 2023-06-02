@@ -1,11 +1,13 @@
 package mx.uv.fei.logic;
 
+import java.util.Objects;
+
 public class DetailedProject {
     private int projectID;
     private String academicBodyName;
-    private String projectTitle; //for List consults
+    private String academicBodyID;
     private String investigationProjectName;
-    private String lgacDescription;
+    private String lgacName;
     private String investigationLine;
     private String approxDuration;
     private String receptionWorkModality;
@@ -18,6 +20,7 @@ public class DetailedProject {
     private String receptionWorkDescription;
     private String expectedResults;
     private String bibliography;
+    private String projectState;
 
     public int getProjectID() {
         return projectID;
@@ -34,15 +37,15 @@ public class DetailedProject {
     public void setAcademicBodyName(String academicBodyName) {
         this.academicBodyName = academicBodyName;
     }
-
-    public String getProjectTitle() {
-        return projectTitle;
+    
+    public String getAcademicBodyID() {
+        return academicBodyID;
     }
-
-    public void setProjectTitle(String projectTitle){
-        this.projectTitle = projectTitle;
+    
+    public void setAcademicBodyID(String academicBodyID) {
+        this.academicBodyID = academicBodyID;
     }
-
+    
     public String getInvestigationProjectName() {
         return investigationProjectName;
     }
@@ -51,12 +54,12 @@ public class DetailedProject {
         this.investigationProjectName = investigationProjectName;
     }
 
-    public String getLgacDescription() {
-        return lgacDescription;
+    public String getLgacName() {
+        return lgacName;
     }
 
-    public void setLgacDescription(String lgacDescription) {
-        this.lgacDescription = lgacDescription;
+    public void setLgacName(String lgacName) {
+        this.lgacName = lgacName;
     }
 
     public String getInvestigationLine() {
@@ -82,15 +85,15 @@ public class DetailedProject {
     public void setReceptionWorkModality(String receptionWorkModality) {
         this.receptionWorkModality = receptionWorkModality;
     }
-
+    
     public String getReceptionWorkName() {
         return receptionWorkName;
     }
-
+    
     public void setReceptionWorkName(String receptionWorkName) {
         this.receptionWorkName = receptionWorkName;
     }
-
+    
     public String getRequisites() {
         return requisites;
     }
@@ -153,5 +156,67 @@ public class DetailedProject {
 
     public void setBibliography(String bibliography) {
         this.bibliography = bibliography;
+    }
+    
+    public String getProjectState() {
+        return projectState;
+    }
+    
+    public void setProjectState(String projectState) {
+        this.projectState = projectState;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DetailedProject other = (DetailedProject) o;
+        return projectID == other.projectID
+                && Objects.equals(academicBodyName, other.academicBodyName)
+                && Objects.equals(investigationProjectName, other.investigationProjectName)
+                && Objects.equals(lgacName, other.lgacName)
+                && Objects.equals(investigationLine, other.investigationLine)
+                && Objects.equals(approxDuration, other.approxDuration)
+                && Objects.equals(receptionWorkModality, other.receptionWorkModality)
+                && Objects.equals(receptionWorkName, other.receptionWorkName)
+                && Objects.equals(requisites, other.requisites)
+                && Objects.equals(director, other.director)
+                && Objects.equals(coDirector, other.coDirector)
+                && numberStudents == other.numberStudents
+                && Objects.equals(investigationDescription, other.investigationDescription)
+                && Objects.equals(receptionWorkDescription, other.receptionWorkDescription)
+                && Objects.equals(expectedResults, other.expectedResults)
+                && Objects.equals(bibliography, other.bibliography)
+                && Objects.equals(projectState, other.projectState);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(projectID, academicBodyName, investigationProjectName, lgacName, investigationLine,
+                approxDuration, receptionWorkModality, receptionWorkName, requisites, director, coDirector,
+                numberStudents, investigationDescription, receptionWorkDescription, expectedResults, bibliography, projectState);
+    }
+    
+    @Override
+    public String toString() {
+        return "DetailedProject{" +
+                "projectID=" + projectID +
+                ", academicBodyName='" + academicBodyName + '\'' +
+                ", investigationProjectName='" + investigationProjectName + '\'' +
+                ", lgacName='" + lgacName + '\'' +
+                ", investigationLine='" + investigationLine + '\'' +
+                ", approxDuration='" + approxDuration + '\'' +
+                ", receptionWorkModality='" + receptionWorkModality + '\'' +
+                ", receptionWorkName='" + receptionWorkName + '\'' +
+                ", requisites='" + requisites + '\'' +
+                ", director='" + director + '\'' +
+                ", coDirector='" + coDirector + '\'' +
+                ", numberStudents=" + numberStudents +
+                ", investigationDescription='" + investigationDescription + '\'' +
+                ", receptionWorkDescription='" + receptionWorkDescription + '\'' +
+                ", expectedResults='" + expectedResults + '\'' +
+                ", bibliography='" + bibliography + '\'' +
+                ", projectState='" + projectState + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,7 @@
 package mx.uv.fei.dao;
 
+import mx.uv.fei.dao.implementations.UserDAO;
+import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.logic.Professor;
 import mx.uv.fei.logic.AccessAccount;
 import org.junit.jupiter.api.AfterEach;
@@ -14,20 +16,21 @@ class ProfessorDAOTest {
 
     @BeforeEach
     void setUp() throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
 
         accessAccount.setUsername("ocharanJorgeO");
         accessAccount.setUserPassword("contrasenaJOOH");
+        accessAccount.setUserType("profesor");
 
-        accessAccountDAO.addAccessAccount(accessAccount);
+        accessAccountDAO.addAdminUser(accessAccount);
     }
 
     @AfterEach
     void tearDown() throws SQLException {
-        AccessAccountDAO accessAccountDAO = new AccessAccountDAO();
+        UserDAO accessAccountDAO = new UserDAO();
 
-        accessAccountDAO.deleteAccessAccountByUsername("ocharanJorgeO");
+        accessAccountDAO.deleteUserByUsername("ocharanJorgeO");
     }
 
     @Test
@@ -36,10 +39,8 @@ class ProfessorDAOTest {
         Professor professor = new Professor();
 
         professor.setProfessorName("Jorge Octavio");
-        professor.setProfessorFirsLastName("Ocharan");
-        professor.setProfessorSecondLastName("Hernandez");
+        professor.setProfessorLastName("Ocharan Hernandez");
         professor.setProfessorEmail("jocharan@uv.mx");
-        professor.setUserId(4);
 
         ProfessorDAO instance = new ProfessorDAO();
         int expectedResult = 1;
