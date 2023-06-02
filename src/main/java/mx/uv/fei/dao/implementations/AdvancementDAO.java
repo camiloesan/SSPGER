@@ -279,6 +279,11 @@ public class AdvancementDAO implements IAdvancement {
         return result;
     }
 
+    /**
+     * FOR TEST PURPOSES ONLY
+     * @return last id added on the advancements table
+     * @throws SQLException if there was a problem connecting to the database
+     */
     @Override
     public int getLastAdvancementID() throws SQLException {
         String query = "select max(ID_avance) from Avances";
