@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class EvidenceDAO implements IEvidence {
     /**
-     * @param evidence new evidence to save in the database
-     * @return rows affected if the admin was saved (1) or not (0)
+     * @param evidence new evidence to save in the database.
+     * @return rows affected if the admin was saved (1) or not (0).
      * @throws SQLException if there was an error with the database.
      */
     @Override
@@ -40,9 +40,9 @@ public class EvidenceDAO implements IEvidence {
     }
 
     /**
-     * @param evidence evidence object to modify
-     * @return rows affected if the admin was saved (1) or not (0)
-     * @throws SQLException if there was an error connecting to the database
+     * @param evidence evidence object to modify.
+     * @return rows affected if the admin was saved (1) or not (0).
+     * @throws SQLException if there was an error connecting to the database.
      */
     @Override
     public int modifyEvidence(Evidence evidence) throws SQLException{
@@ -63,9 +63,10 @@ public class EvidenceDAO implements IEvidence {
     }
 
     /**
-     * @param id id of evidence to update
-     * @param grade new grade to set
-     * @throws SQLException if there was an error connecting with to the database
+     * @param id id of evidence to update.
+     * @param grade new grade to set.
+     * @return rows affected if the admin was saved (1) or not (0).
+     * @throws SQLException if there was an error connecting with to the database.
      */
     @Override
     public int updateEvidenceGradeById(int id, int grade) throws SQLException {
@@ -87,8 +88,8 @@ public class EvidenceDAO implements IEvidence {
     }
 
     /**
-     * @param professorID the id of the professor you want to get their evidences
-     * @return list containing ALL evidences assigned to the professor
+     * @param professorID the id of the professor you want to get their evidences.
+     * @return list containing ALL evidences assigned to the professor.
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     @Override
@@ -103,7 +104,6 @@ public class EvidenceDAO implements IEvidence {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, professorID);
         ResultSet resultSet = preparedStatement.executeQuery();
-        databaseManager.closeConnection();
 
         List<Evidence> evidenceList = new ArrayList<>();
         while (resultSet.next()) {
@@ -117,15 +117,16 @@ public class EvidenceDAO implements IEvidence {
             evidence.setStudentId(resultSet.getString("matriculaEstudiante"));
             evidenceList.add(evidence);
         }
-
+        databaseManager.closeConnection();
         return evidenceList;
     }
 
     /**
-     * @param evidenceID the evidence title of the evidence you want to get the whole object of
-     * @return the evidence object
+     * @param evidenceID the evidence ID of the evidence you want to get the whole object of.
+     * @return the evidence object.
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
+    @Override
     public Evidence getEvidenceByEvidenceID(int evidenceID) throws SQLException {
         String query = "SELECT ID_evidencia, titulo, estado, calificacion, descripcion FROM Evidencias " +
                 "WHERE ID_evidencia=(?)";
@@ -135,7 +136,6 @@ public class EvidenceDAO implements IEvidence {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, evidenceID);
         ResultSet resultSet = preparedStatement.executeQuery();
-        databaseManager.closeConnection();
 
         Evidence evidence = new Evidence();
         while (resultSet.next()) {
@@ -145,12 +145,13 @@ public class EvidenceDAO implements IEvidence {
             evidence.setEvidenceGrade(resultSet.getInt("calificacion"));
             evidence.setEvidenceDescription(resultSet.getString("descripcion"));
         }
+        databaseManager.closeConnection();
         return evidence;
     }
 
     /**
-     * @param evidenceID the evidence title you want to get the id from
-     * @return integer with the evidence id
+     * @param evidenceID the evidence ID you want to get the id from.
+     * @return integer with the evidence id.
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     @Override
@@ -173,8 +174,8 @@ public class EvidenceDAO implements IEvidence {
     }
 
     /**
-     * @param evidenceID the evidence title you want to get the student id from
-     * @return the id of the student that created the evidence
+     * @param evidenceID the evidence ID you want to get the student id from.
+     * @return rows affected if the admin was saved (1) or not (0).
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     @Override
@@ -196,6 +197,11 @@ public class EvidenceDAO implements IEvidence {
         return result;
     }
 
+    /**
+     * @param evidenceID the evidence ID you want to get their attributes.
+     * @return the Evidence with the attributes.
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public Evidence getEvidenceInfoByID(int evidenceID) throws SQLException {
         String query = "SELECT  Evidencias.titulo, " +
@@ -216,7 +222,6 @@ public class EvidenceDAO implements IEvidence {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, evidenceID);
         ResultSet resultSet = preparedStatement.executeQuery();
-        databaseManager.closeConnection();
 
         Evidence evidence = new Evidence();
         while (resultSet.next()) {
@@ -228,9 +233,15 @@ public class EvidenceDAO implements IEvidence {
             evidence.setStudentName(resultSet.getString("Estudiantes.nombre"));
             evidence.setDeliverDate(resultSet.getString("fechaEntrega"));
         }
+        databaseManager.closeConnection();
         return evidence;
     }
 
+    /**
+     * @param evidenceID the evidence ID you want to delete.
+     * @return the id of the student that created the evidence.
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     public int deleteEvidenceByID (int evidenceID) throws SQLException {
         String query = "delete from Evidencias where ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -244,6 +255,12 @@ public class EvidenceDAO implements IEvidence {
         return result;
     }
 
+    /**
+     * @param evidenceID the evidence ID you want to get the reception work name of the project.
+     * @return String with th reception work name.
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
+    @Override
     public String getProjectNameByEvidenceID(int evidenceID) throws SQLException {
         String query = "SELECT Proyectos.nombreTrabajoRecepcional FROM Evidencias " +
                 "INNER JOIN Avances ON Avances.ID_avance = Evidencias.ID_avance " +
@@ -266,6 +283,11 @@ public class EvidenceDAO implements IEvidence {
         return result;
     }
 
+    /**
+     * @param studentID the student ID you want to get the list of him evidences.
+     * @return List of student evidences.
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public List<Evidence> getEvidenceListByStudent(String studentID) throws SQLException {
         String query = "SELECT ID_evidencia, titulo, estado FROM Evidencias WHERE matriculaEstudiante = (?)";
@@ -284,9 +306,17 @@ public class EvidenceDAO implements IEvidence {
             evidenceList.add(evidence);
         }
 
+        databaseManager.closeConnection();
+
         return evidenceList;
     }
 
+    /**
+     * @param studentID the student ID you want to get the name of him advancement.
+     * @param advancementID the advancement ID you want their name.
+     * @return String of the advancement name.
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public String getAdvancementNameByStudentID(String studentID, int advancementID) throws SQLException {
         String query = "SELECT Avances.nombre FROM Evidencias " +
@@ -310,9 +340,9 @@ public class EvidenceDAO implements IEvidence {
     }
     
     /**
-     * @param studentID student id to get their evidences
-     * @return list of Evidences delivered by a Student
-     * @throws SQLException if there was a problem connecting to the database
+     * @param studentID student id to get their evidences.
+     * @return list of Evidences delivered by a Student.
+     * @throws SQLException if there was a problem connecting to the database.
      */
     @Override
     public List<Evidence> getDeliveredEvidencesByStudentID(String studentID) throws SQLException{
@@ -337,6 +367,11 @@ public class EvidenceDAO implements IEvidence {
         return deliveredEvidences;
     }
 
+    /**
+     * @param evidenceTitle the evidence title you want to get the id from.
+     * @return integer with the evidence id.
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
     @Override
     public int getEvidenceIDByEvidenceTitle(String evidenceTitle) throws SQLException {
         int result = 0;
