@@ -31,7 +31,8 @@ public class LoginController {
         try {
             continueLogin(accessAccountDAO.areCredentialsValid(textFieldUser.getText(), textFieldPassword.getText()));
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar a la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo conectar a la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
             logger.error("Error en login: " + sqlException);
         }
     }
@@ -40,7 +41,8 @@ public class LoginController {
         if (isLoginValid) {
             redirectToWindow();
         } else {
-            DialogGenerator.getDialog(new AlertMessage("El usuario o contraseña no son válidos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El usuario o contraseña no son válidos", AlertStatus.WARNING));
         }
     }
 
@@ -51,24 +53,28 @@ public class LoginController {
         String username = textFieldUser.getText();
 
         switch (userType) {
-            case USER_ADMIN -> MainStage.changeView("usermanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            case USER_ADMIN -> MainStage.changeView(
+                    "usermanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             case USER_STUDENT -> {
                 StudentDAO studentDAO = new StudentDAO();
                 String studentId = studentDAO.getStudentIdByUsername(username);
                 sessionDetails = SessionDetails.getInstance(username, userType, studentId);
-                MainStage.changeView("studentadvancement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+                MainStage.changeView(
+                        "studentadvancement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             }
             case USER_PROFESSOR -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 String professorId = String.valueOf(professorDAO.getProfessorIdByUsername(username));
                 sessionDetails = SessionDetails.getInstance(username, userType, professorId);
-                MainStage.changeView("advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+                MainStage.changeView(
+                        "advancementsmanagement-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             }
             case USER_REPRESENTATIVE -> {
                 ProfessorDAO professorDAO = new ProfessorDAO();
                 String professorId = String.valueOf(professorDAO.getProfessorIdByUsername(username));
                 sessionDetails = SessionDetails.getInstance(username, userType, professorId);
-                MainStage.changeView("projectproposals-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+                MainStage.changeView(
+                        "projectproposals-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
             }
         }
     }

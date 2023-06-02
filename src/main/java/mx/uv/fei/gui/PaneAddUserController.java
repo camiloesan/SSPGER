@@ -73,7 +73,8 @@ public class PaneAddUserController {
                     }
                 }
                 case LoginController.USER_ADMIN -> addAdminUser();
-                default -> DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
+                default -> DialogGenerator.getDialog(new AlertMessage(
+                        "Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
             }
             clearFields();
         }
@@ -101,7 +102,8 @@ public class PaneAddUserController {
         try {
             accessAccountDAO.addAdminUser(accessAccount);
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo agregar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo agregar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -119,9 +121,11 @@ public class PaneAddUserController {
         professor.setProfessorEmail(textFieldProfessorEmail.getText());
         try {
             userDAO.addProfessorUserTransaction(accessAccount, professor);
-            DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -139,9 +143,11 @@ public class PaneAddUserController {
         student.setAcademicEmail(textFieldStudentEmail.getText());
         try {
             accessAccountDAO.addStudentUserTransaction(accessAccount, student);
-            DialogGenerator.getDialog(new AlertMessage("Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo añadir al usuario, inténtelo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo añadir al usuario, inténtelo más tarde", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -157,11 +163,13 @@ public class PaneAddUserController {
         if (textFieldUsername.getText().isBlank()
                 || passwordFieldPassword.getText().isBlank()
                 || comboBoxUserType.getValue() == null) {
-            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if (textFieldUsername.getText().length() > MAX_LENGTH_USERNAME
                 || passwordFieldPassword.getText().length() > MAX_LENGTH_PASSWORD){
-            DialogGenerator.getDialog(new AlertMessage("Has sobrepasado el límite de caracteres, inténtalo de nuevo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Has sobrepasado el límite de caracteres, inténtalo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;
@@ -173,12 +181,14 @@ public class PaneAddUserController {
                 || textFieldProfessorLastName.getText().isBlank()
                 || comboBoxDegree.getValue() == null
                 || textFieldProfessorEmail.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if(textFieldProfessorName.getText().length() > MAX_LENGTH_NAME
                 || textFieldProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME
                 || textFieldProfessorEmail.getText().length() > MAX_LENGTH_EMAIL) {
-            DialogGenerator.getDialog(new AlertMessage("Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;
@@ -190,13 +200,15 @@ public class PaneAddUserController {
                 || textFieldStudentName.getText().isBlank()
                 || textFieldStudentLastName.getText().isBlank()
                 || textFieldStudentEmail.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if (textFieldStudentId.getText().length() > MAX_LENGTH_STUDENT_ID
                 || textFieldStudentName.getText().length() > MAX_LENGTH_NAME
                 || textFieldStudentLastName.getText().length() > MAX_LENGTH_LASTNAME
                 || textFieldStudentEmail.getText().length() > MAX_LENGTH_EMAIL) {
-            DialogGenerator.getDialog(new AlertMessage("Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;
@@ -228,7 +240,8 @@ public class PaneAddUserController {
     }
 
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 

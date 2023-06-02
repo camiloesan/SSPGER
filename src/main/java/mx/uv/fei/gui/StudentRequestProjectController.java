@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,9 +19,11 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
     private TextArea textAreaDescription;
     @FXML
     Label labelUsername;
+    private static final Logger logger = Logger.getLogger(StudentRequestProjectController.class);
 
     private boolean confirmedRequestProject() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea solicitar este proyecto?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea solicitar este proyecto?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     private ProjectRequest getProjectRequestAttributes() {
@@ -51,7 +54,9 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         try {
              requests = projectRequestDAO.getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
         } catch (SQLException requestsException) {
-            requestsException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar número de pticiones", AlertStatus.ERROR));
+            logger.error(requestsException);
         }
         if (requests>0) {
             DialogGenerator.getDialog(new AlertMessage("Ya haz solicitado un proyecto",
@@ -64,19 +69,17 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
     }
 
     @FXML
-    private void requestProject() {
+    private void requestProject() throws IOException {
         if (confirmedRequests() && confirmedFields() && confirmedRequestProject()) {
             ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
             try {
                 projectRequestDAO.createProjectRequest(getProjectRequestAttributes());
             } catch (SQLException requestProjectException) {
-                requestProjectException.printStackTrace();
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Error al crear la petición", AlertStatus.ERROR));
+                logger.error(requestProjectException);
             }
-            try {
-                redirectToProjects();
-            } catch (IOException redirectException) {
-                redirectException.printStackTrace();
-            }
+            redirectToProjects();
         }
     }
 
@@ -109,7 +112,8 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
     }
 
     private boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
 

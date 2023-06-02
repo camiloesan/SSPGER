@@ -63,8 +63,6 @@ public class ProgressReportController implements IProfessorNavigationBar{
     private TableColumn<Evidence, String> tableColumnWasDelivered;
     LocalDate actualDate = LocalDate.now();
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private final String outputPath = System.getProperty("use.home") + "/Documents/Reportes/";
-    
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
     public void initialize() {
@@ -75,7 +73,8 @@ public class ProgressReportController implements IProfessorNavigationBar{
             setTableHeight();
             fillTableViewEvidences();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
         labelDate.setText(actualDate.format(dateFormat));
@@ -84,7 +83,9 @@ public class ProgressReportController implements IProfessorNavigationBar{
     
     private void setInfoLabels() throws SQLException {
         ProfessorDAO professorDAO = new ProfessorDAO();
-        labelHeaderDate.setText(actualDate.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, new Locale("es")) + " " + actualDate.getYear());
+        labelHeaderDate.setText(actualDate
+                .getMonth()
+                .getDisplayName(TextStyle.FULL_STANDALONE, new Locale("es")) + " " + actualDate.getYear());
         labelStudent.setText(TransferStudent.getStudentName());
         labelReceptionWork.setText(TransferProject.getReceptionWorkName());
         labelDirectors.setText(professorDAO.getDirectorsByProject(TransferProject.getProjectID()));
@@ -140,7 +141,8 @@ public class ProgressReportController implements IProfessorNavigationBar{
         try {
             pdfGenerator();
         } catch (IOException ioException) {
-            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al terminar de generar el PDF", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Ocurrió un error al terminar de generar el PDF", AlertStatus.ERROR));
             logger.error(ioException);
         }
     }
@@ -163,10 +165,10 @@ public class ProgressReportController implements IProfessorNavigationBar{
             
             DialogGenerator.getDialog(new AlertMessage("Se ha generado el reporte", AlertStatus.SUCCESS));
         } catch (FileNotFoundException fileNotFoundException) {
-            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al generar el PDF", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("Error al generar el PDF", AlertStatus.ERROR));
             logger.error(fileNotFoundException);
         } catch (IOException ioException) {
-            DialogGenerator.getDialog(new AlertMessage("Ocurrió un error al crear el PDF", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("Error al crear el PDF", AlertStatus.ERROR));
             logger.error(ioException);
         } finally {
             if (document != null) {
@@ -191,7 +193,8 @@ public class ProgressReportController implements IProfessorNavigationBar{
         if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
-            MainStage.changeView("professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }
     }
     
@@ -206,7 +209,8 @@ public class ProgressReportController implements IProfessorNavigationBar{
     }
     
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     

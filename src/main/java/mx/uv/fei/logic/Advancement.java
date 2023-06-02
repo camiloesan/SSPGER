@@ -58,10 +58,10 @@ public class Advancement {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Advancement that = (Advancement) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Advancement that = (Advancement) object;
         return advancementName.equals(that.advancementName) &&
                 advancementDescription.equals(that.advancementDescription) &&
                 advancementStartDate.equals(that.advancementStartDate) &&

@@ -62,9 +62,11 @@ public class PaneModifyAdvancementController {
         ProjectDAO projectDAO = new ProjectDAO();
         int professorId = Integer.parseInt(LoginController.sessionDetails.getId());
         try {
-            comboNewProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
+            comboNewProjectToAssign.setItems(FXCollections.observableList(
+                    projectDAO.getProjectNamesByIdDirector(professorId)));
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -77,14 +79,17 @@ public class PaneModifyAdvancementController {
     @FXML
     private void modifyAdvancementButtonAction() {
         if (areModifyAdvancementFieldsValid()) {
-            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea modificar el avance?");
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                    "¿Está seguro que desea modificar el avance?");
             if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
                 try {
                     modifyAdvancement();
                     clearFields();
-                    DialogGenerator.getDialog(new AlertMessage("Se modificó el avance exitosamente", AlertStatus.SUCCESS));
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "Se modificó el avance exitosamente", AlertStatus.SUCCESS));
                 } catch (SQLException sqlException) {
-                    DialogGenerator.getDialog(new AlertMessage("Ocurrió un error, no se pudo modificar el avance", AlertStatus.ERROR));
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "Ocurrió un error, no se pudo modificar el avance", AlertStatus.ERROR));
                     logger.error(sqlException);
                 }
             }
@@ -117,11 +122,13 @@ public class PaneModifyAdvancementController {
                 || newAdvancementDeadline.getValue() == null
                 || newAdvancementDescription.getText().isBlank()
                 || comboNewProjectToAssign.getValue().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if (newAdvancementName.getText().length() >= MAX_LENGTH_NAME
                 || newAdvancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
-            DialogGenerator.getDialog(new AlertMessage("El límite de caracteres fue sobrepasado, inténtalo de nuevo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El límite de caracteres fue sobrepasado, inténtalo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;

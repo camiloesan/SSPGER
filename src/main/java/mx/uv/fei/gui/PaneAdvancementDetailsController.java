@@ -32,7 +32,8 @@ public class PaneAdvancementDetailsController {
         try {
             getDetailedAdvancement();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -43,7 +44,8 @@ public class PaneAdvancementDetailsController {
     
     public void getDetailedAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement detaildedAdvancement = (advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID()));
+        Advancement detaildedAdvancement = (advancementDAO
+                .getAdvancementDetailById(TransferAdvancement.getAdvancementID()));
 
         labelAdvancementName.setText(detaildedAdvancement.getAdvancementName());
         
@@ -65,7 +67,8 @@ public class PaneAdvancementDetailsController {
         try {
             advancementDAO.deleteAdvancementById(TransferAdvancement.getAdvancementID());
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo eliminar el avance, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo eliminar el avance, inténtelo de nuevo más tarde", AlertStatus.ERROR));
         }
     }
     
@@ -76,7 +79,8 @@ public class PaneAdvancementDetailsController {
     }
     
     public boolean confirmedDeletion() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + getAdvancementName() + "\"?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea eliminar el avance \"" + getAdvancementName() + "\"?");
         return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 }

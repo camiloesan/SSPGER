@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,6 +36,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private int professorId;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_DESCRIPTION = 800;
+    private static final Logger logger = Logger.getLogger(AdvancementsManagementController.class);
     
     @FXML
     private void initialize() {
@@ -76,13 +78,15 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private void deleteAdvancementButtonAction() {
         if (isItemSelected()) {
             int advancementId = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementID();
-            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
+            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                    "¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
             if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
                 deleteAdvancement(advancementId);
                 fillTableViewAdvancements();
             }
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Debes seleccionar un avance para eliminarlo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Debes seleccionar un avance para eliminarlo", AlertStatus.WARNING));
         }
     }
 
@@ -95,8 +99,9 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         try {
             advancementDAO.deleteAdvancementById(advancementId);
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo eliminar el avance, inténtelo de nuevo más tarde", AlertStatus.ERROR));
-            sqlException.printStackTrace();
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo eliminar el avance, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
@@ -107,7 +112,9 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
                 scheduleAdvancement();
                 DialogGenerator.getDialog(new AlertMessage("Se ha programado el avance", AlertStatus.SUCCESS));
             } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
+                logger.error(sqlException);
             }
 
             clearFields();
@@ -141,11 +148,13 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
                 || advancementDeadline.getValue() == null
                 || comboProjectToAssign.getValue().isBlank()
                 || advancementDescription.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage("Todos los campos deben estar llenos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
         } else if (advancementName.getText().length() >= MAX_LENGTH_NAME
                 || advancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
-            DialogGenerator.getDialog(new AlertMessage("El límite de caracteres fue sobrepasado, inténtalo de nuevo", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El límite de caracteres fue sobrepasado, inténtalo de nuevo", AlertStatus.WARNING));
             return false;
         } else {
             return true;
@@ -160,19 +169,24 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             int advancementId = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementID();
             System.out.println(advancementId);
             TransferAdvancement.setAdvancementID(advancementId);
-            Parent modifyVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("panemodifyadvancement-view.fxml")));
+            Parent modifyVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(
+                    "panemodifyadvancement-view.fxml")));
             tabViewAdvancements.setContent(modifyVbox);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Seleccione un avance para modificarlo.", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Seleccione un avance para modificarlo.", AlertStatus.WARNING));
         }
     }
 
     private void fillComboBoxProjectToAssign() {
         ProjectDAO projectDAO = new ProjectDAO();
         try {
-            comboProjectToAssign.setItems((FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId))));
+            comboProjectToAssign.setItems((
+                    FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId))));
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
     
@@ -184,7 +198,9 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         try {
            advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByProfessorId(professorId));
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
         assert advancementList != null;
         tableViewAdvancements.getItems().addAll(advancementList);
@@ -194,10 +210,12 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         if (tableViewAdvancements.getSelectionModel().getSelectedItem() != null) {
             int advancementId = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementID();
             TransferAdvancement.setAdvancementID(advancementId);
-            Parent detailsVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("paneadvancementdetails-view.fxml")));
+            Parent detailsVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(
+                    "paneadvancementdetails-view.fxml")));
             tabViewAdvancements.setContent(detailsVbox);
         } else {
-            DialogGenerator.getDialog(new AlertMessage("Selecciones un avance para ver los detalles.", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Selecciones un avance para ver los detalles.", AlertStatus.WARNING));
         }
     }
     
@@ -211,7 +229,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
-            MainStage.changeView("professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }
     }
     
@@ -226,7 +245,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
     
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
     

@@ -65,7 +65,8 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
         try {
             getDetailedProject();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información.",AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información.",AlertStatus.ERROR));
             logger.error(sqlException);
         }
         hideDeleteProject();
@@ -125,7 +126,8 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
 
     private boolean confirmedDeleteProject() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea eliminar este Proyecto para siempre?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea eliminar este Proyecto para siempre?");
         return response.get() == DialogGenerator.BUTTON_YES;
     }
 
@@ -136,7 +138,8 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
             try {
                 projectDAO.deleteProjectByID(TransferProject.getProjectID());
             } catch (SQLException deleteException) {
-                DialogGenerator.getDialog(new AlertMessage("No se pudo borrar el proyecto.", AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo borrar el proyecto.", AlertStatus.ERROR));
                 logger.error(deleteException);
             }
             redirectToProfessorProjectManagement();
@@ -153,7 +156,8 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
         if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
-            MainStage.changeView("professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
+            MainStage.changeView(
+                    "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }
     }
     
@@ -168,7 +172,8 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
     
     public boolean confirmedLogOut() {
-        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog("¿Está seguro que desea salir, se cerrará su sesión?");
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
     }
     

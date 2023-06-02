@@ -94,7 +94,7 @@ AdvancementDAOTest {
     }
 
     @Test
-    void testAddAdvancementShouldNotAdd() throws SQLException {
+    void testAddAdvancementWrongProjectId() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         Advancement advancement1 = new Advancement();
         advancement1.setAdvancementName("zxb");
@@ -102,13 +102,12 @@ AdvancementDAOTest {
         advancement1.setAdvancementStartDate("2023-05-29");
         advancement1.setAdvancementDeadline("2023-06-27");
         advancement1.setProjectId(0);
-        advancementDAO.addAdvancement(advancement1);
+        assertThrows(SQLException.class, () -> advancementDAO.addAdvancement(advancement1));
     }
 
     @Test
     void testGetAdvancementDetailsByIdObject() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        System.out.println(advancementDAO.getLastAdvancementID());
         Advancement expectedAdvancement = advancementDAO.getAdvancementDetailById(advancementDAO.getLastAdvancementID());
         assertEquals(advancement, expectedAdvancement);
     }
@@ -135,7 +134,7 @@ AdvancementDAOTest {
     }
 
     @Test
-    void testModifyAdvancementByIdShouldNotModify() throws SQLException {
+    void testModifyAdvancementByIdWrongAdvancementId() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement1 = new Advancement();
@@ -149,7 +148,7 @@ AdvancementDAOTest {
     }
 
     @Test
-    void testDeleteAdvancementByIdShouldNotDelete() throws SQLException {
+    void testDeleteAdvancementByIdShouldNotWrongAdvancementId() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         assertEquals(0, advancementDAO.deleteAdvancementById(0));
     }
