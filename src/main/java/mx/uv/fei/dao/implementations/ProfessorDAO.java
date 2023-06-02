@@ -38,6 +38,7 @@ public class ProfessorDAO implements IProfessor {
     }
     
     /**
+     * CANNOT BE TESTED
      * @param username professor username to get their id
      * @return the id of a registered professor
      * @throws SQLException if there was a problem connecting to the database or getting the information
