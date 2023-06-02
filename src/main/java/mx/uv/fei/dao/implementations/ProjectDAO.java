@@ -191,17 +191,17 @@ public class ProjectDAO implements IProject {
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         ResultSet resultSet = preparedStatement.executeQuery();
         
-        List<SimpleProject> projectTitles = new ArrayList<>();
+        List<SimpleProject> allProjects = new ArrayList<>();
         while (resultSet.next()) {
             SimpleProject itemProjectTitle = new SimpleProject();
             itemProjectTitle.setProjectID(resultSet.getInt("ID_proyecto"));
             itemProjectTitle.setReceptionWorkName(resultSet.getString("nombreTrabajoRecepcional"));
             itemProjectTitle.setProjectState(resultSet.getString("estado"));
-            projectTitles.add(itemProjectTitle);
+            allProjects.add(itemProjectTitle);
         }
         databaseManager.closeConnection();
         
-        return projectTitles;
+        return allProjects;
     }
     
     /**
