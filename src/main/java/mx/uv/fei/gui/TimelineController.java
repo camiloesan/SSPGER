@@ -129,17 +129,17 @@ public class TimelineController {
             scaleTrans.setFromY(1.0);
             scaleTrans.setToX(1.2);
             scaleTrans.setToY(1.2);
-            advancementRectangle.setOnMouseEntered(e -> {
+            advancementRectangle.setOnMouseEntered(mouseEvent -> {
                 scaleTrans.setRate(1.0);
                 advancementRectangle.setViewOrder(-1.0);
                 scaleTrans.play();
             });
-            advancementRectangle.setOnMouseExited(e -> {
+            advancementRectangle.setOnMouseExited(mouseEvent -> {
                 scaleTrans.setRate(-1.0);
                 advancementRectangle.setViewOrder(0.0);
                 scaleTrans.play();
             });
-            advancementRectangle.setOnMouseClicked(e -> {
+            advancementRectangle.setOnMouseClicked(mouseEvent -> {
                 TransferAdvancement.setAdvancementName(advancementObject.getAdvancementName());
                 TransferAdvancement.setAdvancementID(advancementObject.getAdvancementID());
                 if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)) {
