@@ -1,12 +1,22 @@
 package mx.uv.fei.logic;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Student {
     private String studentID;
     private String name;
     private String lastName;
     private String fullName;
-    private String academicEmail;
     private String username;
+
+    public boolean isEmailValid(String studentEmail) {
+        String regex = "^[\\w!#$%&amp;'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&amp;'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(studentEmail);
+
+        return matcher.matches() && studentEmail.contains("estudiantes.uv.mx");
+    }
 
     public String getStudentID() {
         return studentID;
@@ -38,14 +48,6 @@ public class Student {
     
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-    
-    public String getAcademicEmail() {
-        return academicEmail;
-    }
-
-    public void setAcademicEmail(String academicEmail) {
-        this.academicEmail = academicEmail;
     }
 
     public String getUsername() {

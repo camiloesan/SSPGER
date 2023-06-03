@@ -19,6 +19,7 @@ public interface IUser {
     boolean areCredentialsValid(String username, String password) throws SQLException;
     String getAccessAccountTypeByUsername(String username) throws SQLException;
     List<AccessAccount> getAccessAccountsList() throws SQLException;
-
     int addUser(AccessAccount accessAccount) throws SQLException;
+    boolean isUserTaken(String username) throws SQLException;
+    boolean isEmailTaken(String email) throws SQLException;
 }

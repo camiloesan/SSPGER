@@ -29,7 +29,9 @@ public class UserManagementController {
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         TableColumn<AccessAccount, String> userTypeColumn = new TableColumn<>("Tipo de usuario");
         userTypeColumn.setCellValueFactory(new PropertyValueFactory<>("userType"));
-        tableViewAccessAccounts.getColumns().addAll(Arrays.asList(idColumn, usernameColumn, userTypeColumn));
+        TableColumn<AccessAccount, String> userEmailColumn = new TableColumn<>("Correo Electrónico");
+        userEmailColumn.setCellValueFactory(new PropertyValueFactory<>("userEmail"));
+        tableViewAccessAccounts.getColumns().addAll(Arrays.asList(idColumn, usernameColumn, userEmailColumn, userTypeColumn));
         fillTableViewAccessAccounts();
     }
 

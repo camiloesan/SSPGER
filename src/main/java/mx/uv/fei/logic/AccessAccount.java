@@ -5,6 +5,15 @@ public class AccessAccount {
     private String username;
     private String userPassword;
     private String userType;
+    private String userEmail;
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
 
     public String getUserType() {
         return userType;

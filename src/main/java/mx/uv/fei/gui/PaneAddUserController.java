@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
@@ -25,13 +26,11 @@ public class PaneAddUserController {
     @FXML
     private PasswordField passwordFieldPassword;
     @FXML
-    private TextField textFieldProfessorEmail;
+    private TextField textFieldEmail;
     @FXML
     private TextField textFieldProfessorLastName;
     @FXML
     private TextField textFieldProfessorName;
-    @FXML
-    private TextField textFieldStudentEmail;
     @FXML
     private TextField textFieldStudentId;
     @FXML
@@ -51,6 +50,10 @@ public class PaneAddUserController {
             FXCollections.observableArrayList("Dr.", "Dra.", "MCC.");
     private static final Logger logger = Logger.getLogger(PaneAddUserController.class);
 
+    private static final String PROFESSOR_USER = "Profesor";
+    private static final String STUDENT__USER = "Estudiante";
+    private static final String ACADEMIC_BODY_REPRESENTATIVE_USER = "RepresentanteCA";
+    private static final String ADMIN_USER = "Administrador";
 
     @FXML
     private void initialize() {
@@ -59,96 +62,152 @@ public class PaneAddUserController {
     }
 
     @FXML
-    void buttonSaveAction() {
-        if (areAccessAccountFieldsValid()) {
-            switch (comboBoxUserType.getValue()) {
-                case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
-                    if (areProfessorFieldsValid()) {
-                        addProfessorUser();
-                    }
+    void buttonSaveAction() throws SQLException {
+        if (comboBoxUserType.getValue() == null) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Debes seleccionar a un tipo de usuario", AlertStatus.WARNING
+            ));
+        } else {
+            String userType = comboBoxUserType.getValue();
+            if (areFieldsValid(userType)) {
+                switch (userType) {
+                    case PROFESSOR_USER, ACADEMIC_BODY_REPRESENTATIVE_USER -> addProfessorUser();
+                    case STUDENT__USER -> addStudentUser();
+                    case ADMIN_USER -> addAdminUser();
                 }
-                case LoginController.USER_STUDENT -> {
-                    if (areStudentFieldsValid()) {
-                        addStudentUser();
-                    }
-                }
-                case LoginController.USER_ADMIN -> addAdminUser();
-                default -> DialogGenerator.getDialog(new AlertMessage(
-                        "Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
             }
-            clearFields();
         }
     }
 
     private void clearFields() {
         comboBoxDegree.setValue(null);
         passwordFieldPassword.setText("");
-        textFieldProfessorEmail.setText("");
         textFieldProfessorName.setText("");
         textFieldProfessorLastName.setText("");
-        textFieldStudentEmail.setText("");
         textFieldStudentId.setText("");
         textFieldStudentName.setText("");
         textFieldStudentLastName.setText("");
         textFieldUsername.setText("");
+        textFieldEmail.setText("");
     }
 
-    private void addAdminUser() {
-        UserDAO accessAccountDAO = new UserDAO();
-        AccessAccount accessAccount = new AccessAccount();
-        accessAccount.setUsername(textFieldUsername.getText());
-        accessAccount.setUserPassword(passwordFieldPassword.getText());
-        accessAccount.setUserType(comboBoxUserType.getValue());
-        try {
-            accessAccountDAO.addAdminUser(accessAccount);
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo agregar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
-    }
-
-    private void addProfessorUser() {
+    private void addAdminUser() throws SQLException {
+        int result = 0;
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         accessAccount.setUsername(textFieldUsername.getText());
         accessAccount.setUserPassword(passwordFieldPassword.getText());
         accessAccount.setUserType(comboBoxUserType.getValue());
-        Professor professor = new Professor();
-        professor.setProfessorName(textFieldProfessorName.getText());
-        professor.setProfessorLastName(textFieldProfessorLastName.getText());
-        professor.setProfessorDegree(comboBoxDegree.getValue());
-        professor.setProfessorEmail(textFieldProfessorEmail.getText());
-        try {
-            userDAO.addProfessorUserTransaction(accessAccount, professor);
+        accessAccount.setUserEmail(textFieldEmail.getText());
+
+        String newUsername = textFieldUsername.getText();
+        String newEmail = textFieldEmail.getText();
+        if (userDAO.isUserTaken(newUsername)) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
-        } catch (SQLException sqlException) {
+                    "El usuario ya existe, elija otro nombre.", AlertStatus.WARNING));
+        } else if (userDAO.isEmailTaken(newEmail)) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
-            logger.error(sqlException);
+                    "El usuario ya existe, elija otro nombre.", AlertStatus.WARNING));
+        } else {
+            try {
+                result = userDAO.addAdminUser(accessAccount);
+            } catch (SQLException sqlException) {
+                logger.error(sqlException);
+            }
+
+            if (result == 0) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Ocurrió un error con la base de datos, inténtelo más tarde", AlertStatus.ERROR));
+            } else {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
+                clearFields();
+            }
         }
     }
 
-    private void addStudentUser() {
-        UserDAO accessAccountDAO = new UserDAO();
+    private void addProfessorUser() throws SQLException {
+        boolean result = false;
+        UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         accessAccount.setUsername(textFieldUsername.getText());
         accessAccount.setUserPassword(passwordFieldPassword.getText());
         accessAccount.setUserType(comboBoxUserType.getValue());
+        accessAccount.setUserEmail(textFieldEmail.getText());
+        Professor professor = new Professor();
+        professor.setProfessorName(textFieldProfessorName.getText());
+        professor.setProfessorLastName(textFieldProfessorLastName.getText());
+        professor.setProfessorDegree(comboBoxDegree.getValue());
+
+        if (userDAO.isUserTaken(textFieldUsername.getText())) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El usuario ya existe, elija otro nombre.", AlertStatus.ERROR));
+        } else {
+            try {
+                result = userDAO.addProfessorUserTransaction(accessAccount, professor);
+            } catch (SQLException sqlException) {
+                logger.error(sqlException);
+            }
+        }
+
+        if (!result) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo añadir al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+        } else {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
+            clearFields();
+        }
+    }
+
+    private void addStudentUser() throws SQLException {
+        boolean result = false;
+        UserDAO userDAO = new UserDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        StudentDAO studentDAO = new StudentDAO();
+        accessAccount.setUsername(textFieldUsername.getText());
+        accessAccount.setUserPassword(passwordFieldPassword.getText());
+        accessAccount.setUserType(comboBoxUserType.getValue());
+        accessAccount.setUserEmail(textFieldEmail.getText());
         Student student = new Student();
         student.setStudentID(textFieldStudentId.getText());
         student.setName(textFieldStudentName.getText());
         student.setLastName(textFieldStudentLastName.getText());
-        student.setAcademicEmail(textFieldStudentEmail.getText());
+
+        boolean isStudentIDTaken = false;
         try {
-            accessAccountDAO.addStudentUserTransaction(accessAccount, student);
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
+            isStudentIDTaken = studentDAO.isStudentIDTaken(student.getStudentID());
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo añadir al usuario, inténtelo más tarde", AlertStatus.ERROR));
+                    "Ocurrió un error con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR
+            ));
             logger.error(sqlException);
+        }
+
+        boolean modifiedSuccessfully = false;
+        if (userDAO.isUserTaken(textFieldStudentId.getText())) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El usuario ya se encuentra registrado, no se pudo agregar.", AlertStatus.ERROR));
+        } else {
+            if (isStudentIDTaken) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "La matrícula ya se encuentra registrada.", AlertStatus.ERROR));
+            } else {
+                try {
+                    modifiedSuccessfully = userDAO.addStudentUserTransaction(accessAccount, student);
+                } catch (SQLException sqlException) {
+                    logger.error(sqlException);
+                }
+            }
+
+            if (!modifiedSuccessfully) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo añadir al usuario, inténtelo más tarde", AlertStatus.ERROR));
+            } else {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Se agregó al usuario satisfactoriamente", AlertStatus.SUCCESS));
+                clearFields();
+            }
         }
     }
 
@@ -156,20 +215,59 @@ public class PaneAddUserController {
     private static final int MAX_LENGTH_PASSWORD = 64;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_LASTNAME = 80;
-    private static final int MAX_LENGTH_EMAIL = 30;
+    private static final int MAX_LENGTH_EMAIL = 28;
     private static final int MAX_LENGTH_STUDENT_ID = 10;
 
+    private boolean areFieldsValid(String userType) {
+        if (areAccessAccountFieldsValid()) {
+            switch (userType) {
+                case PROFESSOR_USER, ACADEMIC_BODY_REPRESENTATIVE_USER -> {
+                    return areProfessorFieldsValid();
+                }
+                case STUDENT__USER -> {
+                    return areStudentFieldsValid();
+                }
+                default -> {
+                    return true;
+                }
+            }
+        } else {
+            return false;
+        }
+    }
+
     private boolean areAccessAccountFieldsValid() {
+        Professor professor = new Professor();
         if (textFieldUsername.getText().isBlank()
                 || passwordFieldPassword.getText().isBlank()
-                || comboBoxUserType.getValue() == null) {
+                || comboBoxUserType.getValue() == null
+                || textFieldEmail.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING
+            ));
             return false;
-        } else if (textFieldUsername.getText().length() > MAX_LENGTH_USERNAME
-                || passwordFieldPassword.getText().length() > MAX_LENGTH_PASSWORD){
+        } else if (textFieldUsername.getText().length() > MAX_LENGTH_USERNAME) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Has sobrepasado el límite de caracteres, inténtalo de nuevo", AlertStatus.WARNING));
+                    "El campo usuario debe tener máximo 30 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (passwordFieldPassword.getText().length() > MAX_LENGTH_PASSWORD) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El campo contraseña debe tener máximo 64 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (textFieldEmail.getText().length() > MAX_LENGTH_EMAIL) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El correo electrónino debe tener máximo 28 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (!professor.isEmailValid(textFieldEmail.getText()) && comboBoxUserType.getValue().equals("Administrador")) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El formato del correo electrónico no es válido, " +
+                            "sólo se permiten caracteres alfa-numéricos" +
+                            " y direcciones válidas del personal de la Universidad Veracruzana (@uv.mx)",
+                    AlertStatus.WARNING
+            ));
             return false;
         } else {
             return true;
@@ -177,18 +275,31 @@ public class PaneAddUserController {
     }
 
     private boolean areProfessorFieldsValid() {
+        Professor professor = new Professor();
         if (textFieldProfessorName.getText().isBlank()
-                || textFieldProfessorLastName.getText().isBlank()
-                || comboBoxDegree.getValue() == null
-                || textFieldProfessorEmail.getText().isBlank()) {
+            || textFieldProfessorLastName.getText().isBlank()
+            || comboBoxDegree.getValue() == null) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING
+            ));
             return false;
-        } else if(textFieldProfessorName.getText().length() > MAX_LENGTH_NAME
-                || textFieldProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME
-                || textFieldProfessorEmail.getText().length() > MAX_LENGTH_EMAIL) {
+        } else if (textFieldProfessorName.getText().length() > MAX_LENGTH_NAME) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+                    "Tamaño inválido, el campo nombre del profesor debe tener máximo 30 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (textFieldProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Tamaño inválido, el campo apellidos debe tener máximo 30 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (!professor.isEmailValid(textFieldEmail.getText())) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El formato del correo electrónico no es válido, " +
+                            "sólo se permiten caracteres alfa-numéricos" +
+                            " y direcciones válidas de la Universidad Veracruzana (@uv.mx)",
+                    AlertStatus.WARNING
+            ));
             return false;
         } else {
             return true;
@@ -196,19 +307,36 @@ public class PaneAddUserController {
     }
 
     private boolean areStudentFieldsValid() {
+        Student student = new Student();
         if (textFieldStudentId.getText().isBlank()
                 || textFieldStudentName.getText().isBlank()
-                || textFieldStudentLastName.getText().isBlank()
-                || textFieldStudentEmail.getText().isBlank()) {
+                || textFieldStudentLastName.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING
+            ));
             return false;
-        } else if (textFieldStudentId.getText().length() > MAX_LENGTH_STUDENT_ID
-                || textFieldStudentName.getText().length() > MAX_LENGTH_NAME
-                || textFieldStudentLastName.getText().length() > MAX_LENGTH_LASTNAME
-                || textFieldStudentEmail.getText().length() > MAX_LENGTH_EMAIL) {
+        } else if (textFieldStudentId.getText().length() != MAX_LENGTH_STUDENT_ID) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+                    "Tamaño inválido, la matrícula debe tener exactamente 10 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (textFieldStudentName.getText().length() > MAX_LENGTH_NAME) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Tamaño inválido, el límite del nombre es de 30 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (textFieldStudentLastName.getText().length() > MAX_LENGTH_LASTNAME) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Tamaño inválido, el límite del campo apellidos es de máximo 80 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (!student.isEmailValid(textFieldEmail.getText())) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El formato del correo electrónico no es válido, " +
+                            "sólo se permiten caracteres alfa-numéricos y direcciones válidas" +
+                            "de estudiantes de la Universidad Veracruzana (@estudiantes.uv.mx)",
+                    AlertStatus.WARNING
+            ));
             return false;
         } else {
             return true;

@@ -29,7 +29,6 @@ class ProfessorDAOTest {
         testAccessAccount.setUserType("Profesor");
         testProfessor.setProfessorName("ProfeNom1");
         testProfessor.setProfessorLastName("ProfeAp1");
-        testProfessor.setProfessorEmail("exaple1@mail.com");
         testProfessor.setProfessorDegree("Dr.");
         userDAO.addProfessorUserTransaction(testAccessAccount,testProfessor);
         
@@ -40,7 +39,6 @@ class ProfessorDAOTest {
         testAccessAccount2.setUserType("Profesor");
         testProfessor2.setProfessorName("ProfeNom2");
         testProfessor2.setProfessorLastName("ProfeAp2");
-        testProfessor2.setProfessorEmail("exaple2@mail.com");
         testProfessor2.setProfessorDegree("Dr.");
         userDAO.addProfessorUserTransaction(testAccessAccount2,testProfessor2);
         

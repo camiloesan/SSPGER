@@ -24,7 +24,6 @@ class UserDAOTest {
         accessAccount.setUserType("Profesor");
         professor.setProfessorName("albieri");
         professor.setProfessorLastName("sanchez");
-        professor.setProfessorEmail("hola@gmail.com");
         professor.setProfessorDegree("Dr.");
         userDAO.addProfessorUserTransaction(accessAccount, professor);
         var accessAccount2 = new AccessAccount();
@@ -35,7 +34,6 @@ class UserDAOTest {
         student.setStudentID("s21022342");
         student.setName("luis");
         student.setLastName("cardone");
-        student.setAcademicEmail("luis@gmail.com");
         userDAO.addStudentUserTransaction(accessAccount2, student);
         var accessAccount3 =  new AccessAccount();
         accessAccount3.setUsername("adminDummy");
@@ -80,7 +78,6 @@ class UserDAOTest {
         student.setStudentID("abcdef");
         student.setName("dummy");
         student.setLastName("dummy");
-        student.setAcademicEmail("dummy@gmail.com");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
 
@@ -94,7 +91,6 @@ class UserDAOTest {
         student.setStudentID("12345678901");
         student.setName("dummy");
         student.setLastName("dummy");
-        student.setAcademicEmail("dummy@gmail.com");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
 
@@ -108,7 +104,6 @@ class UserDAOTest {
         student.setStudentID("1234567890");
         student.setName("dummy");
         student.setLastName("uxyX7JL9tSGj3kRYuIQk1fMWjJCX9S2lLIzF9EtTLRyyns3o6o6QOqVHFXOsFEHRVR25RSTVAOEj1V43x");
-        student.setAcademicEmail("dummy@gmail.com");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
 
@@ -122,7 +117,6 @@ class UserDAOTest {
         student.setStudentID("1234567890");
         student.setName("dummy");
         student.setLastName("dummy");
-        student.setAcademicEmail("uxyX7JL9tSGj3kRYuIQk1fMWjJCX9S2lLIzF9EtTLRyyns3o6o6QOqVHFXOsFEHRVR25RSTVAOEj1V43x");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
 
@@ -135,7 +129,6 @@ class UserDAOTest {
         accessAccount.setUserPassword("dummy");
         professor.setProfessorName("dummy");
         professor.setProfessorLastName("dummy");
-        professor.setProfessorEmail("dummy@gmail.com");
         assertFalse(userDAO.addProfessorUserTransaction(accessAccount, professor));
     }
 
@@ -150,7 +143,6 @@ class UserDAOTest {
         student.setStudentID("1234567890");
         student.setName("new");
         student.setLastName("new");
-        student.setAcademicEmail("x@gmail.com");
         assertFalse(userDAO.modifyStudentUserTransaction("dummy", accessAccount, student));
     }
 
@@ -165,7 +157,6 @@ class UserDAOTest {
         student.setStudentID("1234567890");
         student.setName("new");
         student.setLastName("new");
-        student.setAcademicEmail("x@gmail.com");
         assertFalse(userDAO.modifyStudentUserTransaction("dummy", accessAccount, student));
     }
 
@@ -180,7 +171,6 @@ class UserDAOTest {
         professor.setProfessorName("pepe");
         professor.setProfessorLastName("gonzales");
         professor.setProfessorDegree("Dr.");
-        professor.setProfessorEmail("some@gmail.com");
         assertFalse(userDAO.modifyProfessorUserTransaction("dummy", accessAccount, professor));
     }
 
@@ -195,7 +185,6 @@ class UserDAOTest {
         professor.setProfessorName("pepe");
         professor.setProfessorLastName("gonzales");
         professor.setProfessorDegree("incorrect");
-        professor.setProfessorEmail("some@gmail.com");
         assertFalse(userDAO.modifyProfessorUserTransaction("dummy", accessAccount, professor));
     }
 

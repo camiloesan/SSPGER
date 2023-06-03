@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
@@ -27,13 +28,11 @@ public class PaneModifyUserController {
     @FXML
     private PasswordField textFieldNewPassword;
     @FXML
-    private TextField textFieldNewProfessorEmail;
+    private TextField textFieldNewEmail;
     @FXML
     private TextField textFieldNewProfessorLastName;
     @FXML
     private TextField textFieldNewProfessorName;
-    @FXML
-    private TextField textFieldNewStudentEmail;
     @FXML
     private TextField textFieldNewStudentId;
     @FXML
@@ -64,42 +63,18 @@ public class PaneModifyUserController {
         comboBoxNewProfessorDegree.setItems(observableListComboItemsDegree);
     }
 
+    private static final String PROFESSOR_USER = "Profesor";
+    private static final String STUDENT__USER = "Estudiante";
+    private static final String ACADEMIC_BODY_REPRESENTATIVE_USER = "RepresentanteCA";
+
     @FXML
     private void buttonConfirmModificationAction() {
-        if (areAccessAccountFieldsValid()) {
-            Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
-                    "¿Está seguro que desea modificar al usuario?");
-            if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
-                switch (comboBoxUserTypeToModify.getValue()) {
-                    case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
-                        if (areProfessorFieldsValid()) {
-                            modifyProfessorUser();
-                        }
-                    }
-                    case LoginController.USER_STUDENT -> {
-                        if (areStudentFieldsValid()) {
-                            modifyStudentUser();
-                        }
-                    }
-                    default -> DialogGenerator.getDialog(new AlertMessage(
-                            "Debes seleccionar un tipo de usuario", AlertStatus.WARNING));
-                }
+        String userType = comboBoxUserTypeToModify.getValue();
+        if (areFieldsValid(userType)) {
+            switch (userType) {
+                case PROFESSOR_USER, ACADEMIC_BODY_REPRESENTATIVE_USER -> modifyProfessorUser();
+                case STUDENT__USER -> modifyStudentUser();
             }
-        }
-    }
-
-    private boolean areAccessAccountFieldsValid() {
-        if (textFieldNewPassword.getText().isBlank()
-                || comboBoxUserTypeToModify.getValue() == null) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
-            return false;
-        } else if (textFieldNewPassword.getText().length() > MAX_LENGTH_PASSWORD){
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Has sobrepasado el límite de caracteres, inténtalo de nuevo", AlertStatus.WARNING));
-            return false;
-        } else {
-            return true;
         }
     }
 
@@ -109,19 +84,70 @@ public class PaneModifyUserController {
     private static final int MAX_LENGTH_EMAIL = 30;
     private static final int MAX_LENGTH_STUDENT_ID = 10;
 
+    private boolean areFieldsValid(String userType) {
+        UserDAO userDAO = new UserDAO();
+        if (textFieldNewPassword.getText().isBlank()) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (textFieldNewPassword.getText().length() > MAX_LENGTH_PASSWORD) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El campo contraseña debe tener máximo 64 caracteres", AlertStatus.WARNING
+            ));
+        } else if (textFieldNewEmail.getText().length() > MAX_LENGTH_EMAIL) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El campo correo electrónico debe tener máximo 30 caracteres", AlertStatus.WARNING
+            ));
+        } else {
+            try {
+                if (userDAO.isEmailTaken(textFieldNewEmail.getText())) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "El correo electrónico ya está registrado, intente con uno distinto", AlertStatus.WARNING
+                    ));
+                } else {
+                    switch (userType) {
+                        case PROFESSOR_USER, ACADEMIC_BODY_REPRESENTATIVE_USER -> {
+                            return areProfessorFieldsValid();
+                        }
+                        case STUDENT__USER -> {
+                            return areStudentFieldsValid();
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Ocurrió un error con la base de datos, inténtelo más tarde", AlertStatus.WARNING
+                ));
+            }
+        }
+        return false;
+    }
+
     private boolean areProfessorFieldsValid() {
+        Professor professor = new Professor();
         if (textFieldNewProfessorName.getText().isBlank()
                 || textFieldNewProfessorLastName.getText().isBlank()
-                || comboBoxNewProfessorDegree.getValue() == null
-                || textFieldNewProfessorEmail.getText().isBlank()) {
+                || comboBoxNewProfessorDegree.getValue() == null) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
-        } else if(textFieldNewProfessorName.getText().length() > MAX_LENGTH_NAME
-                || textFieldNewProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME
-                || textFieldNewProfessorEmail.getText().length() > MAX_LENGTH_EMAIL) {
+        } else if (textFieldNewProfessorName.getText().length() > MAX_LENGTH_NAME) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+                    "Tamaño inválido, el campo nombre del profesor debe tener máximo 30 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (textFieldNewProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Tamaño inválido, el campo apellidos debe tener máximo 30 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (!professor.isEmailValid(textFieldNewEmail.getText())) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El formato del correo electrónico no es válido, " +
+                            "sólo se permiten caracteres alfa-numéricos y direcciones válidas de personal (@uv.mx)",
+                    AlertStatus.WARNING
+            ));
             return false;
         } else {
             return true;
@@ -129,19 +155,39 @@ public class PaneModifyUserController {
     }
 
     private boolean areStudentFieldsValid() {
+        Student student = new Student();
         if (textFieldNewStudentId.getText().isBlank()
                 || textFieldNewStudentName.getText().isBlank()
-                || textFieldNewStudentLastName.getText().isBlank()
-                || textFieldNewStudentEmail.getText().isBlank()) {
+                || textFieldNewStudentLastName.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
-        } else if (textFieldNewStudentId.getText().length() > MAX_LENGTH_STUDENT_ID
-                || textFieldNewStudentName.getText().length() > MAX_LENGTH_NAME
-                || textFieldNewStudentLastName.getText().length() > MAX_LENGTH_LASTNAME
-                || textFieldNewStudentEmail.getText().length() > MAX_LENGTH_EMAIL) {
+        } else if (textFieldNewStudentId.getText().length() != MAX_LENGTH_STUDENT_ID) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Algunos campos son demasiado largos, inténtelo de nuevo", AlertStatus.WARNING));
+                    "Tamaño inválido, la matrícula debe tener exactamente 10 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (textFieldNewStudentName.getText().length() > MAX_LENGTH_NAME) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Tamaño inválido, el límite del nombre es de 30 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (textFieldNewStudentLastName.getText().length() > MAX_LENGTH_LASTNAME) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Tamaño inválido, el límite del campo apellidos es de máximo 80 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (textFieldNewEmail.getText().length() > MAX_LENGTH_EMAIL) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Tamaño inválido, el correo electrónico debe tener máximo 30 caracteres", AlertStatus.WARNING
+            ));
+            return false;
+        } else if (!student.isEmailValid(textFieldNewEmail.getText())) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El formato del correo electrónico no es válido, " +
+                            "sólo se permiten caracteres alfa-numéricos y direcciones válidas de estudiante (@estudiantes.uv.mx)",
+                    AlertStatus.WARNING
+            ));
             return false;
         } else {
             return true;
@@ -150,41 +196,75 @@ public class PaneModifyUserController {
 
     private void modifyProfessorUser() {
         AccessAccount accessAccount = new AccessAccount();
-        UserDAO accessAccountDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO();
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
+        accessAccount.setUserEmail(textFieldNewEmail.getText());
         Professor professor = new Professor();
         professor.setProfessorName(textFieldNewProfessorName.getText());
         professor.setProfessorLastName(textFieldNewProfessorLastName.getText());
         professor.setProfessorDegree(comboBoxNewProfessorDegree.getValue());
-        professor.setProfessorEmail(textFieldNewProfessorEmail.getText());
+
+        boolean modifiedSuccessfully = false;
         try {
-            accessAccountDAO
+            modifiedSuccessfully = userDAO
                     .modifyProfessorUserTransaction(UserManagementController.getUsername(), accessAccount, professor);
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
                     "No se pudo modificar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
             logger.error(sqlException);
         }
+
+        if (modifiedSuccessfully) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Se ha modificado con éxito el usuario", AlertStatus.SUCCESS
+            ));
+        }
     }
 
     private void modifyStudentUser() {
         AccessAccount accessAccount = new AccessAccount();
-        UserDAO accessAccountDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO();
+        StudentDAO studentDAO = new StudentDAO();
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
+        accessAccount.setUserEmail(textFieldNewEmail.getText());
         Student student = new Student();
         student.setStudentID(textFieldNewStudentId.getText());
         student.setName(textFieldNewStudentName.getText());
         student.setLastName(textFieldNewStudentLastName.getText());
-        student.setAcademicEmail(textFieldNewStudentEmail.getText());
+
+        boolean isStudentIDTaken = true;
         try {
-            accessAccountDAO
-                    .modifyStudentUserTransaction(UserManagementController.getUsername(), accessAccount, student);
+            isStudentIDTaken = studentDAO.isStudentIDTaken(student.getStudentID());
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo modificar al usuario, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+                    "Ocurrió un error con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR
+            ));
             logger.error(sqlException);
+        }
+
+        boolean modifiedSuccessfully = false;
+        if (isStudentIDTaken) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Esa matrícula ya está registrada, inténtalo de nuevo", AlertStatus.WARNING
+            ));
+        } else {
+            try {
+                modifiedSuccessfully = userDAO.
+                        modifyStudentUserTransaction(UserManagementController.getUsername(), accessAccount, student);
+            } catch (SQLException sqlException) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Error con la base de datos, no se pudo modificar al usuario, inténtelo de nuevo más tarde",
+                        AlertStatus.ERROR));
+                logger.error(sqlException);
+            }
+        }
+
+        if (modifiedSuccessfully) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Se ha modificado con éxito el usuario", AlertStatus.SUCCESS
+            ));
         }
     }
 

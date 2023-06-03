@@ -56,7 +56,6 @@ class ProjectRequestDAOTest {
         student.setStudentID("example");
         student.setName("example");
         student.setLastName("example");
-        student.setAcademicEmail("example");
         student.setUsername("example");
 
         studentDAO.insertStudent(student);

@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<HBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.PaneModifyUserController">
+<HBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.PaneModifyUserController">
    <children>
       <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
          <children>
@@ -97,9 +85,9 @@
                   <Insets left="15.0" right="15.0" />
                </VBox.margin>
             </Separator>
-            <HBox alignment="TOP_CENTER" fillHeight="false" prefHeight="131.0" prefWidth="799.0">
+            <HBox alignment="TOP_CENTER" fillHeight="false" prefHeight="189.0" prefWidth="800.0">
                <children>
-                  <GridPane prefHeight="130.0" prefWidth="510.0">
+                  <GridPane prefHeight="173.0" prefWidth="510.0">
                      <columnConstraints>
                         <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="294.1181568281089" minWidth="10.0" prefWidth="241.76586173506837" />
                         <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="338.2369283367135" minWidth="10.0" prefWidth="338.2369283367135" />
@@ -116,6 +104,8 @@
                         <ComboBox fx:id="comboBoxUserTypeToModify" disable="true" onAction="#handleModifyUserTypeSelection" prefWidth="150.0" promptText="Tipo de usuario" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Usuario: " />
                         <TextField fx:id="textFieldUserToModify" disable="true" editable="false" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <Label text="Nuevo Correo institucional: " GridPane.rowIndex="3" />
+                        <TextField fx:id="textFieldNewEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -134,26 +124,22 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <Label text="Nueva matrícula: " />
                         <Label text="Nuevo nombre: " GridPane.rowIndex="1" />
                         <Label text="Nuevos apellidos: " GridPane.rowIndex="2" />
-                        <Label text="Nuevo Correo institucional: " GridPane.rowIndex="3" />
                         <TextField fx:id="textFieldNewStudentId" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" />
                         <TextField fx:id="textFieldNewStudentName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="textFieldNewStudentLastName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="textFieldNewStudentEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <GridPane fx:id="gridPaneNewProfessor" prefHeight="192.0" prefWidth="679.0" visible="false">
+                  <GridPane fx:id="gridPaneNewProfessor" prefHeight="192.0" prefWidth="679.0">
                      <columnConstraints>
                         <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="487.3365896150555" minWidth="10.0" prefWidth="301.66866838973436" />
                         <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="614.004183363563" minWidth="10.0" prefWidth="397.66940261767917" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -165,8 +151,6 @@
                         <TextField fx:id="textFieldNewProfessorLastName" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Grado: " GridPane.rowIndex="2" />
                         <ComboBox fx:id="comboBoxNewProfessorDegree" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Correo institucional: " GridPane.rowIndex="3" />
-                        <TextField fx:id="textFieldNewProfessorEmail" prefHeight="26.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>

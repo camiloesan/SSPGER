@@ -7,19 +7,19 @@ CREATE TABLE CuentasAcceso (
 	ID_usuario int not null auto_increment,
 	nombreUsuario varchar(28) not null, 
 	contrasena nvarchar(64) not null,
+    correoInstitucional nvarchar(30) not null,
     tipoUsuario enum('Administrador', 'Estudiante', 'Profesor', 'RepresentanteCA') not null,
     PRIMARY KEY(ID_usuario),
-    UNIQUE (nombreUsuario)
+    UNIQUE (nombreUsuario),
+    UNIQUE (correoInstitucional)
 );
 
 CREATE TABLE Estudiantes (
 	matricula varchar(10) not null,
 	nombre varchar(80),
 	apellidos varchar(80),
-	correoInstitucional nvarchar(30),
 	nombreUsuario varchar(28),
-    PRIMARY KEY(matricula),
-    UNIQUE (correoInstitucional)
+    PRIMARY KEY(matricula)
 );
 
 CREATE TABLE Profesores (
@@ -27,10 +27,8 @@ CREATE TABLE Profesores (
 	grado enum('Dr.','Dra.', 'MCC.') not null ,
 	nombre varchar(80),
 	apellidos varchar(80),
-	correoInstitucional nvarchar(30),
 	nombreUsuario varchar(28),
-    PRIMARY KEY(ID_profesor),
-    UNIQUE (correoInstitucional)
+    PRIMARY KEY(ID_profesor)
 );
 
 CREATE TABLE CuerpoAcademico (

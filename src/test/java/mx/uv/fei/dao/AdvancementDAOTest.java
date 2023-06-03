@@ -35,7 +35,6 @@ AdvancementDAOTest {
         accessAccountProfessor.setUserPassword("Profesor");
         professor.setProfessorName("testProfessor");
         professor.setProfessorLastName("testProfessor");
-        professor.setProfessorEmail("testProfessor@mail.com");
         professor.setProfessorDegree("Dr.");
 
         accessAccountStudent.setUsername("testStudent");
@@ -43,7 +42,6 @@ AdvancementDAOTest {
         accessAccountStudent.setUserPassword("testStudent");
         student.setName("testStudent");
         student.setLastName("testStudent");
-        student.setAcademicEmail("testStudent@gmail.com");
         student.setStudentID("zsTest");
 
         project.setAcademicBodyId("UV-CA-127");

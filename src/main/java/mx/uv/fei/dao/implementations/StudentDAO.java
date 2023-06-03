@@ -15,8 +15,8 @@ public class StudentDAO implements IStudent {
     @Override
     public int insertStudent(Student student) throws SQLException{
         int result;
-        String query = "INSERT INTO Estudiantes(matricula, nombre, apellidos, correoInstitucional, nombreUsuario) " +
-                "VALUES(?,?,?,?,?)";
+        String query = "INSERT INTO Estudiantes(matricula, nombre, apellidos, nombreUsuario) " +
+                "VALUES(?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -24,8 +24,7 @@ public class StudentDAO implements IStudent {
         preparedStatement.setString(1, student.getStudentID());
         preparedStatement.setString(2, student.getName());
         preparedStatement.setString(3, student.getLastName());
-        preparedStatement.setString(4, student.getAcademicEmail());
-        preparedStatement.setString(5, student.getUsername());
+        preparedStatement.setString(4, student.getUsername());
         result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
@@ -120,4 +119,20 @@ public class StudentDAO implements IStudent {
         databaseManager.closeConnection();
         return studentList;
     }
+
+    @Override
+    public boolean isStudentIDTaken(String studentID) throws SQLException {
+        String query = "select 1 from Estudiantes where matricula = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, studentID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        return resultSet.next();
+    }
+
+
 }

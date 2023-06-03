@@ -1,14 +1,28 @@
 package mx.uv.fei.logic;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Professor {
     private String professorDegree;
     private String professorName;
     private String professorLastName;
     private String professorFullName;
-    private String professorEmail;
     private String username;
 
     public Professor() {}
+
+    public boolean isEmailValid(String professorEmail) {
+        String regex = "^[\\w!#$%&amp;'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&amp;'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(professorEmail);
+
+        if (professorEmail.contains("estudiantes")) {
+            return false;
+        } else {
+            return matcher.matches() && professorEmail.contains("uv.mx");
+        }
+    }
 
     public String getUsername() {
         return username;
@@ -29,10 +43,6 @@ public class Professor {
     public String getProfessorFullName() {
         return professorFullName;
     }
-    
-    public String getProfessorEmail() {
-        return professorEmail;
-    }
 
     public void setProfessorDegree(String professorDegree) {
         this.professorDegree = professorDegree;
@@ -48,10 +58,6 @@ public class Professor {
     
     public void setProfessorFullName(String professorFullName) {
         this.professorFullName = professorFullName;
-    }
-    
-    public void setProfessorEmail(String professorEmail) {
-        this.professorEmail = professorEmail;
     }
 
     public void setUsername(String username) {

@@ -1,6 +1,5 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.implementations.ProfessorDAO;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.AccessAccount;
@@ -10,9 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.sql.SQLSyntaxErrorException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +21,6 @@ class StudentDAOTest {
         student.setStudentID("example");
         student.setName("example");
         student.setLastName("example");
-        student.setAcademicEmail("example");
         student.setUsername("example");
 
         AccessAccount accessAccount = new AccessAccount();
