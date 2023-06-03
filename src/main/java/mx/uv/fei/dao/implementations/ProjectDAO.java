@@ -435,4 +435,35 @@ public class ProjectDAO implements IProject {
         databaseManager.closeConnection();
         return result;
     }
+    
+    /**
+     * @param projectTitle project title to search for coincidences
+     * @return true if there is a registered project with the specified title, false if there is not
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public boolean isProjectRegistered(String projectTitle) throws SQLException {
+        boolean flag = false;
+        
+        String sqlQuery = "SELECT COUNT(nombreTrabajoRecepcional) AS registeredProjects FROM Proyectos WHERE nombreTrabajoRecepcional = ?";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, projectTitle);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        if (resultSet.next()) {
+            int registeredProjects = resultSet.getInt("registeredProjects");
+            if (registeredProjects > 0) {
+                flag = true;
+            }
+        }
+        
+        resultSet.close();
+        preparedStatement.close();
+        databaseManager.closeConnection();
+        
+        return flag;
+    }
 }
