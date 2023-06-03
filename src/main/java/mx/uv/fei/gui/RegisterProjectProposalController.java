@@ -161,6 +161,21 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
                 || textAreaRecommendedBibliography.getText().length() > 6000;
     }
     
+    private boolean projectAlreadyRegistered() {
+        boolean flag;
+        
+        ProjectDAO projectDAO = new ProjectDAO();
+        try {
+            flag = projectDAO.isProjectRegistered(textAreaReceptionWorkName.getText());
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog( new AlertMessage("Error al comprobar si ya existe el proyecto",AlertStatus.ERROR));
+            logger.error(sqlException);
+            System.err.println(sqlException);
+            flag = true;
+        }
+        return flag;
+    }
+    
     @FXML
     private void clearFields() {
         comboAB.setValue(comboAB.getPromptText());
@@ -182,19 +197,22 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     
     private boolean validFields() {
         boolean flag;
-        
-        if (emptyFields()) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Se deben llenar todos los campos.", AlertStatus.WARNING));
-            flag = false;
-        } else {
-            if (overSizeData()) {
+        if (!projectAlreadyRegistered()) {
+            if (emptyFields()) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Se deben llenar todos los campos.", AlertStatus.WARNING));
+                flag = false;
+            } else if (overSizeData()) {
                 DialogGenerator.getDialog(new AlertMessage(
                         "La información sobrepasa el límite de caracteres.", AlertStatus.WARNING));
                 flag = false;
             } else {
                 flag = true;
             }
+        } else {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Ya se ha registrado un proyecto con ese título",AlertStatus.WARNING));
+            flag = false;
         }
         return flag;
     }
