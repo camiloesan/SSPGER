@@ -98,21 +98,21 @@ class ProjectDAOTest {
         testProfessor7.setProfessorDegree("Dra.");
         userDAO.addProfessorUserTransaction(testAccessAccount7, testProfessor7);
         
-        var declinedProject = new Project();
-        declinedProject.setAcademicBodyId("UV-CA-127");
-        declinedProject.setInvestigationProjectName("Hacia un Modelo de Campus Accesible: Facultad de Estadística e Informática");
-        declinedProject.setLGAC_Id(2);
-        declinedProject.setInvestigationLine("Se orienta al estudio de diversas propiedades, enfoques, métodos de " +
+        var unverifiedProject1 = new Project();
+        unverifiedProject1.setAcademicBodyId("UV-CA-127");
+        unverifiedProject1.setInvestigationProjectName("Hacia un Modelo de Campus Accesible: Facultad de Estadística e Informática");
+        unverifiedProject1.setLGAC_Id(2);
+        unverifiedProject1.setInvestigationLine("Se orienta al estudio de diversas propiedades, enfoques, métodos de " +
                 "modelado y herramientas que conforman cada una de las diversas tecnologías aplicables al desarrollo " +
                 "del software con vistas a su adaptación, mejora y sustitución en el medio nacional");
-        declinedProject.setApproximateDuration("12 meses");
-        declinedProject.setModalityId(5);
-        declinedProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
-        declinedProject.setRequisites("Tecnologías para la construcción de software, Principios de Construcción de Software");
-        declinedProject.setDirectorName("MCC. Juan Carlos Perez Arriaga");
-        declinedProject.setCodirectorName("Dra. Maria Karen Cortes Verdin");
-        declinedProject.setStudentsParticipating(1);
-        declinedProject.setInvestigationProjectDescription("Actualmente la democratización de la educación representa un" +
+        unverifiedProject1.setApproximateDuration("12 meses");
+        unverifiedProject1.setModalityId(5);
+        unverifiedProject1.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
+        unverifiedProject1.setRequisites("Tecnologías para la construcción de software, Principios de Construcción de Software");
+        unverifiedProject1.setDirectorName("MCC. Juan Carlos Perez Arriaga");
+        unverifiedProject1.setCodirectorName("Dra. Maria Karen Cortes Verdin");
+        unverifiedProject1.setStudentsParticipating(1);
+        unverifiedProject1.setInvestigationProjectDescription("Actualmente la democratización de la educación representa un" +
                 " reto para cualquier Institución de Educación Superior, al mismo tiempo que el término 'Institución Incluyente'" +
                 " cobra mayor sentido como parte de esta democratización. Desde la perspectiva de inclusión, se pretende que " +
                 "cualquier institución garantice el derecho a la educación respetando las diversas necesidades, capacidades " +
@@ -135,7 +135,7 @@ class ProjectDAOTest {
                 "Este proyecto se encuentra alineado con las actividades que se han venido realizando en la Facultad de " +
                 "Estadística e Informática de la Universidad Veracruzana, particularmente en el Cuerpo Académico (CA) " +
                 "'Ingeniería de Tecnología de Software', y que aplica a estudiantes de licenciatura como de posgrado.");
-        declinedProject.setReceptionWorkDescription("En la actualidad existen diversas guías, técnicas y métodos que " +
+        unverifiedProject1.setReceptionWorkDescription("En la actualidad existen diversas guías, técnicas y métodos que " +
                 "contribuyen al desarrollo de software accesible. Sin embargo, a pesar de la existencia de estas " +
                 "prácticas, los defectos relacionados con la ausencia de características de accesibilidad en productos " +
                 "de software persisten. Por otra parte, debido a eventos generados en temas de salud pública, el uso de" +
@@ -147,12 +147,12 @@ class ProjectDAOTest {
                 "evidencien utilidad para el desarrollo de software accesible, al mismo tiempo que se genera un documento" +
                 " que sirva como guía en la selección de prácticas que orienten al ingeniero de software en el proceso" +
                 " de desarrollo.");
-        declinedProject.setExpectedResults("Documento que contenga:\n" +
+        unverifiedProject1.setExpectedResults("Documento que contenga:\n" +
                 "- Reporte de la revisión sistemática de la literatura sobre las prácticas de accesibilidad en el " +
                 "desarrollo de software que evidencien su aplicación en las distintas fases del proceso de desarrollo\n" +
                 "- Artículo para publicación en evento académico\n" +
                 "- Documento que sirva como guía para el desarrollo de software a partir de las prácticas identificadas");
-        declinedProject.setRecommendedBibliography("Luciana A.M. Zaina, Renata P.M. Fortes, Vitor Casadei, Leornardo Seiji " +
+        unverifiedProject1.setRecommendedBibliography("Luciana A.M. Zaina, Renata P.M. Fortes, Vitor Casadei, Leornardo Seiji " +
                 "Nozaki, Débora Maria Barroso Paiva, \"Preventing accessibility barriers: Guidelines for using user " +
                 "interface design patterns in mobile applications,\" Journal of Systems and Software, Volume 186, 2022," +
                 " 111213, ISSN 0164-1212, https://doi.org/10.1016/j.jss.2021.111213.\n" +
@@ -168,10 +168,9 @@ class ProjectDAOTest {
                 "Débora Maria Barroso Paiva, André Pimenta Freire, Renata Pontin de Mattos Fortes, \"Accessibility and " +
                 "Software Engineering Processes: A Systematic Literature Review,\" Journal of Systems and Software, Volume" +
                 " 171, 2021, 110819, ISSN 0164-1212, https://doi.org/10.1016/j.jss.2020.110819.");
-        projectDAO.addProject(declinedProject);
-        projectDAO.updateProjectState(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"),"Declinado");
-        projectDAO.setDirectorIDtoProject(declinedProject);
-        projectDAO.setCodirectorIDtoProject(declinedProject);
+        projectDAO.addProject(unverifiedProject1);
+        projectDAO.setDirectorIDtoProject(unverifiedProject1);
+        projectDAO.setCodirectorIDtoProject(unverifiedProject1);
         
         var verifiedProject = new Project();
         verifiedProject.setAcademicBodyId("UV-CA-127");
@@ -267,27 +266,27 @@ class ProjectDAOTest {
                 "Zhang, D., & Tsai, J. J. P. (2003). \"Machine Learning and Software Engineering.\" Software Quality Journal," +
                 " 11(2), 87–119. https://doi.org/10.1023/A:1023760326768");
         projectDAO.addProject(verifiedProject);
-        projectDAO.updateProjectState(projectDAO.getProjectIDByTitle("Análisis de técnicas de procesamiento de lenguaje natural para la " +
-                "ingeniería de requisitos en idioma español."),"Verificado");
         projectDAO.setDirectorIDtoProject(verifiedProject);
         projectDAO.setCodirectorIDtoProject(verifiedProject);
+        projectDAO.updateProjectState(projectDAO.getProjectIDByTitle("Análisis de técnicas de procesamiento de lenguaje natural para la " +
+                "ingeniería de requisitos en idioma español."),"Verificado");
         
-        var unverifiedProject = new Project();
-        unverifiedProject.setAcademicBodyId("UV-CA-127");
-        unverifiedProject.setInvestigationProjectName(" ");
-        unverifiedProject.setLGAC_Id(2);
-        unverifiedProject.setInvestigationLine(" ");
-        unverifiedProject.setApproximateDuration("6 meses");
-        unverifiedProject.setModalityId(2);
-        unverifiedProject.setReceptionWorkName("Análisis de las tecnologías para el desarrollo de Development Bots");
-        unverifiedProject.setRequisites("Lectura de documentos en inglés, trabajo autónomo, Interés por la investigación." +
+        var unverifiedProject2 = new Project();
+        unverifiedProject2.setAcademicBodyId("UV-CA-127");
+        unverifiedProject2.setInvestigationProjectName(" ");
+        unverifiedProject2.setLGAC_Id(2);
+        unverifiedProject2.setInvestigationLine(" ");
+        unverifiedProject2.setApproximateDuration("6 meses");
+        unverifiedProject2.setModalityId(2);
+        unverifiedProject2.setReceptionWorkName("Análisis de las tecnologías para el desarrollo de Development Bots");
+        unverifiedProject2.setRequisites("Lectura de documentos en inglés, trabajo autónomo, Interés por la investigación." +
                 " Diseño de Software. Tecnologías para la Construcción, Desarrollo de Sistemas en Red y " +
                 "Desarrollo de Aplicaciones.");
-        unverifiedProject.setDirectorName("Dr. Jorge Octavio Ocharan Hernandez");
-        unverifiedProject.setCodirectorName("Dr. Hector Xavier Limon Riaño");
-        unverifiedProject.setStudentsParticipating(1);
-        unverifiedProject.setInvestigationProjectDescription(" ");
-        unverifiedProject.setReceptionWorkDescription(
+        unverifiedProject2.setDirectorName("Dr. Jorge Octavio Ocharan Hernandez");
+        unverifiedProject2.setCodirectorName("Dr. Hector Xavier Limon Riaño");
+        unverifiedProject2.setStudentsParticipating(1);
+        unverifiedProject2.setInvestigationProjectDescription(" ");
+        unverifiedProject2.setReceptionWorkDescription(
                 "Los robots de software o bots son aplicaciones de software autónomo que se han utilizado para realizar " +
                 "tareas repetitivas o simples. Existe una investigación importante en torno a los bots sociales y de chat" +
                 " que interactúan con personas para ayudarles en sus tareas. Además, los bots se utilizan para automatizar" +
@@ -302,10 +301,10 @@ class ProjectDAOTest {
                 "para respaldar las actividades de desarrollo de software. Se realizará un análisis de la información obtenida" +
                 " de diversas fuentes, tanto literatura académica como literatura gris, con el fin de identificar tendencias " +
                 "y áreas de oportunidad para el desarrollo de este tipo de aplicaciones.");
-        unverifiedProject.setExpectedResults("- Reporte de la revisión multivocal de la literatura\n" +
+        unverifiedProject2.setExpectedResults("- Reporte de la revisión multivocal de la literatura\n" +
                 "- Paquete de artefactos producto de la revisión\n" +
                 "- Borrador de artículo");
-        unverifiedProject.setRecommendedBibliography("Baudry, B., Chen, Z., Etemadi, K., Fu, H., Ginelli, D., " +
+        unverifiedProject2.setRecommendedBibliography("Baudry, B., Chen, Z., Etemadi, K., Fu, H., Ginelli, D., " +
                 "Kommrusch, S., Martinez, M., Monperrus, M., Ron, J., Ye, H., & Yu, Z. (2021). A Software " +
                 "Repair Bot based on Continual Learning. IEEE Software, 0. https://doi.org/10.1109/MS.2021.3070743\n" +
                 "\n" +
@@ -332,9 +331,9 @@ class ProjectDAOTest {
                 "Wyrich, M., & Bogner, J. (2019). Towards an Autonomous Bot for Automatic Source Code Refactoring. " +
                 "Proceedings of the 1st International Workshop on Bots in Software Engineering, 24–28. " +
                 "https://doi.org/10.1109/BotSE.2019.00015");
-        projectDAO.addProject(unverifiedProject);
-        projectDAO.setDirectorIDtoProject(unverifiedProject);
-        projectDAO.setCodirectorIDtoProject(unverifiedProject);
+        projectDAO.addProject(unverifiedProject2);
+        projectDAO.setDirectorIDtoProject(unverifiedProject2);
+        projectDAO.setCodirectorIDtoProject(unverifiedProject2);
         
         var projectDetails = new Project();
         projectDetails.setAcademicBodyId("UV-CA-127");
@@ -620,8 +619,10 @@ class ProjectDAOTest {
         
         var expectedList = new ArrayList<>();
         var simpleVerifiedProject = new SimpleProject();
-        simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional VERIFICADO"));
-        simpleVerifiedProject.setReceptionWorkName("trabajo recepcional VERIFICADO");
+        simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Análisis de técnicas de procesamiento de lenguaje natural para la " +
+                "ingeniería de requisitos en idioma español."));
+        simpleVerifiedProject.setReceptionWorkName("Análisis de técnicas de procesamiento de lenguaje natural para la " +
+                "ingeniería de requisitos en idioma español.");
         simpleVerifiedProject.setProjectState("Verificado");
         expectedList.add(simpleVerifiedProject);
         
@@ -630,19 +631,12 @@ class ProjectDAOTest {
     }
     
     @Test
-    void testGetProjectsByStateDeclined() throws SQLException {
+    void testGetProjectsByStateNoDeclinedProjects() throws SQLException {
         System.out.println("Test getProjectsByState with projectState parameter = 'Declinado'");
         var projectDAO = new ProjectDAO();
-
-        var expectedList = new ArrayList<>();
-        var simpleDeclinedProject = new SimpleProject();
-        simpleDeclinedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DECLINADO"));
-        simpleDeclinedProject.setReceptionWorkName("trabajo recepcional DECLINADO");
-        simpleDeclinedProject.setProjectState("Declinado");
-        expectedList.add(simpleDeclinedProject);
         
         var actualList = new ArrayList<>(projectDAO.getProjectsByState("Declinado"));
-        assertEquals(expectedList,actualList);
+        assertTrue(actualList.isEmpty());
     }
     
     @Test
