@@ -778,25 +778,61 @@ class ProjectDAOTest {
         var projectDAO = new ProjectDAO();
         
         DetailedProject expectedDetailedProject = new DetailedProject();
-        expectedDetailedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
+        expectedDetailedProject.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
         expectedDetailedProject.setAcademicBodyName("Ingeniería y Tecnología de Software");
-        expectedDetailedProject.setInvestigationProjectName("proyecto investigación DETALLE");
+        expectedDetailedProject.setInvestigationProjectName(" ");
         expectedDetailedProject.setLgacName("L1. Gestión, modelado y desarrollo de software");
-        expectedDetailedProject.setInvestigationLine("linea investigación DETALLE");
+        expectedDetailedProject.setInvestigationLine("Estudio de los diversos métodos y enfoques para la gestión, modelado y " +
+                "desarrollo de software, de manera que se obtenga software de calidad. Gestión de las diversas etapas del" +
+                " proceso de desarrollo.");
         expectedDetailedProject.setApproxDuration("12 meses");
         expectedDetailedProject.setReceptionWorkModality("Monografía");
-        expectedDetailedProject.setReceptionWorkName("trabajo recepcional DETALLE");
-        expectedDetailedProject.setRequisites("requisitos DETALLE");
-        expectedDetailedProject.setDirector("Dr. ProfeNom1 ProfeAp1");
-        expectedDetailedProject.setCoDirector("Dr. ProfeNom2 ProfeAp2");
+        expectedDetailedProject.setReceptionWorkName("Prácticas de Ciberseguridad en Ingeniería de Software");
+        expectedDetailedProject.setRequisites("Tecnologías para la construcción de software, Principios de Construcción de Software," +
+                " Diseño de Software, Procesos de Software, Administración de proyectos");
+        expectedDetailedProject.setDirector("MCC. Juan Carlos Perez Arriaga");
+        expectedDetailedProject.setCoDirector("Dr. Hector Xavier Limon Riaño");
         expectedDetailedProject.setNumberStudents(1);
-        expectedDetailedProject.setInvestigationDescription("descripción de investigación DETALLE");
-        expectedDetailedProject.setReceptionWorkDescription("descripción trabajo recepcional DETALLE");
-        expectedDetailedProject.setExpectedResults("resultados esperados DETALLE");
-        expectedDetailedProject.setBibliography("bibliografía DETALLE");
+        expectedDetailedProject.setInvestigationDescription("La ciberseguridad se ha vuelto un aspecto muy relevante debido " +
+                "al alto índice de brechas de seguridad reportadas en productos de software. En recientes años el término" +
+                " \"shift left security\" ha cobrado importancia, ya que pretende la incorporación de prácticas de seguridad" +
+                " en el desarrollo de software en etapas tempranas del proceso. Actualmente existen algunos retos derivados " +
+                "de considerar la seguridad en etapas tempranas en el proceso de desarrollo, entre dichos retos destacan:" +
+                " conocimiento de fallas de seguridad comunes, mejora de los procesos de colaboración con equipos de seguridad," +
+                " diseminación de actividades enfocadas a la higiene del código para prevenir algún defecto que comprometa la" +
+                " seguridad del producto, entre otros aspectos. El considerar actividades de seguridad en el proceso de desarrollo" +
+                " de software permite que se desarrollen productos menos propensos a vulnerabilidades, propician que los " +
+                "programadores generen conocimiento a partir de la identificación de fallas conocidas, consolidad una cultura" +
+                " de higiene de código, minimizar los costos asociados a fallas que pudiera detectarse a tiempo.");
+        expectedDetailedProject.setReceptionWorkDescription("El presente trabajo tiene como finalidad, realizar un mapeo sistemático" +
+                " de la literatura sobre las prácticas de ciberseguridad identificadas en el proceso de desarrollo de software," +
+                " así como reportar elementos como: tipo de práctica, fase en la que se lleva a cabo, evidencia de su utilidad," +
+                " entre otros aspectos.");
+        expectedDetailedProject.setExpectedResults("Documento que contenga:\n" +
+                "- Reporte de la revisión sistemática de la literatura\n" +
+                "- Artículo para publicación en evento académico");
+        expectedDetailedProject.setBibliography("J. Straub, \"Software Engineering: The First Line of Defense for " +
+                "Cybersecurity,\" 2020 IEEE 11th International Conference on Software Engineering and Service Science " +
+                "(ICSESS), 2020, pp. 1-5, doi: 10.1109/ICSESS49938.2020.9237715.\n" +
+                "\n" +
+                "Johnson, C. (2012). CyberSafety: CyberSecurity and Safety-Critical Software Engineering. In: Dale, C., " +
+                "Anderson, T. (eds) Achieving Systems Safety. Springer, London. https://doi.org/10.1007/978-1-4471-2494-8_8\n" +
+                "\n" +
+                "Maurice Dawson, Pedro Taveras, Danielle Taylor, Applying Software Assurance and Cybersecurity NICE Job " +
+                "Tasks through Secure Software Engineering Labs, Procedia Computer Science, Volume 164, 2019, Pages 301-312," +
+                " ISSN 1877-0509, https://doi.org/10.1016/j.procs.2019.12.187.\n" +
+                "\n" +
+                "H. Gonzalez, R. Llamas-Contreras and O. Montaño-Rivas, \"When Software Engineering meets Cybersecurity " +
+                "at the classroom,\" 2019 7th International Conference in Software Engineering Research and Innovation " +
+                "(CONISOFT), 2019, pp. 49-54, doi: 10.1109/CONISOFT.2019.00017.\n" +
+                "\n" +
+                "Frederico Araujo and Teryl Taylor. 2020. Improving cybersecurity hygiene through JIT patching. In Proceedings" +
+                " of the 28th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations" +
+                " of Software Engineering (ESEC/FSE 2020). Association for Computing Machinery, New York, NY, USA, 1421–1432." +
+                " https://doi.org/10.1145/3368089.3417056.");
         expectedDetailedProject.setProjectState("Por revisar");
         
-        DetailedProject actualDetailedProject = projectDAO.getProjectInfoByID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
+        DetailedProject actualDetailedProject = projectDAO.getProjectInfoByID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
         
         // Mostrar los atributos del objeto esperado
         System.out.println("Objeto esperado:");
