@@ -672,32 +672,33 @@ class ProjectDAOTest {
     void testGetAllProjects() throws SQLException {
         System.out.println("Test getAllProjects");
         var projectDAO = new ProjectDAO();
-        
-        var expectedList = new ArrayList<>();
+        List<SimpleProject> expectedList = new ArrayList<>();
         
         var simpleDeclinedProject = new SimpleProject();
-        simpleDeclinedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DECLINADO"));
-        simpleDeclinedProject.setReceptionWorkName("trabajo recepcional DECLINADO");
+        simpleDeclinedProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
+        simpleDeclinedProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
         simpleDeclinedProject.setProjectState("Declinado");
         
         var simpleVerifiedProject = new SimpleProject();
-        simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional VERIFICADO"));
-        simpleVerifiedProject.setReceptionWorkName("trabajo recepcional VERIFICADO");
+        simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Análisis de técnicas de procesamiento de lenguaje natural para la " +
+                "ingeniería de requisitos en idioma español."));
+        simpleVerifiedProject.setReceptionWorkName("Análisis de técnicas de procesamiento de lenguaje natural para la " +
+                "ingeniería de requisitos en idioma español.");
         simpleVerifiedProject.setProjectState("Verificado");
         
         var simpleUnverifiedProject = new SimpleProject();
-        simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional POR REVISAR"));
-        simpleUnverifiedProject.setReceptionWorkName("trabajo recepcional POR REVISAR");
+        simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Análisis de las tecnologías para el desarrollo de Development Bots"));
+        simpleUnverifiedProject.setReceptionWorkName("Análisis de las tecnologías para el desarrollo de Development Bots");
         simpleUnverifiedProject.setProjectState("Por revisar");
         
         var simpleProjectDetail = new SimpleProject();
-        simpleProjectDetail.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
-        simpleProjectDetail.setReceptionWorkName("trabajo recepcional DETALLE");
+        simpleProjectDetail.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
+        simpleProjectDetail.setReceptionWorkName("Prácticas de Ciberseguridad en Ingeniería de Software");
         simpleProjectDetail.setProjectState("Por revisar");
         
         var simpleProjectCollaboration = new SimpleProject();
-        simpleProjectCollaboration.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional COLABORACIÓN"));
-        simpleProjectCollaboration.setReceptionWorkName("trabajo recepcional COLABORACIÓN");
+        simpleProjectCollaboration.setProjectID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y su relación con la calidad de software"));
+        simpleProjectCollaboration.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación con la calidad de software");
         simpleProjectCollaboration.setProjectState("Por revisar");
         
         expectedList.add(simpleDeclinedProject);
@@ -707,6 +708,23 @@ class ProjectDAOTest {
         expectedList.add(simpleProjectCollaboration);
         
         var actualList = new ArrayList<>(projectDAO.getAllProjects());
+        
+        System.out.println("Contenido de expectedList:");
+        for (SimpleProject project : expectedList) {
+            System.out.println("ID: " + project.getProjectID());
+            System.out.println("Título: " + project.getReceptionWorkName());
+            System.out.println("Estado: " + project.getProjectState());
+            System.out.println("--------------------");
+        }
+        
+        System.out.println("Contenido de actualList:");
+        for (SimpleProject project : actualList) {
+            System.out.println("ID: " + project.getProjectID());
+            System.out.println("Título: " + project.getReceptionWorkName());
+            System.out.println("Estado: " + project.getProjectState());
+            System.out.println("--------------------");
+        }
+        
         assertEquals(expectedList,actualList);
     }
     
