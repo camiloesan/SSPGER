@@ -170,6 +170,8 @@ class ProjectDAOTest {
                 " 171, 2021, 110819, ISSN 0164-1212, https://doi.org/10.1016/j.jss.2020.110819.");
         projectDAO.addProject(declinedProject);
         projectDAO.updateProjectState(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"),"Declinado");
+        projectDAO.setDirectorIDtoProject(declinedProject);
+        projectDAO.setCodirectorIDtoProject(declinedProject);
         
         var verifiedProject = new Project();
         verifiedProject.setAcademicBodyId("UV-CA-127");
@@ -267,6 +269,8 @@ class ProjectDAOTest {
         projectDAO.addProject(verifiedProject);
         projectDAO.updateProjectState(projectDAO.getProjectIDByTitle("Análisis de técnicas de procesamiento de lenguaje natural para la " +
                 "ingeniería de requisitos en idioma español."),"Verificado");
+        projectDAO.setDirectorIDtoProject(verifiedProject);
+        projectDAO.setCodirectorIDtoProject(verifiedProject);
         
         var unverifiedProject = new Project();
         unverifiedProject.setAcademicBodyId("UV-CA-127");
@@ -329,6 +333,8 @@ class ProjectDAOTest {
                 "Proceedings of the 1st International Workshop on Bots in Software Engineering, 24–28. " +
                 "https://doi.org/10.1109/BotSE.2019.00015");
         projectDAO.addProject(unverifiedProject);
+        projectDAO.setDirectorIDtoProject(unverifiedProject);
+        projectDAO.setCodirectorIDtoProject(unverifiedProject);
         
         var projectDetails = new Project();
         projectDetails.setAcademicBodyId("UV-CA-127");
@@ -729,27 +735,33 @@ class ProjectDAOTest {
     }
     
     @Test
-    void testGetProjectsByCollaboration() throws SQLException {
+    void testGetProjectsByParticipation() throws SQLException {
         System.out.println("Test getProjectsByCollaboration");
         var projectDAO = new ProjectDAO();
         var professorDAO = new ProfessorDAO();
         
         List<SimpleProject> expectedList = new ArrayList<>();
-        var simpleCollaborationProject = new SimpleProject();
         
-        simpleCollaborationProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional COLABORACIÓN"));
-        simpleCollaborationProject.setReceptionWorkName("trabajo recepcional COLABORACIÓN");
-        simpleCollaborationProject.setProjectState("Por revisar");
+        var simpleCollaborationProject = new SimpleProject();
+        simpleCollaborationProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
+        simpleCollaborationProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
+        simpleCollaborationProject.setProjectState("Declinado");
         
         var simpleCollaborationProject2 = new SimpleProject();
-        simpleCollaborationProject2.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
-        simpleCollaborationProject2.setReceptionWorkName("trabajo recepcional DETALLE");
+        simpleCollaborationProject2.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
+        simpleCollaborationProject2.setReceptionWorkName("Prácticas de Ciberseguridad en Ingeniería de Software");
         simpleCollaborationProject2.setProjectState("Por revisar");
         
-        expectedList.add(simpleCollaborationProject2);
-        expectedList.add(simpleCollaborationProject);
+        var simpleCollaborationProject3 = new SimpleProject();
+        simpleCollaborationProject3.setProjectID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y su relación con la calidad de software"));
+        simpleCollaborationProject3.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación con la calidad de software");
+        simpleCollaborationProject3.setProjectState("Por revisar");
         
-        var actualList = new ArrayList<>(projectDAO.getProjectsByParticipation(professorDAO.getProfessorIdByUsername("testAcc1")));
+        expectedList.add(simpleCollaborationProject);
+        expectedList.add(simpleCollaborationProject2);
+        expectedList.add(simpleCollaborationProject3);
+        
+        var actualList = new ArrayList<>(projectDAO.getProjectsByParticipation(professorDAO.getProfessorIdByUsername("perezJuanC")));
         
         // Mostrar expectedList
         System.out.println("Contenido de expectedList:");

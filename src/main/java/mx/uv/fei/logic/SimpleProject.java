@@ -19,6 +19,6 @@ public class SimpleProject extends DetailedProject{
     
     @Override
     public int hashCode() {
-        return Objects.hash(getProjectID(), getReceptionWorkName());
+        return Objects.hash(getProjectID(), getReceptionWorkName(), getProjectState());
     }
 }
