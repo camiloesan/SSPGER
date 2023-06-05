@@ -9,10 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserDAOTest {
+    List<AccessAccount> expectedList = new ArrayList<>();
+
     @BeforeEach
     void setUp() throws SQLException {
         var userDAO = new UserDAO();
@@ -42,6 +46,9 @@ class UserDAOTest {
         accessAccount3.setUserEmail("administradorSSPGER@uv.mx");
         accessAccount3.setUserType("Administrador");
         userDAO.addAdminUser(accessAccount3);
+        expectedList.add(accessAccount);
+        expectedList.add(accessAccount2);
+        expectedList.add(accessAccount3);
     }
 
     @AfterEach
@@ -94,14 +101,14 @@ class UserDAOTest {
     }
 
     @Test
-    void testAddStudentUserTransactionUserAlreadyExists() throws SQLException {
+    void testAddStudentUserTransactionStudentAlreadyExists() throws SQLException {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         Student student = new Student();
-        accessAccount.setUsername("zs21013861");
+        accessAccount.setUsername("zs21013854");
         accessAccount.setUserPassword("oldHouse");
         accessAccount.setUserEmail("zs21013862@Estudiantes.uv.mx");
-        student.setStudentID("s21013862");
+        student.setStudentID("s21013861");
         student.setName("Camilo");
         student.setLastName("Espejo Sánchez");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
@@ -155,12 +162,12 @@ class UserDAOTest {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         Student student = new Student();
-        accessAccount.setUsername("zs21013862");
-        accessAccount.setUserPassword("zs21022020");
-        accessAccount.setUserEmail("zs21022020@estudiantes.uv.mx");
+        accessAccount.setUsername("zs21013868");
+        accessAccount.setUserPassword("zs21022120");
+        accessAccount.setUserEmail("zs21022120@estudiantes.uv.mx");
         student.setStudentID("1234567890");
         student.setName("Jorge");
-        student.setLastName("José Madero Vizcaíno Pérez Solano Roberto Tercero Peep Juarez Hernandeez Macip Ramírez");
+        student.setLastName("José Madero Vizcaíno Pérez Solano Roberto Tercero Peep Juarez Hernández Ramírez Sánchez Tercero");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
 
@@ -173,7 +180,7 @@ class UserDAOTest {
         accessAccount.setUserPassword("zs21022020");
         accessAccount.setUserEmail("zs21022020@estudiantes.uv.mx");
         student.setStudentID("1234567890");
-        student.setName("José Madero Vizcaíno Pérez Solano Roberto Tercero Peep Juarez Hernandez Macip Ramírez");
+        student.setName("José Madero Vizcaíno Pérez Solano Roberto Tercero Peep Juarez Hernandez Fernández Ramírez Figueroa");
         student.setLastName("Giménez");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
@@ -197,8 +204,8 @@ class UserDAOTest {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         Student student = new Student();
-        accessAccount.setUsername("new");
-        accessAccount.setUserPassword("new");
+        accessAccount.setUsername("zs21013902");
+        accessAccount.setUserPassword("zsPassword");
         accessAccount.setUserEmail("zs21013860@estudiantes.uv.mx");
         accessAccount.setUserType("Administrador");
         student.setStudentID("s21013890");
@@ -215,6 +222,7 @@ class UserDAOTest {
         accessAccount.setUsername("dummy");
         accessAccount.setUserPassword("nag");
         accessAccount.setUserType("Administrador");
+        accessAccount.setUserEmail("zs21013860@estudiantes.uv.mx");
         professor.setProfessorName("pepe");
         professor.setProfessorLastName("gonzales");
         professor.setProfessorDegree("Dr.");
@@ -228,6 +236,7 @@ class UserDAOTest {
         Professor professor = new Professor();
         accessAccount.setUsername("robertoGonzales");
         accessAccount.setUserPassword("roberto2023");
+        accessAccount.setUserEmail("zs21013860@estudiantes.uv.mx");
         accessAccount.setUserType("Profesor");
         professor.setProfessorName("José Roberto");
         professor.setProfessorLastName("González");
@@ -238,30 +247,36 @@ class UserDAOTest {
     @Test
     void testDeleteUserByUsernameShouldDelete() throws SQLException {
         UserDAO userDAO = new UserDAO();
-        assertEquals(1, userDAO.deleteUserByUsername("dummy"));
+        assertEquals(1, userDAO.deleteUserByUsername("juaperez"));
     }
 
     @Test
     void testAreCredentialsValidTrue() throws SQLException {
         var userDAO = new UserDAO();
-        assertTrue(userDAO.areCredentialsValid("dummy", "dummy"));
+        assertTrue(userDAO.areCredentialsValid("zs21013861", "contrasenia2020"));
     }
 
     @Test
     void testAreCredentialsValidFalse() throws SQLException {
         UserDAO userDAO = new UserDAO();
-        assertFalse(userDAO.areCredentialsValid("dummyn", "camilo"));
+        assertFalse(userDAO.areCredentialsValid("JoséJuan", "jose3455"));
     }
 
     @Test
     void testGetAccessAccountTypeByUsernameShouldReturnProfessor() throws SQLException {
         UserDAO userDAO = new UserDAO();
-        assertEquals("Profesor", userDAO.getAccessAccountTypeByUsername("dummy"));
+        assertEquals("Profesor", userDAO.getAccessAccountTypeByUsername("juaperez"));
     }
 
     @Test
     void testGetAccessAccountTypeByUsernameShouldReturnStudent() throws SQLException {
         UserDAO userDAO = new UserDAO();
-        assertEquals("Estudiante", userDAO.getAccessAccountTypeByUsername("dummy2"));
+        assertEquals("Estudiante", userDAO.getAccessAccountTypeByUsername("zs21013861"));
+    }
+
+    @Test
+    void testGetAccessAccountListDoesNotThrow() {
+        UserDAO userDAO = new UserDAO();
+        assertDoesNotThrow(userDAO::getAccessAccountsList);
     }
 }

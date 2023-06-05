@@ -30,52 +30,96 @@ AdvancementDAOTest {
         AccessAccount accessAccountStudent = new AccessAccount();
         AccessAccount accessAccountProfessor = new AccessAccount();
 
-        accessAccountProfessor.setUsername("testProf");
+        accessAccountProfessor.setUsername("juaperez");
         accessAccountProfessor.setUserType("Profesor");
-        accessAccountProfessor.setUserPassword("Profesor");
-        professor.setProfessorName("testProfessor");
-        professor.setProfessorLastName("testProfessor");
-        professor.setProfessorDegree("Dr.");
+        accessAccountProfessor.setUserPassword("juaperez2020");
+        accessAccountProfessor.setUserEmail("juaperez@uv.mx");
+        professor.setProfessorName("Juan Carlos");
+        professor.setProfessorLastName("Pérez Arriaga");
+        professor.setProfessorDegree("MCC.");
 
-        accessAccountStudent.setUsername("testStudent");
+        accessAccountStudent.setUsername("zs21013862");
         accessAccountStudent.setUserType("Estudiante");
-        accessAccountStudent.setUserPassword("testStudent");
-        student.setName("testStudent");
-        student.setLastName("testStudent");
-        student.setStudentID("zsTest");
+        accessAccountStudent.setUserEmail("zs21013869@estudiantes.uv.mx");
+        accessAccountStudent.setUserPassword("zs2101!@");
+        student.setName("Camilo");
+        student.setLastName("Espejo Sánchez");
+        student.setStudentID("zs21013869");
 
         project.setAcademicBodyId("UV-CA-127");
-        project.setInvestigationProjectName("Ejemplo proyecto investigación");
+        project.setInvestigationProjectName("Hacia un Modelo de Campus Accesible: Facultad de Estadística e Informática");
         project.setLGAC_Id(1);
-        project.setInvestigationLine("Ejemplo linea investigación");
+        project.setInvestigationLine("Estudio de los diversos métodos y enfoques para la" +
+                "gestión, modelado y desarrollo de software, de manera " +
+                "que se obtenga software de calidad. Gestión de las " +
+                "diversas etapas del proceso de desarrollo");
         project.setApproximateDuration("12 meses");
         project.setModalityId(1);
-        project.setReceptionWorkName("Ejemplo trabajo recepcional");
-        project.setRequisites("Ejemplo requisitos");
-        project.setDirectorName("testProfessor");
-        project.setCodirectorName("Ejemplo codirector");
+        project.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación con la " +
+                "calidad de software");
+        project.setRequisites("Tecnologías para la construcción de software, Principios " +
+                "de Construcción de Software, Diseño de Software, " +
+                "Procesos de Software, Administración de proyectos");
+        project.setDirectorName("Juan Carlos Pérez Arriaga");
+        project.setCodirectorName("Ángel Juan Sánchez García");
         project.setStudentsParticipating(1);
-        project.setInvestigationProjectDescription("Ejemplo descripción de investigación");
-        project.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
-        project.setExpectedResults("Ejemplo resultados esperados");
-        project.setRecommendedBibliography("Ejemplo bibliografía");
+        project.setInvestigationProjectDescription("En la medida que el software cobra mayor relevancia " +
+                "en las actividades diarias de una " +
+                "sociedad, el interés por tener productos de software confiables se incrementa. Algunos " +
+                "estudios muestran una alta prevalencia de problemas de calidad en los productos de " +
+                "software que se desarrollan y la relación de estos problemas con la experiencia y " +
+                "capacitación de programadores. Por otra parte, ha habido un avance considerable en el " +
+                "diseño de estrategias para mejora de la calidad del software, sin embargo, en algunas " +
+                "organizaciones existe resistencia en la adopción de prácticas orientadas a la incorporación " +
+                "de dichas estrategias. Por otra parte, el aspecto humano juega un papel fundamental en el " +
+                "desarrollo de productos de software de calidad. Existen estudios donde se definen algunas " +
+                "hipótesis orientadas a validar si aspectos de diversidad de personalidad están relacionadas " +
+                "positivamente en la calidad del producto final. ");
+        project.setReceptionWorkDescription("El presente trabajo tiene como finalidad, realizar una revisión sistemática de la literatura " +
+                "sobre la diversidad (personalidad, género, entre otros aspectos) de los equipos de desarrollo " +
+                "y la relación que guardan con la calidad de los productos de software que desarrollan. " +
+                "Adicionalmente se pretende que la revisión sistemática documente el impacto que tienen los " +
+                "hallazgos identificados en la revisión en los productos de software. ");
+        project.setExpectedResults("Documento que contenga: " +
+                "• Reporte de la revisión sistemática de la literatura " +
+                "• Artículo para publicación en evento académico");
+        project.setRecommendedBibliography("""
+                V. Pieterse, M. Leeu and M. van Eekelen, "How personality diversity influences team
+                performance in student software engineering teams," 2018 Conference on Information
+                Communications Technology and Society (ICTAS), 2018, pp. 1-6, doi:
+                10.1109/ICTAS.2018.8368749.
+                Meiyappan Nagappan, Thomas Zimmermann, and Christian Bird. 2013. Diversity in
+                software engineering research. In Proceedings of the 2013 9th Joint Meeting on
+                Foundations of Software Engineering (ESEC/FSE 2013). Association for Computing
+                Machinery, New York, NY, USA, 466–476. https://doi.org/10.1145/2491411.2491415
+                Luiz Fernando Capretz and Faheem Ahmed. 2010. Why do we need personality diversity in
+                software engineering? SIGSOFT Softw. Eng. Notes 35, 2 (March 2010), 1–11.
+                https://doi.org/10.1145/1734103.1734111
+                G. Catolino, F. Palomba, D. A. Tamburri, A. Serebrenik and F. Ferrucci, "Gender
+                Diversity and Women in Software Teams: How Do They Affect Community Smells?," 2019
+                IEEE/ACM 41st International Conference on Software Engineering: Software Engineering
+                in Society (ICSE-SEIS), 2019, pp. 11-20, doi: 10.1109/ICSE-SEIS.2019.00010.""");
+
         userDAO.addStudentUserTransaction(accessAccountStudent, student);
         userDAO.addProfessorUserTransaction(accessAccountProfessor, professor);
         projectDAO.addProject(project);
 
-        advancement.setAdvancementName("testAdvancement");
-        advancement.setAdvancementDescription("Description");
-        advancement.setAdvancementStartDate("2023-05-29");
-        advancement.setAdvancementDeadline("2023-06-27");
-        advancement.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
-        advancementDAO.addAdvancement(advancement);
-
         ProjectRequest projectRequest = new ProjectRequest();
-        projectRequest.setProjectID(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
-        projectRequest.setStudentId("zsTest");
-        projectRequest.setDescription("henlo");
+        projectRequest.setProjectID(projectDAO.getProjectIDByTitle(""));
+        projectRequest.setStudentId("zs21013862");
+        projectRequest.setDescription("Quisiera estar en este proyecto porque a mi me interesa mucho el tema desde el inicio de la" +
+                " carrera y considero que sería de gran ayuda en mi formación no tan solo como estudiante, sino como profesionista.");
         projectRequestDAO.createProjectRequest(projectRequest);
-        projectRequestDAO.validateProjectRequest("Aceptado", projectRequestDAO.getProjectRequestIDByStudentID("zsTest"));
+        projectRequestDAO.validateProjectRequest("Aceptado", projectRequestDAO.getProjectRequestIDByStudentID("zs21013869"));
+
+        advancement.setAdvancementName("Entrega final");
+        advancement.setAdvancementDescription("Se incluyen todos los archivos y conclusión general " +
+                "de todos los avances anteriores");
+        advancement.setAdvancementStartDate("2023-12-02");
+        advancement.setAdvancementDeadline("2023-12-02");
+        advancement.setProjectId(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y su relación con la " +
+                "calidad de software"));
+        advancementDAO.addAdvancement(advancement);
     }
 
     @AfterEach
@@ -84,21 +128,23 @@ AdvancementDAOTest {
         ProjectDAO projectDAO = new ProjectDAO();
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-        projectRequestDAO.deleteProjectRequest(projectRequestDAO.getProjectRequestIDByStudentID("zsTest"));
+        projectRequestDAO.deleteProjectRequest(projectRequestDAO.getProjectRequestIDByStudentID("zs21013862"));
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
         advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
-        userDAO.deleteUserByUsername("testProf");
-        userDAO.deleteUserByUsername("testStudent");
+        userDAO.deleteUserByUsername("juaperez");
+        userDAO.deleteUserByUsername("zs21013862");
     }
 
     @Test
     void testAddAdvancementProjectIdDoesNotExist() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         Advancement advancement1 = new Advancement();
-        advancement1.setAdvancementName("zxb");
-        advancement1.setAdvancementDescription("zxb");
-        advancement1.setAdvancementStartDate("2023-05-29");
-        advancement1.setAdvancementDeadline("2023-06-27");
+        advancement1.setAdvancementName("Primera Entrega Parcial");
+        advancement1.setAdvancementDescription("El alumno se encargará de recopilar la información de la primera fase," +
+                "esto significa un entregable con todos los puntos marcados en la rúbrica siguiente: " +
+                "Portada, Introducción, Desarrollo del problema, Conclusión temporal del trabajo.");
+        advancement1.setAdvancementStartDate("2023-06-29");
+        advancement1.setAdvancementDeadline("2023-09-27");
         advancement1.setProjectId(0);
         assertThrows(SQLException.class, () -> advancementDAO.addAdvancement(advancement1));
     }
@@ -108,10 +154,11 @@ AdvancementDAOTest {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement1 = new Advancement();
-        advancement1.setAdvancementName("zxb");
-        advancement1.setAdvancementDescription("zxb");
-        advancement1.setAdvancementStartDate("202x3-0x5-x2xx9");
-        advancement1.setAdvancementDeadline("2023-0x6x-2x7");
+        advancement1.setAdvancementName("Planeación personal del proyecto");
+        advancement1.setAdvancementDescription("Entregar una planeación en un documento tipo PDF que contenga" +
+                " tu planeación para el proyecto.");
+        advancement1.setAdvancementStartDate("27-13-2023");
+        advancement1.setAdvancementDeadline("2023-06-27");
         advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
         assertThrows(SQLException.class, () -> advancementDAO.addAdvancement(advancement1));
     }
