@@ -107,7 +107,9 @@ public class PaneAddUserController {
                     "El usuario ya existe, elija otro nombre.", AlertStatus.WARNING));
         } else if (userDAO.isEmailTaken(newEmail)) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "El usuario ya existe, elija otro nombre.", AlertStatus.WARNING));
+                    "El correo electrónico ya se encuentra vinculado a otra cuenta, elija otro nombre.",
+                    AlertStatus.WARNING
+            ));
         } else {
             try {
                 result = userDAO.addAdminUser(accessAccount);

@@ -33,6 +33,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private TableView<Advancement> tableViewAdvancements;
     @FXML
     private Tab tabViewAdvancements;
+    @FXML
+    private Label labelRemainingChars;
     private int professorId;
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_DESCRIPTION = 800;
@@ -48,6 +50,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("advancementDeadline"));
 
         tableViewAdvancements.getColumns().addAll(Arrays.asList(advancementNameColumn, startDateColumn, endDateColumn));
+
+        labelRemainingChars.setText("Caracteres disponibles: " + MAX_LENGTH_DESCRIPTION);
 
         labelUsername.setText(SessionDetails.getInstance().getUsername());
         professorId = Integer.parseInt(SessionDetails.getInstance().getId());
@@ -106,6 +110,17 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
 
     @FXML
+    private void updateAvailableCharsOnDescriptionLabel() {
+        int descriptionLength = advancementDescription.getLength();
+        if (descriptionLength > MAX_LENGTH_DESCRIPTION) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "La descripción no puede tener más de " + MAX_LENGTH_DESCRIPTION + " caracteres", AlertStatus.WARNING));
+        } else {
+            labelRemainingChars.setText("Caracteres disponibles: " + (MAX_LENGTH_DESCRIPTION - descriptionLength));
+        }
+    }
+
+    @FXML
     private void scheduleAdvancementButtonAction() {
         if (areScheduleAdvancementFieldsValid()) {
             try {
@@ -119,6 +134,32 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
             clearFields();
             fillTableViewAdvancements();
+        }
+    }
+
+    private boolean areScheduleAdvancementFieldsValid() {
+        if (advancementName.getText().isBlank()
+                || advancementStartDate.getValue() == null
+                || advancementDeadline.getValue() == null
+                || comboProjectToAssign.getValue() == null
+                || advancementDescription.getText().isBlank()) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
+            return false;
+        } else if (advancementName.getText().length() >= MAX_LENGTH_NAME) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El campo nombre del avance no debe exceder " + MAX_LENGTH_NAME + " caracteres",
+                    AlertStatus.WARNING
+            ));
+            return false;
+        } else if (advancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El campo nombre del avance no debe exceder " + MAX_LENGTH_DESCRIPTION + " caracteres",
+                    AlertStatus.WARNING
+            ));
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -140,25 +181,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancementDeadline.setValue(null);
         comboProjectToAssign.setValue(null);
         advancementDescription.clear();
-    }
-
-    private boolean areScheduleAdvancementFieldsValid() {
-        if (advancementName.getText().isBlank()
-                || advancementStartDate.getValue() == null
-                || advancementDeadline.getValue() == null
-                || comboProjectToAssign.getValue().isBlank()
-                || advancementDescription.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
-            return false;
-        } else if (advancementName.getText().length() >= MAX_LENGTH_NAME
-                || advancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "El límite de caracteres fue sobrepasado, inténtalo de nuevo", AlertStatus.WARNING));
-            return false;
-        } else {
-            return true;
-        }
     }
 
     @FXML

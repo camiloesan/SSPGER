@@ -17,11 +17,7 @@ public class Professor {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(professorEmail);
 
-        if (professorEmail.contains("estudiantes")) {
-            return false;
-        } else {
-            return matcher.matches() && professorEmail.contains("uv.mx");
-        }
+        return matcher.matches() && professorEmail.contains("uv.mx");
     }
 
     public String getUsername() {
