@@ -841,7 +841,15 @@ class ProjectDAOTest {
         System.out.println("Test getProjectsByState with projectState parameter = 'Declinado'");
         var projectDAO = new ProjectDAO();
         
-        var actualList = new ArrayList<>(projectDAO.getProjectsByState("Declinado"));
+        List<SimpleProject> actualList = new ArrayList<>(projectDAO.getProjectsByState("Declinado"));
+        
+        System.out.println("Contenido de actualList:");
+        for (SimpleProject project : actualList) {
+            System.out.println("ID: " + project.getProjectID());
+            System.out.println("Título: " + project.getReceptionWorkName());
+            System.out.println("Estado: " + project.getProjectState());
+            System.out.println("--------------------");
+        }
         assertTrue(actualList.isEmpty());
     }
     
@@ -850,27 +858,49 @@ class ProjectDAOTest {
         System.out.println("Test getProjectsByState with projectState parameter = 'Por revisar'");
         var projectDAO = new ProjectDAO();
         
-        var expectedList = new ArrayList<>();
+        List<SimpleProject> expectedList = new ArrayList<>();
         var simpleUnverifiedProject = new SimpleProject();
-        simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional POR REVISAR"));
-        simpleUnverifiedProject.setReceptionWorkName("trabajo recepcional POR REVISAR");
+        simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
+        simpleUnverifiedProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
         simpleUnverifiedProject.setProjectState("Por revisar");
         
+        var simpleUnverifiedProject1 = new SimpleProject();
+        simpleUnverifiedProject1.setProjectID(projectDAO.getProjectIDByTitle("Análisis de las tecnologías para el desarrollo de Development Bots"));
+        simpleUnverifiedProject1.setReceptionWorkName("Análisis de las tecnologías para el desarrollo de Development Bots");
+        simpleUnverifiedProject1.setProjectState("Por revisar");
+        
         var simpleUnverifiedProject2 = new SimpleProject();
-        simpleUnverifiedProject2.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional DETALLE"));
-        simpleUnverifiedProject2.setReceptionWorkName("trabajo recepcional DETALLE");
+        simpleUnverifiedProject2.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
+        simpleUnverifiedProject2.setReceptionWorkName("Prácticas de Ciberseguridad en Ingeniería de Software");
         simpleUnverifiedProject2.setProjectState("Por revisar");
         
         var simpleUnverifiedProject3 = new SimpleProject();
-        simpleUnverifiedProject3.setProjectID(projectDAO.getProjectIDByTitle("trabajo recepcional COLABORACIÓN"));
-        simpleUnverifiedProject3.setReceptionWorkName("trabajo recepcional COLABORACIÓN");
+        simpleUnverifiedProject3.setProjectID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y su relación con la calidad de software"));
+        simpleUnverifiedProject3.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación con la calidad de software");
         simpleUnverifiedProject3.setProjectState("Por revisar");
         
         expectedList.add(simpleUnverifiedProject);
+        expectedList.add(simpleUnverifiedProject1);
         expectedList.add(simpleUnverifiedProject2);
         expectedList.add(simpleUnverifiedProject3);
         
         var actualList = new ArrayList<>(projectDAO.getProjectsByState("Por revisar"));
+        
+        System.out.println("Contenido de expectedList:");
+        for (SimpleProject project : expectedList) {
+            System.out.println("ID: " + project.getProjectID());
+            System.out.println("Título: " + project.getReceptionWorkName());
+            System.out.println("Estado: " + project.getProjectState());
+            System.out.println("--------------------");
+        }
+        
+        System.out.println("Contenido de actualList:");
+        for (SimpleProject project : actualList) {
+            System.out.println("ID: " + project.getProjectID());
+            System.out.println("Título: " + project.getReceptionWorkName());
+            System.out.println("Estado: " + project.getProjectState());
+            System.out.println("--------------------");
+        }
         assertEquals(expectedList,actualList);
     }
     
@@ -883,7 +913,7 @@ class ProjectDAOTest {
         var simpleDeclinedProject = new SimpleProject();
         simpleDeclinedProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
         simpleDeclinedProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
-        simpleDeclinedProject.setProjectState("Declinado");
+        simpleDeclinedProject.setProjectState("Por revisar");
         
         var simpleVerifiedProject = new SimpleProject();
         simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Análisis de técnicas de procesamiento de lenguaje natural para la " +
@@ -945,7 +975,7 @@ class ProjectDAOTest {
         var simpleCollaborationProject = new SimpleProject();
         simpleCollaborationProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
         simpleCollaborationProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
-        simpleCollaborationProject.setProjectState("Declinado");
+        simpleCollaborationProject.setProjectState("Por revisar");
         
         var simpleCollaborationProject2 = new SimpleProject();
         simpleCollaborationProject2.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
@@ -963,7 +993,6 @@ class ProjectDAOTest {
         
         var actualList = new ArrayList<>(projectDAO.getProjectsByParticipation(professorDAO.getProfessorIdByUsername("perezJuanC")));
         
-        // Mostrar expectedList
         System.out.println("Contenido de expectedList:");
         for (SimpleProject project : expectedList) {
             System.out.println("ID: " + project.getProjectID());
@@ -972,7 +1001,6 @@ class ProjectDAOTest {
             System.out.println("--------------------");
         }
         
-        // Mostrar actualList
         System.out.println("Contenido de actualList:");
         for (SimpleProject project : actualList) {
             System.out.println("ID: " + project.getProjectID());
@@ -1046,11 +1074,9 @@ class ProjectDAOTest {
         
         DetailedProject actualDetailedProject = projectDAO.getProjectInfoByID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
         
-        // Mostrar los atributos del objeto esperado
         System.out.println("Objeto esperado:");
         System.out.println(expectedDetailedProject);
         
-        // Mostrar los atributos del objeto actual
         System.out.println("Objeto actual:");
         System.out.println(expectedDetailedProject);
         
