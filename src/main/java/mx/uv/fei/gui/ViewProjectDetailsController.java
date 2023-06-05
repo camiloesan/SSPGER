@@ -58,7 +58,7 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     @FXML
     private Button buttonDeleteProject;
     
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(ViewProjectDetailsController.class);
     
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());

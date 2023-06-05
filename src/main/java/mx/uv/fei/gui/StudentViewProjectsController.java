@@ -26,7 +26,7 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     private HBox hboxLogOutLabel;
     
     private static final String VERIFIED_PROJECT_STATUS = "Verificado";
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(StudentViewProjectsController.class);
     
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());

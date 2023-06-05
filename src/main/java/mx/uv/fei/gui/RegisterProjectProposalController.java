@@ -63,7 +63,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     @FXML
     private HBox hboxLogOutLabel;
     
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(RegisterProjectProposalController.class);
     
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());

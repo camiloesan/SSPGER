@@ -28,7 +28,7 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
     @FXML
     private HBox hboxLogOutLabel;
 
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(ProfessorViewProjectsController.class);
 
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());

@@ -46,7 +46,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private static final String UNVERIFIED_PROJECT_STATE = "Por revisar";
     private static final String VERIFIED_PROJECT_STATE = "Verificado";
     private static final String DECLINED_PROJECT_STATE = "Declinado";
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(ProjectProposalsController.class);
  
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());

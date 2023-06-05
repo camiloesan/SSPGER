@@ -57,7 +57,7 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     @FXML
     private TextFlow textBibliography;
     private int projectID;
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(StudentViewProjectDetailsController.class);
     
     public void initialize() {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
