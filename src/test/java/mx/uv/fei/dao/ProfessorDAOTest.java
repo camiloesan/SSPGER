@@ -21,7 +21,6 @@ class ProfessorDAOTest {
     void setUp() throws SQLException {
         var userDAO = new UserDAO();
         var projectDAO = new ProjectDAO();
-        var professorDAO = new ProfessorDAO();
         
         var testAccessAccount = new AccessAccount();
         var testProfessor = new Professor();
@@ -221,7 +220,7 @@ class ProfessorDAOTest {
     
     @Test
     void testGetProfessorNamesDifferentResult() throws SQLException{
-        System.out.println("Test empty list getProfessorNames");
+        System.out.println("Test different list getProfessorNames");
         var professorDAO = new ProfessorDAO();
         
         List<String> expectedList = new ArrayList<>();
