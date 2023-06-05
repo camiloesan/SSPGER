@@ -163,7 +163,6 @@ public class PaneAddUserController {
     }
 
     private void addStudentUser() throws SQLException {
-        boolean result = false;
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         StudentDAO studentDAO = new StudentDAO();
