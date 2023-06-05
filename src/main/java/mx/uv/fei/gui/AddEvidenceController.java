@@ -41,7 +41,7 @@ public class AddEvidenceController implements IStudentNavigationBar {
 
     @FXML
     private void sendEvidence() {
-        if (fieldsCorrect() && confirmedEvidence()) {
+        if (existsEvidence() && fieldsCorrect() && confirmedEvidence()) {
             EvidenceDAO evidenceDAO = new EvidenceDAO();
             Evidence evidence = new Evidence();
 
@@ -79,6 +79,32 @@ public class AddEvidenceController implements IStudentNavigationBar {
             createPath(getProjectID(), getAdvancementName(), getStudentID());
             copyFile(evidenceFile);
         }
+    }
+
+    private boolean existsEvidence() {
+        EvidenceDAO evidenceDAO =  new EvidenceDAO();
+        int numberOfEvidences = 0;
+        boolean result;
+
+        try {
+            numberOfEvidences = evidenceDAO.getEvidencesByStudentID(SessionDetails
+                    .getInstance()
+                    .getId(), TransferAdvancement.getAdvancementID());
+        } catch (SQLException numberOfEvidencesException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar el número de evidencias", AlertStatus.ERROR));
+            logger.error(numberOfEvidencesException);
+        }
+
+        if (numberOfEvidences > 0) {
+            DialogGenerator.getDialog(new AlertMessage("Ya haz entregado una evidencia a este avance",
+                    AlertStatus.WARNING));
+            result = false;
+        } else {
+            result = true;
+        }
+
+        return result;
     }
 
     private void copyFile(File file) throws IOException {

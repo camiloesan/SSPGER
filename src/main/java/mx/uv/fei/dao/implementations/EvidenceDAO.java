@@ -391,4 +391,26 @@ public class EvidenceDAO implements IEvidence {
 
         return result;
     }
+
+
+    @Override
+    public int getEvidencesByStudentID(String studentID, int advancementID) throws SQLException {
+        int result = 0;
+        String query = "SELECT COUNT(matriculaEstudiante) AS matriculaEstudiante FROM Evidencias " +
+                "WHERE matriculaEstudiante = (?) AND ID_avance = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, studentID);
+        preparedStatement.setInt(2, advancementID);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            result = resultSet.getInt("matriculaEstudiante");
+        }
+
+        databaseManager.closeConnection();
+        return result;
+    }
 }

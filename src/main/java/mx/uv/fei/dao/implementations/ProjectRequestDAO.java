@@ -79,6 +79,11 @@ public class ProjectRequestDAO implements IProjectRequest {
         return result;
     }
 
+    /**
+     * @param professorID reference to get a list of Project Requests.
+     * @return a List of ProjectRequests by the professor Identification.
+     * @throws SQLException if there was a problem with the database.
+     */
     @Override
     public List<ProjectRequest> getProjectRequestsListByProfessorId(int professorID) throws SQLException {
         String query = "select Soli.ID_solicitudProyecto, Soli.matriculaEstudiante, Soli.estado, Soli.motivos, " +
