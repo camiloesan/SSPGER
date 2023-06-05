@@ -26,19 +26,17 @@ public class StudentProjectRequestController implements IStudentNavigationBar {
     private static final Logger logger = Logger.getLogger(StudentProjectRequestController.class);
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
-        getProjectRequestInfo();
+        if(existsProjectRequests()) {
+            getProjectRequestInfo();
+        }
     }
 
     public void getProjectRequestInfo() {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         ProjectRequest projectRequest = new ProjectRequest();
-        int projectrequests = 0;
-
         try {
-            projectrequests = projectRequestDAO
-                    .getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
             projectRequest = projectRequestDAO
                     .getProjectRequestInfoByStudentID(SessionDetails.getInstance().getId());
         } catch (SQLException projectRequestInfoException) {
@@ -46,15 +44,32 @@ public class StudentProjectRequestController implements IStudentNavigationBar {
                     "Error al recuperar información de la petición", AlertStatus.ERROR));
             logger.error(projectRequestInfoException);
         }
+        labelReceptionWorkName.setText(projectRequest.getProjectName());
+        labelStateProjectRequest.setText(projectRequest.getStatus());
+        labelDescriptionProjectRequest.setText(projectRequest.getDescription());
+    }
+
+    public boolean existsProjectRequests() {
+        ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+        int projectrequests = 0;
+        boolean result;
+        try {
+            projectrequests = projectRequestDAO
+                    .getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
+        } catch (SQLException projectRequestsException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar número de peticiones", AlertStatus.ERROR));
+            logger.error(projectRequestsException);
+        }
 
         if (projectrequests == 0) {
             gridPaneProjectRequestData.setVisible(false);
             DialogGenerator.getDialog(new AlertMessage("Aún no existen peticiones", AlertStatus.WARNING));
+            result = false;
         } else {
-            labelReceptionWorkName.setText(projectRequest.getProjectName());
-            labelStateProjectRequest.setText(projectRequest.getStatus());
-            labelDescriptionProjectRequest.setText(projectRequest.getDescription());
+            result = true;
         }
+        return result;
     }
 
     @FXML
@@ -106,7 +121,7 @@ public class StudentProjectRequestController implements IStudentNavigationBar {
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestview.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequest-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override
