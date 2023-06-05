@@ -98,6 +98,17 @@ class ProjectDAOTest {
         testProfessor7.setProfessorDegree("Dra.");
         userDAO.addProfessorUserTransaction(testAccessAccount7, testProfessor7);
         
+        var testAccessAccount8 = new AccessAccount();
+        var testProfessor8 = new Professor();
+        testAccessAccount8.setUsername("alonsoOscarR");
+        testAccessAccount8.setUserPassword("OAR");
+        testAccessAccount8.setUserType("Profesor");
+        testAccessAccount8.setUserEmail("oalonso@mail.com");
+        testProfessor8.setProfessorName("Oscar");
+        testProfessor8.setProfessorLastName("Alonso Ramirez");
+        testProfessor8.setProfessorDegree("Dr.");
+        userDAO.addProfessorUserTransaction(testAccessAccount8,testProfessor8);
+        
         var unverifiedProject1 = new Project();
         unverifiedProject1.setAcademicBodyId("UV-CA-127");
         unverifiedProject1.setInvestigationProjectName("Hacia un Modelo de Campus Accesible: Facultad de Estadística e Informática");
@@ -456,6 +467,7 @@ class ProjectDAOTest {
         userDAO.deleteUserByUsername("dominguezIsidroS");
         userDAO.deleteUserByUsername("ocharanJorgeO");
         userDAO.deleteUserByUsername("cortesMariaK");
+        userDAO.deleteUserByUsername("alonsoOscarR");
         
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Análisis de técnicas de procesamiento de lenguaje natural para la " +
@@ -463,9 +475,8 @@ class ProjectDAOTest {
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Análisis de las tecnologías para el desarrollo de Development Bots"));
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y su relación con la calidad de software"));
-        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
-        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo setDirector"));
-        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo setCodirector"));
+        
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Aplicaciones del Análisis Clúster en la Ingeniería de Software"));;
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo para Verificar"));
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Ejemplo trabajo para Declinar"));
     }
@@ -477,20 +488,59 @@ class ProjectDAOTest {
         var project = new Project();
         
         project.setAcademicBodyId("UV-CA-127");
-        project.setInvestigationProjectName("Ejemplo proyecto investigación");
+        project.setInvestigationProjectName("Ingeniería de Software e Inteligencia Artificial");
         project.setLGAC_Id(1);
-        project.setInvestigationLine("Ejemplo linea investigación");
+        project.setInvestigationLine("Administración de proyectos");
         project.setApproximateDuration("12 meses");
         project.setModalityId(1);
-        project.setReceptionWorkName("Ejemplo trabajo recepcional");
-        project.setRequisites("Ejemplo requisitos");
-        project.setDirectorName("Ejemplo director");
-        project.setCodirectorName("Ejemplo codirector");
+        project.setReceptionWorkName("Aplicaciones del Análisis Clúster en la Ingeniería de Software");
+        project.setRequisites("Capacidad de análisis, abstracción, lectura de documentos en inglés, Inteligencia Artificial Aplicada a la Ingeniería de Software");
+        project.setDirectorName("Dr. Angel Juan Sanchez García");
+        project.setCodirectorName("Dr. Oscar Alonso Ramirez");
         project.setStudentsParticipating(1);
-        project.setInvestigationProjectDescription("Ejemplo descripción de investigación");
-        project.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
-        project.setExpectedResults("Ejemplo resultados esperados");
-        project.setRecommendedBibliography("Ejemplo bibliografía");
+        project.setInvestigationProjectDescription("Muchos de los factores que impactan en el tiempo y confiabilidad de " +
+                "un proyecto de Software, pueden deberse al factor humano que pudieran ser solventados desarrollando muchas" +
+                " tareas de manera automática y tomando decisiones autónomas, haciendo más eficiente la labor de un Ingeniero" +
+                " de Software y evitando el sesgo del humano. Por otro lado, la Inteligencia Artificial carece hoy en día de " +
+                "metodologías de desarrollo de software que permitan la construcción de sistemas de cómputo de calidad, y que " +
+                "se adapten al tipo de sistemas que permitan la experimentación e investigación en el área de Inteligencia " +
+                "Artificial. Por lo tanto, surge la necesidad de colaborar entre ambas disciplinas para fortalecer los " +
+                "resultados de ambas áreas de investigación, aportando las fortalezas de cada una en la otra. \n" +
+                "\n" +
+                "Es por ello que el presente proyecto busca desarrollar colaboración entre la Ingeniería de Software y la" +
+                " Inteligencia Artificial, para contribuir al desarrollo de ambas disciplinas, mediante la aplicación de " +
+                "técnicas de Inteligencia Artificial que aporten soluciones a problemas de procesos y del producto de software," +
+                " así como la aplicación de estrategias, métodos y procesos que soporten a la investigación, desarrollo, y " +
+                "experimentación en el ámbito de la inteligencia Artificial.");
+        project.setReceptionWorkDescription("La inteligencia Artificial es una disciplina que recientemente está colaborando" +
+                " con la Ingeniería de Software. Entre algunas técnicas que aporta la Inteligencia Artificial, se encuentran" +
+                " las que tienen que ver con el aprendizaje automático (supervisado y no supervisado). Dentro de las técnicas" +
+                " de aprendizaje no supervisado, se encuentra el análisis clúster (agrupación). Los enfoques de agrupación de" +
+                " software pueden ayudar con la tarea de comprender sistemas de software grandes y complejos al descomponer los" +
+                " automáticamente en subsistemas más pequeños y fáciles de administrar (Reflexion Analysis, Software Evolution, " +
+                "Information Recovery).\n" +
+                "Tomando en consideración lo anteriormente mencionado, el objetivo de este trabajo monográfico, es realizar una" +
+                " presentación sucinta del estado actual de aplicaciones del aprendizaje no supervisado, específicamente de las" +
+                " técnicas de análisis clúster, en la Ingeniería de Software para explorar posibles aportaciones en el área.");
+        project.setExpectedResults("Revisión Sistemática de la Literatura\n" +
+                "Trabajo de Monografía\n" +
+                "Un borrador de artículo\n");
+        project.setRecommendedBibliography("Russel, S., Norving, P. (2009). Artificial Intelligence: A modern Aproach, 3rd edition, Pearson.\n" +
+                "Ponce, P.. (2010). Inteligencia Artificial con aplicaciones en la Ingeniería, Alfaomega, 2010.\n" +
+                "Maqbool, O., & Babri, H. (2007). Hierarchical clustering for software architecture recovery. IEEE Transactions" +
+                " on Software Engineering, 33(11), 759-780.\n" +
+                "Patel, C., Hamou-Lhadj, A., & Rilling, J. (2009, March). Software clustering using dynamic analysis and" +
+                " static dependencies. In 2009 13th European Conference on Software Maintenance and Reengineering (pp. 27-36). IEEE.\n" +
+                "Bittencourt, R. A., & Guerrero, D. D. S. (2009, March). Comparison of graph clustering algorithms for " +
+                "recovering software architecture module views. In 2009 13th European Conference on Software Maintenance" +
+                " and Reengineering (pp. 251-254). IEEE.\n" +
+                "Zhang, Q., Qiu, D., Tian, Q., & Sun, L. (2010, August). Object-oriented software architecture recovery " +
+                "using a new hybrid clustering algorithm. In 2010 Seventh International Conference on Fuzzy Systems and " +
+                "Knowledge Discovery (Vol. 6, pp. 2546-2550). IEEE.\n" +
+                "Khan, Q., Akram, U., Butt, W. H., & Rehman, S. (2016, December). Implementation and evaluation of optimized" +
+                " algorithm for software architectures analysis through unsupervised learning (clustering). In 2016 17th " +
+                "International Conference on Sciences and Techniques of Automatic Control and Computer Engineering (STA) " +
+                "(pp. 266-276). IEEE.");
         
         int expectedResult = 1;
         int actualResult = projectDAO.addProject(project);
