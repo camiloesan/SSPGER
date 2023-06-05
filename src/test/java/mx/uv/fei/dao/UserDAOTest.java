@@ -1,7 +1,6 @@
 package mx.uv.fei.dao;
 
 import mx.uv.fei.dao.implementations.UserDAO;
-import mx.uv.fei.gui.LoginController;
 import mx.uv.fei.logic.AccessAccount;
 import mx.uv.fei.logic.Professor;
 import mx.uv.fei.logic.Student;
@@ -19,25 +18,28 @@ class UserDAOTest {
         var userDAO = new UserDAO();
         var accessAccount = new AccessAccount();
         var professor = new Professor();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy");
+        accessAccount.setUsername("juaperez");
+        accessAccount.setUserPassword("contrasenia2020");
+        accessAccount.setUserEmail("juaperez@uv.mx");
         accessAccount.setUserType("Profesor");
-        professor.setProfessorName("albieri");
-        professor.setProfessorLastName("sanchez");
-        professor.setProfessorDegree("Dr.");
+        professor.setProfessorName("Juan Carlos");
+        professor.setProfessorLastName("Pérez Arriaga");
+        professor.setProfessorDegree("MCC.");
         userDAO.addProfessorUserTransaction(accessAccount, professor);
         var accessAccount2 = new AccessAccount();
         var student = new Student();
-        accessAccount2.setUsername("dummy2");
-        accessAccount2.setUserPassword("dummy2");
+        accessAccount2.setUsername("zs21013861");
+        accessAccount2.setUserPassword("contrasenia2020");
+        accessAccount2.setUserEmail("zs21013861@estudiantes.uv.mx");
         accessAccount2.setUserType("Estudiante");
-        student.setStudentID("s21022342");
-        student.setName("luis");
-        student.setLastName("cardone");
+        student.setStudentID("s21013861");
+        student.setName("Camilo");
+        student.setLastName("Espejo Sánchez");
         userDAO.addStudentUserTransaction(accessAccount2, student);
         var accessAccount3 =  new AccessAccount();
-        accessAccount3.setUsername("adminDummy");
-        accessAccount3.setUserPassword("admin");
+        accessAccount3.setUsername("administrador");
+        accessAccount3.setUserPassword("administrador");
+        accessAccount3.setUserEmail("administradorSSPGER@uv.mx");
         accessAccount3.setUserType("Administrador");
         userDAO.addAdminUser(accessAccount3);
     }
@@ -45,27 +47,50 @@ class UserDAOTest {
     @AfterEach
     void tearDown() throws SQLException {
         var accessAccountDAO = new UserDAO();
-        accessAccountDAO.deleteUserByUsername("dummy");
-        accessAccountDAO.deleteUserByUsername("dummy2");
-        accessAccountDAO.deleteUserByUsername("adminDummy");
+        accessAccountDAO.deleteUserByUsername("juaperez");
+        accessAccountDAO.deleteUserByUsername("zs21013861");
+        accessAccountDAO.deleteUserByUsername("administrador");
     }
 
     @Test
-    void testAddAdminUserAlreadyExists() throws SQLException {
+    void testAddAdminUserSuccess() throws SQLException {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy");
-        assertEquals(0, userDAO.addAdminUser(accessAccount));
+        accessAccount.setUsername("JoséMadero");
+        accessAccount.setUserEmail("jose@uv.mx");
+        accessAccount.setUserPassword("administrador");
+        assertEquals(1, userDAO.addAdminUser(accessAccount));
+        userDAO.deleteUserByUsername("JoséMadero");
     }
 
     @Test
-    void testAddAdminUserUsernameTooLong() throws SQLException {
+    void testAddAdminUserAlreadyExists() {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
-        accessAccount.setUsername("eFAJBmZuSjbFigJU8pjhySP8MYZg2f");
-        accessAccount.setUserPassword("dummy");
-        assertEquals(0, userDAO.addAdminUser(accessAccount));
+        accessAccount.setUsername("administrador");
+        accessAccount.setUserEmail("administrador@uv.mx");
+        accessAccount.setUserPassword("administrador");
+        assertThrows(SQLException.class, () -> userDAO.addAdminUser(accessAccount));
+    }
+
+    @Test
+    void testAddAdminUserEmailTooLong() {
+        UserDAO userDAO = new UserDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        accessAccount.setUsername("JoséMadero");
+        accessAccount.setUserEmail("JoséMaderoVizcaínoPerezRodríguezGonzáles@uv.mx");
+        accessAccount.setUserPassword("administrador");
+        assertThrows(SQLException.class, () -> userDAO.addAdminUser(accessAccount));
+    }
+
+    @Test
+    void testAddAdminUserUsernameTooLong() {
+        UserDAO userDAO = new UserDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        accessAccount.setUsername("jorge roberto martinez perez fernandez juarez Giménez");
+        accessAccount.setUserPassword("jorgeRoberto");
+        accessAccount.setUserEmail("jorge@estudiantes.uv.mx");
+        assertThrows(SQLException.class, () -> userDAO.addAdminUser(accessAccount));
     }
 
     @Test
@@ -73,11 +98,41 @@ class UserDAOTest {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         Student student = new Student();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy");
-        student.setStudentID("abcdef");
-        student.setName("dummy");
-        student.setLastName("dummy");
+        accessAccount.setUsername("zs21013861");
+        accessAccount.setUserPassword("oldHouse");
+        accessAccount.setUserEmail("zs21013862@Estudiantes.uv.mx");
+        student.setStudentID("s21013862");
+        student.setName("Camilo");
+        student.setLastName("Espejo Sánchez");
+        assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
+    }
+
+    @Test
+    void testAddStudentUserTransactionUserSuccess() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        Student student = new Student();
+        accessAccount.setUsername("zs21013863");
+        accessAccount.setUserPassword("oldHouse");
+        accessAccount.setUserEmail("zs21013863@estudiantes.uv.mx");
+        student.setStudentID("s21013863");
+        student.setName("Camilo");
+        student.setLastName("Espejo Sánchez");
+        assertTrue(userDAO.addStudentUserTransaction(accessAccount, student));
+        userDAO.deleteUserByUsername("zs21013863");
+    }
+
+    @Test
+    void testAddStudentUserTransactionUserEmailAlreadyExists() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        Student student = new Student();
+        accessAccount.setUsername("zs21013863");
+        accessAccount.setUserPassword("oldHouse");
+        accessAccount.setUserEmail("zs21013861@estudiantes.uv.mx");
+        student.setStudentID("s21013862");
+        student.setName("Camilo");
+        student.setLastName("Espejo Sánchez");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
 
@@ -86,11 +141,12 @@ class UserDAOTest {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         Student student = new Student();
-        accessAccount.setUsername("dummyx");
-        accessAccount.setUserPassword("dummy");
-        student.setStudentID("12345678901");
-        student.setName("dummy");
-        student.setLastName("dummy");
+        accessAccount.setUsername("zs21013862");
+        accessAccount.setUserPassword("zs21012020");
+        accessAccount.setUserEmail("zs21013860@estudiantes.uv.mx");
+        student.setStudentID("zs210138611");
+        student.setName("Camilo");
+        student.setLastName("Espejo Sánchez");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
 
@@ -99,11 +155,26 @@ class UserDAOTest {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         Student student = new Student();
-        accessAccount.setUsername("dummyx");
-        accessAccount.setUserPassword("dummy");
+        accessAccount.setUsername("zs21013862");
+        accessAccount.setUserPassword("zs21022020");
+        accessAccount.setUserEmail("zs21022020@estudiantes.uv.mx");
         student.setStudentID("1234567890");
-        student.setName("dummy");
-        student.setLastName("uxyX7JL9tSGj3kRYuIQk1fMWjJCX9S2lLIzF9EtTLRyyns3o6o6QOqVHFXOsFEHRVR25RSTVAOEj1V43x");
+        student.setName("Jorge");
+        student.setLastName("José Madero Vizcaíno Pérez Solano Roberto Tercero Peep Juarez Hernandeez Macip Ramírez");
+        assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
+    }
+
+    @Test
+    void testAddStudentUserTransactionNameTooLong() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        AccessAccount accessAccount = new AccessAccount();
+        Student student = new Student();
+        accessAccount.setUsername("zs21013862");
+        accessAccount.setUserPassword("zs21022020");
+        accessAccount.setUserEmail("zs21022020@estudiantes.uv.mx");
+        student.setStudentID("1234567890");
+        student.setName("José Madero Vizcaíno Pérez Solano Roberto Tercero Peep Juarez Hernandez Macip Ramírez");
+        student.setLastName("Giménez");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }
 
@@ -112,24 +183,13 @@ class UserDAOTest {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         Student student = new Student();
-        accessAccount.setUsername("dummyx");
-        accessAccount.setUserPassword("dummy");
-        student.setStudentID("1234567890");
-        student.setName("dummy");
-        student.setLastName("dummy");
+        accessAccount.setUsername("zs21013922");
+        accessAccount.setUserEmail("zs2102202012311@estudiantes.uv.mx");
+        accessAccount.setUserPassword("zs21803password");
+        student.setStudentID("zs21013862");
+        student.setName("Camilo");
+        student.setLastName("Espejo Sánchez");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
-    }
-
-    @Test
-    void testAddProfessorUserTransactionUserAlreadyExists() throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        AccessAccount accessAccount = new AccessAccount();
-        Professor professor = new Professor();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy");
-        professor.setProfessorName("dummy");
-        professor.setProfessorLastName("dummy");
-        assertFalse(userDAO.addProfessorUserTransaction(accessAccount, professor));
     }
 
     @Test
@@ -139,25 +199,12 @@ class UserDAOTest {
         Student student = new Student();
         accessAccount.setUsername("new");
         accessAccount.setUserPassword("new");
-        accessAccount.setUserType(LoginController.USER_ADMIN);
-        student.setStudentID("1234567890");
-        student.setName("new");
-        student.setLastName("new");
-        assertFalse(userDAO.modifyStudentUserTransaction("dummy", accessAccount, student));
-    }
-
-    @Test
-    void testModifyStudentUserTransactionUserAlreadyExists() throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        AccessAccount accessAccount = new AccessAccount();
-        Student student = new Student();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy2");
-        accessAccount.setUserType(LoginController.USER_ADMIN);
-        student.setStudentID("1234567890");
-        student.setName("new");
-        student.setLastName("new");
-        assertFalse(userDAO.modifyStudentUserTransaction("dummy", accessAccount, student));
+        accessAccount.setUserEmail("zs21013860@estudiantes.uv.mx");
+        accessAccount.setUserType("Administrador");
+        student.setStudentID("s21013890");
+        student.setName("Camilo");
+        student.setLastName("Espejo Sánchez");
+        assertFalse(userDAO.modifyStudentUserTransaction("juaperez", accessAccount, student));
     }
 
     @Test
@@ -167,7 +214,7 @@ class UserDAOTest {
         Professor professor = new Professor();
         accessAccount.setUsername("dummy");
         accessAccount.setUserPassword("nag");
-        accessAccount.setUserType(LoginController.USER_ADMIN);
+        accessAccount.setUserType("Administrador");
         professor.setProfessorName("pepe");
         professor.setProfessorLastName("gonzales");
         professor.setProfessorDegree("Dr.");
@@ -179,13 +226,13 @@ class UserDAOTest {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
         Professor professor = new Professor();
-        accessAccount.setUsername("dummy");
-        accessAccount.setUserPassword("dummy2");
-        accessAccount.setUserType(LoginController.USER_ADMIN);
-        professor.setProfessorName("pepe");
-        professor.setProfessorLastName("gonzales");
-        professor.setProfessorDegree("incorrect");
-        assertFalse(userDAO.modifyProfessorUserTransaction("dummy", accessAccount, professor));
+        accessAccount.setUsername("robertoGonzales");
+        accessAccount.setUserPassword("roberto2023");
+        accessAccount.setUserType("Profesor");
+        professor.setProfessorName("José Roberto");
+        professor.setProfessorLastName("González");
+        professor.setProfessorDegree("");
+        assertFalse(userDAO.modifyProfessorUserTransaction("zs21013861", accessAccount, professor));
     }
 
     @Test

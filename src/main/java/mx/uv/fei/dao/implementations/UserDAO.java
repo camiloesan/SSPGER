@@ -2,7 +2,6 @@ package mx.uv.fei.dao.implementations;
 
 import mx.uv.fei.dao.contracts.IUser;
 import mx.uv.fei.dataaccess.DatabaseManager;
-import mx.uv.fei.gui.LoginController;
 import mx.uv.fei.logic.AccessAccount;
 import mx.uv.fei.logic.Professor;
 import mx.uv.fei.logic.Student;
@@ -14,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Provides a set of functions involving manipulation and authentication of users using the database
@@ -41,7 +39,6 @@ public class UserDAO implements IUser {
 
         int result;
         result = preparedStatement.executeUpdate();
-
         databaseManager.closeConnection();
         return result;
     }

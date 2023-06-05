@@ -56,20 +56,12 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         labelUsername.setText(SessionDetails.getInstance().getUsername());
         professorId = Integer.parseInt(SessionDetails.getInstance().getId());
         fillComboBoxProjectToAssign();
-        formatDatePickers();
+        formatDatePicker();
         fillTableViewAdvancements();
     }
 
-    private void formatDatePickers() {
+    private void formatDatePicker() {
         advancementStartDate.setDayCellFactory(picker -> new DateCell() {
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                LocalDate today = LocalDate.now();
-                setDisable(empty || date.isBefore(today));
-            }
-        });
-
-        advancementDeadline.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
@@ -118,6 +110,18 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         } else {
             labelRemainingChars.setText("Caracteres disponibles: " + (MAX_LENGTH_DESCRIPTION - descriptionLength));
         }
+    }
+
+    @FXML
+    private void enableDatePickerDeadline() {
+        advancementDeadline.setDisable(false);
+        advancementDeadline.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate startDate = advancementStartDate.getValue();
+                setDisable(empty || date.isBefore(startDate));
+            }
+        });
     }
 
     @FXML
@@ -170,9 +174,17 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancement.setAdvancementName(advancementName.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(advancementStartDate.getValue())));
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(advancementDeadline.getValue())));
-        advancement.setProjectId(projectDAO.getProjectIDByTitle(comboProjectToAssign.getValue()));
+        try {
+            advancement.setProjectId(projectDAO.getProjectIDByTitle(comboProjectToAssign.getValue()));
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
+        }
         advancement.setAdvancementDescription(advancementDescription.getText());
-        advancementDAO.addAdvancement(advancement);
+        try {
+            advancementDAO.addAdvancement(advancement);
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
+        }
     }
 
     private void clearFields() {
