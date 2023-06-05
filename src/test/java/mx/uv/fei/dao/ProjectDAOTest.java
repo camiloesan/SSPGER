@@ -553,26 +553,65 @@ class ProjectDAOTest {
         System.out.println("Test setDirectorIDtoProject");
         var projectDAO = new ProjectDAO();
         
-        var projectDirectorsSet = new Project();
-        projectDirectorsSet.setAcademicBodyId("UV-CA-127");
-        projectDirectorsSet.setInvestigationProjectName("Ejemplo proyecto investigación");
-        projectDirectorsSet.setLGAC_Id(1);
-        projectDirectorsSet.setInvestigationLine("Ejemplo linea investigación");
-        projectDirectorsSet.setApproximateDuration("12 meses");
-        projectDirectorsSet.setModalityId(1);
-        projectDirectorsSet.setReceptionWorkName("Ejemplo trabajo setDirector");
-        projectDirectorsSet.setRequisites("Ejemplo requisitos");
-        projectDirectorsSet.setDirectorName("Dr. ProfeNom1 ProfeAp1");
-        projectDirectorsSet.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
-        projectDirectorsSet.setStudentsParticipating(1);
-        projectDirectorsSet.setInvestigationProjectDescription("Ejemplo descripción de investigación");
-        projectDirectorsSet.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
-        projectDirectorsSet.setExpectedResults("Ejemplo resultados esperados");
-        projectDirectorsSet.setRecommendedBibliography("Ejemplo bibliografía");
-        projectDAO.addProject(projectDirectorsSet);
+        var projectDirectorSet = new Project();
+        projectDirectorSet.setAcademicBodyId("UV-CA-127");
+        projectDirectorSet.setInvestigationProjectName("Ingeniería de Software e Inteligencia Artificial");
+        projectDirectorSet.setLGAC_Id(1);
+        projectDirectorSet.setInvestigationLine("Administración de proyectos");
+        projectDirectorSet.setApproximateDuration("12 meses");
+        projectDirectorSet.setModalityId(1);
+        projectDirectorSet.setReceptionWorkName("Aplicaciones del Análisis Clúster en la Ingeniería de Software");
+        projectDirectorSet.setRequisites("Capacidad de análisis, abstracción, lectura de documentos en inglés, Inteligencia Artificial Aplicada a la Ingeniería de Software");
+        projectDirectorSet.setDirectorName("Dr. Angel Juan Sanchez García");
+        projectDirectorSet.setCodirectorName("Dr. Oscar Alonso Ramirez");
+        projectDirectorSet.setStudentsParticipating(1);
+        projectDirectorSet.setInvestigationProjectDescription("Muchos de los factores que impactan en el tiempo y confiabilidad de " +
+                "un proyecto de Software, pueden deberse al factor humano que pudieran ser solventados desarrollando muchas" +
+                " tareas de manera automática y tomando decisiones autónomas, haciendo más eficiente la labor de un Ingeniero" +
+                " de Software y evitando el sesgo del humano. Por otro lado, la Inteligencia Artificial carece hoy en día de " +
+                "metodologías de desarrollo de software que permitan la construcción de sistemas de cómputo de calidad, y que " +
+                "se adapten al tipo de sistemas que permitan la experimentación e investigación en el área de Inteligencia " +
+                "Artificial. Por lo tanto, surge la necesidad de colaborar entre ambas disciplinas para fortalecer los " +
+                "resultados de ambas áreas de investigación, aportando las fortalezas de cada una en la otra. \n" +
+                "\n" +
+                "Es por ello que el presente proyecto busca desarrollar colaboración entre la Ingeniería de Software y la" +
+                " Inteligencia Artificial, para contribuir al desarrollo de ambas disciplinas, mediante la aplicación de " +
+                "técnicas de Inteligencia Artificial que aporten soluciones a problemas de procesos y del producto de software," +
+                " así como la aplicación de estrategias, métodos y procesos que soporten a la investigación, desarrollo, y " +
+                "experimentación en el ámbito de la inteligencia Artificial.");
+        projectDirectorSet.setReceptionWorkDescription("La inteligencia Artificial es una disciplina que recientemente está colaborando" +
+                " con la Ingeniería de Software. Entre algunas técnicas que aporta la Inteligencia Artificial, se encuentran" +
+                " las que tienen que ver con el aprendizaje automático (supervisado y no supervisado). Dentro de las técnicas" +
+                " de aprendizaje no supervisado, se encuentra el análisis clúster (agrupación). Los enfoques de agrupación de" +
+                " software pueden ayudar con la tarea de comprender sistemas de software grandes y complejos al descomponer los" +
+                " automáticamente en subsistemas más pequeños y fáciles de administrar (Reflexion Analysis, Software Evolution, " +
+                "Information Recovery).\n" +
+                "Tomando en consideración lo anteriormente mencionado, el objetivo de este trabajo monográfico, es realizar una" +
+                " presentación sucinta del estado actual de aplicaciones del aprendizaje no supervisado, específicamente de las" +
+                " técnicas de análisis clúster, en la Ingeniería de Software para explorar posibles aportaciones en el área.");
+        projectDirectorSet.setExpectedResults("Revisión Sistemática de la Literatura\n" +
+                "Trabajo de Monografía\n" +
+                "Un borrador de artículo\n");
+        projectDirectorSet.setRecommendedBibliography("Russel, S., Norving, P. (2009). Artificial Intelligence: A modern Aproach, 3rd edition, Pearson.\n" +
+                "Ponce, P.. (2010). Inteligencia Artificial con aplicaciones en la Ingeniería, Alfaomega, 2010.\n" +
+                "Maqbool, O., & Babri, H. (2007). Hierarchical clustering for software architecture recovery. IEEE Transactions" +
+                " on Software Engineering, 33(11), 759-780.\n" +
+                "Patel, C., Hamou-Lhadj, A., & Rilling, J. (2009, March). Software clustering using dynamic analysis and" +
+                " static dependencies. In 2009 13th European Conference on Software Maintenance and Reengineering (pp. 27-36). IEEE.\n" +
+                "Bittencourt, R. A., & Guerrero, D. D. S. (2009, March). Comparison of graph clustering algorithms for " +
+                "recovering software architecture module views. In 2009 13th European Conference on Software Maintenance" +
+                " and Reengineering (pp. 251-254). IEEE.\n" +
+                "Zhang, Q., Qiu, D., Tian, Q., & Sun, L. (2010, August). Object-oriented software architecture recovery " +
+                "using a new hybrid clustering algorithm. In 2010 Seventh International Conference on Fuzzy Systems and " +
+                "Knowledge Discovery (Vol. 6, pp. 2546-2550). IEEE.\n" +
+                "Khan, Q., Akram, U., Butt, W. H., & Rehman, S. (2016, December). Implementation and evaluation of optimized" +
+                " algorithm for software architectures analysis through unsupervised learning (clustering). In 2016 17th " +
+                "International Conference on Sciences and Techniques of Automatic Control and Computer Engineering (STA) " +
+                "(pp. 266-276). IEEE.");
+        projectDAO.addProject(projectDirectorSet);
         
         int expectedResult = 1;
-        int actualResult = projectDAO.setDirectorIDtoProject(projectDirectorsSet);
+        int actualResult = projectDAO.setDirectorIDtoProject(projectDirectorSet);
         assertEquals(expectedResult,actualResult);
     }
     
@@ -581,26 +620,65 @@ class ProjectDAOTest {
         System.out.println("Test setCodirectorIDtoProject");
         var projectDAO = new ProjectDAO();
         
-        var projectCodirectorsSet = new Project();
-        projectCodirectorsSet.setAcademicBodyId("UV-CA-127");
-        projectCodirectorsSet.setInvestigationProjectName("Ejemplo proyecto investigación");
-        projectCodirectorsSet.setLGAC_Id(1);
-        projectCodirectorsSet.setInvestigationLine("Ejemplo linea investigación");
-        projectCodirectorsSet.setApproximateDuration("12 meses");
-        projectCodirectorsSet.setModalityId(1);
-        projectCodirectorsSet.setReceptionWorkName("Ejemplo trabajo setCodirector");
-        projectCodirectorsSet.setRequisites("Ejemplo requisitos");
-        projectCodirectorsSet.setDirectorName("Dr. ProfeNom1 ProfeAp1");
-        projectCodirectorsSet.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
-        projectCodirectorsSet.setStudentsParticipating(1);
-        projectCodirectorsSet.setInvestigationProjectDescription("Ejemplo descripción de investigación");
-        projectCodirectorsSet.setReceptionWorkDescription("Ejemplo descripción trabajo recepcional");
-        projectCodirectorsSet.setExpectedResults("Ejemplo resultados esperados");
-        projectCodirectorsSet.setRecommendedBibliography("Ejemplo bibliografía");
-        projectDAO.addProject(projectCodirectorsSet);
+        var projectCodirectorSet = new Project();
+        projectCodirectorSet.setAcademicBodyId("UV-CA-127");
+        projectCodirectorSet.setInvestigationProjectName("Ingeniería de Software e Inteligencia Artificial");
+        projectCodirectorSet.setLGAC_Id(1);
+        projectCodirectorSet.setInvestigationLine("Administración de proyectos");
+        projectCodirectorSet.setApproximateDuration("12 meses");
+        projectCodirectorSet.setModalityId(1);
+        projectCodirectorSet.setReceptionWorkName("Aplicaciones del Análisis Clúster en la Ingeniería de Software");
+        projectCodirectorSet.setRequisites("Capacidad de análisis, abstracción, lectura de documentos en inglés, Inteligencia Artificial Aplicada a la Ingeniería de Software");
+        projectCodirectorSet.setDirectorName("Dr. Angel Juan Sanchez García");
+        projectCodirectorSet.setCodirectorName("Dr. Oscar Alonso Ramirez");
+        projectCodirectorSet.setStudentsParticipating(1);
+        projectCodirectorSet.setInvestigationProjectDescription("Muchos de los factores que impactan en el tiempo y confiabilidad de " +
+                "un proyecto de Software, pueden deberse al factor humano que pudieran ser solventados desarrollando muchas" +
+                " tareas de manera automática y tomando decisiones autónomas, haciendo más eficiente la labor de un Ingeniero" +
+                " de Software y evitando el sesgo del humano. Por otro lado, la Inteligencia Artificial carece hoy en día de " +
+                "metodologías de desarrollo de software que permitan la construcción de sistemas de cómputo de calidad, y que " +
+                "se adapten al tipo de sistemas que permitan la experimentación e investigación en el área de Inteligencia " +
+                "Artificial. Por lo tanto, surge la necesidad de colaborar entre ambas disciplinas para fortalecer los " +
+                "resultados de ambas áreas de investigación, aportando las fortalezas de cada una en la otra. \n" +
+                "\n" +
+                "Es por ello que el presente proyecto busca desarrollar colaboración entre la Ingeniería de Software y la" +
+                " Inteligencia Artificial, para contribuir al desarrollo de ambas disciplinas, mediante la aplicación de " +
+                "técnicas de Inteligencia Artificial que aporten soluciones a problemas de procesos y del producto de software," +
+                " así como la aplicación de estrategias, métodos y procesos que soporten a la investigación, desarrollo, y " +
+                "experimentación en el ámbito de la inteligencia Artificial.");
+        projectCodirectorSet.setReceptionWorkDescription("La inteligencia Artificial es una disciplina que recientemente está colaborando" +
+                " con la Ingeniería de Software. Entre algunas técnicas que aporta la Inteligencia Artificial, se encuentran" +
+                " las que tienen que ver con el aprendizaje automático (supervisado y no supervisado). Dentro de las técnicas" +
+                " de aprendizaje no supervisado, se encuentra el análisis clúster (agrupación). Los enfoques de agrupación de" +
+                " software pueden ayudar con la tarea de comprender sistemas de software grandes y complejos al descomponer los" +
+                " automáticamente en subsistemas más pequeños y fáciles de administrar (Reflexion Analysis, Software Evolution, " +
+                "Information Recovery).\n" +
+                "Tomando en consideración lo anteriormente mencionado, el objetivo de este trabajo monográfico, es realizar una" +
+                " presentación sucinta del estado actual de aplicaciones del aprendizaje no supervisado, específicamente de las" +
+                " técnicas de análisis clúster, en la Ingeniería de Software para explorar posibles aportaciones en el área.");
+        projectCodirectorSet.setExpectedResults("Revisión Sistemática de la Literatura\n" +
+                "Trabajo de Monografía\n" +
+                "Un borrador de artículo\n");
+        projectCodirectorSet.setRecommendedBibliography("Russel, S., Norving, P. (2009). Artificial Intelligence: A modern Aproach, 3rd edition, Pearson.\n" +
+                "Ponce, P.. (2010). Inteligencia Artificial con aplicaciones en la Ingeniería, Alfaomega, 2010.\n" +
+                "Maqbool, O., & Babri, H. (2007). Hierarchical clustering for software architecture recovery. IEEE Transactions" +
+                " on Software Engineering, 33(11), 759-780.\n" +
+                "Patel, C., Hamou-Lhadj, A., & Rilling, J. (2009, March). Software clustering using dynamic analysis and" +
+                " static dependencies. In 2009 13th European Conference on Software Maintenance and Reengineering (pp. 27-36). IEEE.\n" +
+                "Bittencourt, R. A., & Guerrero, D. D. S. (2009, March). Comparison of graph clustering algorithms for " +
+                "recovering software architecture module views. In 2009 13th European Conference on Software Maintenance" +
+                " and Reengineering (pp. 251-254). IEEE.\n" +
+                "Zhang, Q., Qiu, D., Tian, Q., & Sun, L. (2010, August). Object-oriented software architecture recovery " +
+                "using a new hybrid clustering algorithm. In 2010 Seventh International Conference on Fuzzy Systems and " +
+                "Knowledge Discovery (Vol. 6, pp. 2546-2550). IEEE.\n" +
+                "Khan, Q., Akram, U., Butt, W. H., & Rehman, S. (2016, December). Implementation and evaluation of optimized" +
+                " algorithm for software architectures analysis through unsupervised learning (clustering). In 2016 17th " +
+                "International Conference on Sciences and Techniques of Automatic Control and Computer Engineering (STA) " +
+                "(pp. 266-276). IEEE.");
+        projectDAO.addProject(projectCodirectorSet);
         
         int expectedResult = 1;
-        int actualResult = projectDAO.setCodirectorIDtoProject(projectCodirectorsSet);
+        int actualResult = projectDAO.setCodirectorIDtoProject(projectCodirectorSet);
         assertEquals(expectedResult,actualResult);
     }
     
