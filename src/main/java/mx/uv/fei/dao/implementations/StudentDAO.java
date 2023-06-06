@@ -12,40 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO implements IStudent {
-    @Override
-    public int insertStudent(Student student) throws SQLException{
-        int result;
-        String query = "INSERT INTO Estudiantes(matricula, nombre, apellidos, nombreUsuario) " +
-                "VALUES(?,?,?,?)";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-        preparedStatement.setString(1, student.getStudentID());
-        preparedStatement.setString(2, student.getName());
-        preparedStatement.setString(3, student.getLastName());
-        preparedStatement.setString(4, student.getUsername());
-        result = preparedStatement.executeUpdate();
-
-        databaseManager.closeConnection();
-        return result;
-    }
-
-    @Override
-    public int deleteStudent(String studentID) throws SQLException {
-        int result;
-        String query = "DELETE FROM Estudiantes WHERE matricula=(?)";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-        preparedStatement.setString(1, studentID);
-        result = preparedStatement.executeUpdate();
-
-        databaseManager.closeConnection();
-        return result;
-    }
-
+    /**
+     * @param studentID student ID to get the student name
+     * @return String with the student name
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public String getNamebyStudentID(String studentID) throws SQLException {
         String query = "SELECT nombre FROM Estudiantes WHERE matricula = (?)";
@@ -119,7 +90,12 @@ public class StudentDAO implements IStudent {
         databaseManager.closeConnection();
         return studentList;
     }
-
+    
+    /**
+     * @param studentID student ID to search for coincidences
+     * @return true if already exists a student with the specified ID, false if there is not
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public boolean isStudentIDTaken(String studentID) throws SQLException {
         String query = "select 1 from Estudiantes where matricula = (?)";

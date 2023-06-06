@@ -204,13 +204,13 @@
                   <Label text="Nombre del avance: " />
                   <TextField fx:id="advancementName" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" />
                   <Label text="Fecha de inicio: " GridPane.rowIndex="1" />
-                  <DatePicker fx:id="advancementStartDate" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <DatePicker fx:id="advancementStartDate" editable="false" onAction="#enableDatePickerDeadline" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </DatePicker>
                   <Label text="Fecha de entrega: " GridPane.rowIndex="2" />
-                  <DatePicker fx:id="advancementDeadline" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <DatePicker fx:id="advancementDeadline" disable="true" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -232,7 +232,7 @@
             </HBox>
             <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                <padding>
-                  <Insets right="540.0" />
+                  <Insets right="460.0" />
                </padding>
                <buttons>
                   <Button mnemonicParsing="false" onAction="#scheduleAdvancementButtonAction" text="Programar">

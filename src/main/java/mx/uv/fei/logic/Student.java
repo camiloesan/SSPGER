@@ -1,5 +1,6 @@
 package mx.uv.fei.logic;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,5 +57,23 @@ public class Student {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Student)) {
+            return false;
+        }
+        Student student = (Student) obj;
+        return Objects.equals(getStudentID(), student.getStudentID())
+                && Objects.equals(getFullName(), student.getFullName());
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStudentID(),getFullName());
     }
 }

@@ -58,6 +58,18 @@ public class PaneModifyAdvancementController {
         });
     }
 
+    @FXML
+    private void enableDatePickerDeadline() {
+        newAdvancementDeadline.setDisable(false);
+        newAdvancementDeadline.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate startDate = newAdvancementStartDate.getValue();
+                setDisable(empty || date.isBefore(startDate));
+            }
+        });
+    }
+
     private void fillComboBoxNewProjectToAssign() {
         ProjectDAO projectDAO = new ProjectDAO();
         int professorId = Integer.parseInt(LoginController.sessionDetails.getId());
@@ -121,14 +133,20 @@ public class PaneModifyAdvancementController {
                 || newAdvancementStartDate.getValue() == null
                 || newAdvancementDeadline.getValue() == null
                 || newAdvancementDescription.getText().isBlank()
-                || comboNewProjectToAssign.getValue().isBlank()) {
+                || comboNewProjectToAssign.getValue() == null) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Todos los campos deben estar llenos", AlertStatus.WARNING));
             return false;
-        } else if (newAdvancementName.getText().length() >= MAX_LENGTH_NAME
-                || newAdvancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
+        } else if (newAdvancementName.getText().length() >= MAX_LENGTH_NAME) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "El límite de caracteres fue sobrepasado, inténtalo de nuevo", AlertStatus.WARNING));
+                    "El nombre del avance es demasiado largo. (máx. " + MAX_LENGTH_NAME + ")",
+                    AlertStatus.WARNING
+            ));
+            return false;
+        } else if (newAdvancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "El límite de caracteres en la descripción fue sobrepasado, (máx. " + MAX_LENGTH_DESCRIPTION + ").",
+                    AlertStatus.WARNING));
             return false;
         } else {
             return true;
