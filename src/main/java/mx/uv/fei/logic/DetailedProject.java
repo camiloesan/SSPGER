@@ -167,10 +167,14 @@ public class DetailedProject {
     }
     
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DetailedProject other = (DetailedProject) o;
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        DetailedProject other = (DetailedProject) object;
         return projectID == other.projectID
                 && Objects.equals(academicBodyName, other.academicBodyName)
                 && Objects.equals(investigationProjectName, other.investigationProjectName)

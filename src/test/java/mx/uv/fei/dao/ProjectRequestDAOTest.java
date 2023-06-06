@@ -2,7 +2,6 @@ package mx.uv.fei.dao;
 
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
-import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 import org.junit.jupiter.api.AfterEach;
@@ -79,7 +78,7 @@ class ProjectRequestDAOTest {
 
         accessAccount.setUsername("Gerardo");
         accessAccount.setUserPassword("estaesunacontrasena");
-        accessAccount.setUserEmail("zs21050285@uv.mx");
+        accessAccount.setUserEmail("zs21050285@estudiantes.uv.mx");
         accessAccount.setUserType("Estudiante");
 
         student.setUsername("Gerardo");
@@ -114,7 +113,7 @@ class ProjectRequestDAOTest {
     }
 
     @Test
-    void testCreateProjectRequestSucces() throws SQLException {
+    void testCreateProjectRequestSuccess() throws SQLException {
         var projectRequest = new ProjectRequest();
         var projectRequestDAO = new ProjectRequestDAO();
         var projectDAO = new ProjectDAO();
@@ -144,7 +143,7 @@ class ProjectRequestDAOTest {
     }
 
     @Test
-    void testAcceptProjectRequestSucces() throws SQLException {
+    void testAcceptProjectRequestSuccess() throws SQLException {
         var projectRequest = new ProjectRequest();
         var projectRequestDAO = new ProjectRequestDAO();
         var projectDAO = new ProjectDAO();
@@ -163,7 +162,7 @@ class ProjectRequestDAOTest {
     }
 
     @Test
-    void testDeclineProjectRequestSucces() throws SQLException {
+    void testDeclineProjectRequestSuccess() throws SQLException {
         var projectRequest = new ProjectRequest();
         var projectRequestDAO = new ProjectRequestDAO();
         var projectDAO = new ProjectDAO();

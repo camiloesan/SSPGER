@@ -1,5 +1,7 @@
 package mx.uv.fei.logic;
 
+import java.util.Objects;
+
 public class Evidence {
     private int evidenceId;
     private String evidenceTitle;
@@ -90,5 +92,33 @@ public class Evidence {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Evidence evidence = (Evidence) object;
+
+        return evidenceId == evidence.evidenceId
+                && Objects.equals(evidenceTitle, evidence.evidenceTitle)
+                && Objects.equals(evidenceDescription, evidence.evidenceDescription)
+                && Objects.equals(evidenceStatus, evidence.evidenceStatus)
+                && evidenceGrade == evidence.evidenceGrade
+                && advancementId == evidence.advancementId
+                && Objects.equals(studentId, evidence.studentId)
+                && Objects.equals(deliverDate, evidence.deliverDate)
+                && Objects.equals(advancementName, evidence.advancementName)
+                && Objects.equals(studentName, evidence.studentName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(evidenceId, evidenceTitle, evidenceDescription, evidenceStatus, evidenceGrade,
+                advancementId, studentId, deliverDate, advancementName, studentName);
     }
 }

@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public class SimpleProject extends DetailedProject{
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
+    public boolean equals(Object object) {
+        if (object == this) {
             return true;
         }
-        if (!(obj instanceof SimpleProject)) {
+        if (!(object instanceof SimpleProject)) {
             return false;
         }
-        SimpleProject simpleProject = (SimpleProject) obj;
+        SimpleProject simpleProject = (SimpleProject) object;
         return getProjectID() == simpleProject.getProjectID()
                 && Objects.equals(getReceptionWorkName(), simpleProject.getReceptionWorkName())
                 && Objects.equals(getProjectState(), simpleProject.getProjectState());

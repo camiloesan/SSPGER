@@ -368,31 +368,11 @@ public class EvidenceDAO implements IEvidence {
     }
 
     /**
-     * @param evidenceTitle the evidence title you want to get the id from.
+     * @param studentID the student id for the number of evidences.
+     * @param advancementID the advancement id for the number of evidences.
      * @return integer with the evidence id.
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
-    @Override
-    public int getEvidenceIDByEvidenceTitle(String evidenceTitle) throws SQLException {
-        int result = 0;
-        String query = "SELECT ID_evidencia FROM Evidencias WHERE titulo = (?)";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, evidenceTitle);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            result = resultSet.getInt("ID_evidencia");
-        }
-
-        databaseManager.closeConnection();
-
-        return result;
-    }
-
-
     @Override
     public int getEvidencesByStudentID(String studentID, int advancementID) throws SQLException {
         int result = 0;
@@ -413,4 +393,27 @@ public class EvidenceDAO implements IEvidence {
         databaseManager.closeConnection();
         return result;
     }
+
+    /**
+     * FOR TEST PURPOSES ONLY
+     * @return last id added on the Evidencias table
+     * @throws SQLException if there was a problem connecting to the database
+     */
+    @Override
+    public int getLastEvidenceID() throws SQLException {
+        String query = "SELECT MAX(ID_evidencia) FROM Evidencias";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        int result = 0;
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()) {
+            result = resultSet.getInt("MAX(ID_evidencia)");
+        }
+
+        databaseManager.closeConnection();
+        return result;
+    }
+
 }
