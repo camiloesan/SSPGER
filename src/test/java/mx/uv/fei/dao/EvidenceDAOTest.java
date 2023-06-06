@@ -151,7 +151,6 @@ class EvidenceDAOTest {
         int result = evidenceDAO.addEvidence(evidence);
         assertEquals(expectedResult,result);
 
-        advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
     }
 
     @Test
@@ -167,7 +166,6 @@ class EvidenceDAOTest {
 
         assertThrows(SQLSyntaxErrorException.class, () -> evidenceDAO.addEvidence(evidence));
 
-        advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
     }
 
     @Test
@@ -190,7 +188,6 @@ class EvidenceDAOTest {
         int result = evidenceDAO.modifyEvidence(evidenceToModify);
         assertEquals(expectedResult,result);
 
-        advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
     }
 
     @Test
@@ -229,8 +226,6 @@ class EvidenceDAOTest {
         int expectedResult = 1;
         int result = evidenceDAO.updateEvidenceGradeById(evidenceToUpdateGrade.getEvidenceId(), 10);
         assertEquals(expectedResult,result);
-
-        advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
     }
 
     @Test
@@ -250,8 +245,6 @@ class EvidenceDAOTest {
         int expectedResult = 1;
         int result = evidenceDAO.deleteEvidenceByID(evidenceResult.getEvidenceId());
         assertEquals(expectedResult,result);
-
-        advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
     }
 
     @Test
@@ -269,8 +262,6 @@ class EvidenceDAOTest {
         int expectedResult = 0;
         int result = evidenceDAO.deleteEvidenceByID(evidenceDAO.getLastEvidenceID()+1);
         assertEquals(expectedResult,result);
-
-        advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
     }
 
     @Test
@@ -307,8 +298,6 @@ class EvidenceDAOTest {
         for (int i = 0; i < evidenceListExpected.size(); i++) {
             assertEquals(evidenceListExpected.get(i), listResult.get(i));
         }
-
-        advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
     }
 
     @Test
@@ -321,7 +310,6 @@ class EvidenceDAOTest {
                 .getEvidenceListByProfessorID(professorDAO.getProfessorIdByUsername("angesanchez"));
 
         assertEquals(evidenceListExpected, listResult);
-
     }
 
     @Test
@@ -350,7 +338,5 @@ class EvidenceDAOTest {
                 .getEvidenceInfoByID(evidenceDAO.getLastEvidenceID());
 
         assertNotEquals(expectedEvidence, evidenceResult);
-
-        advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
     }
 }
