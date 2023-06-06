@@ -1127,7 +1127,7 @@ class ProjectDAOTest {
     }
     
     @Test
-    void testDeleteProjectByTitle() throws SQLException {
+    void testDeleteProjectByID() throws SQLException {
         System.out.println("Test deleteProjectByTitle");
         var projectDAO = new ProjectDAO();
         
