@@ -199,7 +199,7 @@ class ProjectRequestDAOTest {
     }
 
     @Test
-    void testDeleteProjectRequestSucces() throws SQLException{
+    void testDeleteProjectRequestSuccess() throws SQLException{
         var projectRequestDAO = new ProjectRequestDAO();
         var projectRequest = new ProjectRequest();
         var projectDAO = new ProjectDAO();
@@ -236,5 +236,23 @@ class ProjectRequestDAOTest {
         assertEquals(expectedResult, result);
     }
 
+    @Test
+    void testModifyProjectRequestSuccess() throws SQLException{
+        var projectRequestDAO = new ProjectRequestDAO();
+        var projectRequest = new ProjectRequest();
+        var projectDAO = new ProjectDAO();
+
+        projectRequest.setProjectID(projectDAO.getProjectIDByTitle(
+                "Control Estadístico de Procesos en el desarrollo de Software"));
+        projectRequest.setStudentId("ZS21050285");
+        projectRequest.setDescription("Solicito este proyecto");
+
+        projectRequestDAO.createProjectRequest(projectRequest);
+
+        int expectedResult = 1;
+        int result = projectRequestDAO.deleteProjectRequest(
+                projectRequestDAO.getProjectRequestIDByStudentID("ZS21050285"));
+        assertEquals(expectedResult, result);
+    }
 
 }

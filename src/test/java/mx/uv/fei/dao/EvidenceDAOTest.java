@@ -184,6 +184,25 @@ class EvidenceDAOTest {
     }
 
     @Test
+    void testModifyEvidenceSyntaxError() throws SQLException {
+        var advancementDAO = new AdvancementDAO();
+        var evidenceDAO = new EvidenceDAO();
+        var evidence = new Evidence();
+
+        evidence.setEvidenceTitle("Evidencia a modificar");
+        evidence.setEvidenceDescription("Esta evidencia sera modificada");
+        evidence.setAdvancementId(advancementDAO.getLastAdvancementID());
+
+        evidenceDAO.addEvidence(evidence);
+        var evidenceToModify = evidenceDAO.getEvidenceByEvidenceID(evidenceDAO.
+                getLastEvidenceID());
+
+        evidenceToModify.setEvidenceTitle("Evidencia modificada pero con un titulo demasiadon largo");
+
+        assertThrows(SQLSyntaxErrorException.class, () -> evidenceDAO.modifyEvidence(evidenceToModify));
+    }
+
+    @Test
     void testUpdateGradeEvidenceSuccess() throws SQLException {
         var advancementDAO = new AdvancementDAO();
         var evidenceDAO = new EvidenceDAO();
@@ -218,6 +237,23 @@ class EvidenceDAOTest {
 
         int expectedResult = 1;
         int result = evidenceDAO.deleteEvidenceByID(evidenceResult.getEvidenceId());
+        assertEquals(expectedResult,result);
+    }
+
+    @Test
+    void testDeleteEvidenceNotExistsEvidenceToDelete() throws SQLException {
+        var advancementDAO = new AdvancementDAO();
+        var evidenceDAO = new EvidenceDAO();
+        var evidence = new Evidence();
+
+        evidence.setEvidenceTitle("Evidencia para eliminar");
+        evidence.setEvidenceDescription("Esta evidencia sera eliminada");
+        evidence.setAdvancementId(advancementDAO.getLastAdvancementID());
+
+        evidenceDAO.addEvidence(evidence);
+
+        int expectedResult = 0;
+        int result = evidenceDAO.deleteEvidenceByID(evidenceDAO.getLastEvidenceID()+1);
         assertEquals(expectedResult,result);
     }
 
