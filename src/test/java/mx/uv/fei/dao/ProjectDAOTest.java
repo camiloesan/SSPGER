@@ -1133,24 +1133,48 @@ class ProjectDAOTest {
         
         var projectCollaboration = new Project();
         projectCollaboration.setAcademicBodyId("UV-CA-127");
-        projectCollaboration.setInvestigationProjectName("proyecto investigación ELIMINAR");
-        projectCollaboration.setLGAC_Id(1);
-        projectCollaboration.setInvestigationLine("linea investigación ELIMINAR");
+        projectCollaboration.setInvestigationProjectName(" ");
+        projectCollaboration.setLGAC_Id(2);
+        projectCollaboration.setInvestigationLine(" ");
         projectCollaboration.setApproximateDuration("12 meses");
-        projectCollaboration.setModalityId(1);
-        projectCollaboration.setReceptionWorkName("trabajo recepcional ELIMINAR");
-        projectCollaboration.setRequisites("requisitos ELIMINAR");
-        projectCollaboration.setDirectorName("Dr. ProfeNom1 ProfeAp1");
-        projectCollaboration.setCodirectorName("Dr. ProfeNom2 ProfeAp2");
+        projectCollaboration.setModalityId(5);
+        projectCollaboration.setReceptionWorkName("Mantenimiento y mejoras de seguridad del Sistema de Evaluación de Código");
+        projectCollaboration.setRequisites(" Desarrollo de Sistemas Web, Desarrollo de Aplicaciones,  Programación Segura ");
+        projectCollaboration.setDirectorName("Dr. Hector Xavier Limon Riaño");
+        projectCollaboration.setCodirectorName("Dr. Angel Juan Sanchez Garcia");
         projectCollaboration.setStudentsParticipating(1);
-        projectCollaboration.setInvestigationProjectDescription("descripción de investigación ELIMINAR");
-        projectCollaboration.setReceptionWorkDescription("descripción trabajo recepcional ELIMINAR");
-        projectCollaboration.setExpectedResults("resultados esperados ELIMINAR");
-        projectCollaboration.setRecommendedBibliography("bibliografía ELIMINAR");
+        projectCollaboration.setInvestigationProjectDescription(" ");
+        projectCollaboration.setReceptionWorkDescription("En la facultad de Estadística e Informática, desde el ciclo escolar" +
+                " agosto 2015-enero 2016 se utiliza el Sistema de Evaluación de Código como apoyo en diversas experiencias" +
+                " educativas de programación. Dicho sistema permite establecer y evaluar de forma automática ejercicios de " +
+                "programación presentes en prácticas de clase y exámenes. El sistema ha pasado por diversas versiones, siendo" +
+                " mejorado en 2018 como parte del trabajo recepcional \"Sistema de evaluación de prácticas y exámenes de " +
+                "experiencias educativas de programación\" de la licenciatura en Ingeniería de Software.  A partir de entonces," +
+                " se han realizado diversas mejoras al sistema como parte de una etapa de mantenimiento, sin embargo, están " +
+                "pendientes varias mejoras sugeridas por los docentes y alumnos que han utilizado el sistema, así como " +
+                "correcciones de errores detectados. De la misma forma, en el año 2021, en el trabajo recepcional \"Ambiente" +
+                " para pruebas de penetración de sistemas web\" de la licenciatura en Redes y Servicios de Cómputo, se llevó " +
+                "a cabo una evaluación de seguridad del sistema, encontrándose una gran cantidad de problemas de seguridad, " +
+                "mismos que se encuentran descritos en un reporte de pruebas de penetración con mitigaciones seguridad asociadas." +
+                " El objetivo de este trabajo es continuar con el mantenimiento del sistema de evaluación de código, especialmente" +
+                " enfocándose en corregir los problemas de seguridad detectados, y a su vez, analizándose la pertinencia de las" +
+                " funcionalidades nuevas sugeridas por maestros y alumnos, así como llevando a cabo las correcciones a los errores" +
+                " detectados en el sistema. ");
+        projectCollaboration.setExpectedResults("Implementación de mejoras al Sistema de Evaluación de Código Sistema " +
+                "desplegado en el clúster de la Facultad de Estadística e Informática Artículo con investigación referente" +
+                " al seguimiento de un reporte de pruebas de penetración ");
+        projectCollaboration.setRecommendedBibliography("de Jiménez, R. E. L. (2016, November). Pentesting on web applications" +
+                " using ethicalhacking. In 2016 IEEE 36th Central American and Panama Convention (CONCAPAN XXXVI) (pp. 1-6). " +
+                "IEEE. Mohammed, N. M., Niazi, M., Alshayeb, M., & Mahmood, S. (2017). Exploring software security approaches " +
+                "in software development lifecycle: A systematic mapping study. Computer Standards & Interfaces, 50, 107-115. " +
+                "de Vicente Mohino, J., Bermejo Higuera, J., Bermejo Higuera, J. R., & Sicilia Montalvo, J. A. (2019). The " +
+                "application of a new secure software development life cycle (S-SDLC) with agile methodologies. Electronics," +
+                " 8(11), 1218. ");
         projectDAO.addProject(projectCollaboration);
         
         int expectedResult = 1;
-        int actualResult = projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("trabajo recepcional ELIMINAR"));
+        int actualResult = projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Mantenimiento y mejoras de seguridad" +
+                " del Sistema de Evaluación de Código"));
         assertEquals(expectedResult,actualResult);
     }
 }
