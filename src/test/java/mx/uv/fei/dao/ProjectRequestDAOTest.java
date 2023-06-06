@@ -111,9 +111,6 @@ class ProjectRequestDAOTest {
 
         userDAO.deleteUserByUsername("Gerardo");
 
-        var studentDAO = new StudentDAO();
-
-        studentDAO.deleteStudent("ZS21050285");
     }
 
     @Test

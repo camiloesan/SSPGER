@@ -54,14 +54,12 @@ class EvidenceDAOTest {
         userDAO.addAdminUser(accessAccount);
 
         var student = new Student();
-        var studentDAO = new StudentDAO();
 
         student.setStudentID("example");
         student.setName("example");
         student.setLastName("example");
         student.setUsername("example");
 
-        studentDAO.insertStudent(student);
 
         var projectRequest = new ProjectRequest();
         var projectRequestDAO = new ProjectRequestDAO();
@@ -85,10 +83,6 @@ class EvidenceDAOTest {
         var projectDAO = new ProjectDAO();
 
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("example"));
-
-        var studentDAO = new StudentDAO();
-
-        studentDAO.deleteStudent("example");
 
         var userDAO = new UserDAO();
 
