@@ -168,10 +168,9 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         try {
             flag = projectDAO.isProjectRegistered(textAreaReceptionWorkName.getText());
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog( new AlertMessage("Error al comprobar si ya existe el proyecto",AlertStatus.ERROR));
+            DialogGenerator.getDialog( new AlertMessage("Error al conectar con la base datos.",AlertStatus.ERROR));
             logger.error(sqlException);
-            System.err.println(sqlException);
-            flag = true;
+            flag = false;
         }
         return flag;
     }
@@ -221,9 +220,13 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     private void actionRegister() {
         if (validFields()){
             try {
-                registerProject();
-                DialogGenerator.getDialog(new AlertMessage(
-                        "Se registró el anteproyecto exitosamente", AlertStatus.SUCCESS));
+                if (registerProject() == 1) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "Se registró el anteproyecto exitosamente", AlertStatus.SUCCESS));
+                } else {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "Error al registrar el anteproyecto, inténtelo más tarde", AlertStatus.WARNING));
+                }
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage(
                         "Error al registrar el anteproyecto, inténtelo más tarde", AlertStatus.ERROR));
@@ -233,7 +236,8 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         }
     }
     
-    private void registerProject() throws SQLException {
+    private int registerProject() throws SQLException {
+        int result;
         ProjectDAO projectDAO = new ProjectDAO();
         Project project = new Project();
         
@@ -253,9 +257,15 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         project.setExpectedResults(textAreaExpectedResults.getText());
         project.setRecommendedBibliography(textAreaRecommendedBibliography.getText());
         
-        projectDAO.addProject(project);
-        projectDAO.setDirectorIDtoProject(project);
-        projectDAO.setCodirectorIDtoProject(project);
+        if (projectDAO.addProject(project) == 1
+        && projectDAO.setDirectorIDtoProject(project) == 1
+        && projectDAO.setCodirectorIDtoProject(project) ==1 ) {
+            result = 1;
+        } else {
+            result = 0;
+        }
+        
+        return result;
     }
     
     @FXML
