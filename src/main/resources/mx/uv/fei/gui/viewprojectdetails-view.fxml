@@ -143,9 +143,9 @@
                   </Label>
                </children>
             </HBox>
-            <ScrollPane hbarPolicy="AS_NEEDED">
+            <ScrollPane hbarPolicy="AS_NEEDED" maxHeight="1.7976931348623157E308">
                <content>
-                  <VBox prefHeight="2100.0" prefWidth="700.0">
+                  <VBox maxHeight="5000.0" prefHeight="2100.0" prefWidth="700.0">
                      <children>
                         <HBox prefHeight="60.0" prefWidth="695.0">
                            <children>
@@ -159,7 +159,7 @@
                               </Label>
                            </children>
                         </HBox>
-                        <GridPane alignment="CENTER" maxWidth="-Infinity" prefHeight="550.0" prefWidth="660.0" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
+                        <GridPane alignment="CENTER" maxWidth="-Infinity" minHeight="550.0" prefHeight="550.0" prefWidth="660.0" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
                            <columnConstraints>
                               <ColumnConstraints hgrow="ALWAYS" maxWidth="281.0" minWidth="10.0" prefWidth="242.0" />
                               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
@@ -281,7 +281,7 @@
                               </Label>
                            </children>
                         </HBox>
-                        <GridPane fx:id="gridBoxReceptionWorkResponsibles" prefHeight="110.0" prefWidth="636.0">
+                        <GridPane fx:id="gridBoxReceptionWorkResponsibles" minHeight="110.0" prefHeight="110.0" prefWidth="636.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="325.0" minWidth="10.0" prefWidth="253.0" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="468.0" minWidth="10.0" prefWidth="408.0" />
