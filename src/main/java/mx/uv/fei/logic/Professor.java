@@ -20,6 +20,14 @@ public class Professor {
         return matcher.matches() && professorEmail.contains("uv.mx");
     }
 
+    public boolean isUsernameValid(String username) {
+        String regex = "^(\\p{Alnum}+(\\/{1}\\p{Alnum}+)*)+(?!([\\/]{2}))$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(username);
+
+        return matcher.matches();
+    }
+
     public String getUsername() {
         return username;
     }

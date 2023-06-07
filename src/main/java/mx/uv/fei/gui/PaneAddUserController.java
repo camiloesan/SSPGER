@@ -270,6 +270,12 @@ public class PaneAddUserController {
                     AlertStatus.WARNING
             ));
             return false;
+        } else if (!professor.isUsernameValid(textFieldUsername.getText())){
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se permiten caracteres especiales en el nombre de usuario ni espacios",
+                    AlertStatus.WARNING
+            ));
+            return false;
         } else {
             return true;
         }
@@ -336,6 +342,12 @@ public class PaneAddUserController {
                     "El formato del correo electrónico no es válido, " +
                             "sólo se permiten caracteres alfa-numéricos y direcciones válidas" +
                             "de estudiantes de la Universidad Veracruzana (@estudiantes.uv.mx)",
+                    AlertStatus.WARNING
+            ));
+            return false;
+        } else if (!student.isUsernameValid(textFieldUsername.getText())){
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se permiten caracteres especiales en el nombre de usuario ni espacios",
                     AlertStatus.WARNING
             ));
             return false;

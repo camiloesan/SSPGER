@@ -129,7 +129,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         if (areScheduleAdvancementFieldsValid()) {
             try {
                 scheduleAdvancement();
-                DialogGenerator.getDialog(new AlertMessage("Se ha programado el avance", AlertStatus.SUCCESS));
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage(
                         "No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
@@ -180,10 +179,15 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             logger.error(sqlException);
         }
         advancement.setAdvancementDescription(advancementDescription.getText());
+        int advancementResult = 0;
         try {
-            advancementDAO.addAdvancement(advancement);
+             advancementResult = advancementDAO.addAdvancement(advancement);
         } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo programar el avance", AlertStatus.ERROR));
             logger.error(sqlException);
+        }
+        if (advancementResult == 1) {
+            DialogGenerator.getDialog(new AlertMessage("Se ha programado el avance", AlertStatus.SUCCESS));
         }
     }
 
