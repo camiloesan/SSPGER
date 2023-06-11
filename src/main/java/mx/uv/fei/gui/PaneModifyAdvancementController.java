@@ -43,18 +43,19 @@ public class PaneModifyAdvancementController {
     
     private void getAdvancementToModify() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement advancement = null;
+        Advancement advancement;
         try {
             advancement = advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID());
+            assert advancement != null;
+            newAdvancementName.setText(advancement.getAdvancementName());
+            newAdvancementStartDate.setValue(LocalDate.parse(advancement.getAdvancementStartDate()));
+            newAdvancementDeadline.setValue(LocalDate.parse(advancement.getAdvancementDeadline()));
+            setAsignedProject();
+            newAdvancementDescription.setText(advancement.getAdvancementDescription());
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage("Error al recuperar la información del avance.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
-        assert advancement != null;
-        newAdvancementName.setText(advancement.getAdvancementName());
-        newAdvancementStartDate.setValue(LocalDate.parse(advancement.getAdvancementStartDate()));
-        newAdvancementDeadline.setValue(LocalDate.parse(advancement.getAdvancementDeadline()));
-        newAdvancementDescription.setText(advancement.getAdvancementDescription());
     }
 
     private void formatDatePickers() {
@@ -85,6 +86,12 @@ public class PaneModifyAdvancementController {
                 setDisable(empty || date.isBefore(startDate));
             }
         });
+    }
+    
+    private void setAsignedProject() throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        String actualAssignedProject = projectDAO.getProjectNameByAdvancementID(TransferAdvancement.getAdvancementID());
+        comboNewProjectToAssign.setValue(actualAssignedProject);
     }
 
     private void fillComboBoxNewProjectToAssign() {
