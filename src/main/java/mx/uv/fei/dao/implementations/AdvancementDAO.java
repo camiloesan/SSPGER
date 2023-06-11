@@ -141,7 +141,7 @@ public class AdvancementDAO implements IAdvancement {
      */
     @Override
     public List<Advancement> getListAdvancementNamesByStudentId(String studentID) throws SQLException {
-        String sqlQuery = "SELECT A.nombre FROM Avances A " +
+        String sqlQuery = "SELECT A.ID_avance, A.nombre FROM Avances A " +
                 "INNER JOIN Proyectos P ON A.ID_proyecto = P.ID_proyecto " +
                 "INNER JOIN SolicitudesProyecto SP on P.ID_proyecto = SP.ID_proyecto " +
                 "WHERE SP.matriculaEstudiante = ? AND SP.estado = 'Aceptado'";
@@ -155,6 +155,7 @@ public class AdvancementDAO implements IAdvancement {
         List<Advancement> advancementList = new ArrayList<>();
         while (resultSet.next()) {
             Advancement advancementItem = new Advancement();
+            advancementItem.setAdvancementID(resultSet.getInt("ID_avance"));
             advancementItem.setAdvancementName(resultSet.getString("nombre"));
             advancementList.add(advancementItem);
         }
