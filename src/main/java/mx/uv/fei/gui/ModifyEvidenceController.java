@@ -37,6 +37,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     public void initialize() {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
         labelAdvancementTitle.setText(getAdvancementName());
+        getEvidenceToModify();
     }
 
     private String getAdvancementName() {
@@ -78,6 +79,19 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
                 DialogGenerator.getDialog(new AlertMessage
                         ("Algo salió mal, su evidencia no fue guardad", AlertStatus.ERROR));
             }
+        }
+    }
+    
+    private void getEvidenceToModify() {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        Evidence evidence;
+        try {
+            evidence = evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
+            textFieldEvidenceTitle.setText(evidence.getEvidenceTitle());
+            textAreaEvidenceDescription.setText(evidence.getEvidenceDescription());
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("Error al recuperar la información", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
 
