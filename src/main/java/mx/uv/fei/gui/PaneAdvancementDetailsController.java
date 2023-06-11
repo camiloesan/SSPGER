@@ -44,17 +44,16 @@ public class PaneAdvancementDetailsController {
     
     public void getDetailedAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement detaildedAdvancement = (advancementDAO
-                .getAdvancementDetailById(TransferAdvancement.getAdvancementID()));
+        Advancement detailedAdvancement = (advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID()));
 
-        labelAdvancementName.setText(detaildedAdvancement.getAdvancementName());
+        labelAdvancementName.setText(detailedAdvancement.getAdvancementName());
         
-        Text advancementDescription = new Text(detaildedAdvancement.getAdvancementDescription());
+        Text advancementDescription = new Text(detailedAdvancement.getAdvancementDescription());
         textAdvancementDescription.getChildren().add(advancementDescription);
         
-        labelStartDate.setText(detaildedAdvancement.getAdvancementStartDate());
+        labelStartDate.setText(detailedAdvancement.getAdvancementStartDate());
 
-        labelDeadline.setText(detaildedAdvancement.getAdvancementDeadline());
+        labelDeadline.setText(detailedAdvancement.getAdvancementDeadline());
     }
     
     @FXML
