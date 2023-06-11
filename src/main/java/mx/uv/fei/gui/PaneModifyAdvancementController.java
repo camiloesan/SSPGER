@@ -38,6 +38,23 @@ public class PaneModifyAdvancementController {
         labelHeader.setText("Modificar evidencia [" + TransferAdvancement.getAdvancementName() + "]");
         fillComboBoxNewProjectToAssign();
         formatDatePickers();
+        getAdvancementToModify();
+    }
+    
+    private void getAdvancementToModify() {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        Advancement advancement = null;
+        try {
+            advancement = advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID());
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("Error al recuperar la información del avance.", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+        assert advancement != null;
+        newAdvancementName.setText(advancement.getAdvancementName());
+        newAdvancementStartDate.setValue(LocalDate.parse(advancement.getAdvancementStartDate()));
+        newAdvancementDeadline.setValue(LocalDate.parse(advancement.getAdvancementDeadline()));
+        newAdvancementDescription.setText(advancement.getAdvancementDescription());
     }
 
     private void formatDatePickers() {
@@ -96,7 +113,6 @@ public class PaneModifyAdvancementController {
             if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
                 try {
                     modifyAdvancement();
-                    clearFields();
                     DialogGenerator.getDialog(new AlertMessage(
                             "Se modificó el avance exitosamente", AlertStatus.SUCCESS));
                 } catch (SQLException sqlException) {
@@ -106,14 +122,6 @@ public class PaneModifyAdvancementController {
                 }
             }
         }
-    }
-
-    private void clearFields() {
-        newAdvancementName.clear();
-        newAdvancementStartDate.setValue(null);
-        newAdvancementDeadline.setValue(null);
-        comboNewProjectToAssign.setValue(null);
-        newAdvancementDescription.clear();
     }
 
     private void modifyAdvancement() throws SQLException {
