@@ -5,6 +5,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
@@ -29,6 +32,8 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     TextField textFieldEvidenceTitle;
     @FXML
     TextArea textAreaEvidenceDescription;
+    @FXML
+    private HBox hboxLogOutLabel;
     private static final int MAX_TITLE_EVIDENCE_LENGTH = 30;
     private static final int MAX_DESCRIPTION_EVIDENCE_LENGTH = 100;
     private static final Logger logger = Logger.getLogger(ModifyEvidenceController.class);
@@ -38,6 +43,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
         labelAdvancementTitle.setText(getAdvancementName());
         getEvidenceToModify();
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
 
     private String getAdvancementName() {
