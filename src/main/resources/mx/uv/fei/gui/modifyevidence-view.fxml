@@ -185,7 +185,7 @@
                   </VBox>
                   <Label text="Titulo del avance:" />
                   <Label text="Titulo de la evidencia:" GridPane.rowIndex="1" />
-                  <Label text="Descripccion d ela evidencia:" GridPane.rowIndex="2" />
+                  <Label text="Descripción de la evidencia:" GridPane.rowIndex="2" />
                   <Label fx:id="labelAdvancementTitle" GridPane.columnIndex="1" />
                   <TextField fx:id="textFieldEvidenceTitle" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextArea fx:id="textAreaEvidenceDescription" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="145.0" prefWidth="223.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
