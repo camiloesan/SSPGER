@@ -101,7 +101,7 @@
                </VBox.margin>
                <children>
                   <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" onMouseClicked="#redirectToRequest" opacity="0.16" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label layoutX="67.0" layoutY="207.0" onMouseClicked="#redirectToRequest" text="Mi peticion" textFill="WHITE">
+                  <Label layoutX="67.0" layoutY="207.0" onMouseClicked="#redirectToRequest" text="Mi Petición" textFill="WHITE">
                      <font>
                         <Font name="Cantarell Regular" size="14.0" />
                      </font>

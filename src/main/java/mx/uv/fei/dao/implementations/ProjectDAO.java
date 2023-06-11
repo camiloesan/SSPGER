@@ -466,4 +466,28 @@ public class ProjectDAO implements IProject {
         
         return flag;
     }
+    
+    /**
+     * @param advancementID advancement id to search for its assigned project
+     * @return project id from an advancement registered to it
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public String getProjectNameByAdvancementID(int advancementID) throws SQLException {
+        String query = "select P.nombreTrabajoRecepcional from Proyectos P inner join Avances A on P.ID_proyecto = A.ID_proyecto where ID_avance = (?);";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, advancementID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+        
+        String projectName = "";
+        while (resultSet.next()) {
+            projectName = resultSet.getString("nombreTrabajoRecepcional");
+        }
+        
+        return projectName;
+    }
 }

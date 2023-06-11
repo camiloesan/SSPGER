@@ -6,7 +6,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
-import mx.uv.fei.dao.implementations.StudentDAO;
 import mx.uv.fei.logic.*;
 
 import java.io.IOException;
@@ -20,7 +19,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     @FXML
     private Label labelUsername;
     @FXML
-    private ListView<String> listViewAdvancementsNames;
+    private ListView<Advancement> listViewAdvancementsNames;
     @FXML
     private HBox hboxLogOutLabel;
     
@@ -31,6 +30,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         try {
             fillListViewAdvancements();
+            setAdvancementNames();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
                     "No se pudo recuperar la información",AlertStatus.ERROR));
@@ -39,22 +39,34 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    public void fillListViewAdvancements() throws SQLException {
+    @FXML
+    private void fillListViewAdvancements() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        StudentDAO studentDAO = new StudentDAO();
-        
-        String studentId = studentDAO.getStudentIdByUsername(LoginController.sessionDetails.getUsername());
-        
+        String studentId = LoginController.sessionDetails.getId();
         listViewAdvancementsNames.getItems().clear();
-        List<Advancement> advancementList = new ArrayList<>(advancementDAO
-                .getListAdvancementNamesByStudentId(studentId));
-        advancementList.forEach(element -> listViewAdvancementsNames.getItems().add(element.getAdvancementName()));
+        List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByStudentId(studentId));
+        listViewAdvancementsNames.getItems().addAll(advancementList);
     }
     
-    public void viewAdvancementDetails() throws IOException {
+    private void setAdvancementNames() {
+        listViewAdvancementsNames.setCellFactory(param -> new ListCell<>(){
+            @Override
+            protected void updateItem(Advancement item, boolean empty){
+                super.updateItem(item, empty);
+                if(empty) {
+                    setText(null);
+                } else {
+                    setText(item.getAdvancementName());
+                }
+            }
+        });
+    }
+    
+    @FXML
+    private void viewAdvancementDetails() throws IOException {
         if (listViewAdvancementsNames.getSelectionModel().getSelectedItem() != null) {
-            String advancementName = listViewAdvancementsNames.getSelectionModel().getSelectedItem();
-            TransferAdvancement.setAdvancementName(advancementName);
+            int advancementID = listViewAdvancementsNames.getSelectionModel().getSelectedItem().getAdvancementID();
+            TransferAdvancement.setAdvancementID(advancementID);
             MainStage.changeView("studentviewadvancementdetails-view.fxml",1000,600);
         } else {
             DialogGenerator.getDialog(new AlertMessage(

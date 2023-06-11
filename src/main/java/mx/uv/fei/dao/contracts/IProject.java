@@ -25,4 +25,5 @@ public interface IProject {
     String getProjectNameById(int projectId) throws SQLException;
     int deleteProjectByID(int projectID) throws SQLException;
     boolean isProjectRegistered(String projectTitle) throws SQLException;
+    String getProjectNameByAdvancementID(int advancementID) throws SQLException;
 }
