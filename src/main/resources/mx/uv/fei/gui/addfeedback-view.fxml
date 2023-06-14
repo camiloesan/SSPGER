@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -159,8 +160,8 @@
                <rowConstraints>
                   <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="413.0" minHeight="80.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="369.0" minHeight="9.0" prefHeight="33.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="369.0" minHeight="60.0" prefHeight="325.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="369.0" minHeight="9.0" prefHeight="63.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="369.0" minHeight="60.0" prefHeight="295.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <Label fx:id="labelProjectName" text="Retroalimentar evidencia" wrapText="true" GridPane.columnIndex="1">
@@ -170,7 +171,7 @@
                   </Label>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                      <children>
-                        <Button minWidth="90.0" mnemonicParsing="false" onAction="#registerFeedback" prefHeight="26.0" prefWidth="100.0" text="Retroalimentar">
+                        <Button fx:id="buttonFeedback" minWidth="90.0" mnemonicParsing="false" onAction="#registerFeedback" prefHeight="26.0" prefWidth="100.0" text="Retroalimentar">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -182,16 +183,32 @@
                         </Button>
                      </children>
                   </VBox>
-                  <TextArea fx:id="textAreaFeedback" maxHeight="265.0" maxWidth="495.0" prefHeight="265.0" prefWidth="490.0" promptText="Escriba aquí su retroalimentación" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="labelStudentName" text="Estudiante: " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextArea fx:id="textAreaFeedback" maxHeight="265.0" maxWidth="495.0" prefHeight="265.0" prefWidth="490.0" promptText="Escriba aquí su retroalimentación" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="18.0" />
+                     </font></TextArea>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Label fx:id="labelAdvancementName" text="Avance:">
+                        <Label fx:id="labelAdvancementName" text="Avance:" wrapText="true">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
                         </Label>
-                        <Label fx:id="labelEvidenceName" text="Evidencia: ">
+                        <Label fx:id="labelEvidenceName" text="Evidencia: " wrapText="true">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelStudentName" text="Estudiante: " wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -200,10 +217,30 @@
                   </VBox>
                   <VBox fx:id="vBoxFeedbackText" prefHeight="323.0" prefWidth="490.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Text fx:id="textFeedback" strokeType="OUTSIDE" strokeWidth="0.0" text="Texto retroalimentación" textAlignment="JUSTIFY" visible="false" />
+                        <Text fx:id="textFeedback" strokeType="OUTSIDE" strokeWidth="0.0" text="Texto retroalimentación" textAlignment="JUSTIFY" visible="false" wrappingWidth="489.9033203125">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin></Text>
                      </children>
                   </VBox>
                   <Button fx:id="buttonDeleteFeedback" mnemonicParsing="false" onAction="#deleteFeedback" text="Eliminar" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Label fx:id="labelGrade" text="Calificación: " wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="comboBoxGrade" prefWidth="150.0">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
                </children>
             </GridPane>
          </children>

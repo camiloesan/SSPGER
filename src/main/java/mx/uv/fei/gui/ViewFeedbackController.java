@@ -28,26 +28,13 @@ public class ViewFeedbackController implements IStudentNavigationBar {
     @FXML
     private Label labelStudentName;
     @FXML
+    private Label labelGrade;
+    @FXML
     private Text textFeedback;
     private static final Logger logger = Logger.getLogger(ViewFeedbackController.class);
 
     @FXML
     public void initialize() {
-        showFeedback();
-    }
-
-    private void showFeedback() {
-        FeedbackDAO feedbackDAO = new FeedbackDAO();
-        try {
-            textFeedback.setText("Retroalimentación: " +
-                    feedbackDAO.getFeedbackTextByEvidenceID(TransferEvidence.getEvidenceId(),
-                            TransferEvidence.getStudentID()));
-        } catch (SQLException textFeedbackException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la retroalimentación", AlertStatus.ERROR));
-            logger.error(textFeedbackException);
-        }
-
         labelUsername.setText(SessionDetails.getInstance().getUsername());
         EvidenceDAO evidenceDAO = new EvidenceDAO();
 
@@ -62,6 +49,45 @@ public class ViewFeedbackController implements IStudentNavigationBar {
         labelAdvancementName.setText("Avance: " + getEvidenceInfo().getAdvancementName());
         labelEvidenceName.setText("Evidencia: " + getEvidenceInfo().getEvidenceTitle());
         labelStudentName.setText("Estudiante: " + getEvidenceInfo().getStudentName());
+        showFeedback();
+    }
+
+
+    private int getFeedbacks() {
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        int numberOfFeedbacks = 0;
+
+        try {
+            numberOfFeedbacks = feedbackDAO.getFeedbacksByEvidenceID(TransferEvidence.getEvidenceId(),
+                    TransferEvidence.getStudentID());
+        } catch (SQLException numberOfFeedbacksException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar el número de retroalimentaciones", AlertStatus.ERROR));
+            logger.error(numberOfFeedbacksException);
+        }
+
+        return numberOfFeedbacks;
+    }
+
+    private void showFeedback() {
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+
+        if (getFeedbacks() != 0) {
+            labelGrade.setText("Calificación: " + getEvidenceInfo().getEvidenceGrade());
+            try {
+                textFeedback.setText("Retroalimentación: " +
+                        feedbackDAO.getFeedbackTextByEvidenceID(TransferEvidence.getEvidenceId(),
+                                TransferEvidence.getStudentID()));
+            } catch (SQLException textFeedbackException) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo recuperar la retroalimentación", AlertStatus.ERROR));
+                logger.error(textFeedbackException);
+            }
+        } else {
+            labelGrade.setText("Sin calificación");
+            textFeedback.setText("Sin retroalimentación");
+        }
+
     }
 
     private Evidence getEvidenceInfo() {

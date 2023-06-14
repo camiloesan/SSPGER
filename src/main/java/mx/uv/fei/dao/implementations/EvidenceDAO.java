@@ -69,7 +69,7 @@ public class EvidenceDAO implements IEvidence {
      * @throws SQLException if there was an error connecting with to the database.
      */
     @Override
-    public int updateEvidenceGradeById(int id, int grade) throws SQLException {
+    public int updateEvidenceGradeCheckById(int id, int grade) throws SQLException {
         int result;
         String query = "update Evidencias set calificacion=(?), estado=(?) where ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
@@ -78,6 +78,30 @@ public class EvidenceDAO implements IEvidence {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, grade);
         preparedStatement.setString(2, "Revisado");
+        preparedStatement.setInt(3, id);
+
+        result = preparedStatement.executeUpdate();
+
+        databaseManager.closeConnection();
+
+        return result;
+    }
+
+    /**
+     * @param id id of evidence to update.
+     * @return rows affected if the admin was saved (1) or not (0).
+     * @throws SQLException if there was an error connecting with to the database.
+     */
+    @Override
+    public int updateEvidenceGradeUncheckById(int id) throws SQLException {
+        int result;
+        String query = "update Evidencias set calificacion=(?), estado=(?) where ID_evidencia=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, 0);
+        preparedStatement.setString(2, "Por revisar");
         preparedStatement.setInt(3, id);
 
         result = preparedStatement.executeUpdate();

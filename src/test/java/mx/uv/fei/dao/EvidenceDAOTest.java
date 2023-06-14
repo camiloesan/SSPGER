@@ -224,7 +224,7 @@ class EvidenceDAOTest {
                 .getLastEvidenceID());
 
         int expectedResult = 1;
-        int result = evidenceDAO.updateEvidenceGradeById(evidenceToUpdateGrade.getEvidenceId(), 10);
+        int result = evidenceDAO.updateEvidenceGradeCheckById(evidenceToUpdateGrade.getEvidenceId(), 10);
         assertEquals(expectedResult,result);
     }
 
