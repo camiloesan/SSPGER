@@ -13,8 +13,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ViewEvidenceDetailsController">
+<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.ViewFeedbackController">
    <children>
       <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
          <children>
@@ -108,7 +109,7 @@
                </VBox.margin>
                <children>
                   <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#f8f9fa" height="40.0" layoutX="10.0" layoutY="126.0" opacity="0.0" stroke="#003466" strokeType="INSIDE" width="180.0" />
-                  <Label fx:id="labelRequest" layoutX="67.0" layoutY="207.0" text="Peticiones" textFill="WHITE">
+                  <Label layoutX="67.0" layoutY="207.0" text="Mi Petición" textFill="WHITE">
                      <font>
                         <Font name="Cantarell Regular" size="14.0" />
                      </font>
@@ -120,21 +121,16 @@
                   <Insets top="12.0" />
                </VBox.margin>
             </Line>
-            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT" />
+            <HBox alignment="BOTTOM_LEFT" prefHeight="216.0" prefWidth="201.0">
                <children>
-                  <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
+                  <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textAlignment="CENTER" textFill="WHITE" underline="true">
                      <font>
                         <Font name="Cantarell Regular" size="14.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" />
-                     </HBox.margin>
                   </Label>
                </children>
             </HBox>
@@ -144,7 +140,7 @@
          <children>
             <HBox minHeight="76.0" prefHeight="76.0" prefWidth="699.0" style="-fx-background-color: #334b49" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
                <children>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Detalles de Evidencia" textFill="WHITE">
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" text="Retroalimentación" textFill="WHITE">
                      <font>
                         <Font name="Cantarell Regular" size="30.0" />
                      </font>
@@ -154,76 +150,46 @@
                   </Label>
                </children>
             </HBox>
-            <GridPane VBox.vgrow="ALWAYS">
+            <GridPane prefHeight="541.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="0.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" maxWidth="484.0" minWidth="231.0" prefWidth="256.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="448.0" minWidth="190.0" prefWidth="423.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="490.0" prefWidth="490.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="81.0" minHeight="45.0" prefHeight="64.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="412.0" minHeight="62.0" prefHeight="81.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="401.0" minHeight="58.0" prefHeight="69.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="401.0" minHeight="52.0" prefHeight="70.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="401.0" minHeight="52.0" prefHeight="85.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="401.0" minHeight="60.0" prefHeight="82.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="401.0" minHeight="60.0" prefHeight="74.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="413.0" minHeight="80.0" prefHeight="122.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="369.0" minHeight="9.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="369.0" minHeight="60.0" prefHeight="325.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Titulo de la evidencia:" GridPane.columnIndex="1">
+                  <Label fx:id="labelProjectName" text="Retroalimentar evidencia" wrapText="true" GridPane.columnIndex="1">
                      <font>
-                        <Font name="Jomolhari" size="21.0" />
-                     </font></Label>
-                  <Label text="Estado:" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Jomolhari" size="20.0" />
-                     </font></Label>
-                  <Label text="Calificacion:" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Jomolhari" size="20.0" />
-                     </font></Label>
-                  <Label text="Descripcion:" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <font>
-                        <Font name="Jomolhari" size="20.0" />
-                     </font></Label>
-                  <Label text="Nombre del avance:" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                     <font>
-                        <Font name="Jomolhari" size="20.0" />
-                     </font></Label>
-                  <Label text="Nombre del estudiante:" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                     <font>
-                        <Font name="Jomolhari" size="20.0" />
-                     </font></Label>
-                  <Label fx:id="labelTitleEvidence" text="Label" wrapText="true" GridPane.columnIndex="2">
-                     <font>
-                        <Font name="Noto Serif Regular" size="18.0" />
-                     </font></Label>
-                  <Label fx:id="labelStatusEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Noto Serif Regular" size="18.0" />
-                     </font></Label>
-                  <Label fx:id="labelGradeEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Noto Serif Regular" size="18.0" />
-                     </font></Label>
-                  <Label fx:id="labelDescriptionEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                     <font>
-                        <Font name="Noto Serif Regular" size="18.0" />
-                     </font></Label>
-                  <Label fx:id="labelAdvancementEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                     <font>
-                        <Font name="Noto Serif Regular" size="18.0" />
-                     </font></Label>
-                  <Label fx:id="labelStudentEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
-                     <font>
-                        <Font name="Noto Serif Regular" size="18.0" />
-                     </font></Label>
-                  <Button fx:id="buttonFeedback" mnemonicParsing="false" onAction="#openFeedback" text="Retroalimentar" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                  <Button mnemonicParsing="false" onAction="#visualizeFiles" text="Archivos" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelStudentName" text="Estudiante: " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Label fx:id="labelAdvancementName" text="Avance:">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="labelEvidenceName" text="Evidencia: ">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="vBoxFeedbackText" prefHeight="323.0" prefWidth="490.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <Text fx:id="textFeedback" strokeType="OUTSIDE" strokeWidth="0.0" text="Texto retroalimentación" textAlignment="JUSTIFY" />
+                     </children>
+                  </VBox>
+                  <Button mnemonicParsing="false" onAction="#redirectToEvidences" text="Regresar" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                </children>
-               <VBox.margin>
-                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-               </VBox.margin>
             </GridPane>
          </children>
       </VBox>

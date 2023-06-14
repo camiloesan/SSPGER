@@ -239,7 +239,7 @@ public class EvidenceDAO implements IEvidence {
 
     /**
      * @param evidenceID the evidence ID you want to delete.
-     * @return the id of the student that created the evidence.
+     * @return rows affected if the admin was saved (1) or not (0).
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     public int deleteEvidenceByID (int evidenceID) throws SQLException {
@@ -370,7 +370,7 @@ public class EvidenceDAO implements IEvidence {
     /**
      * @param studentID the student id for the number of evidences.
      * @param advancementID the advancement id for the number of evidences.
-     * @return integer with the evidence id.
+     * @return integer with the number of evidences.
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     @Override

@@ -1,6 +1,7 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
@@ -16,32 +17,56 @@ import java.util.Optional;
 
 public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     @FXML
-    Label labelTitleEvidence;
+    private Label labelTitleEvidence;
     @FXML
-    Label labelStatusEvidence;
+    private Label labelStatusEvidence;
     @FXML
-    Label labelGradeEvidence;
+    private Label labelGradeEvidence;
     @FXML
-    Label labelDescriptionEvidence;
+    private Label labelDescriptionEvidence;
     @FXML
-    Label labelAdvancementEvidence;
+    private Label labelAdvancementEvidence;
     @FXML
-    Label labelStudentEvidence;
+    private Label labelStudentEvidence;
     @FXML
-    Label labelUsername;
+    private Label labelUsername;
+    @FXML
+    private Label labelRequest;
+    @FXML
+    private Button buttonFeedback;
     private static final Logger logger = Logger.getLogger(ViewEvidenceDetailsController.class);
 
     @FXML
     private void initialize() {
+        if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)) {
+            labelRequest.setText("Mi Petición");
+            buttonFeedback.setText("Retroalimentación");
+        }
         labelUsername.setText(LoginController.sessionDetails.getUsername());
         fillEvidence();
     }
 
     @FXML
-    private void openPaneGradeEvidence() throws IOException {
+    private void openFeedback() throws IOException {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        String studentID = null;
+        try {
+            studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
+        } catch (SQLException studentIDException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar al estudiante", AlertStatus.ERROR));
+            logger.error(studentIDException);
+        }
+
+        TransferEvidence.setStudentID(studentID);
         TransferEvidence.setEvidenceId(TransferEvidence.getEvidenceId());
         TransferEvidence.setEvidenceName(labelTitleEvidence.getText());
-        MainStage.changeView("panegradeevidence-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+
+        if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)) {
+            MainStage.changeView("viewfeedback-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } else {
+            MainStage.changeView("addfeedback-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        }
     }
 
 
