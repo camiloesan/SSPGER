@@ -361,6 +361,11 @@ public class UserDAO implements IUser {
         return resultSet.next();
     }
     
+    /**
+     * @param username professor username to get all the account details
+     * @return Professor with account information
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public Professor getProfessorAccount(String username) throws SQLException {
         String sqlQuery = "SELECT CA.correoInstitucional, P.nombre, P.apellidos, P.grado FROM Profesores P INNER JOIN " +
@@ -382,6 +387,11 @@ public class UserDAO implements IUser {
         return professorAccount;
     }
     
+    /**
+     * @param username student username to get all the account details
+     * @return Student with account information
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public Student getStudentAccount(String username) throws SQLException {
         String sqlQuery = "SELECT CA.correoInstitucional, E.matricula, E.nombre, E.apellidos FROM Estudiantes E INNER JOIN" +
