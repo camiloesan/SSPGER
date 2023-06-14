@@ -1,8 +1,6 @@
 package mx.uv.fei.dao.contracts;
 
-import mx.uv.fei.logic.AccessAccount;
-import mx.uv.fei.logic.Professor;
-import mx.uv.fei.logic.Student;
+import mx.uv.fei.logic.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -22,4 +20,6 @@ public interface IUser {
     int addUser(AccessAccount accessAccount) throws SQLException;
     boolean isUserTaken(String username) throws SQLException;
     boolean isEmailTaken(String email) throws SQLException;
+    Professor getProfessorAccount(String username) throws SQLException;
+    Student getStudentAccount(String username) throws SQLException;
 }

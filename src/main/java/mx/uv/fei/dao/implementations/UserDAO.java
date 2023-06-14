@@ -2,9 +2,7 @@ package mx.uv.fei.dao.implementations;
 
 import mx.uv.fei.dao.contracts.IUser;
 import mx.uv.fei.dataaccess.DatabaseManager;
-import mx.uv.fei.logic.AccessAccount;
-import mx.uv.fei.logic.Professor;
-import mx.uv.fei.logic.Student;
+import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -361,5 +359,47 @@ public class UserDAO implements IUser {
         databaseManager.closeConnection();
 
         return resultSet.next();
+    }
+    
+    @Override
+    public Professor getProfessorAccount(String username) throws SQLException {
+        String sqlQuery = "SELECT CA.correoInstitucional, P.nombre, P.apellidos, P.grado FROM Profesores P INNER JOIN " +
+                "CuentasAcceso CA on P.nombreUsuario = CA.nombreUsuario WHERE P.nombreUsuario = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1,username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        Professor professorAccount = new Professor();
+        if (resultSet.next()){
+            professorAccount.setEmail(resultSet.getString("correoInstitucional"));
+            professorAccount.setProfessorName(resultSet.getString("nombre"));
+            professorAccount.setProfessorLastName(resultSet.getString("apellidos"));
+            professorAccount.setProfessorDegree(resultSet.getString("grado"));
+        }
+        return professorAccount;
+    }
+    
+    @Override
+    public Student getStudentAccount(String username) throws SQLException {
+        String sqlQuery = "SELECT CA.correoInstitucional, E.matricula, E.nombre, E.apellidos FROM Estudiantes E INNER JOIN" +
+                " CuentasAcceso CA on E.nombreUsuario = CA.nombreUsuario WHERE E.nombreUsuario = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+        Student studentAccount = new Student();
+        if (resultSet.next()) {
+            studentAccount.setEmail(resultSet.getString("correoInstitucional"));
+            studentAccount.setStudentID(resultSet.getString("matricula"));
+            studentAccount.setName(resultSet.getString("nombre"));
+            studentAccount.setLastName(resultSet.getString("apellidos"));
+        }
+        return studentAccount;
     }
 }

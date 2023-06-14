@@ -54,13 +54,48 @@ public class PaneModifyUserController {
     private void initialize() {
         comboBoxUserTypeToModify.setValue(UserManagementController.getUserType());
         switch (UserManagementController.getUserType()) {
-            case LoginController.USER_STUDENT -> gridPaneNewStudent.setVisible(true);
-            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> gridPaneNewProfessor
-                    .setVisible(true);
+            case LoginController.USER_STUDENT -> {
+                gridPaneNewStudent.setVisible(true);
+                showStudentData();
+            }
+            case LoginController.USER_PROFESSOR, LoginController.USER_REPRESENTATIVE -> {
+                gridPaneNewProfessor.setVisible(true);
+                showProfessorData();
+            }
         }
         textFieldUserToModify.setText(UserManagementController.getUsername());
         comboBoxUserTypeToModify.setItems(observableListComboItemsUserType);
         comboBoxNewProfessorDegree.setItems(observableListComboItemsDegree);
+    }
+    
+    private void showProfessorData() {
+        UserDAO userDAO = new UserDAO();
+        Professor professorData;
+        try {
+            professorData = userDAO.getProfessorAccount(UserManagementController.getUsername());
+            textFieldNewEmail.setText(professorData.getEmail());
+            textFieldNewProfessorName.setText(professorData.getProfessorName());
+            textFieldNewProfessorLastName.setText(professorData.getProfessorLastName());
+            comboBoxNewProfessorDegree.setValue(professorData.getProfessorDegree());
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos", AlertStatus.WARNING));
+            logger.error(sqlException);
+        }
+    }
+    
+    private void showStudentData() {
+        UserDAO userDAO = new UserDAO();
+        Student studentData;
+        try {
+            studentData = userDAO.getStudentAccount(UserManagementController.getUsername());
+            textFieldNewEmail.setText(studentData.getEmail());
+            textFieldNewStudentId.setText(studentData.getStudentID());
+            textFieldNewStudentName.setText(studentData.getName());
+            textFieldNewStudentLastName.setText(studentData.getLastName());
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos", AlertStatus.WARNING));
+            logger.error(sqlException);
+        }
     }
 
     private static final String PROFESSOR_USER = "Profesor";

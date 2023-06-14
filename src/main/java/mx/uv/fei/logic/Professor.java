@@ -9,6 +9,7 @@ public class Professor {
     private String professorLastName;
     private String professorFullName;
     private String username;
+    private String email;
 
     public Professor() {}
 
@@ -66,5 +67,13 @@ public class Professor {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

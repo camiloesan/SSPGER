@@ -10,6 +10,7 @@ public class Student {
     private String lastName;
     private String fullName;
     private String username;
+    private String email;
 
     public boolean isEmailValid(String studentEmail) {
         String regex = "^[\\w!#$%&amp;'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&amp;'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
@@ -65,6 +66,14 @@ public class Student {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
     
     @Override
