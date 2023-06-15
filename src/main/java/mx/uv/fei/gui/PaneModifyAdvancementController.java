@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class PaneModifyAdvancementController {
@@ -142,29 +143,74 @@ public class PaneModifyAdvancementController {
         advancement.setAdvancementDescription(newAdvancementDescription.getText());
         advancementDAO.modifyAdvancementById(TransferAdvancement.getAdvancementID(), advancement);
     }
-
-    private boolean areModifyAdvancementFieldsValid() {
-        if (newAdvancementName.getText().isBlank()
+    
+    private boolean emptyFields() {
+        return newAdvancementName.getText().isBlank()
                 || newAdvancementStartDate.getValue() == null
                 || newAdvancementDeadline.getValue() == null
-                || newAdvancementDescription.getText().isBlank()
-                || comboNewProjectToAssign.getValue() == null) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
-            return false;
-        } else if (newAdvancementName.getText().length() >= MAX_LENGTH_NAME) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "El nombre del avance es demasiado largo. (máx. " + MAX_LENGTH_NAME + ")",
-                    AlertStatus.WARNING
-            ));
-            return false;
-        } else if (newAdvancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "El límite de caracteres en la descripción fue sobrepasado, (máx. " + MAX_LENGTH_DESCRIPTION + ").",
-                    AlertStatus.WARNING));
-            return false;
-        } else {
-            return true;
+                || comboNewProjectToAssign.getValue() == null
+                || newAdvancementDescription.getText().isBlank();
+    }
+    
+    private ArrayList<String> emptyFieldsList = new ArrayList<>();
+    private void fillEmptyFieldsList() {
+        if (emptyFields()) {
+            if (newAdvancementName.getText().isBlank()) {
+                emptyFieldsList.add("• Debe ingresar el nombre del avance");
+            } if (newAdvancementStartDate.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar una fecha de inicio");
+            } if (newAdvancementDeadline.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar una fecha límite");
+            } if (comboNewProjectToAssign.getValue() == null) {
+                emptyFieldsList.add("• Debe asignar el avance a un Proyecto");
+            } if (newAdvancementDescription.getText().isBlank()) {
+                emptyFieldsList.add("• Debe ingresar la descripción del avance");
+            }
         }
+    }
+    
+    private boolean overSizeData() {
+        return newAdvancementName.getText().length() > MAX_LENGTH_NAME
+                || newAdvancementDescription.getText().length() > MAX_LENGTH_DESCRIPTION;
+    }
+    
+    private ArrayList<String> overSizeFieldsList = new ArrayList<>();
+    private void fillOverSizeFieldsList() {
+        if (overSizeData()) {
+            if (newAdvancementName.getText().length() > MAX_LENGTH_NAME) {
+                overSizeFieldsList.add("• El nombre del Avance excede el límite de caracteres: " + MAX_LENGTH_NAME);
+            } if (newAdvancementDescription.getText().length() > MAX_LENGTH_DESCRIPTION) {
+                overSizeFieldsList.add("• La descripción del avance excede el límite de caracteres: " + MAX_LENGTH_DESCRIPTION);
+            }
+        }
+    }
+    
+    private String buildFieldsAlert(ArrayList<String> fieldsList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String elem : fieldsList) {
+            stringBuilder.append(elem).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+    
+    private boolean areModifyAdvancementFieldsValid() {
+        boolean flag;
+        if (emptyFields()) {
+            emptyFieldsList.clear();
+            fillEmptyFieldsList();
+            String emptyFields = buildFieldsAlert(emptyFieldsList);
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Debe ingresar toda la información: \n" + emptyFields, AlertStatus.WARNING));
+            flag = false;
+        } else if (overSizeData()) {
+            overSizeFieldsList.clear();
+            fillOverSizeFieldsList();
+            String overSizeFields = buildFieldsAlert(overSizeFieldsList);
+            DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" + overSizeFields, AlertStatus.WARNING));
+            flag = false;
+        } else {
+            flag = true;
+        }
+        return flag;
     }
 }
