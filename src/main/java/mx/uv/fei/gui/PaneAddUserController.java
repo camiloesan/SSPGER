@@ -257,7 +257,7 @@ public class PaneAddUserController {
             ));
         } else if (textFieldEmail.getText().length() > MAX_LENGTH_EMAIL) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "El correo electrónino debe tener máximo 28 caracteres", AlertStatus.WARNING
+                    "El correo electrónico debe tener máximo 28 caracteres", AlertStatus.WARNING
             ));
         } else if (!professor.isEmailValid(textFieldEmail.getText()) && comboBoxUserType.getValue().equals("Administrador")) {
             DialogGenerator.getDialog(new AlertMessage(
