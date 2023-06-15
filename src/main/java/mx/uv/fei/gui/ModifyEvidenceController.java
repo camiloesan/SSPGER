@@ -129,17 +129,31 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
             evidenceFile.delete();
         }
     }
+    public boolean emptyFields() {
+        return textFieldEvidenceTitle.getText().isBlank()
+                || textAreaEvidenceDescription.getText().isBlank();
+    }
+
+    private boolean overSizeData() {
+        return textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH
+                || textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH;
+    }
+
     private boolean fieldsCorrect() {
         boolean result = false;
-        if (textFieldEvidenceTitle.getText().isBlank() || textAreaEvidenceDescription.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Rellena los campos correctamente", AlertStatus.WARNING));
+        if (emptyFields()) {
+            if (textFieldEvidenceTitle.getText().isBlank()){
+                DialogGenerator.getDialog(new AlertMessage("Debe ingresar un titulo a la evidencia", AlertStatus.WARNING));
+            } else if (textAreaEvidenceDescription.getText().isBlank()) {
+                DialogGenerator.getDialog(new AlertMessage("Debe ingresar una descripción para la evidencia", AlertStatus.WARNING));
+            }
         } else {
-            if (textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH
-                    || textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH) {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "Exediste el máximo de carateres (30 para el título, 100 para los motivos)",
-                        AlertStatus.WARNING));
+            if (overSizeData()) {
+                if (textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH){
+                    DialogGenerator.getDialog(new AlertMessage("El título de la evidencia excede el límite de caracteres: " + MAX_TITLE_EVIDENCE_LENGTH, AlertStatus.WARNING));
+                } else if (textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH) {
+                    DialogGenerator.getDialog(new AlertMessage("La descripción de la evidencia excede el límite de caracteres: " + MAX_DESCRIPTION_EVIDENCE_LENGTH, AlertStatus.WARNING));
+                }
             } else {
                 result = true;
             }
