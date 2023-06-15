@@ -40,12 +40,12 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
     private boolean confirmedFields() {
         boolean result;
         if (textAreaDescription.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage("Añade tus motivos a la petición", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage("Debe ingresar los motivos de la solicitud", AlertStatus.WARNING));
             result = false;
         } else {
             if (textAreaDescription.getText().length() > DESCRIPTION_PROJECT_REQUEST_MAX_LENGTH) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "Sobrepasó el límite de caracteres (850)", AlertStatus.WARNING));
+                        "Los motivos exceden el límite de caracteres: " + DESCRIPTION_PROJECT_REQUEST_MAX_LENGTH, AlertStatus.WARNING));
             }
             result = true;
         }

@@ -238,6 +238,7 @@ public class PaneAddUserController {
     }
 
     private boolean areAccessAccountFieldsValid() {
+        boolean flag = false;
         Professor professor = new Professor();
         if (textFieldUsername.getText().isBlank()
                 || passwordFieldPassword.getText().isBlank()
@@ -246,22 +247,18 @@ public class PaneAddUserController {
             DialogGenerator.getDialog(new AlertMessage(
                     "Todos los campos deben estar llenos", AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldUsername.getText().length() > MAX_LENGTH_USERNAME) {
             DialogGenerator.getDialog(new AlertMessage(
                     "El campo usuario debe tener máximo 30 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (passwordFieldPassword.getText().length() > MAX_LENGTH_PASSWORD) {
             DialogGenerator.getDialog(new AlertMessage(
                     "El campo contraseña debe tener máximo 64 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldEmail.getText().length() > MAX_LENGTH_EMAIL) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "El correo electrónino debe tener máximo 28 caracteres", AlertStatus.WARNING
+                    "El correo electrónico debe tener máximo 28 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (!professor.isEmailValid(textFieldEmail.getText()) && comboBoxUserType.getValue().equals("Administrador")) {
             DialogGenerator.getDialog(new AlertMessage(
                     "El formato del correo electrónico no es válido, " +
@@ -269,19 +266,19 @@ public class PaneAddUserController {
                             " y direcciones válidas del personal de la Universidad Veracruzana (@uv.mx)",
                     AlertStatus.WARNING
             ));
-            return false;
         } else if (!professor.isUsernameValid(textFieldUsername.getText())){
             DialogGenerator.getDialog(new AlertMessage(
                     "No se permiten caracteres especiales en el nombre de usuario ni espacios",
                     AlertStatus.WARNING
             ));
-            return false;
         } else {
-            return true;
+            flag = true;
         }
+        return flag;
     }
 
     private boolean areProfessorFieldsValid() {
+        boolean flag = false;
         Professor professor = new Professor();
         if (textFieldProfessorName.getText().isBlank()
             || textFieldProfessorLastName.getText().isBlank()
@@ -289,17 +286,14 @@ public class PaneAddUserController {
             DialogGenerator.getDialog(new AlertMessage(
                     "Todos los campos deben estar llenos", AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldProfessorName.getText().length() > MAX_LENGTH_NAME) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Tamaño inválido, el campo nombre del profesor debe tener máximo 30 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Tamaño inválido, el campo apellidos debe tener máximo 30 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (!professor.isEmailValid(textFieldEmail.getText())) {
             DialogGenerator.getDialog(new AlertMessage(
                     "El formato del correo electrónico no es válido, " +
@@ -307,13 +301,14 @@ public class PaneAddUserController {
                             " y direcciones válidas de la Universidad Veracruzana (@uv.mx)",
                     AlertStatus.WARNING
             ));
-            return false;
         } else {
-            return true;
+            flag = true;
         }
+        return flag;
     }
 
     private boolean areStudentFieldsValid() {
+        boolean flag = false;
         Student student = new Student();
         if (textFieldStudentId.getText().isBlank()
                 || textFieldStudentName.getText().isBlank()
@@ -321,22 +316,18 @@ public class PaneAddUserController {
             DialogGenerator.getDialog(new AlertMessage(
                     "Todos los campos deben estar llenos", AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldStudentId.getText().length() != MAX_LENGTH_STUDENT_ID) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Tamaño inválido, la matrícula debe tener exactamente 10 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldStudentName.getText().length() > MAX_LENGTH_NAME) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Tamaño inválido, el límite del nombre es de 30 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldStudentLastName.getText().length() > MAX_LENGTH_LASTNAME) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Tamaño inválido, el límite del campo apellidos es de máximo 80 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (!student.isEmailValid(textFieldEmail.getText())) {
             DialogGenerator.getDialog(new AlertMessage(
                     "El formato del correo electrónico no es válido, " +
@@ -344,16 +335,15 @@ public class PaneAddUserController {
                             "de estudiantes de la Universidad Veracruzana (@estudiantes.uv.mx)",
                     AlertStatus.WARNING
             ));
-            return false;
         } else if (!student.isUsernameValid(textFieldUsername.getText())){
             DialogGenerator.getDialog(new AlertMessage(
                     "No se permiten caracteres especiales en el nombre de usuario ni espacios",
                     AlertStatus.WARNING
             ));
-            return false;
         } else {
-            return true;
+            flag = true;
         }
+        return flag;
     }
 
     @FXML

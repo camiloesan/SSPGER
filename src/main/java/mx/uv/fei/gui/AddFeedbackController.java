@@ -183,11 +183,11 @@ public class AddFeedbackController implements IProfessorNavigationBar {
         boolean result = false;
         if (textAreaFeedback.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Rellena la retroalimentación", AlertStatus.WARNING));
+                    "Debe ingresar la retroalimentación", AlertStatus.WARNING));
         } else {
             if (textAreaFeedback.getText().length() > MAX_TEXT_FEEDBACK_LENGTH) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "Excediste el máximo de carateres (850 para la retroalimentación)",
+                        "La retroalimentación excede el límite de caracteres: " + MAX_TEXT_FEEDBACK_LENGTH,
                         AlertStatus.WARNING));
             } else {
                 result = true;

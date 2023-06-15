@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<HBox minHeight="600" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.AddFeedbackController">
+<HBox minHeight="700.0" minWidth="900.0" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.AddFeedbackController">
    <children>
       <VBox fx:id="vboxSideBar" alignment="TOP_CENTER" prefWidth="200.0" style="-fx-background-color: #003466">
          <children>
@@ -154,22 +144,16 @@
             <GridPane prefHeight="541.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="0.0" />
-                  <ColumnConstraints hgrow="ALWAYS" minWidth="490.0" prefWidth="490.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="490.0" prefWidth="900.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="45.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="413.0" minHeight="80.0" prefHeight="122.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="413.0" minHeight="80.0" prefHeight="218.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="369.0" minHeight="9.0" prefHeight="63.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="369.0" minHeight="60.0" prefHeight="295.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label fx:id="labelProjectName" text="Retroalimentar evidencia" wrapText="true" GridPane.columnIndex="1">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS">
                      <children>
                         <Button fx:id="buttonFeedback" minWidth="90.0" mnemonicParsing="false" onAction="#registerFeedback" prefHeight="26.0" prefWidth="100.0" text="Retroalimentar">
                            <VBox.margin>
@@ -183,15 +167,23 @@
                         </Button>
                      </children>
                   </VBox>
-                  <TextArea fx:id="textAreaFeedback" maxHeight="265.0" maxWidth="495.0" prefHeight="265.0" prefWidth="490.0" promptText="Escriba aquí su retroalimentación" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <TextArea fx:id="textAreaFeedback" maxHeight="265.0" maxWidth="495.0" prefHeight="265.0" prefWidth="490.0" promptText="Escriba aquí su retroalimentación" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font size="18.0" />
                      </font></TextArea>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                      <children>
-                        <Label fx:id="labelAdvancementName" text="Avance:" wrapText="true">
+                        <Label fx:id="labelProjectName" maxWidth="900.0" prefWidth="900.0" text="Retroalimentar evidencia" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
                            <VBox.margin>
                               <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="labelAdvancementName" text="Avance:" wrapText="true">
+                           <VBox.margin>
+                              <Insets top="20.0" />
                            </VBox.margin>
                            <font>
                               <Font size="18.0" />
@@ -215,7 +207,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox fx:id="vBoxFeedbackText" prefHeight="323.0" prefWidth="490.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <VBox fx:id="vBoxFeedbackText" prefHeight="323.0" prefWidth="490.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
                         <Text fx:id="textFeedback" strokeType="OUTSIDE" strokeWidth="0.0" text="Texto retroalimentación" textAlignment="JUSTIFY" visible="false" wrappingWidth="489.9033203125">
                            <font>
@@ -226,8 +218,8 @@
                            </VBox.margin></Text>
                      </children>
                   </VBox>
-                  <Button fx:id="buttonDeleteFeedback" mnemonicParsing="false" onAction="#deleteFeedback" text="Eliminar" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="buttonDeleteFeedback" mnemonicParsing="false" onAction="#deleteFeedback" text="Eliminar" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="86.0" prefWidth="490.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label fx:id="labelGrade" text="Calificación: " wrapText="true">
                            <font>

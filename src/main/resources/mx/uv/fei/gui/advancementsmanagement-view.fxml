@@ -202,27 +202,42 @@
                      <Insets top="25.0" />
                   </HBox.margin>
                   <Label text="Nombre del avance: " />
-                  <TextField fx:id="advancementName" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="advancementName" prefHeight="26.0" prefWidth="402.0" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin></TextField>
                   <Label text="Fecha de inicio: " GridPane.rowIndex="1" />
                   <DatePicker fx:id="advancementStartDate" editable="false" onAction="#enableDatePickerDeadline" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
                   </DatePicker>
                   <Label text="Fecha de entrega: " GridPane.rowIndex="2" />
                   <DatePicker fx:id="advancementDeadline" disable="true" editable="false" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
                   </DatePicker>
                   <Label text="Asignar proyecto: " GridPane.rowIndex="3" />
-                  <ComboBox fx:id="comboProjectToAssign" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <ComboBox fx:id="comboProjectToAssign" prefHeight="26.0" prefWidth="446.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin>
                   </ComboBox>
                   <Label text="Descripción: " GridPane.rowIndex="4" />
-                  <TextArea fx:id="advancementDescription" onKeyTyped="#updateAvailableCharsOnDescriptionLabel" prefHeight="112.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextArea fx:id="advancementDescription" onKeyTyped="#updateAvailableCharsOnDescriptionLabel" prefHeight="112.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin></TextArea>
                </GridPane>
                <Label fx:id="labelRemainingChars" alignment="TOP_LEFT" text="Label">
                   <HBox.margin>
