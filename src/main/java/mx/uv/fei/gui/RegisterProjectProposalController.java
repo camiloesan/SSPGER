@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -62,7 +61,14 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     private TextArea textAreaRecommendedBibliography;
     @FXML
     private HBox hboxLogOutLabel;
-    
+    private static final int MAX_INVESTIGATION_NAME_SIZE = 200;
+    private static final int MAX_RECEPTION_WORK_NAME_SIZE = 200;
+    private static final int MAX_INVESTIGATION_LINE_SIZE = 300;
+    private static final int MAX_REQUISITES_SIZE = 500;
+    private static final int MAX_RECEPTION_WORK_DESCRIPTION_SIZE = 5000;
+    private static final int MAX_INVESTIGATION_DESCRIPTION_SIZE = 5000;
+    private static final int MAX_EXPECTED_RESULTS_SIZE = 1000;
+    private static final int MAX_RECOMMENDED_BIBLIOGRAPHY_SIZE = 6000;
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
     
     public void initialize() {
@@ -156,14 +162,37 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     }
     
     private boolean overSizeData() {
-        return textAreaInvestigationProjectName.getText().length() > 200
-                || textAreaInvestigationLine.getText().length() > 300
-                || textAreaReceptionWorkName.getText().length() > 200
-                || textAreaRequisites.getText().length() > 500
-                || textAreaInvestigationProjectDescription.getText().length() > 5000
-                || textAreaReceptionWorkDescription.getText().length() > 5000
-                || textAreaExpectedResults.getText().length() > 1000
-                || textAreaRecommendedBibliography.getText().length() > 6000;
+        return textAreaInvestigationProjectName.getText().length() > MAX_INVESTIGATION_NAME_SIZE
+                || textAreaInvestigationLine.getText().length() > MAX_INVESTIGATION_LINE_SIZE
+                || textAreaReceptionWorkName.getText().length() > MAX_RECEPTION_WORK_NAME_SIZE
+                || textAreaRequisites.getText().length() > MAX_REQUISITES_SIZE
+                || textAreaInvestigationProjectDescription.getText().length() > MAX_INVESTIGATION_DESCRIPTION_SIZE
+                || textAreaReceptionWorkDescription.getText().length() > MAX_RECEPTION_WORK_DESCRIPTION_SIZE
+                || textAreaExpectedResults.getText().length() > MAX_EXPECTED_RESULTS_SIZE
+                || textAreaRecommendedBibliography.getText().length() > MAX_RECOMMENDED_BIBLIOGRAPHY_SIZE;
+    }
+    
+    private ArrayList<String> overSizeFieldsList = new ArrayList<>();
+    private void fillOverSizeDataList() {
+        if (overSizeData()) {
+            if (textAreaInvestigationProjectName.getText().length() > MAX_INVESTIGATION_NAME_SIZE) {
+                overSizeFieldsList.add("• El nombre de Proyecto de Investigación excede el límite de caracteres: " + MAX_INVESTIGATION_NAME_SIZE);
+            } if (textAreaInvestigationLine.getText().length() > MAX_INVESTIGATION_LINE_SIZE) {
+                overSizeFieldsList.add("• El nombre de la Línea de Investigación excede el límite de caracteres: " + MAX_INVESTIGATION_LINE_SIZE);
+            } if (textAreaReceptionWorkName.getText().length() > MAX_RECEPTION_WORK_NAME_SIZE) {
+                overSizeFieldsList.add("• El nombre del trabajo Recepcional excede el límite de caracteres: " + MAX_RECEPTION_WORK_NAME_SIZE);
+            } if (textAreaRequisites.getText().length() > MAX_REQUISITES_SIZE) {
+                overSizeFieldsList.add("• Los requisitos exceden el límite de caracteres: " + MAX_REQUISITES_SIZE);
+            } if (textAreaInvestigationProjectDescription.getText().length() > MAX_INVESTIGATION_DESCRIPTION_SIZE) {
+                overSizeFieldsList.add("• La descripción del Proyecto de Investigación excede el límite de caracteres: " + MAX_INVESTIGATION_DESCRIPTION_SIZE);
+            } if (textAreaReceptionWorkDescription.getText().length() > MAX_RECEPTION_WORK_DESCRIPTION_SIZE) {
+                overSizeFieldsList.add("• La descripción del Trabajo Recepcional excede el límite de caracteres: " + MAX_RECEPTION_WORK_DESCRIPTION_SIZE);
+            } if (textAreaExpectedResults.getText().length() > MAX_EXPECTED_RESULTS_SIZE) {
+                overSizeFieldsList.add("• Los Resultados Esperados exceden el límite de caracteres: " + MAX_EXPECTED_RESULTS_SIZE);
+            } if (textAreaRecommendedBibliography.getText().length() > MAX_RECOMMENDED_BIBLIOGRAPHY_SIZE) {
+                overSizeFieldsList.add("• La Bibliografía Recomendada excede el límite de caracteres: " + MAX_RECOMMENDED_BIBLIOGRAPHY_SIZE);
+            }
+        }
     }
     
     private boolean projectAlreadyRegistered() {
@@ -199,6 +228,14 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         textAreaRecommendedBibliography.clear();
     }
     
+    private String buildFieldsAlert(ArrayList<String> fieldsList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String elem : fieldsList) {
+            stringBuilder.append(elem).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+    
     private boolean validFields() {
         boolean flag;
         if (!projectAlreadyRegistered()) {
@@ -207,8 +244,10 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
                         "Se deben llenar todos los campos.", AlertStatus.WARNING));
                 flag = false;
             } else if (overSizeData()) {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "La información sobrepasa el límite de caracteres.", AlertStatus.WARNING));
+                overSizeFieldsList.clear();
+                fillOverSizeDataList();
+                String overSizeFields = buildFieldsAlert(overSizeFieldsList);
+                DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" + overSizeFields, AlertStatus.WARNING));
                 flag = false;
             } else {
                 flag = true;
