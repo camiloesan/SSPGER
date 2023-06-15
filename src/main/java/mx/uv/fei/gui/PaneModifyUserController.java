@@ -41,6 +41,14 @@ public class PaneModifyUserController {
     private TextField textFieldNewStudentName;
     @FXML
     private TextField textFieldUserToModify;
+    private static final int MAX_LENGTH_PASSWORD = 64;
+    private static final int MAX_LENGTH_NAME = 30;
+    private static final int MAX_LENGTH_LASTNAME = 80;
+    private static final int MAX_LENGTH_EMAIL = 30;
+    private static final int MAX_LENGTH_STUDENT_ID = 10;
+    private static final String PROFESSOR_USER = "Profesor";
+    private static final String STUDENT_USER = "Estudiante";
+    private static final String ACADEMIC_BODY_REPRESENTATIVE_USER = "RepresentanteCA";
     private static final Logger logger = Logger.getLogger(PaneModifyUserController.class);
 
     private final static ObservableList<String> observableListComboItemsUserType =
@@ -98,26 +106,16 @@ public class PaneModifyUserController {
         }
     }
 
-    private static final String PROFESSOR_USER = "Profesor";
-    private static final String STUDENT__USER = "Estudiante";
-    private static final String ACADEMIC_BODY_REPRESENTATIVE_USER = "RepresentanteCA";
-
     @FXML
     private void buttonConfirmModificationAction() {
         String userType = comboBoxUserTypeToModify.getValue();
         if (areFieldsValid(userType)) {
             switch (userType) {
                 case PROFESSOR_USER, ACADEMIC_BODY_REPRESENTATIVE_USER -> modifyProfessorUser();
-                case STUDENT__USER -> modifyStudentUser();
+                case STUDENT_USER -> modifyStudentUser();
             }
         }
     }
-
-    private static final int MAX_LENGTH_PASSWORD = 64;
-    private static final int MAX_LENGTH_NAME = 30;
-    private static final int MAX_LENGTH_LASTNAME = 80;
-    private static final int MAX_LENGTH_EMAIL = 30;
-    private static final int MAX_LENGTH_STUDENT_ID = 10;
 
     private boolean areFieldsValid(String userType) {
         UserDAO userDAO = new UserDAO();
@@ -145,7 +143,7 @@ public class PaneModifyUserController {
                         case PROFESSOR_USER, ACADEMIC_BODY_REPRESENTATIVE_USER -> {
                             return areProfessorFieldsValid();
                         }
-                        case STUDENT__USER -> {
+                        case STUDENT_USER -> {
                             return areStudentFieldsValid();
                         }
                     }
@@ -209,18 +207,21 @@ public class PaneModifyUserController {
             return false;
         } else if (textFieldNewStudentLastName.getText().length() > MAX_LENGTH_LASTNAME) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Tamaño inválido, el límite del campo apellidos es de máximo 80 caracteres", AlertStatus.WARNING
+                    "Tamaño inválido, el límite del campo apellidos es de máximo 80 caracteres",
+                    AlertStatus.WARNING
             ));
             return false;
         } else if (textFieldNewEmail.getText().length() > MAX_LENGTH_EMAIL) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Tamaño inválido, el correo electrónico debe tener máximo 30 caracteres", AlertStatus.WARNING
+                    "Tamaño inválido, el correo electrónico debe tener máximo 30 caracteres",
+                    AlertStatus.WARNING
             ));
             return false;
         } else if (!student.isEmailValid(textFieldNewEmail.getText())) {
             DialogGenerator.getDialog(new AlertMessage(
                     "El formato del correo electrónico no es válido, " +
-                            "sólo se permiten caracteres alfa-numéricos y direcciones válidas de estudiante (@estudiantes.uv.mx)",
+                            "sólo se permiten caracteres alfa-numéricos y direcciones válidas de estudiante " +
+                            "(@estudiantes.uv.mx)",
                     AlertStatus.WARNING
             ));
             return false;
@@ -290,7 +291,8 @@ public class PaneModifyUserController {
                         modifyStudentUserTransaction(UserManagementController.getUsername(), accessAccount, student);
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "Error con la base de datos, no se pudo modificar al usuario, inténtelo de nuevo más tarde",
+                        "Error con la base de datos, no se pudo modificar al usuario, " +
+                                "inténtelo de nuevo más tarde",
                         AlertStatus.ERROR));
                 logger.error(sqlException);
             }

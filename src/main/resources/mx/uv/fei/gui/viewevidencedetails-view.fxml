@@ -194,32 +194,32 @@
                      <font>
                         <Font name="Jomolhari" size="20.0" />
                      </font></Label>
-                  <Label fx:id="labelTitleEvidence" text="Label" wrapText="true" GridPane.columnIndex="2">
+                  <Label fx:id="labelTitleEvidence" wrapText="true" GridPane.columnIndex="2">
                      <font>
                         <Font name="Noto Serif Regular" size="18.0" />
                      </font></Label>
-                  <Label fx:id="labelStatusEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Label fx:id="labelStatusEvidence" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font name="Noto Serif Regular" size="18.0" />
                      </font></Label>
-                  <Label fx:id="labelGradeEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Label fx:id="labelGradeEvidence" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <font>
                         <Font name="Noto Serif Regular" size="18.0" />
                      </font></Label>
-                  <Label fx:id="labelDescriptionEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                  <Label fx:id="labelDescriptionEvidence" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
                      <font>
                         <Font name="Noto Serif Regular" size="18.0" />
                      </font></Label>
-                  <Label fx:id="labelAdvancementEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                  <Label fx:id="labelAdvancementEvidence" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
                      <font>
                         <Font name="Noto Serif Regular" size="18.0" />
                      </font></Label>
-                  <Label fx:id="labelStudentEvidence" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                  <Label fx:id="labelStudentEvidence" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
                      <font>
                         <Font name="Noto Serif Regular" size="18.0" />
                      </font></Label>
                   <Button fx:id="buttonFeedback" mnemonicParsing="false" onAction="#openFeedback" text="Retroalimentar" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                  <Button mnemonicParsing="false" onAction="#visualizeFiles" text="Archivos" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Button mnemonicParsing="false" onAction="#redirectToEvidenceFiles" text="Archivos" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                </children>
                <VBox.margin>
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />

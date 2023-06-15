@@ -4,8 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
@@ -59,7 +57,6 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         }
 
         TransferEvidence.setStudentID(studentID);
-        TransferEvidence.setEvidenceId(TransferEvidence.getEvidenceId());
         TransferEvidence.setEvidenceName(labelTitleEvidence.getText());
 
         if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)) {
@@ -89,51 +86,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     }
 
     @FXML
-    private void visualizeFiles() throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Evidencias");
-        fileChooser.setInitialDirectory(getInitialDirectory());
-        File evidenceFile = fileChooser.showOpenDialog(new Stage());
-        if (evidenceFile != null) {
-            String operativeSystem = System.getProperty("os.name").toLowerCase();
-            switch (operativeSystem) {
-                case "windows":
-                    Runtime.getRuntime().exec("cmd /c start \"\" \"" +
-                            evidenceFile.getAbsolutePath() + "\"");
-                    break;
-                case "mac os x":
-                    Runtime.getRuntime().exec("open \"" + evidenceFile.getAbsolutePath() + "\"");
-                    break;
-                case "linux":
-                    ProcessBuilder processBuilder = new ProcessBuilder("xdg-open",
-                            evidenceFile.getAbsolutePath());
-                    processBuilder.start();
-                    break;
-                default:
-                    DialogGenerator.getDialog(new AlertMessage("Se desconoce su sistema operativo",
-                            AlertStatus.ERROR));
-                    break;
-            }
-        }
-    }
-
-    private File getInitialDirectory() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        String projectName = null;
-        String studentID = null;
-        try {
-            projectName = evidenceDAO.getProjectNameByEvidenceID(TransferEvidence.getEvidenceId());
-            studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
-        } catch(SQLException evidenceDAOException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar información para la carpeta de evidencias", AlertStatus.ERROR));
-            logger.error(evidenceDAOException);
-        }
-        return new File(System.getProperty("user.home")
-                +"/IdeaProjects/SSPGER/evidences/"
-                +projectName+ "/"
-                +labelAdvancementEvidence.getText()+"/"
-                +studentID);
+    private void redirectToEvidenceFiles() throws IOException {
+        MainStage.changeView("evidencefiles-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
 
@@ -193,4 +147,5 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }
+
 }
