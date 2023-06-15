@@ -113,6 +113,9 @@ public class EvidenceFilesController implements IStudentNavigationBar {
 
     @FXML
     private void addFile() throws IOException {
+        if (!getEvidenceDirectory().exists()) {
+            getEvidenceDirectory().mkdirs();
+        }
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Evidencia");
         File evidenceFile = fileChooser.showOpenDialog(new Stage());
