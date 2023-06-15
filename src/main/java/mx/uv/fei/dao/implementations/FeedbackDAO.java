@@ -88,7 +88,7 @@ public class FeedbackDAO implements IFeedback {
     @Override
     public int getFeedbacksByEvidenceID(int evidenceID, String studentID) throws SQLException {
         int result = 0;
-        String query = "SELECT COUNT(retroalimentacion.ID_evidencia) AS evidencias FROM Retroalimentacion " +
+        String query = "SELECT COUNT(Retroalimentacion.ID_evidencia) AS evidencias FROM Retroalimentacion " +
                 "INNER JOIN Evidencias ON Retroalimentacion.ID_evidencia = Evidencias.ID_evidencia " +
                 "WHERE Retroalimentacion.ID_evidencia = (?) AND Evidencias.matriculaEstudiante = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
