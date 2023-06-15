@@ -139,31 +139,75 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             fillTableViewAdvancements();
         }
     }
-
-    private boolean areScheduleAdvancementFieldsValid() {
-        if (advancementName.getText().isBlank()
+    
+    private boolean emptyFields() {
+        return advancementName.getText().isBlank()
                 || advancementStartDate.getValue() == null
                 || advancementDeadline.getValue() == null
                 || comboProjectToAssign.getValue() == null
-                || advancementDescription.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Todos los campos deben estar llenos", AlertStatus.WARNING));
-            return false;
-        } else if (advancementName.getText().length() >= MAX_LENGTH_NAME) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "El campo nombre del avance no debe exceder " + MAX_LENGTH_NAME + " caracteres",
-                    AlertStatus.WARNING
-            ));
-            return false;
-        } else if (advancementDescription.getText().length() >= MAX_LENGTH_DESCRIPTION) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "El campo nombre del avance no debe exceder " + MAX_LENGTH_DESCRIPTION + " caracteres",
-                    AlertStatus.WARNING
-            ));
-            return false;
-        } else {
-            return true;
+                || advancementDescription.getText().isBlank();
+    }
+    
+    private ArrayList<String> emptyFieldsList = new ArrayList<>();
+    private void fillEmptyFieldsList() {
+        if (emptyFields()) {
+            if (advancementName.getText().isBlank()) {
+                emptyFieldsList.add("• Debe ingresar el nombre del avance");
+            } if (advancementStartDate.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar una fecha de inicio");
+            } if (advancementDeadline.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar una fecha límite");
+            } if (comboProjectToAssign.getValue() == null) {
+                emptyFieldsList.add("• Debe asignar el avance a un Proyecto");
+            } if (advancementDescription.getText().isBlank()) {
+                emptyFieldsList.add("• Debe ingresar la descripción del avance");
+            }
         }
+    }
+    
+    private boolean overSizeData() {
+        return advancementName.getText().length() > MAX_LENGTH_NAME
+                || advancementDescription.getText().length() > MAX_LENGTH_DESCRIPTION;
+    }
+    
+    private ArrayList<String> overSizeFieldsList = new ArrayList<>();
+    private void fillOverSizeFieldsList() {
+        if (overSizeData()) {
+            if (advancementName.getText().length() > MAX_LENGTH_NAME) {
+                overSizeFieldsList.add("• El nombre del Avance excede el límite de caracteres: " + MAX_LENGTH_NAME);
+            } if (advancementDescription.getText().length() > MAX_LENGTH_DESCRIPTION) {
+                overSizeFieldsList.add("• La descripción del avance excede el límite de caracteres: " + MAX_LENGTH_DESCRIPTION);
+            }
+        }
+    }
+    
+    private String buildFieldsAlert(ArrayList<String> fieldsList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String elem : fieldsList) {
+            stringBuilder.append(elem).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    private boolean areScheduleAdvancementFieldsValid() {
+        boolean flag;
+        if (emptyFields()) {
+            emptyFieldsList.clear();
+            fillEmptyFieldsList();
+            String emptyFields = buildFieldsAlert(emptyFieldsList);
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Debe ingresar toda la información: \n" + emptyFields, AlertStatus.WARNING));
+            flag = false;
+        } else if (overSizeData()) {
+            overSizeFieldsList.clear();
+            fillOverSizeFieldsList();
+            String overSizeFields = buildFieldsAlert(overSizeFieldsList);
+            DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" + overSizeFields, AlertStatus.WARNING));
+            flag = false;
+        } else {
+            flag = true;
+        }
+        return flag;
     }
 
     private void scheduleAdvancement() throws SQLException {
