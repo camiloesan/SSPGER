@@ -147,7 +147,6 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     private boolean emptyFields() {
         return comboAB.getValue() == null
                 || comboLGAC.getValue() == null
-                || textAreaInvestigationLine.getText().isBlank()
                 || comboDuration.getValue() == null
                 || comboRecptionWorkModality.getValue() == null
                 || textAreaReceptionWorkName.getText().isBlank()
@@ -155,10 +154,40 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
                 || comboDirectors.getValue() == null
                 || comboCodirectors.getValue() == null
                 || comboStudents.getValue() == null
-                || textAreaInvestigationProjectDescription.getText().isBlank()
                 || textAreaReceptionWorkDescription.getText().isBlank()
                 || textAreaExpectedResults.getText().isBlank()
                 || textAreaRecommendedBibliography.getText().isBlank();
+    }
+    
+    private ArrayList<String> emptyFieldsList = new ArrayList<>();
+    public void fillEmptyFieldsList() {
+        if (emptyFields()) {
+            if (comboAB.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar un Cuerpo Académico");
+            } if (comboLGAC.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar un LGAC");
+            } if (comboDuration.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar una duración");
+            } if (comboRecptionWorkModality.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar una Modalidad de Trabajo Recepcional");
+            } if (textAreaReceptionWorkName.getText().isBlank()) {
+                emptyFieldsList.add("• Debe ingresar un Nombre de Trabajo Recepcional");
+            } if (textAreaRequisites.getText().isBlank()) {
+                emptyFieldsList.add("• Debe ingresar los Requisitos");
+            } if (comboDirectors.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar un Director");
+            } if (comboCodirectors.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar un Codirector");
+            } if (comboStudents.getValue() == null) {
+                emptyFieldsList.add("• Debe seleccionar una cantidad de estudiantes participantes");
+            } if (textAreaReceptionWorkDescription.getText().isBlank()) {
+                emptyFieldsList.add("• Debe ingresar la descripción del Trabajo Recepcional");
+            } if (textAreaExpectedResults.getText().isBlank()) {
+                emptyFieldsList.add("• Debe ingresar los resultados esperados");
+            } if (textAreaRecommendedBibliography.getText().isBlank()) {
+                emptyFieldsList.add("• Debe ingresar la bibliografía recomendada");
+            }
+        }
     }
     
     private boolean overSizeData() {
@@ -197,7 +226,6 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     
     private boolean projectAlreadyRegistered() {
         boolean flag;
-        
         ProjectDAO projectDAO = new ProjectDAO();
         try {
             flag = projectDAO.isProjectRegistered(textAreaReceptionWorkName.getText());
@@ -240,8 +268,10 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         boolean flag;
         if (!projectAlreadyRegistered()) {
             if (emptyFields()) {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "Se deben llenar todos los campos.", AlertStatus.WARNING));
+                emptyFieldsList.clear();
+                fillEmptyFieldsList();
+                String emptyFields = buildFieldsAlert(emptyFieldsList);
+                DialogGenerator.getDialog(new AlertMessage("Debe ingresar toda la información: \n" + emptyFields, AlertStatus.WARNING));
                 flag = false;
             } else if (overSizeData()) {
                 overSizeFieldsList.clear();
