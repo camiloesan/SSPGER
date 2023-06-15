@@ -67,21 +67,20 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        try {
-            fillCombos();
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información necesaria para el registro.",AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        fillCombos();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
 
-    private void fillCombos() throws SQLException {
-        fillLgacCombo();
-        fillProfessorsCombos();
-        fillReceptionWorkModalityCombo();
-        fillAcademicBodycombo();
+    private void fillCombos() {
+        try {
+            fillLgacCombo();
+            fillProfessorsCombos();
+            fillReceptionWorkModalityCombo();
+            fillAcademicBodycombo();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información necesaria para el registro.",AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
         fillStudentsCombo();
         fillDurationCombo();
     }
