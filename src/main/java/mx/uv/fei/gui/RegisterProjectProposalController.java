@@ -89,8 +89,10 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         ProjectDAO projectDAO = new ProjectDAO();
         ObservableList<String> lgacComboItems = FXCollections.observableArrayList();
         List<String> lgacList = new ArrayList<>(projectDAO.getLgacList());
+        if (lgacList.isEmpty()) {
+            DialogGenerator.getDialog(new AlertMessage("No hay LGAC registrados", AlertStatus.WARNING));
+        }
         lgacComboItems.addAll(lgacList);
-        
         comboLGAC.setItems(lgacComboItems);
     }
     
@@ -98,8 +100,10 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         ProfessorDAO professorDAO = new ProfessorDAO();
         ObservableList<String> professorsNames = FXCollections.observableArrayList();
         List<String> professorsList = new ArrayList<>(professorDAO.getProfessorsNames());
+        if (professorsList.isEmpty()) {
+            DialogGenerator.getDialog(new AlertMessage("No hay profesores registrados", AlertStatus.WARNING));
+        }
         professorsNames.addAll(professorsList);
-        
         comboDirectors.setItems(professorsNames);
         comboCodirectors.setItems(professorsNames);
     }
@@ -108,8 +112,10 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         ProjectDAO projectDAO = new ProjectDAO();
         ObservableList<String> rwModalities = FXCollections.observableArrayList();
         List<String> rwModalitiesList = new ArrayList<>(projectDAO.getRWModalitiesList());
+        if (rwModalitiesList.isEmpty()) {
+            DialogGenerator.getDialog(new AlertMessage("No hay modalidades de trabajo recepcional registradas", AlertStatus.WARNING));
+        }
         rwModalities.addAll(rwModalitiesList);
-        
         comboRecptionWorkModality.setItems(rwModalities);
     
     }
