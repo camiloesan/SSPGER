@@ -3,6 +3,9 @@ package mx.uv.fei.dao.contracts;
 import mx.uv.fei.logic.Advancement;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public interface IAdvancement {
@@ -15,5 +18,6 @@ public interface IAdvancement {
     List<Advancement> getListAdvancementNamesByStudentId(String studentID) throws SQLException;
     List<Advancement> getAdvancementByStudentID(String studentID) throws SQLException;
     String getProjectNameByStudentID(String studentID) throws SQLException;
+    LocalDate getAdvancementDeadLineByEvidenceID(int evidenceID) throws SQLException;
     int getLastAdvancementID() throws SQLException;
 }

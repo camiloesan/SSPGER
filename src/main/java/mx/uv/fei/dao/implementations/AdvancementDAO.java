@@ -5,6 +5,9 @@ import mx.uv.fei.dataaccess.DatabaseManager;
 import mx.uv.fei.logic.Advancement;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -267,6 +270,33 @@ public class AdvancementDAO implements IAdvancement {
         databaseManager.closeConnection();
 
         return result;
+    }
+
+    /**
+     * @param evidenceID the evidence id you want to get the advancement deadline
+     * @return the advancement deadline
+     * @throws SQLException if there was an error connecting to the database
+     */
+    @Override
+    public LocalDate getAdvancementDeadLineByEvidenceID(int evidenceID) throws SQLException {
+        String query = "SELECT Avances.fechaEntrega FROM Avances " +
+                "INNER JOIN Evidencias on Avances.ID_avance = Evidencias.ID_avance " +
+                "WHERE Evidencias.ID_evidencia = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setInt(1, evidenceID);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        String deadLine = "";
+
+        while(resultSet.next()) {
+            deadLine = resultSet.getString("fechaEntrega");
+        }
+
+        return LocalDate.parse(deadLine, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     /**

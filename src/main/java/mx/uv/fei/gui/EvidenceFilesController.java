@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
@@ -15,6 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 public class EvidenceFilesController implements IStudentNavigationBar {
@@ -31,12 +36,14 @@ public class EvidenceFilesController implements IStudentNavigationBar {
     public void initialize() {
 
         if (getEvidenceDirectory().exists()) {
+
             fillTableViewFiles();
         }
 
         labelUsername.setText(SessionDetails.getInstance().getUsername());
 
-        if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)) {
+        if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)
+                && !isAdvancementOverdue()) {
             buttonAddFile.setVisible(true);
             buttonDeleteFile.setVisible(true);
         }
@@ -61,6 +68,24 @@ public class EvidenceFilesController implements IStudentNavigationBar {
         tableViewFiles.getItems().clear();
         tableViewFiles.setItems(fileList);
 
+    }
+
+    private boolean isAdvancementOverdue() {
+        boolean result = false;
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        LocalDate deadline = null;
+
+        try {
+            deadline = advancementDAO.getAdvancementDeadLineByEvidenceID(TransferEvidence.getEvidenceId());
+        } catch (SQLException deadlineException) {
+            logger.error(deadlineException);
+        }
+
+        if (deadline.isBefore(LocalDate.now())) {
+            result = true;
+        }
+
+        return result;
     }
 
     private void alertErrorOpenFile() {
