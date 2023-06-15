@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
@@ -30,7 +29,10 @@ public class EvidenceFilesController implements IStudentNavigationBar {
     private static final Logger logger = Logger.getLogger(EvidenceFilesController.class);
 
     public void initialize() {
-        fillTableViewFiles();
+
+        if (getEvidenceDirectory().exists()) {
+            fillTableViewFiles();
+        }
 
         labelUsername.setText(SessionDetails.getInstance().getUsername());
 
@@ -121,7 +123,7 @@ public class EvidenceFilesController implements IStudentNavigationBar {
     }
 
     private void copyFile(File file) throws IOException {
-        File fileToSave = new File(getEvidenceDirectory().toString()+"/"+file.getName());
+        File fileToSave = new File(getEvidenceDirectory().getAbsolutePath()+"/"+file.getName());
         Files.copy(file.toPath(), fileToSave.toPath());
     }
 
