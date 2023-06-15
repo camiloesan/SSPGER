@@ -309,30 +309,6 @@ public class UserDAO implements IUser {
         return accessAccountList;
     }
 
-    /**
-     * @param accessAccount access account to add to database.
-     * @return rows affected (1 or 0) if the user was added or not.
-     * @throws SQLException if the user couldn't be added or there was a problem connecting to the database.
-     */
-    @Override
-    public int addUser(AccessAccount accessAccount) throws SQLException {
-        String query = "insert into CuentasAcceso(nombreUsuario, contrasena, correoInstitucional, tipoUsuario) values (?,SHA2(?, 256),?,?)";
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, accessAccount.getUsername());
-        preparedStatement.setString(2, accessAccount.getUserPassword());
-        preparedStatement.setString(3, accessAccount.getUserEmail());
-        preparedStatement.setString(4, accessAccount.getUserType());
-
-        int result;
-        result = preparedStatement.executeUpdate();
-
-        databaseManager.closeConnection();
-        return result;
-    }
-
     @Override
     public boolean isUserTaken(String username) throws SQLException {
         String query = "select 1 from CuentasAcceso where nombreUsuario = (?)";
