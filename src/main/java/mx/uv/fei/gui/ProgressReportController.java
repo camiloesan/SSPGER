@@ -63,7 +63,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
     private TableColumn<Evidence, String> tableColumnWasDelivered;
     LocalDate actualDate = LocalDate.now();
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(ProgressReportController.class);
     
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());

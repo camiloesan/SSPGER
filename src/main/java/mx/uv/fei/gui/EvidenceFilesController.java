@@ -235,7 +235,7 @@ public class EvidenceFilesController implements IStudentNavigationBar {
             MainStage.changeView("projectrequests-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
             MainStage.changeView(
-                    "studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+                    "studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
 

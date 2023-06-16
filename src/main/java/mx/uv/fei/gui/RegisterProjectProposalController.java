@@ -69,7 +69,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     private static final int MAX_INVESTIGATION_DESCRIPTION_SIZE = 5000;
     private static final int MAX_EXPECTED_RESULTS_SIZE = 1000;
     private static final int MAX_RECOMMENDED_BIBLIOGRAPHY_SIZE = 6000;
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(RegisterProjectProposalController.class);
     
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());

@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 /**
  * Provides a set of methods to connect to the Project Request on the database.
  */
@@ -190,5 +192,28 @@ public class ProjectRequestDAO implements IProjectRequest {
         databaseManager.closeConnection();
         return projectRequest;
     }
-
+    
+    /**
+     * @param studentID student id to get the state of their request
+     * @return true if the request is approved, false if not
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public boolean isRequestApproved(String studentID) throws SQLException {
+        boolean flag = false;
+        String sqlQuery = "SELECT estado FROM SolicitudesProyecto WHERE matriculaEstudiante = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1,studentID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            if (Objects.equals(resultSet.getString("estado"), "Aceptado")){
+                flag = true;
+            }
+        }
+        return flag;
+    }
 }

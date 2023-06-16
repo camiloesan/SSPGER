@@ -308,7 +308,12 @@ public class UserDAO implements IUser {
 
         return accessAccountList;
     }
-
+    
+    /**
+     * @param username username to check if it is already registered
+     * @return true if the username is already registered, false if not
+     * @throws SQLException if there was a problem connecting to the database or getting the info
+     */
     @Override
     public boolean isUserTaken(String username) throws SQLException {
         String query = "select 1 from CuentasAcceso where nombreUsuario = (?)";
@@ -322,7 +327,12 @@ public class UserDAO implements IUser {
 
         return resultSet.next();
     }
-
+    
+    /**
+     * @param email email to check if it is already registered
+     * @return true it the email is already registered, false if not
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public boolean isEmailTaken(String email) throws SQLException {
         String query = "select 1 from CuentasAcceso where correoInstitucional = (?)";

@@ -26,7 +26,7 @@ public class PaneAdvancementDetailsController {
     @FXML
     private Label labelDeadline;
     
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(PaneAdvancementDetailsController.class);
     
     public void initialize() {
         try {
