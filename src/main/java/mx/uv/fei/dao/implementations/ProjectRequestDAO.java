@@ -193,6 +193,11 @@ public class ProjectRequestDAO implements IProjectRequest {
         return projectRequest;
     }
     
+    /**
+     * @param studentID student id to get the state of their request
+     * @return true if the request is approved, false if not
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public boolean isRequestApproved(String studentID) throws SQLException {
         boolean flag = false;
