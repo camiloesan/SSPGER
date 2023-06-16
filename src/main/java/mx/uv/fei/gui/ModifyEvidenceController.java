@@ -102,33 +102,10 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     }
 
     @FXML
-    private void addFile() throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Evidencia");
-        File evidenceFile = fileChooser.showOpenDialog(new Stage());
-        if (evidenceFile != null) {
-            labelFileTitle.setText(evidenceFile.getName());
-            labelFileTitle.setVisible(true);
-            createPath(getProjectName(), getAdvancementName(), getStudentID());
-            copyFile(evidenceFile);
-        }
+    private void redirectToFiles() throws IOException {
+        MainStage.changeView("evidencefiles-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
-    @FXML
-    private void deleteFile() {
-        FileChooser fileChooser = new FileChooser();
-        File initialDirectory = new File(System.getProperty("user.home")
-                +"/IdeaProjects/SSPGER/evidences/"
-                + getProjectName()+ "/"
-                +getAdvancementName() +"/"
-                +getStudentID());
-        fileChooser.setInitialDirectory(initialDirectory);
-        fileChooser.setTitle("Eliminar evidencia");
-        File evidenceFile = fileChooser.showOpenDialog(new Stage());
-        if (evidenceFile != null) {
-            evidenceFile.delete();
-        }
-    }
     public boolean emptyFields() {
         return textFieldEvidenceTitle.getText().isBlank()
                 || textAreaEvidenceDescription.getText().isBlank();

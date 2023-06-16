@@ -30,6 +30,7 @@ public class AddEvidenceController implements IStudentNavigationBar {
     TextField textFieldEvidenceTitle;
     @FXML
     TextArea textAreaEvidenceDescription;
+    private ArrayList<File> listFiles = new ArrayList<>();
     private static final int MAX_TITLE_EVIDENCE_LENGTH = 30;
     private static final int MAX_DESCRIPTION_EVIDENCE_LENGTH = 100;
     private static final Logger logger = Logger.getLogger(AddEvidenceController.class);
@@ -41,7 +42,7 @@ public class AddEvidenceController implements IStudentNavigationBar {
     }
 
     @FXML
-    private void sendEvidence() {
+    private void sendEvidence() throws IOException {
         if (existsEvidence() && fieldsCorrect() && confirmedEvidence()) {
             EvidenceDAO evidenceDAO = new EvidenceDAO();
             Evidence evidence = new Evidence();
@@ -60,25 +61,40 @@ public class AddEvidenceController implements IStudentNavigationBar {
                 logger.error(addEvidenceException);
             }
             if(resultDAO == 1) {
+                addFiles();
                 DialogGenerator.getDialog(new AlertMessage
                         ("La evidencia ha sido guardado con exito", AlertStatus.SUCCESS));
             } else {
                 DialogGenerator.getDialog(new AlertMessage
-                        ("Algo salió mal, su evidencia no fue guardad", AlertStatus.ERROR));
+                        ("Algo salió mal, su evidencia no fue guardada", AlertStatus.ERROR));
             }
         }
     }
 
+    private String buildStringsOfFiles() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (File fileName : listFiles) {
+            stringBuilder.append(fileName.getName()).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    private void addFiles() throws IOException {
+        for (File fileToAdd : listFiles) {
+            copyFile(fileToAdd);
+        }
+    }
+    
     @FXML
-    private void addFile() throws IOException {
+    private void addFileToList() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Evidencia");
         File evidenceFile = fileChooser.showOpenDialog(new Stage());
         if (evidenceFile != null) {
-            labelNameFile.setText(evidenceFile.getName());
-            labelNameFile.setVisible(true);
             createPath(getProjectID(), getAdvancementName(), getStudentID());
-            copyFile(evidenceFile);
+            listFiles.add(evidenceFile);
+            labelNameFile.setText(buildStringsOfFiles());
+            labelNameFile.setVisible(true);
         }
     }
 

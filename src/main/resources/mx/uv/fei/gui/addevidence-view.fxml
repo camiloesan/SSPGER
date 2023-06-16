@@ -167,7 +167,7 @@
                   <TextField fx:id="textFieldEvidenceTitle" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                      <children>
-                        <Button alignment="TOP_CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#addFile" text="Añadir archivo">
+                        <Button alignment="TOP_CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#addFileToList" text="Añadir archivo">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
