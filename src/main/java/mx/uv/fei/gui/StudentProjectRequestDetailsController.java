@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class StudentProjectRequestController implements IStudentNavigationBar {
+public class StudentProjectRequestDetailsController implements IStudentNavigationBar {
     @FXML
     Label labelUsername;
     @FXML
@@ -121,7 +121,7 @@ public class StudentProjectRequestController implements IStudentNavigationBar {
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequest-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
     }
 
     @Override

@@ -154,7 +154,7 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequest-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {
