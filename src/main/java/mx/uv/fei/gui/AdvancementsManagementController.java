@@ -76,6 +76,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private void deleteAdvancementButtonAction() {
         if (isItemSelected()) {
             int advancementId = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementID();
+            String advancementName = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementName();
             Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
                     "¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
             if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
@@ -115,7 +116,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             if (newLength <= MAX_LENGTH_DESCRIPTION) {
                 return change;
             }
-            return null; 
+            return null;
         };
     }
 
