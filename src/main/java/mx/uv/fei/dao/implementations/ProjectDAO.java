@@ -491,6 +491,7 @@ public class ProjectDAO implements IProject {
         return projectName;
     }
     
+    @Override
     public boolean projectOutOfSpaces(int projectID) throws SQLException {
         boolean flag = true;
         String sqlQuery = "SELECT alumnosParticipantes FROM Proyectos WHERE ID_proyecto = (?)";
@@ -509,6 +510,7 @@ public class ProjectDAO implements IProject {
         return flag;
     }
     
+    @Override
     public int decreaseStudentQuota(int projectID) throws SQLException {
         int result;
         String sqlQuery = "UPDATE Proyectos SET alumnosParticipantes = (alumnosParticipantes - 1) WHERE ID_proyecto = (?)";

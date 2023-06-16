@@ -25,4 +25,6 @@ public interface IProject {
     int deleteProjectByID(int projectID) throws SQLException;
     boolean isProjectRegistered(String projectTitle) throws SQLException;
     String getProjectNameByAdvancementID(int advancementID) throws SQLException;
+    boolean projectOutOfSpaces(int projectID) throws SQLException;
+    int decreaseStudentQuota(int projectID) throws SQLException;
 }
