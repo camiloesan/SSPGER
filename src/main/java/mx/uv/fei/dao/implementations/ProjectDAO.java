@@ -490,4 +490,37 @@ public class ProjectDAO implements IProject {
         
         return projectName;
     }
+    
+    public boolean projectOutOfSpaces(int projectID) throws SQLException {
+        boolean flag = true;
+        String sqlQuery = "SELECT alumnosParticipantes FROM Proyectos WHERE ID_proyecto = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            if (resultSet.getInt("alumnosParticipantes") > 0){
+                flag = false;
+            }
+        }
+        return flag;
+    }
+    
+    public int decreaseStudentQuota(int projectID) throws SQLException {
+        int result;
+        String sqlQuery = "UPDATE Proyectos SET alumnosParticipantes = (alumnosParticipantes - 1) WHERE ID_proyecto = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+        
+        result = preparedStatement.executeUpdate();
+        databaseManager.closeConnection();
+        return result;
+    }
 }
