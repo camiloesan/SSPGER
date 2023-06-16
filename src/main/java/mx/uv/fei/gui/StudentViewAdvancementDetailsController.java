@@ -30,7 +30,7 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     @FXML
     private HBox hboxLogOutLabel;
     
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(StudentViewAdvancementDetailsController.class);
     
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());

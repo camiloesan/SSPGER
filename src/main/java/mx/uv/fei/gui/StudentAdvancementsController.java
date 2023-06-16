@@ -23,7 +23,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     @FXML
     private HBox hboxLogOutLabel;
     
-    private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);
+    private static final Logger logger = Logger.getLogger(StudentAdvancementsController.class);
     
     @FXML
     private void initialize() {

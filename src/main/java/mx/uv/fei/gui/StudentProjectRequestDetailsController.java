@@ -23,7 +23,7 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
     Label labelDescriptionProjectRequest;
     @FXML
     GridPane gridPaneProjectRequestData;
-    private static final Logger logger = Logger.getLogger(StudentProjectRequestController.class);
+    private static final Logger logger = Logger.getLogger(StudentProjectRequestDetailsController.class);
 
     @FXML
     public void initialize() throws IOException {
