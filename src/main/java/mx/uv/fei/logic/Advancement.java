@@ -1,5 +1,7 @@
 package mx.uv.fei.logic;
 
+import java.util.Objects;
+
 public class Advancement {
 
     private int advancementID;
@@ -59,13 +61,18 @@ public class Advancement {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Advancement that = (Advancement) object;
-        return advancementName.equals(that.advancementName) &&
-                advancementDescription.equals(that.advancementDescription) &&
-                advancementStartDate.equals(that.advancementStartDate) &&
-                advancementDeadline.equals(that.advancementDeadline) &&
-                projectId == that.projectId;
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()){
+            return false;
+        }
+        Advancement other = (Advancement) object;
+        return advancementID == other.advancementID
+                && Objects.equals(advancementName, other.advancementName)
+                && Objects.equals(advancementDescription, other.advancementDescription)
+                && Objects.equals(advancementStartDate, other.advancementStartDate)
+                && Objects.equals(advancementDeadline, other.advancementDeadline)
+                && projectId == other.projectId;
     }
 }
