@@ -370,6 +370,7 @@ public class UserDAO implements IUser {
             professorAccount.setProfessorLastName(resultSet.getString("apellidos"));
             professorAccount.setProfessorDegree(resultSet.getString("grado"));
         }
+        databaseManager.closeConnection();
         return professorAccount;
     }
     
@@ -396,6 +397,7 @@ public class UserDAO implements IUser {
             studentAccount.setName(resultSet.getString("nombre"));
             studentAccount.setLastName(resultSet.getString("apellidos"));
         }
+        databaseManager.closeConnection();
         return studentAccount;
     }
 }

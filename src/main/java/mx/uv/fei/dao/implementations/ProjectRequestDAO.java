@@ -214,6 +214,7 @@ public class ProjectRequestDAO implements IProjectRequest {
                 flag = true;
             }
         }
+        databaseManager.closeConnection();
         return flag;
     }
 }

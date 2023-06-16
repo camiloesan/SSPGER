@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
@@ -61,7 +62,7 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
              requests = projectRequestDAO.getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
         } catch (SQLException requestsException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar número de pticiones", AlertStatus.ERROR));
+                    "Error al recuperar número de peticiones", AlertStatus.ERROR));
             logger.error(requestsException);
         }
         if (requests>0) {
@@ -73,10 +74,27 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         }
         return result;
     }
+    
+    private boolean projectHasSpaces() {
+        boolean flag = false;
+        ProjectDAO projectDAO = new ProjectDAO();
+        try {
+            boolean projectOutOfSpaces = projectDAO.projectOutOfSpaces(TransferProject.getProjectID());
+            if (!projectOutOfSpaces) {
+                flag = true;
+            } else {
+                DialogGenerator.getDialog(new AlertMessage("Ya no hay espacios disponibles para este proyecto", AlertStatus.WARNING));
+            }
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("Error al comprobar los espacios disponibles en el proyecto.", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+        return flag;
+    }
 
     @FXML
     private void requestProject() throws IOException {
-        if (confirmedRequests() && confirmedFields() && confirmedRequestProject()) {
+        if (confirmedRequests() && confirmedFields() && confirmedRequestProject() && projectHasSpaces()) {
             ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
             try {
                 projectRequestDAO.createProjectRequest(getProjectRequestAttributes());

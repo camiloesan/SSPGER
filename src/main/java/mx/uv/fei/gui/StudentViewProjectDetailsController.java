@@ -1,7 +1,6 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -118,7 +117,7 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
         Text bibliography = new Text(detailedProject.getBibliography());
         textBibliography.getChildren().add(bibliography);
     }
-
+    /*
     private String getTextWorkReceptionName() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Node node : textReceptionWorkName.getChildren()) {
@@ -129,12 +128,29 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
         }
         return stringBuilder.toString();
     }
+    */
+    private boolean projectHasSpaces() {
+        boolean flag = false;
+        ProjectDAO projectDAO = new ProjectDAO();
+        try {
+            boolean projectOutOfSpaces = projectDAO.projectOutOfSpaces(TransferProject.getProjectID());
+            if (!projectOutOfSpaces) {
+                flag = true;
+            }
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("Error al comprobar los espacios disponibles en el proyecto.", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+        return flag;
+    }
 
     @FXML
     private void redirectToProjectRequest() throws IOException {
-        TransferProject.setProjectID(projectID);
-        TransferProject.setReceptionWorkName(getTextWorkReceptionName());
-        MainStage.changeView("studentrequestproject-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        if (projectHasSpaces()) {
+            MainStage.changeView("studentrequestproject-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Ya no hay espacios disponibles para este proyecto", AlertStatus.WARNING));
+        }
     }
     
     @Override

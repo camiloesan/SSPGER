@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 public class AdvancementsManagementController implements IProfessorNavigationBar {
     @FXML
@@ -55,6 +56,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
         labelUsername.setText(SessionDetails.getInstance().getUsername());
         professorId = Integer.parseInt(SessionDetails.getInstance().getId());
+        advancementDescription.setTextFormatter(new TextFormatter<>(createFilter()));
         fillComboBoxProjectToAssign();
         formatDatePicker();
         fillTableViewAdvancements();
@@ -74,6 +76,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private void deleteAdvancementButtonAction() {
         if (isItemSelected()) {
             int advancementId = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementID();
+            String advancementName = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementName();
             Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
                     "¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
             if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
@@ -104,12 +107,17 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     @FXML
     private void updateAvailableCharsOnDescriptionLabel() {
         int descriptionLength = advancementDescription.getLength();
-        if (descriptionLength > MAX_LENGTH_DESCRIPTION) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "La descripción no puede tener más de " + MAX_LENGTH_DESCRIPTION + " caracteres", AlertStatus.WARNING));
-        } else {
-            labelRemainingChars.setText("Caracteres disponibles: " + (MAX_LENGTH_DESCRIPTION - descriptionLength));
-        }
+        labelRemainingChars.setText("Caracteres disponibles: " + (MAX_LENGTH_DESCRIPTION - descriptionLength));
+    }
+    
+    private UnaryOperator<TextFormatter.Change> createFilter() {
+        return change -> {
+            int newLength = change.getControlNewText().length();
+            if (newLength <= MAX_LENGTH_DESCRIPTION) {
+                return change;
+            }
+            return null;
+        };
     }
 
     @FXML

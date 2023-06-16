@@ -371,7 +371,7 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param directorId
+     * @param directorId director id to get the projects where the professor has the director role
      * @return list with reception works names
      * @throws SQLException if there was a problem connecting to the database or getting the information
      */
@@ -395,7 +395,7 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param projectId
+     * @param projectId project id to get its name
      * @return project name
      * @throws SQLException if there was a problem connecting to the database or getting the information
      */
@@ -489,5 +489,40 @@ public class ProjectDAO implements IProject {
         }
         
         return projectName;
+    }
+    
+    @Override
+    public boolean projectOutOfSpaces(int projectID) throws SQLException {
+        boolean flag = true;
+        String sqlQuery = "SELECT alumnosParticipantes FROM Proyectos WHERE ID_proyecto = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            if (resultSet.getInt("alumnosParticipantes") > 0){
+                flag = false;
+            }
+        }
+        return flag;
+    }
+    
+    @Override
+    public int decreaseStudentQuota(int projectID) throws SQLException {
+        int result;
+        String sqlQuery = "UPDATE Proyectos SET alumnosParticipantes = (alumnosParticipantes - 1) WHERE ID_proyecto = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+        
+        result = preparedStatement.executeUpdate();
+        databaseManager.closeConnection();
+        return result;
     }
 }
