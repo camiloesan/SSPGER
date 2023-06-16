@@ -93,44 +93,36 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     @FXML
     private void acceptRequest() {
+        validateProjectRequest(ACCEPT_REQUEST);
+    }
+
+    private void validateProjectRequest(String validation) {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         if (projectRequestIsSelected()) {
             try {
-                projectRequestDAO.validateProjectRequest(ACCEPT_REQUEST, tableViewRequests
+                projectRequestDAO.validateProjectRequest(validation, tableViewRequests
                         .getSelectionModel()
                         .getSelectedItem()
                         .getProjectPetitionID());
             } catch (SQLException requestException) {
-                requestException.printStackTrace();
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo validar el proyecto", AlertStatus.ERROR));
+                logger.error(requestException);
             }
             tableViewRequests.getItems().clear();
             try {
                 fillTableViewProjectRequests();
             } catch (SQLException tableException) {
-                tableException.printStackTrace();
+                DialogGenerator.getDialog(new AlertMessage(
+                        "No se pudo obtener las solicitudes del proyecto", AlertStatus.ERROR));
+                logger.error(tableException);
             }
         }
     }
 
     @FXML
     private void rejectRequest() {
-        ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-        if (projectRequestIsSelected()) {
-            try {
-                projectRequestDAO.validateProjectRequest(DECLINE_REQUEST, tableViewRequests
-                        .getSelectionModel()
-                        .getSelectedItem()
-                        .getProjectPetitionID());
-            } catch (SQLException requestException) {
-                requestException.printStackTrace();
-            }
-            tableViewRequests.getItems().clear();
-            try {
-                fillTableViewProjectRequests();
-            } catch (SQLException tableException) {
-                tableException.printStackTrace();
-            }
-        }
+        validateProjectRequest(DECLINE_REQUEST);
     }
 
     private void fillTableViewProjectRequests() throws SQLException {

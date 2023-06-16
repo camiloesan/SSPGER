@@ -127,7 +127,7 @@ public class EvidenceFilesController implements IStudentNavigationBar {
                     break;
                 default:
                     DialogGenerator.getDialog(new AlertMessage(
-                            "Se desconoce su sistema operativo", AlertStatus.ERROR));
+                            "Se desconoce su sistema operativo para abrir el archivo", AlertStatus.ERROR));
                     break;
             }
         } else {
