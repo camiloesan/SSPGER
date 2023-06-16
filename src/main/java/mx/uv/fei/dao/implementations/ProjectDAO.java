@@ -371,7 +371,7 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param directorId
+     * @param directorId director id to get the projects where the professor has the director role
      * @return list with reception works names
      * @throws SQLException if there was a problem connecting to the database or getting the information
      */
@@ -395,7 +395,7 @@ public class ProjectDAO implements IProject {
     }
     
     /**
-     * @param projectId
+     * @param projectId project id to get its name
      * @return project name
      * @throws SQLException if there was a problem connecting to the database or getting the information
      */
