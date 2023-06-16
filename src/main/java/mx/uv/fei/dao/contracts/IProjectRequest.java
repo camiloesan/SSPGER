@@ -13,4 +13,5 @@ public interface IProjectRequest {
     int getProjectRequestsByStudentID(String studentID) throws SQLException;
     int getProjectRequestIDByStudentID(String studentID) throws SQLException;
     ProjectRequest getProjectRequestInfoByStudentID(String studentID) throws SQLException;
+    boolean isRequestApproved(String studentID) throws SQLException;
 }

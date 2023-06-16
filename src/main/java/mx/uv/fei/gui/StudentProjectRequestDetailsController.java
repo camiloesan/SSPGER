@@ -1,6 +1,7 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -14,26 +15,42 @@ import java.util.Optional;
 
 public class StudentProjectRequestDetailsController implements IStudentNavigationBar {
     @FXML
-    Label labelUsername;
+    private Label labelUsername;
     @FXML
-    Label labelReceptionWorkName;
+    private Label labelReceptionWorkName;
     @FXML
-    Label labelStateProjectRequest;
+    private Label labelStateProjectRequest;
     @FXML
-    Label labelDescriptionProjectRequest;
+    private Label labelDescriptionProjectRequest;
     @FXML
-    GridPane gridPaneProjectRequestData;
+    private GridPane gridPaneProjectRequestData;
+    @FXML
+    private Button buttonDelete;
     private static final Logger logger = Logger.getLogger(StudentProjectRequestDetailsController.class);
 
     @FXML
-    public void initialize() throws IOException {
+    private void initialize() {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
         if(existsProjectRequests()) {
             getProjectRequestInfo();
+            checkRequestState();
         }
     }
+    
+    private void checkRequestState() {
+        ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+        try {
+            if (projectRequestDAO.isRequestApproved(SessionDetails.getInstance().getId())) {
+                buttonDelete.setVisible(false);
+            }
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("Error al recuperar la información de la petición", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+        
+    }
 
-    public void getProjectRequestInfo() {
+    private void getProjectRequestInfo() {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         ProjectRequest projectRequest = new ProjectRequest();
         try {
@@ -49,7 +66,7 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
         labelDescriptionProjectRequest.setText(projectRequest.getDescription());
     }
 
-    public boolean existsProjectRequests() {
+    private boolean existsProjectRequests() {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         int projectrequests = 0;
         boolean result;
@@ -73,7 +90,7 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
     }
 
     @FXML
-    public void deleteProjectRequest() throws IOException {
+    private void deleteProjectRequest() throws IOException {
         if (confirmedDelete()) {
             ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
             int result = 0;
@@ -98,7 +115,7 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
         }
     }
 
-    public boolean confirmedDelete() {
+    private boolean confirmedDelete() {
         Optional<ButtonType> response = DialogGenerator
                 .getConfirmationDialog("¿Está seguro que desea eliminar la petición?");
         return (response.get() == DialogGenerator.BUTTON_YES);
