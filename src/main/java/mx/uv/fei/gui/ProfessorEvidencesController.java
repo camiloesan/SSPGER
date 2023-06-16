@@ -37,6 +37,17 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
     }
 
     @FXML
+    private void redirectToFiles() throws IOException {
+        if (isItemSelected()) {
+            TransferEvidence.setEvidenceId(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getEvidenceId());
+            MainStage.changeView("evidencefiles-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        }
+    }
+
+    @FXML
     public void redirectToViewEvidenceDetails() throws IOException {
         if (isItemSelected()) {
             TransferEvidence.setEvidenceId(tableViewEvidence
