@@ -221,13 +221,13 @@ public class AddEvidenceController implements IStudentNavigationBar {
     private boolean confirmedEvidence() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
                 "¿Estás seguro que deseas enviar la evidencia?");
-        return response.get() == DialogGenerator.BUTTON_YES;
+        return response.orElse(null) == DialogGenerator.BUTTON_YES;
     }
 
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
                 "¿Está seguro que desea salir, se cerrará su sesión?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
 
     @Override
