@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.*;
@@ -19,9 +22,18 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
     @FXML
     private TextArea textAreaDescription;
     @FXML
-    Label labelUsername;
+    private Label labelUsername;
+    @FXML
+    private HBox hboxLogOutLabel;
     private static final Logger logger = Logger.getLogger(StudentRequestProjectController.class);
     private static final int DESCRIPTION_PROJECT_REQUEST_MAX_LENGTH = 850;
+    
+    @FXML
+    public void initialize() {
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
+        labelProjectTitle.setText("Proyecto a solicitar: " + TransferProject.getReceptionWorkName());
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
 
     private boolean confirmedRequestProject() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
@@ -139,11 +151,5 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
                 "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.get() == DialogGenerator.BUTTON_YES);
-    }
-
-    @FXML
-    public void initialize() {
-        labelUsername.setText(SessionDetails.getInstance().getUsername());
-        labelProjectTitle.setText("Proyecto a solicitar: " + TransferProject.getReceptionWorkName());
     }
 }
