@@ -509,7 +509,7 @@ public class ProjectDAO implements IProject {
         preparedStatement.setInt(1, projectID);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            if (resultSet.getInt("alumnosParticipantes") > 0){
+            if (resultSet.getInt("espaciosDisponibles") > 0){
                 flag = false;
             }
         }
