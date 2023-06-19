@@ -44,13 +44,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         TableColumn<ProjectRequest, String> projectColumn = new TableColumn<>("Estado");
         projectColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         tableViewRequests.getColumns().addAll(Arrays.asList(studentIdColumn, projectColumn));
-        try {
-            fillTableViewProjectRequests();
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo conectar con la base de datos", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        fillTableViewProjectRequests();
     }
 
     @FXML
@@ -125,11 +119,17 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         validateProjectRequest(DECLINE_REQUEST);
     }
 
-    private void fillTableViewProjectRequests() throws SQLException {
+    private void fillTableViewProjectRequests() {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         tableViewRequests.getItems().clear();
-        tableViewRequests.getItems().addAll(projectRequestDAO.
-                getProjectRequestsListByProfessorId(Integer.parseInt(SessionDetails.getInstance().getId())));
+        try {
+            tableViewRequests.getItems().addAll(projectRequestDAO.
+                    getProjectRequestsListByProfessorId(Integer.parseInt(SessionDetails.getInstance().getId())));
+        } catch (SQLException tableException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo obtener las solicitudes del proyecto", AlertStatus.ERROR));
+            logger.error(tableException);
+        }
     }
 
     private boolean projectRequestIsSelected() {
