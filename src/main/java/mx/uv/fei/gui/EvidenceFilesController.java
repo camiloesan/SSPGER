@@ -5,6 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
@@ -31,6 +34,8 @@ public class EvidenceFilesController implements IStudentNavigationBar {
     private Button buttonAddFile;
     @FXML
     private Button buttonDeleteFile;
+    @FXML
+    private HBox hboxLogOutLabel;
     private static final Logger logger = Logger.getLogger(EvidenceFilesController.class);
 
     public void initialize() {
@@ -47,6 +52,7 @@ public class EvidenceFilesController implements IStudentNavigationBar {
             buttonAddFile.setVisible(true);
             buttonDeleteFile.setVisible(true);
         }
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
 
     private void fillTableViewFiles() {

@@ -121,23 +121,21 @@
                   <Insets top="12.0" />
                </VBox.margin>
             </Line>
-            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT" prefHeight="230.0" prefWidth="201.0">
-               <children>
-                  <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
-                     <font>
-                        <Font name="Cantarell Regular" size="14.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
+            <HBox fx:id="hboxLogOutLabel" alignment="BOTTOM_LEFT">
+               <Label alignment="BOTTOM_LEFT" onMouseClicked="#actionLogOut" text="Cerrar Sesión" textFill="WHITE" underline="true">
+                  <font>
+                     <Font name="Cantarell Regular" size="14.0" />
+                  </font>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
+                  <HBox.margin>
+                     <Insets bottom="10.0" left="10.0" />
+                  </HBox.margin>
+               </Label>
             </HBox>
          </children>
       </VBox>
