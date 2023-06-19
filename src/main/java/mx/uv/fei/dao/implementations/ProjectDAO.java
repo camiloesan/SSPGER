@@ -488,7 +488,6 @@ public class ProjectDAO implements IProject {
         while (resultSet.next()) {
             projectName = resultSet.getString("nombreTrabajoRecepcional");
         }
-        
         return projectName;
     }
     
@@ -513,6 +512,7 @@ public class ProjectDAO implements IProject {
                 flag = false;
             }
         }
+        databaseManager.closeConnection();
         return flag;
     }
     
@@ -578,6 +578,7 @@ public class ProjectDAO implements IProject {
         if (resultSet.next()){
             studentQuota = resultSet.getInt("alumnosParticipantes");
         }
+        databaseManager.closeConnection();
         return studentQuota;
     }
     
@@ -601,6 +602,7 @@ public class ProjectDAO implements IProject {
         if (resultSet.next()){
             availableSpaces = resultSet.getInt("espaciosDisponibles");
         }
+        databaseManager.closeConnection();
         return availableSpaces;
     }
 }
