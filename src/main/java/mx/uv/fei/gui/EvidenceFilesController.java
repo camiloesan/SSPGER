@@ -12,17 +12,17 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
-import mx.uv.fei.logic.*;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
+import mx.uv.fei.logic.SessionDetails;
+import mx.uv.fei.logic.TransferEvidence;
 import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 public class EvidenceFilesController implements IStudentNavigationBar {
