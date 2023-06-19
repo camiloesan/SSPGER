@@ -88,42 +88,20 @@ public class EvidenceFilesController implements IStudentNavigationBar {
         return result;
     }
 
-    private void alertErrorOpenFile() {
-        DialogGenerator.getDialog(new AlertMessage("Error al intentar abrir el archivo", AlertStatus.ERROR));
-    }
-
     @FXML
-    private void visualizeFile() {
+    private void visualizeFile() throws IOException {
         if (tableViewFiles.getSelectionModel().getSelectedItem() != null) {
-            String operativeSystem = System.getProperty("os.name").toLowerCase();
             String filePath = tableViewFiles.getSelectionModel().getSelectedItem().getAbsolutePath();
-            switch (operativeSystem) {
+            switch (getOperativeSystem()) {
                 case "windows":
-                    try {
-                        Runtime.getRuntime().exec("cmd /c start \"\" \"" +
-                                filePath + "\"");
-                    } catch (IOException ioException) {
-                        alertErrorOpenFile();
-                        logger.error(ioException);
-                    }
+                    Runtime.getRuntime().exec("cmd /c start \"\" \"" + filePath + "\"");
                     break;
                 case "mac os x":
-                    try {
-                        Runtime.getRuntime().exec("open \"" + filePath + "\"");
-                    } catch (IOException ioException) {
-                        alertErrorOpenFile();
-                        logger.error(ioException);
-                    }
+                    Runtime.getRuntime().exec("open \"" + filePath + "\"");
                     break;
                 case "linux":
-                    ProcessBuilder processBuilder = new ProcessBuilder("xdg-open",
-                            filePath);
-                    try {
-                        processBuilder.start();
-                    } catch (IOException ioException) {
-                        alertErrorOpenFile();
-                        logger.error(ioException);
-                    }
+                    ProcessBuilder processBuilder = new ProcessBuilder("xdg-open", filePath);
+                    processBuilder.start();
                     break;
                 default:
                     DialogGenerator.getDialog(new AlertMessage(
@@ -134,6 +112,14 @@ public class EvidenceFilesController implements IStudentNavigationBar {
             DialogGenerator.getDialog(new AlertMessage("Selecciona un archivo para visualizar",
                     AlertStatus.WARNING));
         }
+    }
+
+    private String getOperativeSystem() {
+        String operativeSystem = System.getProperty("os.name").toLowerCase();
+        if (operativeSystem.contains("win")) {
+            operativeSystem = "windows";
+        }
+        return operativeSystem;
     }
 
     @FXML
