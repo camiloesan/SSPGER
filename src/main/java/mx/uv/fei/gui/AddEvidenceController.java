@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -60,13 +61,9 @@ public class AddEvidenceController implements IStudentNavigationBar {
                         ("Algo salió mal, vuelva a intentarlo más tarde", AlertStatus.ERROR));
                 logger.error(addEvidenceException);
             }
-            if(resultDAO == 1) {
-                addFiles();
+            if(resultDAO == 1 && addFiles()) {
                 DialogGenerator.getDialog(new AlertMessage
                         ("La evidencia ha sido guardado con exito", AlertStatus.SUCCESS));
-            } else {
-                DialogGenerator.getDialog(new AlertMessage
-                        ("Algo salió mal, su evidencia no fue guardada", AlertStatus.ERROR));
             }
         }
     }
@@ -79,10 +76,20 @@ public class AddEvidenceController implements IStudentNavigationBar {
         return stringBuilder.toString();
     }
 
-    private void addFiles() throws IOException {
+    private boolean addFiles() throws IOException {
+        boolean result = true;
         for (File fileToAdd : listFiles) {
-            copyFile(fileToAdd);
+            try {
+                copyFile(fileToAdd);
+            } catch (FileAlreadyExistsException fileAlreadyExistsException) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "El archivo que intentar agregar"+ fileToAdd.getName() +", ya se encuentra agregado",
+                        AlertStatus.ERROR));
+                result = false;
+                logger.error(fileAlreadyExistsException);
+            }
         }
+        return result;
     }
     
     @FXML

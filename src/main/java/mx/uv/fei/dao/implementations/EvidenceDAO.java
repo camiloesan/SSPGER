@@ -314,7 +314,7 @@ public class EvidenceDAO implements IEvidence {
      */
     @Override
     public List<Evidence> getEvidenceListByStudent(String studentID) throws SQLException {
-        String query = "SELECT ID_evidencia, titulo, estado FROM Evidencias WHERE matriculaEstudiante = (?)";
+        String query = "SELECT ID_evidencia, titulo, estado, ID_avance FROM Evidencias WHERE matriculaEstudiante = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -327,6 +327,7 @@ public class EvidenceDAO implements IEvidence {
             evidence.setEvidenceId(resultSet.getInt("ID_evidencia"));
             evidence.setEvidenceTitle(resultSet.getString("titulo"));
             evidence.setEvidenceStatus(resultSet.getString("estado"));
+            evidence.setAdvancementId(resultSet.getInt("ID_avance"));
             evidenceList.add(evidence);
         }
 

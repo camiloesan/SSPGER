@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.time.Duration;
@@ -138,8 +139,24 @@ public class EvidenceFilesController implements IStudentNavigationBar {
 
     private void copyFile(File file) throws IOException {
         File fileToSave = new File(getEvidenceDirectory().getAbsolutePath()+"/"+file.getName());
-        Files.copy(file.toPath(), fileToSave.toPath());
+        if (fileToSave.exists()) {
+            if (confirmedCopyFile(file.getName())) {
+                fileToSave.delete();
+                Files.copy(file.toPath(), fileToSave.toPath());
+            }
+        } else {
+            Files.copy(file.toPath(), fileToSave.toPath());
+        }
+        fillTableViewFiles();
     }
+
+    public boolean confirmedCopyFile(String fileName) {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "Ya existe un archivo con el nombre " + fileName + ", ¿Desea sobreescribirlo?");
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
+    }
+
+
 
     @FXML
     private void deleteFile() {
@@ -182,6 +199,7 @@ public class EvidenceFilesController implements IStudentNavigationBar {
                 +advancementName+"/"
                 +studentID);
     }
+
     @Override
     public void redirectToAdvancements() throws IOException {
         if (LoginController.sessionDetails.getUserType().equals("Profesor") ||

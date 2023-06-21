@@ -1,5 +1,7 @@
 package mx.uv.fei.gui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -9,8 +11,12 @@ import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class StudentEvidencesController implements IStudentNavigationBar {
@@ -46,6 +52,13 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     " inténtelo de nuevo más tarde", AlertStatus.ERROR));
             logger.error(sqlException);
         }
+    }
+
+    private ObservableList<File> getFiles() {
+        File folder = new File(getEvidenceDirectory().getAbsolutePath());
+        File[] files = folder.listFiles();
+
+        return FXCollections.observableArrayList(files);
     }
 
     @Override
@@ -126,7 +139,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         tableViewEvidence.getItems().clear();
         tableViewEvidence.getItems().addAll(evidenceDAO
-                .getEvidenceListByStudent(LoginController.sessionDetails.getId()));
+                .getEvidenceListByStudent(SessionDetails.getInstance().getId()));
     }
 
     @FXML
@@ -153,14 +166,47 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     private void deleteEvidence() {
         if (evidenceIsSelect() && confirmedDelete() ) {
             EvidenceDAO evidenceDAO = new EvidenceDAO();
+            int result = 0;
             int evidenceID = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceId();
+
+            for (File fileToDelete : getFiles() ) {
+                fileToDelete.delete();
+            }
+
             try {
-                evidenceDAO.deleteEvidenceByID(evidenceID);
+                result = evidenceDAO.deleteEvidenceByID(evidenceID);
             } catch (SQLException deleteException) {
                 DialogGenerator.getDialog(new AlertMessage("Error al eliminar evidencia", AlertStatus.ERROR));
                 logger.error(deleteException);
             }
+
+            if (result == 1) {
+                DialogGenerator.getDialog(new AlertMessage("Evidencia eliminada", AlertStatus.SUCCESS));
+            }
+
         }
+    }
+
+    private File getEvidenceDirectory() {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        String projectName = null;
+        String advancementName = null;
+        try {
+            projectName = evidenceDAO.getProjectNameByEvidenceID(
+                    tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceId());
+            advancementName = evidenceDAO.getAdvancementNameByStudentID(
+                    SessionDetails.getInstance().getId(),
+                    tableViewEvidence.getSelectionModel().getSelectedItem().getAdvancementId());
+        } catch(SQLException evidenceDAOException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar información para la carpeta de evidencias", AlertStatus.ERROR));
+            logger.error(evidenceDAOException);
+        }
+        return new File(System.getProperty("user.home")
+                +"/IdeaProjects/SSPGER/evidences/"
+                +projectName+"/"
+                +advancementName+"/"
+                +SessionDetails.getInstance().getId());
     }
 
     private boolean evidenceIsSelect() {
