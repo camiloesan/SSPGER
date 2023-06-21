@@ -52,6 +52,7 @@ CREATE TABLE Proyectos (
 	ID_director int,
 	ID_codirector int,
 	alumnosParticipantes int,
+	espaciosDisponibles int,
 	descripcionProyectoInvestigacion nvarchar(5000),
 	descripcionTrabajoRecepcional nvarchar(5000),
 	resultadosEsperados nvarchar(1000),

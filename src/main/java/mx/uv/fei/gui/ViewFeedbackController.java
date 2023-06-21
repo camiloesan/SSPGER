@@ -1,10 +1,10 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
@@ -31,6 +31,8 @@ public class ViewFeedbackController implements IStudentNavigationBar {
     private Label labelGrade;
     @FXML
     private Text textFeedback;
+    @FXML
+    private HBox hboxLogOutLabel;
     private static final Logger logger = Logger.getLogger(ViewFeedbackController.class);
 
     @FXML
@@ -50,6 +52,7 @@ public class ViewFeedbackController implements IStudentNavigationBar {
         labelEvidenceName.setText("Evidencia: " + getEvidenceInfo().getEvidenceTitle());
         labelStudentName.setText("Estudiante: " + getEvidenceInfo().getStudentName());
         showFeedback();
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
 
 

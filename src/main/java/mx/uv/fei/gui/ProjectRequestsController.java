@@ -44,13 +44,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         TableColumn<ProjectRequest, String> projectColumn = new TableColumn<>("Estado");
         projectColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         tableViewRequests.getColumns().addAll(Arrays.asList(studentIdColumn, projectColumn));
-        try {
-            fillTableViewProjectRequests();
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo conectar con la base de datos", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        fillTableViewProjectRequests();
     }
 
     @FXML
@@ -90,33 +84,46 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
             textMotive.setText(projectRequest.getDescription());
         }
     }
-
+    
     @FXML
     private void acceptRequest() {
         validateProjectRequest(ACCEPT_REQUEST);
     }
 
     private void validateProjectRequest(String validation) {
+        int projectID = tableViewRequests.getSelectionModel().getSelectedItem().getProjectID();
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+        ProjectDAO projectDAO = new ProjectDAO();
         if (projectRequestIsSelected()) {
-            try {
-                projectRequestDAO.validateProjectRequest(validation, tableViewRequests
-                        .getSelectionModel()
-                        .getSelectedItem()
-                        .getProjectPetitionID());
-            } catch (SQLException requestException) {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "No se pudo validar el proyecto", AlertStatus.ERROR));
-                logger.error(requestException);
+            
+            if (Objects.equals(validation, ACCEPT_REQUEST)) {
+                try {
+                    projectRequestDAO.validateProjectRequest(validation, tableViewRequests
+                            .getSelectionModel()
+                            .getSelectedItem()
+                            .getProjectPetitionID());
+                    projectDAO.decreaseStudentQuota(projectID);
+                } catch (SQLException requestException) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "No se pudo validar la solicitud de proyecto", AlertStatus.ERROR));
+                    logger.error(requestException);
+                }
+            } else if (Objects.equals(validation, DECLINE_REQUEST)) {
+                try {
+                    projectRequestDAO.validateProjectRequest(validation, tableViewRequests
+                            .getSelectionModel()
+                            .getSelectedItem()
+                            .getProjectPetitionID());
+                    if (projectDAO.getAvailableSpaces(projectID) < projectDAO.getStudentQuota(projectID)){
+                        projectDAO.increaseStudentQuota(projectID);
+                    }
+                } catch (SQLException requestException) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "No se pudo validar la solicitud de proyecto", AlertStatus.ERROR));
+                    logger.error(requestException);
+                }
             }
-            tableViewRequests.getItems().clear();
-            try {
-                fillTableViewProjectRequests();
-            } catch (SQLException tableException) {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "No se pudo obtener las solicitudes del proyecto", AlertStatus.ERROR));
-                logger.error(tableException);
-            }
+            fillTableViewProjectRequests();
         }
     }
 
@@ -125,11 +132,17 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         validateProjectRequest(DECLINE_REQUEST);
     }
 
-    private void fillTableViewProjectRequests() throws SQLException {
+    private void fillTableViewProjectRequests() {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         tableViewRequests.getItems().clear();
-        tableViewRequests.getItems().addAll(projectRequestDAO.
-                getProjectRequestsListByProfessorId(Integer.parseInt(SessionDetails.getInstance().getId())));
+        try {
+            tableViewRequests.getItems().addAll(projectRequestDAO.
+                    getProjectRequestsListByProfessorId(Integer.parseInt(SessionDetails.getInstance().getId())));
+        } catch (SQLException tableException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo obtener las solicitudes del proyecto", AlertStatus.ERROR));
+            logger.error(tableException);
+        }
     }
 
     private boolean projectRequestIsSelected() {

@@ -1,6 +1,7 @@
 package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -9,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import mx.uv.fei.dao.implementations.ProjectDAO;
+import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.DetailedProject;
 import mx.uv.fei.logic.SessionDetails;
 import mx.uv.fei.logic.TransferProject;
@@ -117,39 +119,50 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
         Text bibliography = new Text(detailedProject.getBibliography());
         textBibliography.getChildren().add(bibliography);
     }
-    /*
+    
     private String getTextWorkReceptionName() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Node node : textReceptionWorkName.getChildren()) {
-            if (node instanceof Text) {
-                Text textWorkReceptionName = (Text) node;
+            if (node instanceof Text textWorkReceptionName) {
                 stringBuilder.append(textWorkReceptionName.getText());
             }
         }
         return stringBuilder.toString();
     }
-    */
-    private boolean projectHasSpaces() {
-        boolean flag = false;
+    
+    private boolean projectHasSpaces() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
-        try {
-            boolean projectOutOfSpaces = projectDAO.projectOutOfSpaces(TransferProject.getProjectID());
-            if (!projectOutOfSpaces) {
-                flag = true;
-            }
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Error al comprobar los espacios disponibles en el proyecto.", AlertStatus.ERROR));
-            logger.error(sqlException);
+        boolean flag;
+        
+        boolean projectOutOfSpaces = projectDAO.projectOutOfSpaces(TransferProject.getProjectID());
+        flag = !projectOutOfSpaces;
+        return flag;
+    }
+    
+    private boolean studentAlreadyRequested() throws SQLException {
+        ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+        boolean flag = true;
+        int requests = projectRequestDAO.getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
+        if (requests == 0) {
+            flag = false;
         }
         return flag;
     }
 
     @FXML
     private void redirectToProjectRequest() throws IOException {
-        if (projectHasSpaces()) {
-            MainStage.changeView("studentrequestproject-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
-        } else {
-            DialogGenerator.getDialog(new AlertMessage("Ya no hay espacios disponibles para este proyecto", AlertStatus.WARNING));
+        try {
+            if (studentAlreadyRequested()) {
+                DialogGenerator.getDialog(new AlertMessage("Ya tienes una solicitud.", AlertStatus.WARNING));
+            } else if (projectHasSpaces()) {
+                TransferProject.setReceptionWorkName(getTextWorkReceptionName());
+                MainStage.changeView("studentrequestproject-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+            } else {
+                DialogGenerator.getDialog(new AlertMessage("Ya no hay espacios disponibles para este proyecto", AlertStatus.WARNING));
+            }
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("Error al comprobar los espacios disponibles en el proyecto.", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
     }
     

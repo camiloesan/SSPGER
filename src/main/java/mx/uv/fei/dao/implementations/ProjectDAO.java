@@ -24,8 +24,8 @@ public class ProjectDAO implements IProject {
         int result;
         String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, " +
                 "duracionAprox, ID_modalidadTR, nombreTrabajoRecepcional, requisitos, alumnosParticipantes, " +
-                "descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, " +
-                "bibliografiaRecomendada) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                "espaciosDisponibles, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, " +
+                "bibliografiaRecomendada) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -41,10 +41,11 @@ public class ProjectDAO implements IProject {
         preparedStatement.setString(7, project.getReceptionWorkName());
         preparedStatement.setString(8, project.getRequisites());
         preparedStatement.setInt(9, project.getStudentsParticipating());
-        preparedStatement.setString(10, project.getInvestigationProjectDescription());
-        preparedStatement.setString(11, project.getReceptionWorkDescription());
-        preparedStatement.setString(12, project.getExpectedResults());
-        preparedStatement.setString(13, project.getRecommendedBibliography());
+        preparedStatement.setInt(10,project.getStudentsParticipating());
+        preparedStatement.setString(11, project.getInvestigationProjectDescription());
+        preparedStatement.setString(12, project.getReceptionWorkDescription());
+        preparedStatement.setString(13, project.getExpectedResults());
+        preparedStatement.setString(14, project.getRecommendedBibliography());
         
         result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
@@ -487,14 +488,18 @@ public class ProjectDAO implements IProject {
         while (resultSet.next()) {
             projectName = resultSet.getString("nombreTrabajoRecepcional");
         }
-        
         return projectName;
     }
     
+    /**
+     * @param projectID project id to check if it is out of spaces
+     * @return true if the project is out of spaces, false if the project has at least 1 available space
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public boolean projectOutOfSpaces(int projectID) throws SQLException {
         boolean flag = true;
-        String sqlQuery = "SELECT alumnosParticipantes FROM Proyectos WHERE ID_proyecto = (?)";
+        String sqlQuery = "SELECT espaciosDisponibles FROM Proyectos WHERE ID_proyecto = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -503,17 +508,23 @@ public class ProjectDAO implements IProject {
         preparedStatement.setInt(1, projectID);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            if (resultSet.getInt("alumnosParticipantes") > 0){
+            if (resultSet.getInt("espaciosDisponibles") > 0){
                 flag = false;
             }
         }
+        databaseManager.closeConnection();
         return flag;
     }
     
+    /**
+     * @param projectID project id to decrease its number of available spaces
+     * @return number of affected rows
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
     @Override
     public int decreaseStudentQuota(int projectID) throws SQLException {
         int result;
-        String sqlQuery = "UPDATE Proyectos SET alumnosParticipantes = (alumnosParticipantes - 1) WHERE ID_proyecto = (?)";
+        String sqlQuery = "UPDATE Proyectos SET espaciosDisponibles = (Proyectos.espaciosDisponibles - 1) WHERE ID_proyecto = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -524,5 +535,74 @@ public class ProjectDAO implements IProject {
         result = preparedStatement.executeUpdate();
         databaseManager.closeConnection();
         return result;
+    }
+    
+    /**
+     * @param projectID project id to increase its number of available spaces
+     * @return number of affected rows
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public int increaseStudentQuota(int projectID) throws SQLException {
+        int result;
+        String sqlQuery = "UPDATE Proyectos SET espaciosDisponibles = (Proyectos.espaciosDisponibles + 1) WHERE ID_proyecto = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+        
+        result = preparedStatement.executeUpdate();
+        databaseManager.closeConnection();
+        return result;
+    }
+    
+    /**
+     * @param projectID project id to get its fixed student quota
+     * @return the number of students that can participate in the project
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public int getStudentQuota(int projectID) throws SQLException {
+        int studentQuota = 0;
+        String sqlQuery = "SELECT alumnosParticipantes FROM Proyectos WHERE ID_proyecto = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            studentQuota = resultSet.getInt("alumnosParticipantes");
+        }
+        databaseManager.closeConnection();
+        return studentQuota;
+    }
+    
+    /**
+     * @param projectID project id to get its available spaces
+     * @return the number of available spaces in the project
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public int getAvailableSpaces(int projectID) throws SQLException{
+        int availableSpaces = 0;
+        String sqlQuery = "SELECT espaciosDisponibles FROM Proyectos WHERE ID_proyecto = (?)";
+        
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            availableSpaces = resultSet.getInt("espaciosDisponibles");
+        }
+        databaseManager.closeConnection();
+        return availableSpaces;
     }
 }

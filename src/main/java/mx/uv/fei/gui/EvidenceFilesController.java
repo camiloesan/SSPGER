@@ -5,11 +5,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
-import mx.uv.fei.logic.*;
+import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.AlertStatus;
+import mx.uv.fei.logic.SessionDetails;
+import mx.uv.fei.logic.TransferEvidence;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -17,10 +23,7 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 public class EvidenceFilesController implements IStudentNavigationBar {
@@ -32,6 +35,8 @@ public class EvidenceFilesController implements IStudentNavigationBar {
     private Button buttonAddFile;
     @FXML
     private Button buttonDeleteFile;
+    @FXML
+    private HBox hboxLogOutLabel;
     private static final Logger logger = Logger.getLogger(EvidenceFilesController.class);
 
     public void initialize() {
@@ -48,6 +53,7 @@ public class EvidenceFilesController implements IStudentNavigationBar {
             buttonAddFile.setVisible(true);
             buttonDeleteFile.setVisible(true);
         }
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
 
     private void fillTableViewFiles() {
