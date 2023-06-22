@@ -3,7 +3,10 @@ package mx.uv.fei.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
@@ -12,10 +15,7 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class StudentEvidencesController implements IStudentNavigationBar {
@@ -208,8 +208,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
 
             if (result == 1) {
                 DialogGenerator.getDialog(new AlertMessage("Evidencia eliminada", AlertStatus.SUCCESS));
+                refreshTableViewEvidence();
             }
-
         }
     }
 
