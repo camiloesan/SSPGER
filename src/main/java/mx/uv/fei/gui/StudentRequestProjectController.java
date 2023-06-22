@@ -66,17 +66,10 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         return result;
     }
 
-    private boolean confirmedRequests() {
+    private boolean confirmedRequests() throws SQLException{
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         boolean result;
-        int requests = 0;
-        try {
-             requests = projectRequestDAO.getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
-        } catch (SQLException requestsException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar número de peticiones", AlertStatus.ERROR));
-            logger.error(requestsException);
-        }
+        int requests = projectRequestDAO.getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
         if (requests>0) {
             DialogGenerator.getDialog(new AlertMessage("Ya haz solicitado un proyecto",
                     AlertStatus.WARNING));
@@ -106,16 +99,22 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
 
     @FXML
     private void requestProject() throws IOException {
-        if (confirmedRequests() && confirmedFields() && confirmedRequestProject() && projectHasSpaces()) {
-            ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-            try {
-                projectRequestDAO.createProjectRequest(getProjectRequestAttributes());
-            } catch (SQLException requestProjectException) {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "Error al crear la petición", AlertStatus.ERROR));
-                logger.error(requestProjectException);
+        try {
+            if (confirmedRequests() && confirmedFields() && confirmedRequestProject() && projectHasSpaces()) {
+                ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
+                try {
+                    projectRequestDAO.createProjectRequest(getProjectRequestAttributes());
+                } catch (SQLException requestProjectException) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "Sin conexión a la base de datos, no se pudo crear la petición", AlertStatus.ERROR));
+                    logger.error(requestProjectException);
+                }
+                redirectToProjects();
             }
-            redirectToProjects();
+        } catch (SQLException getRequestsException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar el número de peticiones", AlertStatus.ERROR));
+            logger.error(getRequestsException);
         }
     }
 

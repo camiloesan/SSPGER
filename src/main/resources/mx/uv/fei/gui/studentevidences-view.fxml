@@ -171,9 +171,9 @@
                                     <Insets left="10.0" right="10.0" />
                                  </HBox.margin>
                               </Separator>
-                              <VBox alignment="CENTER" prefHeight="523.0" prefWidth="401.0" spacing="25.0">
+                              <VBox fx:id="vboxLateralButtons" alignment="CENTER" prefHeight="523.0" prefWidth="401.0" spacing="25.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#fillTableViewEvidence" text="Actualizar lista" />
+                                    <Button mnemonicParsing="false" onMouseClicked="#refreshTableViewEvidence" text="Actualizar lista" />
                                     <Button mnemonicParsing="false" onMouseClicked="#redirectToViewEvidenceDetails" prefHeight="26.0" prefWidth="112.0" text="Ver detalles" />
                                     <Button mnemonicParsing="false" onAction="#redirectToFiles" text="Ver archivos" />
                                     <Button mnemonicParsing="false" onMouseClicked="#redirectToModifyEvidence" text="Modificar" />
@@ -219,7 +219,7 @@
                               </Separator>
                               <VBox alignment="CENTER" prefHeight="523.0" prefWidth="401.0" spacing="25.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#fillTableViewEvidence" text="Actualizar lista" />
+                                    <Button mnemonicParsing="false" onMouseClicked="#refreshTableViewAdvancements" text="Actualizar lista" />
                                     <Button mnemonicParsing="false" onMouseClicked="#redirectToAddEvidence" prefHeight="26.0" prefWidth="120.0" text="Añadir evidencia" />
                                  </children>
                               </VBox>

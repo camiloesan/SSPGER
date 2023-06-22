@@ -30,22 +30,22 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        try {
-            fillListViewProjects();
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información.",AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        fillListViewProjects();
         setProjectTitles();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
     @FXML
-    private void fillListViewProjects() throws SQLException {
+    private void fillListViewProjects() {
         ProjectDAO projectDAO = new ProjectDAO();
-        listViewVerifiedProjects.getItems().clear();
-        listViewVerifiedProjects.getItems().addAll(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
+        try {
+            listViewVerifiedProjects.getItems().clear();
+            listViewVerifiedProjects.getItems().addAll(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar la información.",AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
     }
 
     private void setProjectTitles() {

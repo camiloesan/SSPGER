@@ -62,18 +62,21 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
     
     public void initialize() {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
-        try {
-            getDetailedProject();
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información del proyecto.", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        showProjectDetails();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
     private int getTransferProjectID() {
         return TransferProject.getProjectID();
+    }
+    
+    private void showProjectDetails() {
+        try {
+            getDetailedProject();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar la información del proyecto.",AlertStatus.ERROR));
+        }
     }
     
     private void getDetailedProject() throws SQLException {
@@ -161,7 +164,7 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
                 DialogGenerator.getDialog(new AlertMessage("Ya no hay espacios disponibles para este proyecto", AlertStatus.WARNING));
             }
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Error al comprobar los espacios disponibles en el proyecto.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("Sin conexión a la base de datos, no se pudo comprobar los espacios disponibles.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }

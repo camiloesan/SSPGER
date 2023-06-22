@@ -41,7 +41,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
             buttonFeedback.setText("Retroalimentación");
         }
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        fillEvidence();
+        showEvidence();
     }
 
     @FXML
@@ -52,7 +52,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
             studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
         } catch (SQLException studentIDException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar al estudiante", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información de la retroalimentación.", AlertStatus.ERROR));
             logger.error(studentIDException);
         }
 
@@ -68,21 +68,25 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
 
     @FXML
-    public void fillEvidence() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        Evidence evidenceInfo = null;
+    public void showEvidence() {
         try {
-            evidenceInfo = evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
+            Evidence evidenceDetails = getEvidenceDetails();
+            labelTitleEvidence.setText(evidenceDetails.getEvidenceTitle());
+            labelStatusEvidence.setText(evidenceDetails.getEvidenceStatus());
+            labelGradeEvidence.setText(String.valueOf(evidenceDetails.getEvidenceGrade()));
+            labelDescriptionEvidence.setText(evidenceDetails.getEvidenceDescription());
+            labelAdvancementEvidence.setText(evidenceDetails.getAdvancementName());
+            labelStudentEvidence.setText(evidenceDetails.getStudentName());
         } catch (SQLException evidenceInfoException) {
-            DialogGenerator.getDialog(new AlertMessage("Error al recuperar la información", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar la información de la evidencia.", AlertStatus.ERROR));
             logger.error(evidenceInfoException);
         }
-        labelTitleEvidence.setText(evidenceInfo.getEvidenceTitle());
-        labelStatusEvidence.setText(evidenceInfo.getEvidenceStatus());
-        labelGradeEvidence.setText(String.valueOf(evidenceInfo.getEvidenceGrade()));
-        labelDescriptionEvidence.setText(evidenceInfo.getEvidenceDescription());
-        labelAdvancementEvidence.setText(evidenceInfo.getAdvancementName());
-        labelStudentEvidence.setText(evidenceInfo.getStudentName());
+    }
+    
+    public Evidence getEvidenceDetails() throws SQLException{
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        return evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
     }
 
     @FXML

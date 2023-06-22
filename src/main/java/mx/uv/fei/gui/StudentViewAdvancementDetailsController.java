@@ -34,18 +34,22 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     
     public void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        try {
-            getDetailedAdvancement();
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        showAdvancementDetails();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
     public String getAdvancementName() {
         return TransferAdvancement.getAdvancementName();
+    }
+    
+    private void showAdvancementDetails() {
+        try {
+            getDetailedAdvancement();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar la información del avance.",AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
     }
     
     public void getDetailedAdvancement() throws SQLException {

@@ -31,42 +31,35 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
     @FXML
     private void initialize() {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
-        if(existsProjectRequests()) {
+        showRequestInfo();
+    }
+    
+    public void showRequestInfo() {
+        try {
             getProjectRequestInfo();
             checkRequestState();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar la información de las peticiones", AlertStatus.ERROR));
         }
     }
     
-    private void checkRequestState() {
+    private void checkRequestState() throws SQLException{
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-        try {
-            if (projectRequestDAO.isRequestApproved(SessionDetails.getInstance().getId())) {
-                buttonDelete.setVisible(false);
-            }
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Error al recuperar la información de la petición", AlertStatus.ERROR));
-            logger.error(sqlException);
+        if (projectRequestDAO.isRequestApproved(SessionDetails.getInstance().getId())) {
+            buttonDelete.setVisible(false);
         }
-        
     }
 
-    private void getProjectRequestInfo() {
+    private void getProjectRequestInfo() throws SQLException{
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-        ProjectRequest projectRequest = new ProjectRequest();
-        try {
-            projectRequest = projectRequestDAO
-                    .getProjectRequestInfoByStudentID(SessionDetails.getInstance().getId());
-        } catch (SQLException projectRequestInfoException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar información de la petición", AlertStatus.ERROR));
-            logger.error(projectRequestInfoException);
-        }
+        ProjectRequest projectRequest = projectRequestDAO.getProjectRequestInfoByStudentID(SessionDetails.getInstance().getId());
         labelReceptionWorkName.setText(projectRequest.getProjectName());
         labelStateProjectRequest.setText(projectRequest.getStatus());
         labelDescriptionProjectRequest.setText(projectRequest.getDescription());
     }
 
-    private boolean existsProjectRequests() {
+    private boolean existsProjectRequests() { //TODO hacer que con esta comprobación se muestre el mensaje de que aun no hay una petición
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         int projectrequests = 0;
         boolean result;
@@ -75,7 +68,7 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
                     .getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
         } catch (SQLException projectRequestsException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar número de peticiones", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar el número de peticiones", AlertStatus.ERROR));
             logger.error(projectRequestsException);
         }
 
@@ -93,24 +86,19 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
     private void deleteProjectRequest() throws IOException {
         if (confirmedDelete()) {
             ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-            int result = 0;
 
             try {
-                result = projectRequestDAO.deleteProjectRequest(projectRequestDAO
-                        .getProjectRequestIDByStudentID(SessionDetails.getInstance().getId()));
-                redirectToProjects();
+                if (projectRequestDAO.deleteProjectRequest(projectRequestDAO.getProjectRequestIDByStudentID(SessionDetails.getInstance().getId())) == 1) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "Se eliminó con éxito la petición", AlertStatus.SUCCESS));
+                    redirectToProjects();
+                } else {
+                    //TODO se debe alertar si es diferente a 0???
+                }
             } catch (SQLException deleteProjectRequestException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "Error al eliminar la información", AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo eliminar la petición", AlertStatus.ERROR));
                 logger.error(deleteProjectRequestException);
-            }
-
-            if (result == 1) {
-                DialogGenerator.getDialog(new AlertMessage(
-                                "Se eliminó con exito la petición", AlertStatus.SUCCESS));
-            } else {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "No se pudo modificar la petición", AlertStatus.WARNING));
             }
         }
     }

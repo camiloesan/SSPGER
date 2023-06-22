@@ -28,24 +28,25 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     @FXML
     private void initialize() {
         labelUsername.setText(LoginController.sessionDetails.getUsername());
-        try {
-            fillListViewAdvancements();
-            setAdvancementNames();
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información",AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        fillListViewAdvancements();
+        setAdvancementNames();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
     @FXML
-    private void fillListViewAdvancements() throws SQLException {
+    private void fillListViewAdvancements() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        String studentId = LoginController.sessionDetails.getId();
-        listViewAdvancementsNames.getItems().clear();
-        List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByStudentId(studentId));
-        listViewAdvancementsNames.getItems().addAll(advancementList);
+        try {
+            String studentId = LoginController.sessionDetails.getId();
+            listViewAdvancementsNames.getItems().clear();
+            
+            List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByStudentId(studentId));
+            listViewAdvancementsNames.getItems().addAll(advancementList);
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar los avances programados.",AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
     }
     
     private void setAdvancementNames() {

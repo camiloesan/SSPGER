@@ -42,7 +42,7 @@ public class TimelineController {
             generateTimeline();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información de la base de datos", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudieron recuperar los avances programados", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }

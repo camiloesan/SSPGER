@@ -41,24 +41,14 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
     @FXML
     public void initialize() {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
-        labelAdvancementTitle.setText(getAdvancementName());
-        getEvidenceToModify();
+        showEvidenceDetailsToModify();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
 
-    private String getAdvancementName() {
+    private String getAdvancementName() throws SQLException{
         EvidenceDAO evidenceDAO = new EvidenceDAO();
-        String nameAdvancement = null;
-        try {
-            nameAdvancement = evidenceDAO
-                    .getAdvancementNameByStudentID(LoginController.sessionDetails.getId(),
-                            evidenceDAO.getAdvancementIDByEvidenceID(TransferEvidence.getEvidenceId()));
-        } catch (SQLException nameAdavancementException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recupera nombre del avance", AlertStatus.ERROR));
-            logger.error(nameAdavancementException);
-        }
-        return nameAdvancement;
+        return evidenceDAO.getAdvancementNameByStudentID(LoginController.sessionDetails.getId(),
+                evidenceDAO.getAdvancementIDByEvidenceID(TransferEvidence.getEvidenceId()));
     }
     @FXML
     private void modifyEvidence() {
@@ -69,36 +59,38 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
             evidence.setEvidenceTitle(textFieldEvidenceTitle.getText());
             evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
             evidence.setEvidenceId(TransferEvidence.getEvidenceId());
-
-            int resultDAO = 0;
+            
             try {
-                resultDAO = evidenceDAO.modifyEvidence(evidence);
+                if (evidenceDAO.modifyEvidence(evidence) == 1){
+                    DialogGenerator.getDialog(new AlertMessage("La evidencia ha sido actualizada con éxito.",
+                            AlertStatus.SUCCESS));
+                } else {
+                    //TODO misma cuestión es necesario avisar??
+                }
             } catch (SQLException modifyEvidenceException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "Error al modificar avance", AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo modificar la evidencia.", AlertStatus.ERROR));
                 logger.error(modifyEvidenceException);
-            }
-            if(resultDAO == 1) {
-                DialogGenerator.getDialog(new AlertMessage
-                        ("La evidencia ha sido actualizada con exito", AlertStatus.SUCCESS));
-            } else {
-                DialogGenerator.getDialog(new AlertMessage
-                        ("Algo salió mal, su evidencia no fue guardad", AlertStatus.ERROR));
             }
         }
     }
     
-    private void getEvidenceToModify() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        Evidence evidence;
+    private void showEvidenceDetailsToModify() {
         try {
-            evidence = evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
-            textFieldEvidenceTitle.setText(evidence.getEvidenceTitle());
-            textAreaEvidenceDescription.setText(evidence.getEvidenceDescription());
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Error al recuperar la información", AlertStatus.ERROR));
-            logger.error(sqlException);
+            Evidence evidenceDetails = getEvidenceToModify();
+            labelAdvancementTitle.setText(getAdvancementName());
+            textFieldEvidenceTitle.setText(evidenceDetails.getEvidenceTitle());
+            textAreaEvidenceDescription.setText(evidenceDetails.getEvidenceDescription());
+        } catch (SQLException evidenceDetailsException) {
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo recuperar" +
+                    " la información de la evidencia a modificar.", AlertStatus.ERROR));
+            logger.error(evidenceDetailsException);
         }
+    }
+    
+    private Evidence getEvidenceToModify() throws SQLException {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        return evidenceDAO.getEvidenceByEvidenceID(TransferEvidence.getEvidenceId());
     }
 
     @FXML
@@ -143,7 +135,8 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
                 "¿Estás seguro que deseas modificar la evidencia?");
         return response.get() == DialogGenerator.BUTTON_YES;
     }
-
+    
+    /*
     private void copyFile(File file) throws IOException {
         File fileToSave = new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
@@ -152,7 +145,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
                 +getStudentID()+"/"
                 +file.getName());
         Files.copy(file.toPath(), fileToSave.toPath());
-    }
+    }*/
 
     private String getProjectName() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
@@ -162,7 +155,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
                     .getProjectNameByStudentID(LoginController.sessionDetails.getId());
         } catch (SQLException getProjectIDException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recupera nombre del proyecto", AlertStatus.ERROR));
+                    "Error al recuperar nombre del proyecto", AlertStatus.ERROR));
             logger.error(getProjectIDException);
         }
         return projectID;

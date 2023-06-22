@@ -38,74 +38,57 @@ public class ViewFeedbackController implements IStudentNavigationBar {
     @FXML
     public void initialize() {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-
-        try {
-            labelProjectName.setText(evidenceDAO.getProjectNameByEvidenceID(TransferEvidence.getEvidenceId()));
-        } catch (SQLException projectNameException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar el nombre del proyecto", AlertStatus.ERROR));
-            logger.error(projectNameException);
-        }
-
-        labelAdvancementName.setText("Avance: " + getEvidenceInfo().getAdvancementName());
-        labelEvidenceName.setText("Evidencia: " + getEvidenceInfo().getEvidenceTitle());
-        labelStudentName.setText("Estudiante: " + getEvidenceInfo().getStudentName());
+        showEvidence();
         showFeedback();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
-
-
-    private int getFeedbacks() {
+    
+    private int getFeedbacks() throws SQLException{
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        int numberOfFeedbacks = 0;
-
+        return feedbackDAO.getFeedbacksByEvidenceID(TransferEvidence.getEvidenceId(), TransferEvidence.getStudentID());
+    }
+    
+    private void showEvidence() {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
         try {
-            numberOfFeedbacks = feedbackDAO.getFeedbacksByEvidenceID(TransferEvidence.getEvidenceId(),
-                    TransferEvidence.getStudentID());
-        } catch (SQLException numberOfFeedbacksException) {
+            labelProjectName.setText(evidenceDAO.getProjectNameByEvidenceID(TransferEvidence.getEvidenceId()));
+            labelAdvancementName.setText("Avance: " + getEvidenceInfo().getAdvancementName());
+            labelEvidenceName.setText("Evidencia: " + getEvidenceInfo().getEvidenceTitle());
+            labelStudentName.setText("Estudiante: " + getEvidenceInfo().getStudentName());
+        } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar el número de retroalimentaciones", AlertStatus.ERROR));
-            logger.error(numberOfFeedbacksException);
+                    "No hay conexión a la base de datos, no se pudo recuperar la información.", AlertStatus.WARNING));
         }
-
-        return numberOfFeedbacks;
     }
 
     private void showFeedback() {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-
-        if (getFeedbacks() != 0) {
-            labelGrade.setText("Calificación: " + getEvidenceInfo().getEvidenceGrade());
-            try {
-                textFeedback.setText("Retroalimentación: " +
-                        feedbackDAO.getFeedbackTextByEvidenceID(TransferEvidence.getEvidenceId(),
-                                TransferEvidence.getStudentID()));
-            } catch (SQLException textFeedbackException) {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "No se pudo recuperar la retroalimentación", AlertStatus.ERROR));
-                logger.error(textFeedbackException);
+        try {
+            if (getFeedbacks() != 0) {
+                labelGrade.setText("Calificación: " + getEvidenceInfo().getEvidenceGrade());
+                try {
+                    textFeedback.setText("Retroalimentación: " +
+                            feedbackDAO.getFeedbackTextByEvidenceID(TransferEvidence.getEvidenceId(),
+                                    TransferEvidence.getStudentID()));
+                } catch (SQLException textFeedbackException) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "No se pudo recuperar la retroalimentación", AlertStatus.ERROR));
+                    logger.error(textFeedbackException);
+                }
+            } else {
+                labelGrade.setText("Sin calificación");
+                textFeedback.setText("Sin retroalimentación");
             }
-        } else {
-            labelGrade.setText("Sin calificación");
-            textFeedback.setText("Sin retroalimentación");
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar la información.", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
-
     }
 
-    private Evidence getEvidenceInfo() {
+    private Evidence getEvidenceInfo() throws SQLException{
         EvidenceDAO evidenceDAO = new EvidenceDAO();
-        Evidence evidence = new Evidence();
-
-        try {
-            evidence = evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
-        } catch (SQLException evidenceInfoException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información de la evidencia", AlertStatus.ERROR));
-            logger.error(evidenceInfoException);
-        }
-
-        return evidence;
+        return evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
     }
 
     @Override
