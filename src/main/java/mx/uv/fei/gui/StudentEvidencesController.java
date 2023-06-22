@@ -194,8 +194,10 @@ public class StudentEvidencesController implements IStudentNavigationBar {
             int result = 0;
             int evidenceID = tableViewEvidence.getSelectionModel().getSelectedItem().getEvidenceId();
 
-            for (File fileToDelete : getFiles() ) {
-                fileToDelete.delete();
+            if (!getFiles().isEmpty()) {
+                for (File fileToDelete : getFiles()) {
+                    fileToDelete.delete();
+                }
             }
 
             try {

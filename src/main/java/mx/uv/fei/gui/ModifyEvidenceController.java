@@ -64,12 +64,11 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
                 if (evidenceDAO.modifyEvidence(evidence) == 1){
                     DialogGenerator.getDialog(new AlertMessage("La evidencia ha sido actualizada con éxito.",
                             AlertStatus.SUCCESS));
-                } else {
-                    //TODO misma cuestión es necesario avisar??
                 }
             } catch (SQLException modifyEvidenceException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "No hay conexión a la base de datos, no se pudo modificar la evidencia.", AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo modificar la evidencia.",
+                        AlertStatus.ERROR));
                 logger.error(modifyEvidenceException);
             }
         }
@@ -134,45 +133,6 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
                 "¿Estás seguro que deseas modificar la evidencia?");
         return response.get() == DialogGenerator.BUTTON_YES;
-    }
-    
-    /*
-    private void copyFile(File file) throws IOException {
-        File fileToSave = new File(System.getProperty("user.home")
-                +"/IdeaProjects/SSPGER/evidences/"
-                + getProjectName()+ "/"
-                +getAdvancementName() +"/"
-                +getStudentID()+"/"
-                +file.getName());
-        Files.copy(file.toPath(), fileToSave.toPath());
-    }*/
-
-    private String getProjectName() {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        String projectID = null;
-        try {
-            projectID = advancementDAO
-                    .getProjectNameByStudentID(LoginController.sessionDetails.getId());
-        } catch (SQLException getProjectIDException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar nombre del proyecto", AlertStatus.ERROR));
-            logger.error(getProjectIDException);
-        }
-        return projectID;
-    }
-
-    private String getStudentID() {
-        return LoginController.sessionDetails.getId();
-    }
-
-    private void createPath(String projectID, String advancementName, String studentName) {
-        File path = new File(System.getProperty("user.home")
-                +"/IdeaProjects/SSPGER/evidences/"
-                +projectID+"/"
-                +advancementName+"/"+studentName);
-        if (!path.exists()) {
-            path.mkdirs();
-        }
     }
 
     @Override

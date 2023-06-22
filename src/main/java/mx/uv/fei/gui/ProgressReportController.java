@@ -15,11 +15,7 @@ import javafx.scene.image.WritableImage;
 
 import mx.uv.fei.dao.implementations.EvidenceDAO;
 import mx.uv.fei.dao.implementations.ProfessorDAO;
-import mx.uv.fei.logic.TransferStudent;
-import mx.uv.fei.logic.TransferProject;
-import mx.uv.fei.logic.Evidence;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.AlertMessage;
+import mx.uv.fei.logic.*;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -27,9 +23,11 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -66,7 +64,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
     private static final Logger logger = Logger.getLogger(ProgressReportController.class);
     
     public void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         prepareTableViewEvidences();
         try {
             setInfoLabels();
@@ -93,7 +91,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
     
     private void prepareTableViewEvidences() {
         tableViewEvidences.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+
         tableColumnProduct = new TableColumn<>("Actividades/Productos");
         tableColumnProduct.setCellValueFactory(new PropertyValueFactory<>("evidenceTitle"));
         tableColumnProduct.setResizable(false);
@@ -158,9 +156,10 @@ public class ProgressReportController implements IProfessorNavigationBar{
         PdfWriter pdfWriter = null;
         PdfDocument pdfDocument = null;
         Document document = null;
-        
-        try{
-            String documentName = "Reporte_" + TransferStudent.getStudentID() + "_" + actualDate  + ".pdf" ;
+        String documentName = null;
+
+        try {
+            documentName = "Reporte_" + TransferStudent.getStudentID() + "_" + actualDate + ".pdf";
             pdfWriter = new PdfWriter(new FileOutputStream( documentName));
             pdfDocument = new PdfDocument(pdfWriter);
             document = new Document(pdfDocument);
@@ -169,8 +168,7 @@ public class ProgressReportController implements IProfessorNavigationBar{
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
             Image pdfImage = new Image(ImageDataFactory.create(bufferedImage,null));
             document.add(pdfImage);
-            
-            DialogGenerator.getDialog(new AlertMessage("Se ha generado el reporte", AlertStatus.SUCCESS));
+
         } catch (FileNotFoundException fileNotFoundException) {
             DialogGenerator.getDialog(new AlertMessage("Error al generar el PDF", AlertStatus.ERROR));
             logger.error(fileNotFoundException);
@@ -179,6 +177,23 @@ public class ProgressReportController implements IProfessorNavigationBar{
             logger.error(ioException);
         } finally {
             if (document != null) {
+                File report = new File(System.getProperty("user.home")
+                        +"/IdeaProjects/SSPGER/" + documentName);
+
+                File fileToMove = new File(System.getProperty("user.home")+ "/Documents/");
+
+                File fileToSave = new File(fileToMove.getParent(), documentName);
+
+                if (fileToSave.exists()) {
+                    fileToSave.delete();
+                }
+
+                Files.move(report.toPath(), fileToSave.toPath());
+                fileToMove.renameTo(fileToSave);
+
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Se ha generado el reporte, en la siguiente ruta: " + fileToSave.getAbsolutePath(),
+                        AlertStatus.SUCCESS));
                 document.close();
             }
             if (pdfDocument != null) {
@@ -218,12 +233,12 @@ public class ProgressReportController implements IProfessorNavigationBar{
     public boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
                 "¿Está seguro que desea salir, se cerrará su sesión?");
-        return (response.get() == DialogGenerator.BUTTON_YES);
+        return (response.orElse(null) == DialogGenerator.BUTTON_YES);
     }
     
     @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             try {
                 MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
             } catch (IOException ioException) {

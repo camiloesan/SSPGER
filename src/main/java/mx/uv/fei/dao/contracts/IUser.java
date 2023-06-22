@@ -21,4 +21,5 @@ public interface IUser {
     boolean isEmailTaken(String email) throws SQLException;
     Professor getProfessorAccount(String username) throws SQLException;
     Student getStudentAccount(String username) throws SQLException;
+    int getUserIDByUsername(String username) throws SQLException;
 }
