@@ -44,27 +44,32 @@ public class AddEvidenceController implements IStudentNavigationBar {
 
     @FXML
     private void sendEvidence() throws IOException {
-        if (existsEvidence() && fieldsCorrect() && confirmedEvidence()) {
-            EvidenceDAO evidenceDAO = new EvidenceDAO();
-            Evidence evidence = new Evidence();
-
-            evidence.setEvidenceTitle(textFieldEvidenceTitle.getText());
-            evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
-            evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
-            evidence.setStudentId(LoginController.sessionDetails.getId());
-
-            int resultDAO= 0;
-            try {
-                resultDAO = evidenceDAO.addEvidence(evidence);
-            } catch (SQLException addEvidenceException) {
-                DialogGenerator.getDialog(new AlertMessage
-                        ("Algo salió mal, vuelva a intentarlo más tarde", AlertStatus.ERROR));
-                logger.error(addEvidenceException);
+        try {
+            if (existsEvidence() && fieldsCorrect() && confirmedEvidence()) {
+                EvidenceDAO evidenceDAO = new EvidenceDAO();
+                Evidence evidence = new Evidence();
+                
+                evidence.setEvidenceTitle(textFieldEvidenceTitle.getText());
+                evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
+                evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
+                evidence.setStudentId(LoginController.sessionDetails.getId());
+                
+                try {
+                    if(evidenceDAO.addEvidence(evidence) == 1 && addFiles()) {
+                        DialogGenerator.getDialog(new AlertMessage
+                                ("La evidencia ha sido guardado con éxito", AlertStatus.SUCCESS));
+                    }
+                } catch (SQLException addEvidenceException) {
+                    DialogGenerator.getDialog(new AlertMessage
+                            ("No hay conexión con la base de datos, no se pudo registrar la evidencia.", AlertStatus.ERROR));
+                    logger.error(addEvidenceException);
+                }
             }
-            if(resultDAO == 1 && addFiles()) {
-                DialogGenerator.getDialog(new AlertMessage
-                        ("La evidencia ha sido guardado con exito", AlertStatus.SUCCESS));
-            }
+        } catch (SQLException numberOfEvidencesException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo comprobar si ya hay evidencias entregadas",
+                    AlertStatus.ERROR));
+            logger.error(numberOfEvidencesException);
         }
     }
 
@@ -105,21 +110,11 @@ public class AddEvidenceController implements IStudentNavigationBar {
         }
     }
 
-    private boolean existsEvidence() {
+    private boolean existsEvidence() throws SQLException{
         EvidenceDAO evidenceDAO =  new EvidenceDAO();
-        int numberOfEvidences = 0;
         boolean result;
-
-        try {
-            numberOfEvidences = evidenceDAO.getEvidencesByStudentID(SessionDetails
-                    .getInstance()
-                    .getId(), TransferAdvancement.getAdvancementID());
-        } catch (SQLException numberOfEvidencesException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar el número de evidencias", AlertStatus.ERROR));
-            logger.error(numberOfEvidencesException);
-        }
-
+        int numberOfEvidences = evidenceDAO.getEvidencesByStudentID(SessionDetails.getInstance().getId(),
+                TransferAdvancement.getAdvancementID());
         if (numberOfEvidences > 0) {
             DialogGenerator.getDialog(new AlertMessage("Ya haz entregado una evidencia a este avance",
                     AlertStatus.WARNING));
