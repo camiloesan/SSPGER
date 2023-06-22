@@ -30,6 +30,8 @@ public class EvidenceFilesController implements IStudentNavigationBar {
     @FXML
     private Label labelUsername;
     @FXML
+    private Label labelRequest;
+    @FXML
     private TableView<File> tableViewFiles;
     @FXML
     private Button buttonAddFile;
@@ -50,6 +52,7 @@ public class EvidenceFilesController implements IStudentNavigationBar {
 
         if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)
                 && !isAdvancementOverdue()) {
+            labelRequest.setText("Mi Petición");
             buttonAddFile.setVisible(true);
             buttonDeleteFile.setVisible(true);
         }

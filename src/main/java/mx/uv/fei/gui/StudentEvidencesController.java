@@ -20,11 +20,11 @@ import java.util.Optional;
 
 public class StudentEvidencesController implements IStudentNavigationBar {
     @FXML
-    TableView<Advancement> tableViewAdvancement;
+    private TableView<Advancement> tableViewAdvancement;
     @FXML
     private TableView<Evidence> tableViewEvidence;
     @FXML
-    Label labelUsername;
+    private Label labelUsername;
     private static final Logger logger = Logger.getLogger(StudentEvidencesController.class);
 
     @FXML
@@ -44,6 +44,10 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         finishAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementDeadline"));
         tableViewAdvancement.getColumns().addAll(nameAdvancement, starAdvancement, finishAdvancement);
         fillTables();
+
+        if (SessionDetails.getInstance().getUserType().equals("Estudiante")) {
+
+        }
     }
 
     private ObservableList<File> getFiles() {
