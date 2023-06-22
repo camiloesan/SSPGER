@@ -2,6 +2,8 @@ package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
@@ -38,26 +40,40 @@ public class AddFeedbackController implements IProfessorNavigationBar {
     private TextArea textAreaFeedback;
     @FXML
     private ComboBox<Integer> comboBoxGrade;
+    @FXML
+    private HBox hboxLogOutLabel;
     private static final int MAX_TEXT_FEEDBACK_LENGTH = 850;
     private static final Logger logger = Logger.getLogger(AddFeedbackController.class);
 
     @FXML
     public void initialize() {
         labelUsername.setText(SessionDetails.getInstance().getUsername());
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-
+        fillGradeCombo();
+        showFeedbackInformation();
+        VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
+    }
+    
+    public void showFeedbackInformation() {
         try {
-            labelProjectName.setText(evidenceDAO.getProjectNameByEvidenceID(TransferEvidence.getEvidenceId()));
-        } catch (SQLException projectNameException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar el nombre del proyecto", AlertStatus.ERROR));
-            logger.error(projectNameException);
+            showFeedback();
+            showEvidenceInformation();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo recuperar la información necesaria para la retroalimentación.", AlertStatus.ERROR));
+            logger.error(sqlException);
         }
-
-        labelAdvancementName.setText("Avance: " + getEvidenceInfo().getAdvancementName());
-        labelEvidenceName.setText("Evidencia: " + getEvidenceInfo().getEvidenceTitle());
-        labelStudentName.setText("Estudiante: " + getEvidenceInfo().getStudentName());
-        showFeedback();
+    }
+    
+    public void showEvidenceInformation() throws SQLException{
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        Evidence evidenceDetails = getEvidenceInfo();
+        labelProjectName.setText(evidenceDAO.getProjectNameByEvidenceID(TransferEvidence.getEvidenceId()));
+        labelAdvancementName.setText("Avance: " + evidenceDetails.getAdvancementName());
+        labelEvidenceName.setText("Evidencia: " + evidenceDetails.getEvidenceTitle());
+        labelStudentName.setText("Estudiante: " + evidenceDetails.getStudentName());
+    }
+    
+    public void fillGradeCombo() {
+        comboBoxGrade.getItems().clear();
         for (int i = 1; i <= 10; i++) {
             comboBoxGrade.getItems().add(i);
         }
@@ -70,23 +86,19 @@ public class AddFeedbackController implements IProfessorNavigationBar {
             FeedbackDAO feedbackDAO = new FeedbackDAO();
             EvidenceDAO evidenceDAO = new EvidenceDAO();
             Feedback feedback = new Feedback();
-            int result = 0;
 
             feedback.setEvidenceID(TransferEvidence.getEvidenceId());
             feedback.setFeedbackText(textAreaFeedback.getText());
 
             try {
-                result = feedbackDAO.addFeedback(feedback);
-                evidenceDAO.updateEvidenceGradeCheckById(feedback.getEvidenceID(), comboBoxGrade.getValue());
+                if (feedbackDAO.addFeedback(feedback) == 1) {
+                    evidenceDAO.updateEvidenceGradeCheckById(feedback.getEvidenceID(), comboBoxGrade.getValue());
+                    showFeedback();
+                }
             } catch (SQLException feedbackException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "Error al registrar la retroalimentación", AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo registrar la retroalimentación", AlertStatus.ERROR));
                 logger.error(feedbackException);
-            }
-
-            if (result == 1) {
-                DialogGenerator.getDialog(new AlertMessage("Retroalimentación guardada", AlertStatus.SUCCESS));
-                showFeedback();
             }
         }
     }
@@ -96,47 +108,39 @@ public class AddFeedbackController implements IProfessorNavigationBar {
         if (isConfirmedDeleteFeedback()) {
             EvidenceDAO evidenceDAO = new EvidenceDAO();
             FeedbackDAO feedbackDAO = new FeedbackDAO();
-            int result = 0;
 
             try {
-                result = feedbackDAO.deleteFeedbackByID(
-                        feedbackDAO.getFeedbackIDByEvidenceID(TransferEvidence.getEvidenceId(),
-                        TransferEvidence.getStudentID()));
-                evidenceDAO.updateEvidenceGradeUncheckById(TransferEvidence.getEvidenceId());
+                if (feedbackDAO.deleteFeedbackByID(feedbackDAO.getFeedbackIDByEvidenceID(TransferEvidence.getEvidenceId(),
+                        TransferEvidence.getStudentID())) == 1) {
+                    evidenceDAO.updateEvidenceGradeUncheckById(TransferEvidence.getEvidenceId());
+                    DialogGenerator.getDialog(new AlertMessage("Retroalimentación eliminada", AlertStatus.SUCCESS));
+                    showFeedback();
+                }
             } catch (SQLException deleteFeedbackException) {
                 DialogGenerator.getDialog(new AlertMessage(
                         "Error al eliminar la retroalimentación", AlertStatus.ERROR));
                 logger.error(deleteFeedbackException);
             }
-
-            if (result == 1) {
-                DialogGenerator.getDialog(new AlertMessage("Retroalimentación eliminada", AlertStatus.SUCCESS));
-                showFeedback();
-            }
-
         }
     }
 
-    private void showFeedback() {
+    private void showFeedback() throws SQLException{
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        
+        String studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
+        
         if (getFeedbacks() != 0) {
             buttonDeleteFeedback.setVisible(true);
             buttonFeedback.setVisible(false);
             textAreaFeedback.setVisible(false);
             vBoxFeedbackText.setVisible(true);
             comboBoxGrade.setVisible(false);
+            
+            String textToFeedback;
             labelGrade.setText("Calificación: " + getEvidenceInfo().getEvidenceGrade());
-            String textToFeedback = null;
-
-            try {
-                textToFeedback = feedbackDAO.getFeedbackTextByEvidenceID(TransferEvidence.getEvidenceId(),
-                        TransferEvidence.getStudentID());
-            } catch (SQLException textFeedbackException) {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "No se pudo recuperar la retroalimentación", AlertStatus.ERROR));
-                logger.error(textFeedbackException);
-            }
+            textToFeedback = feedbackDAO.getFeedbackTextByEvidenceID(TransferEvidence.getEvidenceId(), studentID);
+            
             textFeedback.setText("Retroalimentación: " + textToFeedback);
             textFeedback.setVisible(true);
         } else {
@@ -148,23 +152,11 @@ public class AddFeedbackController implements IProfessorNavigationBar {
             comboBoxGrade.setVisible(true);
             labelGrade.setText("Calificación: ");
         }
-
     }
 
-    private int getFeedbacks() {
+    private int getFeedbacks() throws SQLException {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        int numberOfFeedbacks = 0;
-
-        try {
-            numberOfFeedbacks = feedbackDAO.getFeedbacksByEvidenceID(TransferEvidence.getEvidenceId(),
-                    TransferEvidence.getStudentID());
-        } catch (SQLException numberOfFeedbacksException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar el número de retroalimentaciones", AlertStatus.ERROR));
-            logger.error(numberOfFeedbacksException);
-        }
-
-        return numberOfFeedbacks;
+        return feedbackDAO.getFeedbacksByEvidenceID(TransferEvidence.getEvidenceId(), TransferEvidence.getStudentID());
     }
 
     private boolean isGradeSelect() {
@@ -209,19 +201,9 @@ public class AddFeedbackController implements IProfessorNavigationBar {
     }
 
 
-    private Evidence getEvidenceInfo() {
+    private Evidence getEvidenceInfo() throws SQLException {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
-        Evidence evidence = new Evidence();
-
-        try {
-            evidence = evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
-        } catch (SQLException evidenceInfoException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información de la evidencia", AlertStatus.ERROR));
-            logger.error(evidenceInfoException);
-        }
-
-        return evidence;
+        return evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
     }
 
     @Override

@@ -37,26 +37,28 @@ public class PaneModifyAdvancementController {
     @FXML
     private void initialize() {
         labelHeader.setText("Modificar evidencia [" + TransferAdvancement.getAdvancementName() + "]");
-        fillComboBoxNewProjectToAssign();
         formatDatePickers();
-        getAdvancementToModify();
+        showAdvancementDetails();
     }
     
-    private void getAdvancementToModify() {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement advancement;
+    public void showAdvancementDetails() {
         try {
-            advancement = advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID());
-            assert advancement != null;
-            newAdvancementName.setText(advancement.getAdvancementName());
-            newAdvancementStartDate.setValue(LocalDate.parse(advancement.getAdvancementStartDate()));
-            newAdvancementDeadline.setValue(LocalDate.parse(advancement.getAdvancementDeadline()));
-            setAsignedProject();
-            newAdvancementDescription.setText(advancement.getAdvancementDescription());
+            fillComboBoxNewProjectToAssign();
+            getAdvancementToModify();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Error al recuperar la información del avance.", AlertStatus.ERROR));
-            logger.error(sqlException);
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo recuperar" +
+                    " la información del avance.", AlertStatus.ERROR));
         }
+    }
+    
+    private void getAdvancementToModify() throws SQLException{
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        Advancement advancement = advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID());
+        newAdvancementName.setText(advancement.getAdvancementName());
+        newAdvancementStartDate.setValue(LocalDate.parse(advancement.getAdvancementStartDate()));
+        newAdvancementDeadline.setValue(LocalDate.parse(advancement.getAdvancementDeadline()));
+        setAsignedProject();
+        newAdvancementDescription.setText(advancement.getAdvancementDescription());
     }
 
     private void formatDatePickers() {
@@ -95,17 +97,10 @@ public class PaneModifyAdvancementController {
         comboNewProjectToAssign.setValue(actualAssignedProject);
     }
 
-    private void fillComboBoxNewProjectToAssign() {
+    private void fillComboBoxNewProjectToAssign() throws SQLException{
         ProjectDAO projectDAO = new ProjectDAO();
         int professorId = Integer.parseInt(LoginController.sessionDetails.getId());
-        try {
-            comboNewProjectToAssign.setItems(FXCollections.observableList(
-                    projectDAO.getProjectNamesByIdDirector(professorId)));
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        comboNewProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
     }
 
     @FXML

@@ -46,19 +46,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
 
     @FXML
     private void openFeedback() throws IOException {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        String studentID = null;
-        try {
-            studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
-        } catch (SQLException studentIDException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información de la retroalimentación.", AlertStatus.ERROR));
-            logger.error(studentIDException);
-        }
-
-        TransferEvidence.setStudentID(studentID);
         TransferEvidence.setEvidenceName(labelTitleEvidence.getText());
-
         if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_STUDENT)) {
             MainStage.changeView("viewfeedback-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {

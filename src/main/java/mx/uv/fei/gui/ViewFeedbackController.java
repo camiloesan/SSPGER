@@ -45,7 +45,7 @@ public class ViewFeedbackController implements IStudentNavigationBar {
     
     private int getFeedbacks() throws SQLException{
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        return feedbackDAO.getFeedbacksByEvidenceID(TransferEvidence.getEvidenceId(), TransferEvidence.getStudentID());
+        return feedbackDAO.getFeedbacksByEvidenceID(TransferEvidence.getEvidenceId(), SessionDetails.getInstance().getId());
     }
     
     private void showEvidence() {

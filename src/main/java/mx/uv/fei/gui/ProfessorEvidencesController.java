@@ -30,8 +30,8 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
         try {
             fillTableViewEvidence();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos," +
-                    " inténtelo de nuevo más tarde", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos," +
+                    " no se pudo recuperar las evidencias registradas.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -44,6 +44,8 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
                     .getSelectedItem()
                     .getEvidenceId());
             MainStage.changeView("evidencefiles-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        } else {
+            DialogGenerator.getDialog(new AlertMessage("Seleccione una evidencia para ver sus archivos.", AlertStatus.WARNING));
         }
     }
 

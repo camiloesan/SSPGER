@@ -37,7 +37,7 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
             fillProjectTableByRole();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información.", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudieron recuperar sus proyectos.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
@@ -74,7 +74,7 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
             fillProjectTableByRole();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información.", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudieron recuperar sus proyectos.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
