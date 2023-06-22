@@ -12,6 +12,7 @@ import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.ProjectRequest;
 import mx.uv.fei.logic.SessionDetails;
 import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.pattern.NotANumber;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -61,7 +62,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
                         .getStudentId());
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "No se pudo obtener la información del estudiante", AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo obtener la información del estudiante", AlertStatus.ERROR));
                 logger.error(sqlException);
             }
             try {
@@ -71,7 +72,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
                         .getProjectID());
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "No se pudo obtener la información del proyecto", AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo obtener la información del proyecto", AlertStatus.ERROR));
                 logger.error(sqlException);
             }
 
@@ -95,7 +96,6 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         ProjectDAO projectDAO = new ProjectDAO();
         if (projectRequestIsSelected()) {
-            
             if (Objects.equals(validation, ACCEPT_REQUEST)) {
                 try {
                     projectRequestDAO.validateProjectRequest(validation, tableViewRequests
@@ -105,7 +105,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
                     projectDAO.decreaseStudentQuota(projectID);
                 } catch (SQLException requestException) {
                     DialogGenerator.getDialog(new AlertMessage(
-                            "No se pudo validar la solicitud de proyecto", AlertStatus.ERROR));
+                            "No hay conexión a la base de datos, no se pudo validar la solicitud de proyecto", AlertStatus.ERROR));
                     logger.error(requestException);
                 }
             } else if (Objects.equals(validation, DECLINE_REQUEST)) {
@@ -119,7 +119,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
                     }
                 } catch (SQLException requestException) {
                     DialogGenerator.getDialog(new AlertMessage(
-                            "No se pudo validar la solicitud de proyecto", AlertStatus.ERROR));
+                            "No hay conexión a la base de datos, no se pudo validar la solicitud de proyecto", AlertStatus.ERROR));
                     logger.error(requestException);
                 }
             }

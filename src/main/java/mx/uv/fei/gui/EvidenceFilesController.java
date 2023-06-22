@@ -80,16 +80,17 @@ public class EvidenceFilesController implements IStudentNavigationBar {
     private boolean isAdvancementOverdue() {
         boolean result = false;
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        LocalDate deadline = null;
+        LocalDate deadline;
 
         try {
             deadline = advancementDAO.getAdvancementDeadLineByEvidenceID(TransferEvidence.getEvidenceId());
+            if (deadline.isBefore(LocalDate.now()) && deadline != null) {
+                result = true;
+            }
         } catch (SQLException deadlineException) {
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo comprobar" +
+                    " la fecha de entrega.", AlertStatus.ERROR));
             logger.error(deadlineException);
-        }
-
-        if (deadline.isBefore(LocalDate.now())) {
-            result = true;
         }
 
         return result;

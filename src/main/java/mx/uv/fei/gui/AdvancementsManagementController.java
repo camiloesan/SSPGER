@@ -57,9 +57,18 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         labelUsername.setText(SessionDetails.getInstance().getUsername());
         professorId = Integer.parseInt(SessionDetails.getInstance().getId());
         advancementDescription.setTextFormatter(new TextFormatter<>(createFilter()));
-        fillComboBoxProjectToAssign();
         formatDatePicker();
-        fillTableViewAdvancements();
+        showAdvancementData();
+    }
+    
+    private void showAdvancementData() {
+        try {
+            fillComboBoxProjectToAssign();
+            fillTableViewAdvancements();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo recuperar" +
+                    " la información de los avances.", AlertStatus.ERROR));
+        }
     }
 
     private void formatDatePicker() {
@@ -71,7 +80,17 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             }
         });
     }
-
+    
+    private void refreshTableViewAdvancements() {
+        try {
+            fillTableViewAdvancements();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo actualizar" +
+                    " la tabla de avances.", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+    }
+ 
     @FXML
     private void deleteAdvancementButtonAction() {
         if (isItemSelected()) {
@@ -81,7 +100,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
                     "¿Está seguro que desea eliminar el avance \"" + advancementName + "\"?");
             if (response.orElse(null) == DialogGenerator.BUTTON_YES) {
                 deleteAdvancement(advancementId);
-                fillTableViewAdvancements();
+                refreshTableViewAdvancements();
             }
         } else {
             DialogGenerator.getDialog(new AlertMessage(
@@ -99,7 +118,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             advancementDAO.deleteAdvancementById(advancementId);
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo eliminar el avance, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo eliminar el avance.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -136,15 +155,14 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     private void scheduleAdvancementButtonAction() {
         if (areScheduleAdvancementFieldsValid()) {
             try {
-                scheduleAdvancement();
+                Advancement advancement = createAdvancement();
+                scheduleAdvancement(advancement);
+                fillTableViewAdvancements();
             } catch (SQLException sqlException) {
-                DialogGenerator.getDialog(new AlertMessage(
-                        "No se pudo añadir el avance, inténtelo más tarde", AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo " +
+                        "programar el avance.", AlertStatus.ERROR));
                 logger.error(sqlException);
             }
-
-            clearFields();
-            fillTableViewAdvancements();
         }
     }
     
@@ -218,27 +236,23 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         return flag;
     }
 
-    private void scheduleAdvancement() throws SQLException {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
+    private Advancement createAdvancement() throws SQLException{
         ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement = new Advancement();
+        
+        advancement.setProjectId(projectDAO.getProjectIDByTitle(comboProjectToAssign.getValue()));
         advancement.setAdvancementName(advancementName.getText());
+        advancement.setAdvancementDescription(advancementDescription.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(advancementStartDate.getValue())));
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(advancementDeadline.getValue())));
-        try {
-            advancement.setProjectId(projectDAO.getProjectIDByTitle(comboProjectToAssign.getValue()));
-        } catch (SQLException sqlException) {
-            logger.error(sqlException);
-        }
-        advancement.setAdvancementDescription(advancementDescription.getText());
-        int advancementResult = 0;
-        try {
-             advancementResult = advancementDAO.addAdvancement(advancement);
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo programar el avance", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
-        if (advancementResult == 1) {
+        
+        return advancement;
+    }
+    
+    private void scheduleAdvancement(Advancement advancement) throws SQLException{
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        
+        if (advancementDAO.addAdvancement(advancement) == 1) {
             DialogGenerator.getDialog(new AlertMessage("Se ha programado el avance", AlertStatus.SUCCESS));
         }
     }
@@ -268,32 +282,18 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         }
     }
 
-    private void fillComboBoxProjectToAssign() {
+    private void fillComboBoxProjectToAssign() throws SQLException{
         ProjectDAO projectDAO = new ProjectDAO();
-        try {
-            comboProjectToAssign.setItems((
-                    FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId))));
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        comboProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
     }
     
-    public void fillTableViewAdvancements() {
+    public void fillTableViewAdvancements() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         tableViewAdvancements.getItems().clear();
         professorId = Integer.parseInt(SessionDetails.getInstance().getId());
-        List<Advancement> advancementList = null;
-        try {
-           advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByProfessorId(professorId));
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Hubo un problema al conectarse con la base de datos", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
-        assert advancementList != null;
-        tableViewAdvancements.getItems().addAll(advancementList);
+        List<Advancement> advancementList;
+       advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByProfessorId(professorId));
+       tableViewAdvancements.getItems().addAll(advancementList);
     }
     
     public void openAdvancementDetails() throws IOException {
