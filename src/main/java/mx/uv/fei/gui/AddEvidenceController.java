@@ -9,6 +9,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
+import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
 
@@ -98,7 +99,9 @@ public class AddEvidenceController implements IStudentNavigationBar {
         fileChooser.setTitle("Evidencia");
         File evidenceFile = fileChooser.showOpenDialog(new Stage());
         if (evidenceFile != null) {
-            createPath(getProjectID(), getAdvancementName(), getStudentID());
+            createPath(getProjectID(),
+                    String.valueOf(TransferAdvancement.getAdvancementID()),
+                    getStudentUserID());
             listFiles.add(evidenceFile);
             labelNameFile.setText(buildStringsOfFiles());
             labelNameFile.setVisible(true);
@@ -135,39 +138,47 @@ public class AddEvidenceController implements IStudentNavigationBar {
         File fileToSave = new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
                 +getProjectID()+ "/"
-                +getAdvancementName() +"/"
-                +getStudentID()+"/"
+                +TransferAdvancement.getAdvancementID() +"/"
+                +getStudentUserID()+"/"
                 +file.getName());
         Files.copy(file.toPath(), fileToSave.toPath());
     }
 
     private String getProjectID() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        String projectID = null;
+        int projectID = 0;
         try {
             projectID = advancementDAO
-                    .getProjectNameByStudentID(LoginController.sessionDetails.getId());
+                    .getProjectIDByAdvancementID(TransferAdvancement.getAdvancementID());
         } catch (SQLException getProjectIDException) {
             DialogGenerator.getDialog(new AlertMessage
                     ("Algo salió mal, vuelva a intentarlo más tarde", AlertStatus.ERROR));
             logger.error(getProjectIDException);
         }
-        return projectID;
+        return String.valueOf(projectID);
     }
 
-    private String getAdvancementName() {
-        return TransferAdvancement.getAdvancementName();
+    private String getStudentUserID() {
+        UserDAO userDAO = new UserDAO();
+        int userID = 0;
+
+        try {
+            userID = userDAO.getUserIDByUsername(SessionDetails.getInstance().getUsername());
+        } catch (SQLException userIDException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar el usuario", AlertStatus.ERROR));
+            logger.error(userIDException);
+        }
+
+
+        return String.valueOf(userID);
     }
 
-    private String getStudentID() {
-        return LoginController.sessionDetails.getId();
-    }
-
-    private void createPath(String projectID, String advancementName, String studentName) {
+    private void createPath(String projectID, String advancementID, String studentUserID) {
         File path = new File(System.getProperty("user.home")
                 +"/IdeaProjects/SSPGER/evidences/"
                 +projectID+"/"
-                +advancementName+"/"+studentName);
+                +advancementID+"/"+studentUserID);
         if (!path.exists()) {
             path.mkdirs();
         }
