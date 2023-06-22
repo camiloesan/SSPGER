@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
-import mx.uv.fei.dao.implementations.ProjectRequestDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
 
@@ -44,14 +43,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         TableColumn<Advancement, String> finishAdvancement = new TableColumn<>("Fecha de cierre");
         finishAdvancement.setCellValueFactory(new PropertyValueFactory<>("advancementDeadline"));
         tableViewAdvancement.getColumns().addAll(nameAdvancement, starAdvancement, finishAdvancement);
-        try {
-            fillTableViewEvidence();
-            fillTableViewAdvancement();
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo conectar con la base de datos," +
-                    " inténtelo de nuevo más tarde", AlertStatus.ERROR));
-            logger.error(sqlException);
-        }
+        fillTables();
     }
 
     private ObservableList<File> getFiles() {
@@ -133,9 +125,31 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     "viewevidencedetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
-
+    
+    private void fillTables() {
+        try {
+            fillTableViewEvidence();
+            fillTableViewAdvancement();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar la información.", AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+    }
+    
     @FXML
-    private void fillTableViewEvidence() throws SQLException {
+    private void refreshTableViewEvidence() {
+        try {
+            fillTableViewEvidence();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar las evidencias registradas.",
+                    AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+    }
+    
+    private void fillTableViewEvidence() throws SQLException{
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         tableViewEvidence.getItems().clear();
         tableViewEvidence.getItems().addAll(evidenceDAO
@@ -143,7 +157,18 @@ public class StudentEvidencesController implements IStudentNavigationBar {
     }
 
     @FXML
-    private void fillTableViewAdvancement() throws SQLException {
+    private void refreshTableViewAdvancements() {
+        try {
+            fillTableViewAdvancement();
+        } catch (SQLException sqlException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo recuperar los avances programados.",
+                    AlertStatus.ERROR));
+            logger.error(sqlException);
+        }
+    }
+    
+    private void fillTableViewAdvancement() throws SQLException{
         AdvancementDAO advancementDAO = new AdvancementDAO();
         tableViewAdvancement.getItems().clear();
         tableViewAdvancement.getItems().addAll(advancementDAO
@@ -176,7 +201,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
             try {
                 result = evidenceDAO.deleteEvidenceByID(evidenceID);
             } catch (SQLException deleteException) {
-                DialogGenerator.getDialog(new AlertMessage("Error al eliminar evidencia", AlertStatus.ERROR));
+                DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo " +
+                        "eliminar la evidencia.", AlertStatus.ERROR));
                 logger.error(deleteException);
             }
 
