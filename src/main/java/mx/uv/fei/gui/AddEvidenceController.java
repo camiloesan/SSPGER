@@ -22,15 +22,15 @@ import java.util.Optional;
 
 public class AddEvidenceController implements IStudentNavigationBar {
     @FXML
-    Label labelAdvancementName;
+    private Label labelAdvancementName;
     @FXML
-    Label labelNameFile;
+    private Label labelNameFile;
     @FXML
-    Label labelUsername;
+    private Label labelUsername;
     @FXML
-    TextField textFieldEvidenceTitle;
+    private TextField textFieldEvidenceTitle;
     @FXML
-    TextArea textAreaEvidenceDescription;
+    private TextArea textAreaEvidenceDescription;
     private ArrayList<File> listFiles = new ArrayList<>();
     private static final int MAX_TITLE_EVIDENCE_LENGTH = 30;
     private static final int MAX_DESCRIPTION_EVIDENCE_LENGTH = 100;
@@ -44,32 +44,27 @@ public class AddEvidenceController implements IStudentNavigationBar {
 
     @FXML
     private void sendEvidence() throws IOException {
-        try {
-            if (existsEvidence() && fieldsCorrect() && confirmedEvidence()) {
-                EvidenceDAO evidenceDAO = new EvidenceDAO();
-                Evidence evidence = new Evidence();
-                
-                evidence.setEvidenceTitle(textFieldEvidenceTitle.getText());
-                evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
-                evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
-                evidence.setStudentId(LoginController.sessionDetails.getId());
-                
-                try {
-                    if(evidenceDAO.addEvidence(evidence) == 1 && addFiles()) {
-                        DialogGenerator.getDialog(new AlertMessage
-                                ("La evidencia ha sido guardado con éxito", AlertStatus.SUCCESS));
-                    }
-                } catch (SQLException addEvidenceException) {
-                    DialogGenerator.getDialog(new AlertMessage
-                            ("No hay conexión con la base de datos, no se pudo registrar la evidencia.", AlertStatus.ERROR));
-                    logger.error(addEvidenceException);
-                }
+        if (existsEvidence() && fieldsCorrect() && confirmedEvidence()) {
+            EvidenceDAO evidenceDAO = new EvidenceDAO();
+            Evidence evidence = new Evidence();
+
+            evidence.setEvidenceTitle(textFieldEvidenceTitle.getText());
+            evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
+            evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
+            evidence.setStudentId(LoginController.sessionDetails.getId());
+
+            int resultDAO= 0;
+            try {
+                resultDAO = evidenceDAO.addEvidence(evidence);
+            } catch (SQLException addEvidenceException) {
+                DialogGenerator.getDialog(new AlertMessage
+                        ("Algo salió mal, vuelva a intentarlo más tarde", AlertStatus.ERROR));
+                logger.error(addEvidenceException);
             }
-        } catch (SQLException numberOfEvidencesException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo comprobar si ya hay evidencias entregadas",
-                    AlertStatus.ERROR));
-            logger.error(numberOfEvidencesException);
+            if(resultDAO == 1 && addFiles()) {
+                DialogGenerator.getDialog(new AlertMessage
+                        ("La evidencia ha sido guardado con exito", AlertStatus.SUCCESS));
+            }
         }
     }
 
@@ -110,11 +105,21 @@ public class AddEvidenceController implements IStudentNavigationBar {
         }
     }
 
-    private boolean existsEvidence() throws SQLException{
+    private boolean existsEvidence() {
         EvidenceDAO evidenceDAO =  new EvidenceDAO();
+        int numberOfEvidences = 0;
         boolean result;
-        int numberOfEvidences = evidenceDAO.getEvidencesByStudentID(SessionDetails.getInstance().getId(),
-                TransferAdvancement.getAdvancementID());
+
+        try {
+            numberOfEvidences = evidenceDAO.getEvidencesByStudentID(SessionDetails
+                    .getInstance()
+                    .getId(), TransferAdvancement.getAdvancementID());
+        } catch (SQLException numberOfEvidencesException) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al recuperar el número de evidencias", AlertStatus.ERROR));
+            logger.error(numberOfEvidencesException);
+        }
+
         if (numberOfEvidences > 0) {
             DialogGenerator.getDialog(new AlertMessage("Ya haz entregado una evidencia a este avance",
                     AlertStatus.WARNING));
@@ -201,17 +206,23 @@ public class AddEvidenceController implements IStudentNavigationBar {
     private boolean fieldsCorrect() {
         boolean result = false;
         if (emptyFields()) {
-            if (textFieldEvidenceTitle.getText().isBlank()){
-                DialogGenerator.getDialog(new AlertMessage("Debe ingresar un titulo a la evidencia", AlertStatus.WARNING));
+            if (textFieldEvidenceTitle.getText().isBlank()) {
+                DialogGenerator.getDialog(new AlertMessage("Debe ingresar un titulo a la evidencia",
+                        AlertStatus.WARNING));
             } else if (textAreaEvidenceDescription.getText().isBlank()) {
-                DialogGenerator.getDialog(new AlertMessage("Debe ingresar una descripción para la evidencia", AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage("Debe ingresar una descripción para la evidencia",
+                        AlertStatus.WARNING));
             }
         } else {
             if (overSizeData()) {
-                if (textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH){
-                    DialogGenerator.getDialog(new AlertMessage("El título de la evidencia excede el límite de caracteres: " + MAX_TITLE_EVIDENCE_LENGTH, AlertStatus.WARNING));
+                if (textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "El título de la evidencia excede el límite de caracteres: " +
+                                    MAX_TITLE_EVIDENCE_LENGTH, AlertStatus.WARNING));
                 } else if (textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH) {
-                    DialogGenerator.getDialog(new AlertMessage("La descripción de la evidencia excede el límite de caracteres: " + MAX_DESCRIPTION_EVIDENCE_LENGTH, AlertStatus.WARNING));
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "La descripción de la evidencia excede el límite de caracteres: " +
+                                    MAX_DESCRIPTION_EVIDENCE_LENGTH, AlertStatus.WARNING));
                 }
             } else {
                 result = true;
@@ -226,7 +237,7 @@ public class AddEvidenceController implements IStudentNavigationBar {
         return response.orElse(null) == DialogGenerator.BUTTON_YES;
     }
 
-    public boolean confirmedLogOut() {
+    private boolean confirmedLogOut() {
         Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
                 "¿Está seguro que desea salir, se cerrará su sesión?");
         return (response.orElse(null) == DialogGenerator.BUTTON_YES);
