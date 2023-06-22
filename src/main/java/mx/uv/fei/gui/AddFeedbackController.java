@@ -2,6 +2,8 @@ package mx.uv.fei.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
@@ -38,6 +40,8 @@ public class AddFeedbackController implements IProfessorNavigationBar {
     private TextArea textAreaFeedback;
     @FXML
     private ComboBox<Integer> comboBoxGrade;
+    @FXML
+    private HBox hboxLogOutLabel;
     private static final int MAX_TEXT_FEEDBACK_LENGTH = 850;
     private static final Logger logger = Logger.getLogger(AddFeedbackController.class);
 
