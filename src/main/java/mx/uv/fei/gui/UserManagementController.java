@@ -35,6 +35,7 @@ public class UserManagementController {
         fillTableViewAccessAccounts();
     }
 
+    @FXML
     private void fillTableViewAccessAccounts() {
         UserDAO accessAccountDAO = new UserDAO();
         try {
