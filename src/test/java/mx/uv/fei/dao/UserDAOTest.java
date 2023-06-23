@@ -34,7 +34,7 @@ class UserDAOTest {
         var student = new Student();
         accessAccount2.setUsername("zs21013861");
         accessAccount2.setUserPassword("contrasenia2020");
-        accessAccount2.setUserEmail("zs21013870@estudiantes.uv.mx");
+        accessAccount2.setUserEmail("zs21013861@estudiantes.uv.mx");
         accessAccount2.setUserType("Estudiante");
         student.setStudentID("s21013861");
         student.setName("Camilo");
@@ -57,6 +57,7 @@ class UserDAOTest {
         accessAccountDAO.deleteUserByUsername("juaperez");
         accessAccountDAO.deleteUserByUsername("zs21013861");
         accessAccountDAO.deleteUserByUsername("administrador");
+        accessAccountDAO.deleteUserByUsername("zs21013863");
     }
 
     @Test
@@ -137,7 +138,7 @@ class UserDAOTest {
         accessAccount.setUsername("zs21013863");
         accessAccount.setUserPassword("oldHouse");
         accessAccount.setUserEmail("zs21013861@estudiantes.uv.mx");
-        student.setStudentID("s21013862");
+        student.setStudentID("s21013863");
         student.setName("Camilo");
         student.setLastName("Espejo Sánchez");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
