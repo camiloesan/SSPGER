@@ -34,7 +34,7 @@ class UserDAOTest {
         var student = new Student();
         accessAccount2.setUsername("zs21013861");
         accessAccount2.setUserPassword("contrasenia2020");
-        accessAccount2.setUserEmail("zs21013861@estudiantes.uv.mx");
+        accessAccount2.setUserEmail("zs21013870@estudiantes.uv.mx");
         accessAccount2.setUserType("Estudiante");
         student.setStudentID("s21013861");
         student.setName("Camilo");

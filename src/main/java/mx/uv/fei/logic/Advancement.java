@@ -75,4 +75,11 @@ public class Advancement {
                 && Objects.equals(advancementDeadline, other.advancementDeadline)
                 && projectId == other.projectId;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(advancementID, advancementName, advancementDescription, advancementStartDate,
+                advancementDeadline, projectId);
+    }
+
 }

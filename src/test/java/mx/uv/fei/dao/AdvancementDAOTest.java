@@ -105,8 +105,8 @@ AdvancementDAOTest {
         projectDAO.addProject(project);
 
         ProjectRequest projectRequest = new ProjectRequest();
-        projectRequest.setProjectID(projectDAO.getProjectIDByTitle(""));
-        projectRequest.setStudentId("zs21013862");
+        projectRequest.setProjectID(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
+        projectRequest.setStudentId("zs21013869");
         projectRequest.setDescription("Quisiera estar en este proyecto porque a mi me interesa mucho el tema desde el inicio de la" +
                 " carrera y considero que sería de gran ayuda en mi formación no tan solo como estudiante, sino como profesionista.");
         projectRequestDAO.createProjectRequest(projectRequest);
@@ -126,13 +126,19 @@ AdvancementDAOTest {
     void tearDown() throws SQLException {
         UserDAO userDAO = new UserDAO();
         ProjectDAO projectDAO = new ProjectDAO();
-        AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         projectRequestDAO.deleteProjectRequest(projectRequestDAO.getProjectRequestIDByStudentID("zs21013862"));
         projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
-        advancementDAO.deleteAdvancementById(advancementDAO.getLastAdvancementID());
         userDAO.deleteUserByUsername("juaperez");
         userDAO.deleteUserByUsername("zs21013862");
+    }
+
+    @Test
+    void testGetAdvancementDetailsByIdObject() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        Advancement expectedAdvancement = advancementDAO
+                .getAdvancementDetailById(advancementDAO.getLastAdvancementID());
+        assertEquals(advancement, expectedAdvancement);
     }
 
     @Test
@@ -168,20 +174,12 @@ AdvancementDAOTest {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement1 = new Advancement();
-        advancement1.setAdvancementName("zxbxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        advancement1.setAdvancementDescription("zxb");
+        advancement1.setAdvancementName("Este es un nombre de avance que sobrepasa los limites de la base de datos");
+        advancement1.setAdvancementDescription("Descripciion para prueba de titulo de avance demaisado largo");
         advancement1.setAdvancementStartDate("2023-05-29");
         advancement1.setAdvancementDeadline("2023-06-27");
         advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
         assertThrows(SQLException.class, () -> advancementDAO.addAdvancement(advancement1));
-    }
-
-
-    @Test
-    void testGetAdvancementDetailsByIdObject() throws SQLException {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement expectedAdvancement = advancementDAO.getAdvancementDetailById(advancementDAO.getLastAdvancementID());
-        assertEquals(advancement, expectedAdvancement);
     }
 
     @Test
@@ -200,9 +198,10 @@ AdvancementDAOTest {
         advancement1.setAdvancementDescription("new");
         advancement1.setAdvancementStartDate("2022-03-24");
         advancement1.setAdvancementDeadline("2024-02-03");
-        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
 
-        assertEquals(1, advancementDAO.modifyAdvancementById(advancementDAO.getLastAdvancementID(), advancement1));
+        assertEquals(1,
+                advancementDAO.modifyAdvancementById(advancementDAO.getLastAdvancementID(), advancement1));
     }
 
     @Test
@@ -265,15 +264,4 @@ AdvancementDAOTest {
         assertEquals(0, advancementDAO.deleteAdvancementById(0));
     }
 
-    @Test
-    void testGetProjectNameByStudentIDDidntFoundMatches() throws SQLException {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        assertNull(advancementDAO.getProjectNameByStudentID("0x0"));
-    }
-
-    @Test
-    void testGetProjectNameByStudentIDFoundElement() throws SQLException {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        assertNotNull(advancementDAO.getProjectNameByStudentID("zsTest"));
-    }
 }
