@@ -180,7 +180,8 @@ class UserDAOTest {
         accessAccount.setUserPassword("zs21022020");
         accessAccount.setUserEmail("zs21022020@estudiantes.uv.mx");
         student.setStudentID("1234567890");
-        student.setName("José Madero Vizcaíno Pérez Solano Roberto Tercero Peep Juarez Hernandez Fernández Ramírez Figueroa");
+        student.setName(
+                "José Madero Vizcaíno Pérez Solano Roberto Tercero Peep Juarez Hernandez Fernández Ramírez Figueroa");
         student.setLastName("Giménez");
         assertFalse(userDAO.addStudentUserTransaction(accessAccount, student));
     }

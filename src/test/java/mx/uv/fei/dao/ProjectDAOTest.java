@@ -860,23 +860,29 @@ class ProjectDAOTest {
         
         List<SimpleProject> expectedList = new ArrayList<>();
         var simpleUnverifiedProject = new SimpleProject();
-        simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
+        simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el "+
+                "Desarrollo de Software"));
         simpleUnverifiedProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
         simpleUnverifiedProject.setProjectState("Por revisar");
         
         var simpleUnverifiedProject1 = new SimpleProject();
-        simpleUnverifiedProject1.setProjectID(projectDAO.getProjectIDByTitle("Análisis de las tecnologías para el desarrollo de Development Bots"));
-        simpleUnverifiedProject1.setReceptionWorkName("Análisis de las tecnologías para el desarrollo de Development Bots");
+        simpleUnverifiedProject1.setProjectID(projectDAO.getProjectIDByTitle("Análisis de las tecnologías para el " +
+                "desarrollo de Development Bots"));
+        simpleUnverifiedProject1.setReceptionWorkName("Análisis de las tecnologías para el desarrollo de Development" +
+                " Bots");
         simpleUnverifiedProject1.setProjectState("Por revisar");
         
         var simpleUnverifiedProject2 = new SimpleProject();
-        simpleUnverifiedProject2.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
+        simpleUnverifiedProject2.setProjectID(projectDAO.getProjectIDByTitle(
+                "Prácticas de Ciberseguridad en Ingeniería de Software"));
         simpleUnverifiedProject2.setReceptionWorkName("Prácticas de Ciberseguridad en Ingeniería de Software");
         simpleUnverifiedProject2.setProjectState("Por revisar");
         
         var simpleUnverifiedProject3 = new SimpleProject();
-        simpleUnverifiedProject3.setProjectID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y su relación con la calidad de software"));
-        simpleUnverifiedProject3.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación con la calidad de software");
+        simpleUnverifiedProject3.setProjectID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y " +
+                "su relación con la calidad de software"));
+        simpleUnverifiedProject3.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación con la " +
+                "calidad de software");
         simpleUnverifiedProject3.setProjectState("Por revisar");
         
         expectedList.add(simpleUnverifiedProject);
@@ -911,30 +917,37 @@ class ProjectDAOTest {
         List<SimpleProject> expectedList = new ArrayList<>();
         
         var simpleDeclinedProject = new SimpleProject();
-        simpleDeclinedProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
+        simpleDeclinedProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el " +
+                "Desarrollo de Software"));
         simpleDeclinedProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
         simpleDeclinedProject.setProjectState("Por revisar");
         
         var simpleVerifiedProject = new SimpleProject();
-        simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Análisis de técnicas de procesamiento de lenguaje natural para la " +
+        simpleVerifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Análisis de técnicas de procesamiento de " +
+                "lenguaje natural para la " +
                 "ingeniería de requisitos en idioma español."));
-        simpleVerifiedProject.setReceptionWorkName("Análisis de técnicas de procesamiento de lenguaje natural para la " +
+        simpleVerifiedProject.setReceptionWorkName("Análisis de técnicas de procesamiento de lenguaje natural para la "+
                 "ingeniería de requisitos en idioma español.");
         simpleVerifiedProject.setProjectState("Verificado");
         
         var simpleUnverifiedProject = new SimpleProject();
-        simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Análisis de las tecnologías para el desarrollo de Development Bots"));
-        simpleUnverifiedProject.setReceptionWorkName("Análisis de las tecnologías para el desarrollo de Development Bots");
+        simpleUnverifiedProject.setProjectID(projectDAO.getProjectIDByTitle("Análisis de las tecnologías para el " +
+                "desarrollo de Development Bots"));
+        simpleUnverifiedProject.setReceptionWorkName("Análisis de las tecnologías para el desarrollo de" +
+                " Development Bots");
         simpleUnverifiedProject.setProjectState("Por revisar");
         
         var simpleProjectDetail = new SimpleProject();
-        simpleProjectDetail.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
+        simpleProjectDetail.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en" +
+                " Ingeniería de Software"));
         simpleProjectDetail.setReceptionWorkName("Prácticas de Ciberseguridad en Ingeniería de Software");
         simpleProjectDetail.setProjectState("Por revisar");
         
         var simpleProjectCollaboration = new SimpleProject();
-        simpleProjectCollaboration.setProjectID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y su relación con la calidad de software"));
-        simpleProjectCollaboration.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación con la calidad de software");
+        simpleProjectCollaboration.setProjectID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y "+
+                "su relación con la calidad de software"));
+        simpleProjectCollaboration.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación con la " +
+                "calidad de software");
         simpleProjectCollaboration.setProjectState("Por revisar");
         
         expectedList.add(simpleDeclinedProject);
@@ -973,25 +986,31 @@ class ProjectDAOTest {
         List<SimpleProject> expectedList = new ArrayList<>();
         
         var simpleCollaborationProject = new SimpleProject();
-        simpleCollaborationProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
-        simpleCollaborationProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de Software");
+        simpleCollaborationProject.setProjectID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad " +
+                "para el Desarrollo de Software"));
+        simpleCollaborationProject.setReceptionWorkName("Recomendaciones de Accesibilidad para el Desarrollo de " +
+                "Software");
         simpleCollaborationProject.setProjectState("Por revisar");
         
         var simpleCollaborationProject2 = new SimpleProject();
-        simpleCollaborationProject2.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
+        simpleCollaborationProject2.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en " +
+                "Ingeniería de Software"));
         simpleCollaborationProject2.setReceptionWorkName("Prácticas de Ciberseguridad en Ingeniería de Software");
         simpleCollaborationProject2.setProjectState("Por revisar");
         
         var simpleCollaborationProject3 = new SimpleProject();
-        simpleCollaborationProject3.setProjectID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y su relación con la calidad de software"));
-        simpleCollaborationProject3.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación con la calidad de software");
+        simpleCollaborationProject3.setProjectID(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo " +
+                "y su relación con la calidad de software"));
+        simpleCollaborationProject3.setReceptionWorkName("Diversidad en equipos de desarrollo y su relación " +
+                "con la calidad de software");
         simpleCollaborationProject3.setProjectState("Por revisar");
         
         expectedList.add(simpleCollaborationProject);
         expectedList.add(simpleCollaborationProject2);
         expectedList.add(simpleCollaborationProject3);
         
-        var actualList = new ArrayList<>(projectDAO.getProjectsByParticipation(professorDAO.getProfessorIdByUsername("perezJuanC")));
+        var actualList = new ArrayList<>(projectDAO.getProjectsByParticipation(
+                professorDAO.getProfessorIdByUsername("perezJuanC")));
         
         System.out.println("Contenido de expectedList:");
         for (SimpleProject project : expectedList) {
@@ -1018,61 +1037,89 @@ class ProjectDAOTest {
         var projectDAO = new ProjectDAO();
         
         DetailedProject expectedDetailedProject = new DetailedProject();
-        expectedDetailedProject.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
+        expectedDetailedProject.setProjectID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en " +
+                "Ingeniería de Software"));
         expectedDetailedProject.setAcademicBodyName("Ingeniería y Tecnología de Software");
         expectedDetailedProject.setInvestigationProjectName(" ");
         expectedDetailedProject.setLgacName("L1. Gestión, modelado y desarrollo de software");
-        expectedDetailedProject.setInvestigationLine("Estudio de los diversos métodos y enfoques para la gestión, modelado y " +
-                "desarrollo de software, de manera que se obtenga software de calidad. Gestión de las diversas etapas del" +
+        expectedDetailedProject.setInvestigationLine("Estudio de los diversos métodos y enfoques para la gestión," +
+                " modelado y " +
+                "desarrollo de software, de manera que se obtenga software de calidad. Gestión de las diversas " +
+                "etapas del" +
                 " proceso de desarrollo.");
         expectedDetailedProject.setApproxDuration("12 meses");
         expectedDetailedProject.setReceptionWorkModality("Monografía");
         expectedDetailedProject.setReceptionWorkName("Prácticas de Ciberseguridad en Ingeniería de Software");
-        expectedDetailedProject.setRequisites("Tecnologías para la construcción de software, Principios de Construcción de Software," +
+        expectedDetailedProject.setRequisites("Tecnologías para la construcción de software, Principios de Construcción" +
+                " de Software," +
                 " Diseño de Software, Procesos de Software, Administración de proyectos");
         expectedDetailedProject.setDirector("MCC. Juan Carlos Perez Arriaga");
         expectedDetailedProject.setCoDirector("Dr. Hector Xavier Limon Riaño");
         expectedDetailedProject.setNumberStudents(1);
-        expectedDetailedProject.setInvestigationDescription("La ciberseguridad se ha vuelto un aspecto muy relevante debido " +
-                "al alto índice de brechas de seguridad reportadas en productos de software. En recientes años el término" +
-                " \"shift left security\" ha cobrado importancia, ya que pretende la incorporación de prácticas de seguridad" +
-                " en el desarrollo de software en etapas tempranas del proceso. Actualmente existen algunos retos derivados " +
-                "de considerar la seguridad en etapas tempranas en el proceso de desarrollo, entre dichos retos destacan:" +
-                " conocimiento de fallas de seguridad comunes, mejora de los procesos de colaboración con equipos de seguridad," +
-                " diseminación de actividades enfocadas a la higiene del código para prevenir algún defecto que comprometa la" +
-                " seguridad del producto, entre otros aspectos. El considerar actividades de seguridad en el proceso de desarrollo" +
-                " de software permite que se desarrollen productos menos propensos a vulnerabilidades, propician que los " +
-                "programadores generen conocimiento a partir de la identificación de fallas conocidas, consolidad una cultura" +
+        expectedDetailedProject.setInvestigationDescription("La ciberseguridad se ha vuelto un aspecto muy relevante " +
+                "debido " +
+                "al alto índice de brechas de seguridad reportadas en productos de software. En recientes años el " +
+                "término" +
+                " \"shift left security\" ha cobrado importancia, ya que pretende la incorporación de prácticas de " +
+                "seguridad" +
+                " en el desarrollo de software en etapas tempranas del proceso. Actualmente existen algunos retos " +
+                "derivados " +
+                "de considerar la seguridad en etapas tempranas en el proceso de desarrollo, entre dichos retos" +
+                " destacan:" +
+                " conocimiento de fallas de seguridad comunes, mejora de los procesos de colaboración con equipos " +
+                "de seguridad," +
+                " diseminación de actividades enfocadas a la higiene del código para prevenir algún defecto que " +
+                "comprometa la" +
+                " seguridad del producto, entre otros aspectos. El considerar actividades de seguridad en el proceso " +
+                "de desarrollo" +
+                " de software permite que se desarrollen productos menos propensos a vulnerabilidades, propician que " +
+                "los " +
+                "programadores generen conocimiento a partir de la identificación de fallas conocidas, consolidad una" +
+                " cultura" +
                 " de higiene de código, minimizar los costos asociados a fallas que pudiera detectarse a tiempo.");
-        expectedDetailedProject.setReceptionWorkDescription("El presente trabajo tiene como finalidad, realizar un mapeo sistemático" +
-                " de la literatura sobre las prácticas de ciberseguridad identificadas en el proceso de desarrollo de software," +
-                " así como reportar elementos como: tipo de práctica, fase en la que se lleva a cabo, evidencia de su utilidad," +
+        expectedDetailedProject.setReceptionWorkDescription("El presente trabajo tiene como finalidad, realizar un" +
+                " mapeo sistemático" +
+                " de la literatura sobre las prácticas de ciberseguridad identificadas en el proceso de desarrollo de" +
+                " software," +
+                " así como reportar elementos como: tipo de práctica, fase en la que se lleva a cabo, evidencia de " +
+                "su utilidad," +
                 " entre otros aspectos.");
         expectedDetailedProject.setExpectedResults("Documento que contenga:\n" +
                 "- Reporte de la revisión sistemática de la literatura\n" +
                 "- Artículo para publicación en evento académico");
         expectedDetailedProject.setBibliography("J. Straub, \"Software Engineering: The First Line of Defense for " +
-                "Cybersecurity,\" 2020 IEEE 11th International Conference on Software Engineering and Service Science " +
+                "Cybersecurity,\" 2020 IEEE 11th International Conference on Software Engineering and Service" +
+                " Science " +
                 "(ICSESS), 2020, pp. 1-5, doi: 10.1109/ICSESS49938.2020.9237715.\n" +
                 "\n" +
-                "Johnson, C. (2012). CyberSafety: CyberSecurity and Safety-Critical Software Engineering. In: Dale, C., " +
-                "Anderson, T. (eds) Achieving Systems Safety. Springer, London. https://doi.org/10.1007/978-1-4471-2494-8_8\n" +
+                "Johnson, C. (2012). CyberSafety: CyberSecurity and Safety-Critical Software Engineering. In: Dale," +
+                " C., " +
+                "Anderson, T. (eds) Achieving Systems Safety. Springer, London. h" +
+                "ttps://doi.org/10.1007/978-1-4471-2494-8_8\n" +
                 "\n" +
-                "Maurice Dawson, Pedro Taveras, Danielle Taylor, Applying Software Assurance and Cybersecurity NICE Job " +
-                "Tasks through Secure Software Engineering Labs, Procedia Computer Science, Volume 164, 2019, Pages 301-312," +
+                "Maurice Dawson, Pedro Taveras, Danielle Taylor, Applying Software Assurance and Cybersecurity " +
+                "NICE Job " +
+                "Tasks through Secure Software Engineering Labs, Procedia Computer Science, Volume 164, 2019, " +
+                "Pages 301-312," +
                 " ISSN 1877-0509, https://doi.org/10.1016/j.procs.2019.12.187.\n" +
                 "\n" +
-                "H. Gonzalez, R. Llamas-Contreras and O. Montaño-Rivas, \"When Software Engineering meets Cybersecurity " +
-                "at the classroom,\" 2019 7th International Conference in Software Engineering Research and Innovation " +
+                "H. Gonzalez, R. Llamas-Contreras and O. Montaño-Rivas, \"When Software Engineering meets " +
+                "Cybersecurity " +
+                "at the classroom,\" 2019 7th International Conference in Software Engineering Research and " +
+                "Innovation " +
                 "(CONISOFT), 2019, pp. 49-54, doi: 10.1109/CONISOFT.2019.00017.\n" +
                 "\n" +
-                "Frederico Araujo and Teryl Taylor. 2020. Improving cybersecurity hygiene through JIT patching. In Proceedings" +
-                " of the 28th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations" +
-                " of Software Engineering (ESEC/FSE 2020). Association for Computing Machinery, New York, NY, USA, 1421–1432." +
+                "Frederico Araujo and Teryl Taylor. 2020. Improving cybersecurity hygiene through JIT patching. " +
+                "In Proceedings" +
+                " of the 28th ACM Joint Meeting on European Software Engineering Conference and Symposium on the " +
+                "Foundations" +
+                " of Software Engineering (ESEC/FSE 2020). Association for Computing Machinery, New York, NY, USA, " +
+                "1421–1432." +
                 " https://doi.org/10.1145/3368089.3417056.");
         expectedDetailedProject.setProjectState("Por revisar");
         
-        DetailedProject actualDetailedProject = projectDAO.getProjectInfoByID(projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
+        DetailedProject actualDetailedProject = projectDAO.getProjectInfoByID(
+                projectDAO.getProjectIDByTitle("Prácticas de Ciberseguridad en Ingeniería de Software"));
         
         System.out.println("Objeto esperado:");
         System.out.println(expectedDetailedProject);
@@ -1138,42 +1185,68 @@ class ProjectDAOTest {
         projectCollaboration.setInvestigationLine(" ");
         projectCollaboration.setApproximateDuration("12 meses");
         projectCollaboration.setModalityId(5);
-        projectCollaboration.setReceptionWorkName("Mantenimiento y mejoras de seguridad del Sistema de Evaluación de Código");
-        projectCollaboration.setRequisites(" Desarrollo de Sistemas Web, Desarrollo de Aplicaciones,  Programación Segura ");
+        projectCollaboration.setReceptionWorkName("Mantenimiento y mejoras de seguridad del Sistema de " +
+                "Evaluación de Código");
+        projectCollaboration.setRequisites(" Desarrollo de Sistemas Web, Desarrollo de Aplicaciones,  " +
+                "Programación Segura ");
         projectCollaboration.setDirectorName("Dr. Hector Xavier Limon Riaño");
         projectCollaboration.setCodirectorName("Dr. Angel Juan Sanchez Garcia");
         projectCollaboration.setStudentsParticipating(1);
         projectCollaboration.setInvestigationProjectDescription(" ");
-        projectCollaboration.setReceptionWorkDescription("En la facultad de Estadística e Informática, desde el ciclo escolar" +
-                " agosto 2015-enero 2016 se utiliza el Sistema de Evaluación de Código como apoyo en diversas experiencias" +
-                " educativas de programación. Dicho sistema permite establecer y evaluar de forma automática ejercicios de " +
-                "programación presentes en prácticas de clase y exámenes. El sistema ha pasado por diversas versiones, siendo" +
-                " mejorado en 2018 como parte del trabajo recepcional \"Sistema de evaluación de prácticas y exámenes de " +
-                "experiencias educativas de programación\" de la licenciatura en Ingeniería de Software.  A partir de entonces," +
-                " se han realizado diversas mejoras al sistema como parte de una etapa de mantenimiento, sin embargo, están " +
-                "pendientes varias mejoras sugeridas por los docentes y alumnos que han utilizado el sistema, así como " +
-                "correcciones de errores detectados. De la misma forma, en el año 2021, en el trabajo recepcional \"Ambiente" +
-                " para pruebas de penetración de sistemas web\" de la licenciatura en Redes y Servicios de Cómputo, se llevó " +
-                "a cabo una evaluación de seguridad del sistema, encontrándose una gran cantidad de problemas de seguridad, " +
-                "mismos que se encuentran descritos en un reporte de pruebas de penetración con mitigaciones seguridad asociadas." +
-                " El objetivo de este trabajo es continuar con el mantenimiento del sistema de evaluación de código, especialmente" +
-                " enfocándose en corregir los problemas de seguridad detectados, y a su vez, analizándose la pertinencia de las" +
-                " funcionalidades nuevas sugeridas por maestros y alumnos, así como llevando a cabo las correcciones a los errores" +
+        projectCollaboration.setReceptionWorkDescription("En la facultad de Estadística e Informática, desde " +
+                "el ciclo escolar" +
+                " agosto 2015-enero 2016 se utiliza el Sistema de Evaluación de Código como apoyo en diversas" +
+                " experiencias" +
+                " educativas de programación. Dicho sistema permite establecer y evaluar de forma automática " +
+                "ejercicios de " +
+                "programación presentes en prácticas de clase y exámenes. El sistema ha pasado por diversas" +
+                " versiones, siendo" +
+                " mejorado en 2018 como parte del trabajo recepcional \"Sistema de evaluación de prácticas" +
+                " y exámenes de " +
+                "experiencias educativas de programación\" de la licenciatura en Ingeniería de Software.  " +
+                "A partir de entonces," +
+                " se han realizado diversas mejoras al sistema como parte de una etapa de mantenimiento, " +
+                "sin embargo, están " +
+                "pendientes varias mejoras sugeridas por los docentes y alumnos que han utilizado el " +
+                "sistema, así como " +
+                "correcciones de errores detectados. De la misma forma, en el año 2021, en el trabajo " +
+                "recepcional \"Ambiente" +
+                " para pruebas de penetración de sistemas web\" de la licenciatura en Redes y Servicios " +
+                "de Cómputo, se llevó " +
+                "a cabo una evaluación de seguridad del sistema, encontrándose una gran cantidad de problemas" +
+                " de seguridad, " +
+                "mismos que se encuentran descritos en un reporte de pruebas de penetración con mitigaciones" +
+                " seguridad asociadas." +
+                " El objetivo de este trabajo es continuar con el mantenimiento del sistema de evaluación de " +
+                "código, especialmente" +
+                " enfocándose en corregir los problemas de seguridad detectados, y a su vez, analizándose la" +
+                " pertinencia de las" +
+                " funcionalidades nuevas sugeridas por maestros y alumnos, así como llevando a cabo las correcciones " +
+                "a los errores" +
                 " detectados en el sistema. ");
-        projectCollaboration.setExpectedResults("Implementación de mejoras al Sistema de Evaluación de Código Sistema " +
-                "desplegado en el clúster de la Facultad de Estadística e Informática Artículo con investigación referente" +
+        projectCollaboration.setExpectedResults("Implementación de mejoras al Sistema de Evaluación de Código " +
+                "Sistema " +
+                "desplegado en el clúster de la Facultad de Estadística e Informática Artículo con investigación " +
+                "referente" +
                 " al seguimiento de un reporte de pruebas de penetración ");
-        projectCollaboration.setRecommendedBibliography("de Jiménez, R. E. L. (2016, November). Pentesting on web applications" +
-                " using ethicalhacking. In 2016 IEEE 36th Central American and Panama Convention (CONCAPAN XXXVI) (pp. 1-6). " +
-                "IEEE. Mohammed, N. M., Niazi, M., Alshayeb, M., & Mahmood, S. (2017). Exploring software security approaches " +
-                "in software development lifecycle: A systematic mapping study. Computer Standards & Interfaces, 50, 107-115. " +
-                "de Vicente Mohino, J., Bermejo Higuera, J., Bermejo Higuera, J. R., & Sicilia Montalvo, J. A. (2019). The " +
-                "application of a new secure software development life cycle (S-SDLC) with agile methodologies. Electronics," +
+        projectCollaboration.setRecommendedBibliography("de Jiménez, R. E. L. (2016, November). Pentesting on web " +
+                "applications" +
+                " using ethicalhacking. In 2016 IEEE 36th Central American and Panama Convention (CONCAPAN XXXVI) " +
+                "(pp. 1-6). " +
+                "IEEE. Mohammed, N. M., Niazi, M., Alshayeb, M., & Mahmood, S. (2017). Exploring software security " +
+                "approaches " +
+                "in software development lifecycle: A systematic mapping study. Computer Standards & Interfaces, 50," +
+                " 107-115. " +
+                "de Vicente Mohino, J., Bermejo Higuera, J., Bermejo Higuera, J. R., & Sicilia Montalvo, J. A. " +
+                "(2019). The " +
+                "application of a new secure software development life cycle (S-SDLC) with agile methodologies. " +
+                "Electronics," +
                 " 8(11), 1218. ");
         projectDAO.addProject(projectCollaboration);
         
         int expectedResult = 1;
-        int actualResult = projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Mantenimiento y mejoras de seguridad" +
+        int actualResult = projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Mantenimiento y mejoras" +
+                " de seguridad" +
                 " del Sistema de Evaluación de Código"));
         assertEquals(expectedResult,actualResult);
     }
