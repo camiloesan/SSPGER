@@ -60,6 +60,10 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceId());
+            TransferEvidence.setStudentID(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getStudentId());
             MainStage.changeView(
                     "viewevidencedetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {

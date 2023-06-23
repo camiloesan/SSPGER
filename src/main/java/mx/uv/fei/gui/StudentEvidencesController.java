@@ -134,6 +134,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceId());
+            TransferEvidence.setStudentID(SessionDetails.getInstance().getId());
             TransferAdvancement.setAdvancementID(tableViewEvidence
                     .getSelectionModel()
                     .getSelectedItem()
