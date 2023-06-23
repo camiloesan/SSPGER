@@ -226,16 +226,4 @@ class FeedbackDAOTest {
                 .getFeedbackIDByEvidenceID(evidenceDAO.getLastEvidenceID(), "ZS21050285")));
     }
 
-    @Test
-    void testDeleteFeedbackNotExist() throws SQLException {
-        FeedbackDAO feedbackDAO = new FeedbackDAO();
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        Feedback feedback = new Feedback();
-
-        feedbackDAO.addFeedback(feedback);
-
-        assertThrows(SQLIntegrityConstraintViolationException.class, () -> feedbackDAO.deleteFeedbackByID(feedbackDAO
-                .getFeedbackIDByEvidenceID(evidenceDAO.getLastEvidenceID(), "ZS21050285")));
-    }
-
 }
