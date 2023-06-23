@@ -96,8 +96,6 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
                     DialogGenerator.getDialog(new AlertMessage(
                             "Se eliminó con éxito la petición", AlertStatus.SUCCESS));
                     redirectToProjects();
-                } else {
-                    //TODO se debe alertar si es diferente a 0???
                 }
             } catch (SQLException deleteProjectRequestException) {
                 DialogGenerator.getDialog(new AlertMessage(
