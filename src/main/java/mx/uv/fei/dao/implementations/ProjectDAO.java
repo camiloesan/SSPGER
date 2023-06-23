@@ -614,6 +614,24 @@ public class ProjectDAO implements IProject {
         databaseManager.closeConnection();
         return availableSpaces;
     }
+    
+    public String getProjectStageByAdvancementID(int advancementID) throws SQLException {
+        String projectState = null;
+        String sqlQuery = "SELECT etapa FROM Proyectos INNER JOIN Avances A on Proyectos.ID_proyecto = A.ID_proyecto WHERE ID_avance = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, advancementID);
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            projectState = resultSet.getString("etapa");
+        }
+        databaseManager.closeConnection();
+        
+        return projectState;
+    }
 
     /**
      * @param projectID project id to update stage to Trabajo Recepcional

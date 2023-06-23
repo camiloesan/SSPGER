@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
+import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
 
@@ -25,6 +26,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     private Label labelAdvancementEvidence;
     @FXML
     private Label labelStudentEvidence;
+    @FXML
+    private Label labelProjectStage;
     @FXML
     private Label labelUsername;
     @FXML
@@ -57,6 +60,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
     @FXML
     public void showEvidence() {
         try {
+            
             Evidence evidenceDetails = getEvidenceDetails();
             labelTitleEvidence.setText(evidenceDetails.getEvidenceTitle());
             labelStatusEvidence.setText(evidenceDetails.getEvidenceStatus());
@@ -64,6 +68,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
             labelDescriptionEvidence.setText(evidenceDetails.getEvidenceDescription());
             labelAdvancementEvidence.setText(evidenceDetails.getAdvancementName());
             labelStudentEvidence.setText(evidenceDetails.getStudentName());
+            labelProjectStage.setText(evidenceDetails.getProjectStage());
         } catch (SQLException evidenceInfoException) {
             DialogGenerator.getDialog(new AlertMessage(
                     "No hay conexión a la base de datos, no se pudo recuperar la información de la evidencia.",
@@ -72,7 +77,7 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
         }
     }
     
-    public Evidence getEvidenceDetails() throws SQLException{
+    private Evidence getEvidenceDetails() throws SQLException{
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         return evidenceDAO.getEvidenceInfoByID(TransferEvidence.getEvidenceId());
     }

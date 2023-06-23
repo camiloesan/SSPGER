@@ -9,6 +9,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
+import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
@@ -48,25 +49,32 @@ public class AddEvidenceController implements IStudentNavigationBar {
         if (existsEvidence() && fieldsCorrect() && confirmedEvidence()) {
             EvidenceDAO evidenceDAO = new EvidenceDAO();
             Evidence evidence = new Evidence();
-
-            evidence.setEvidenceTitle(textFieldEvidenceTitle.getText());
-            evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
-            evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
-            evidence.setStudentId(SessionDetails.getInstance().getId());
-
-            int resultDAO= 0;
+            ProjectDAO projectDAO = new ProjectDAO();
+            
             try {
-                resultDAO = evidenceDAO.addEvidence(evidence);
+                String projectStage = projectDAO.getProjectStageByAdvancementID(TransferAdvancement.getAdvancementID());
+                
+                evidence.setEvidenceTitle(textFieldEvidenceTitle.getText());
+                evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
+                evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
+                evidence.setStudentId(SessionDetails.getInstance().getId());
+                evidence.setProjectStage(projectStage);
+                
+                if (evidenceDAO.addEvidence(evidence) == 1 && addFiles()) {
+                    DialogGenerator.getDialog(new AlertMessage
+                            ("La evidencia ha sido guardado con exito", AlertStatus.SUCCESS));
+                }
             } catch (SQLException addEvidenceException) {
                 DialogGenerator.getDialog(new AlertMessage
                         ("Algo salió mal, vuelva a intentarlo más tarde", AlertStatus.ERROR));
                 logger.error(addEvidenceException);
             }
-            if(resultDAO == 1 && addFiles()) {
-                DialogGenerator.getDialog(new AlertMessage
-                        ("La evidencia ha sido guardado con exito", AlertStatus.SUCCESS));
-            }
         }
+    }
+    
+    private String getProjectStage() throws SQLException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        return projectDAO.getProjectStageByAdvancementID(TransferAdvancement.getAdvancementID());
     }
 
     private String buildStringsOfFiles() {

@@ -22,8 +22,8 @@ public class EvidenceDAO implements IEvidence {
      */
     @Override
     public int addEvidence(Evidence evidence) throws SQLException {
-        String query = "INSERT INTO Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante, fechaEntrega) " +
-                "VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante, fechaEntrega, etapa) " +
+                "VALUES (?,?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -33,6 +33,7 @@ public class EvidenceDAO implements IEvidence {
         preparedStatement.setInt(3, evidence.getAdvancementId());
         preparedStatement.setString(4, evidence.getStudentId());
         preparedStatement.setString(5, java.time.LocalDate.now().toString());
+        preparedStatement.setString(6, evidence.getProjectStage());
         int result = preparedStatement.executeUpdate();
 
         databaseManager.closeConnection();
@@ -234,7 +235,8 @@ public class EvidenceDAO implements IEvidence {
                 "Evidencias.descripcion, " +
                 "Avances.nombre, " +
                 "Estudiantes.nombre, " +
-                "Evidencias.fechaEntrega FROM Evidencias " +
+                "Evidencias.fechaEntrega, " +
+                "Evidencias.etapa AS etapaEvidencia FROM Evidencias " +
                 "INNER JOIN Avances ON Avances.ID_avance = Evidencias.ID_avance " +
                 "INNER JOIN Proyectos ON Avances.ID_proyecto = Proyectos.ID_proyecto " +
                 "INNER JOIN SolicitudesProyecto ON Proyectos.ID_proyecto = SolicitudesProyecto.ID_proyecto " +
@@ -256,6 +258,7 @@ public class EvidenceDAO implements IEvidence {
             evidence.setAdvancementName(resultSet.getString("Avances.nombre"));
             evidence.setStudentName(resultSet.getString("Estudiantes.nombre"));
             evidence.setDeliverDate(resultSet.getString("fechaEntrega"));
+            evidence.setProjectStage(resultSet.getString("etapaEvidencia"));
         }
         databaseManager.closeConnection();
         return evidence;
