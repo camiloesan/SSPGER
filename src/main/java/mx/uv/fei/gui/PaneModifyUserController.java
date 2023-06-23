@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static mx.uv.fei.gui.MainStage.HEIGHT_OFFSET;
@@ -114,11 +116,11 @@ public class PaneModifyUserController {
     private String getEmail() throws SQLException {
         UserDAO userDAO = new UserDAO();
 
-        return userDAO.getEmailByUsername(UserManagementController.getUsername());
+        return userDAO.getEmailByUsername(textFieldUserToModify.getText());
     }
 
     @FXML
-    private void buttonConfirmModificationAction() {
+    private void buttonConfirmModificationAction() throws SQLException {
         String userType = comboBoxUserTypeToModify.getValue();
         if (areFieldsValid(userType)) {
             switch (userType) {
@@ -128,8 +130,21 @@ public class PaneModifyUserController {
         }
     }
 
-    private boolean areFieldsValid(String userType) {
+    private boolean compareEmails(String email) throws SQLException {
+        boolean result = true;
         UserDAO userDAO = new UserDAO();
+        List<String> emailList = userDAO.isEmailTakenByUsername(UserManagementController.getUsername());
+
+        for (String emailToCompare : emailList) {
+            if (emailToCompare.equals(email)) {
+                result = false;
+            }
+        }
+
+        return result;
+    }
+
+    private boolean areFieldsValid(String userType) {
         if (textFieldNewPassword.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Todos los campos deben estar llenos", AlertStatus.WARNING
@@ -145,7 +160,23 @@ public class PaneModifyUserController {
             ));
         } else {
             try {
-                if (userDAO.isEmailTaken(textFieldNewEmail.getText())) {
+                if (Objects.equals(textFieldNewEmail.getText(), getEmail())) {
+                    if (!compareEmails(textFieldNewEmail.getText())) {
+                        DialogGenerator.getDialog(new AlertMessage(
+                                "El correo electrónico ya está registrado, intente con uno distinto",
+                                AlertStatus.WARNING
+                        ));
+                    } else {
+                        switch (userType) {
+                            case PROFESSOR_USER, ACADEMIC_BODY_REPRESENTATIVE_USER -> {
+                                return areProfessorFieldsValid();
+                            }
+                            case STUDENT_USER -> {
+                                return areStudentFieldsValid();
+                            }
+                        }
+                    }
+                } else if (!compareEmails(textFieldNewEmail.getText())) {
                     DialogGenerator.getDialog(new AlertMessage(
                             "El correo electrónico ya está registrado, intente con uno distinto",
                             AlertStatus.WARNING
@@ -272,10 +303,30 @@ public class PaneModifyUserController {
         }
     }
 
-    private void modifyStudentUser() {
+    private boolean compareStudentID(String studentID) throws SQLException {
+        boolean result = true;
+        UserDAO userDAO = new UserDAO();
+        studentID = PREFIX_STUDENT_ID + studentID;
+        List<String> emailList = userDAO.isStudentIDTakenByUsername(UserManagementController.getUsername());
+
+        for (String emailToCompare : emailList) {
+            if (emailToCompare.equals(studentID)) {
+                result = false;
+            }
+        }
+
+        return result;
+    }
+
+    private String getStudentID() throws SQLException {
+        StudentDAO studentDAO = new StudentDAO();
+        return studentDAO.getStudentIdByUsername(UserManagementController.getUsername());
+    }
+
+    private void modifyStudentUser() throws SQLException {
         AccessAccount accessAccount = new AccessAccount();
         UserDAO userDAO = new UserDAO();
-        StudentDAO studentDAO = new StudentDAO();
+
         accessAccount.setUserPassword(textFieldNewPassword.getText());
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
         accessAccount.setUserEmail(textFieldNewEmail.getText());
@@ -284,31 +335,40 @@ public class PaneModifyUserController {
         student.setName(textFieldNewStudentName.getText());
         student.setLastName(textFieldNewStudentLastName.getText());
 
-        boolean isStudentIDTaken = true;
-        try {
-            isStudentIDTaken = studentDAO.isStudentIDTaken(student.getStudentID());
-        } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Ocurrió un error con la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR
-            ));
-            logger.error(sqlException);
-        }
-
         boolean modifiedSuccessfully = false;
-        if (isStudentIDTaken) {
-            DialogGenerator.getDialog(new AlertMessage(
-                    "Esa matrícula ya está registrada, inténtalo de nuevo", AlertStatus.WARNING
-            ));
-        } else {
-            try {
-                modifiedSuccessfully = userDAO.
-                        modifyStudentUserTransaction(UserManagementController.getUsername(), accessAccount, student);
-            } catch (SQLException sqlException) {
+        if (Objects.equals(PREFIX_STUDENT_ID + textFieldNewStudentId.getText(), getStudentID())) {
+            if (compareStudentID(textFieldNewStudentId.getText())) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "Error con la base de datos, no se pudo modificar al usuario, " +
-                                "inténtelo de nuevo más tarde",
-                        AlertStatus.ERROR));
-                logger.error(sqlException);
+                        "Esa matrícula ya está registrada, inténtalo de nuevo", AlertStatus.WARNING
+                ));
+            } else {
+                try {
+                    modifiedSuccessfully = userDAO.
+                            modifyStudentUserTransaction(UserManagementController.getUsername(), accessAccount, student);
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "Error con la base de datos, no se pudo modificar al usuario, " +
+                                    "inténtelo de nuevo más tarde",
+                            AlertStatus.ERROR));
+                    logger.error(sqlException);
+                }
+            }
+        } else {
+            if (compareStudentID(textFieldNewStudentId.getText())) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Esa matrícula ya está registrada, inténtalo de nuevo", AlertStatus.WARNING
+                ));
+            } else {
+                try {
+                    modifiedSuccessfully = userDAO.
+                            modifyStudentUserTransaction(UserManagementController.getUsername(), accessAccount, student);
+                } catch (SQLException sqlException) {
+                    DialogGenerator.getDialog(new AlertMessage(
+                            "Error con la base de datos, no se pudo modificar al usuario, " +
+                                    "inténtelo de nuevo más tarde",
+                            AlertStatus.ERROR));
+                    logger.error(sqlException);
+                }
             }
         }
 

@@ -303,7 +303,7 @@ public class UserDAO implements IUser {
 
         String email = "null";
         while (resultSet.next()) {
-            email = resultSet.getString("tipoUsuario");
+            email = resultSet.getString("correoInstitucional");
         }
 
         return email;
@@ -372,6 +372,58 @@ public class UserDAO implements IUser {
         databaseManager.closeConnection();
 
         return resultSet.next();
+    }
+
+    /**
+     * @param username username to check if it is already registered
+     * @return true it the username is already registered, false if not
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public List<String> isEmailTakenByUsername(String username) throws SQLException {
+        String query = "SELECT correoInstitucional FROM CuentasAcceso WHERE nombreUsuario != (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        List<String> emailsList = new ArrayList<>();
+        if (resultSet.next()) {
+            String email = resultSet.getString("correoInstitucional");
+            emailsList.add(email);
+        }
+
+        return emailsList;
+    }
+
+    /**
+     * @param username username to check if it is already registered
+     * @return true it the username is already registered, false if not
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public List<String> isStudentIDTakenByUsername(String username) throws SQLException {
+        String query = "SELECT Estudiantes.matricula FROM Estudiantes " +
+                "INNER JOIN CuentasAcceso on Estudiantes.nombreUsuario = CuentasAcceso.nombreUsuario" +
+                " WHERE CuentasAcceso.nombreUsuario != (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        List<String> emailsList = new ArrayList<>();
+        if (resultSet.next()) {
+            String email = resultSet.getString("Estudiantes.matricula");
+            emailsList.add(email);
+        }
+
+        return emailsList;
     }
     
     /**

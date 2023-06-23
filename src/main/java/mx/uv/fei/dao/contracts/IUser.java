@@ -22,6 +22,11 @@ public interface IUser {
     List<AccessAccount> getAccessAccountsList() throws SQLException;
     boolean isUserTaken(String username) throws SQLException;
     boolean isEmailTaken(String email) throws SQLException;
+
+    List<String> isEmailTakenByUsername(String username) throws SQLException;
+
+    List<String> isStudentIDTakenByUsername(String username) throws SQLException;
+
     Professor getProfessorAccount(String username) throws SQLException;
     Student getStudentAccount(String username) throws SQLException;
     int getUserIDByUsername(String username) throws SQLException;
