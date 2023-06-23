@@ -48,7 +48,7 @@ public class ProfessorDAO implements IProfessor {
      */
     @Override
     public int getProfessorIdByUsername(String username) throws SQLException {
-        String query = "select ID_profesor from Profesores where nombreUsuario=(?)";
+        String query = "SELECT ID_profesor FROM Profesores WHERE nombreUsuario=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -74,7 +74,7 @@ public class ProfessorDAO implements IProfessor {
         String sqlQuery = "SELECT CONCAT(D.grado,' ', D.nombre, ' ',D.apellidos, ', ', CD.grado, ' ', CD.nombre, ' '," +
                 "CD.apellidos) AS Directors " +
                 "FROM Profesores D " +
-                "INNER JOIN Proyectos P on D.ID_profesor = P.ID_director " +
+                "INNER JOIN Proyectos P ON D.ID_profesor = P.ID_director " +
                 "INNER JOIN Profesores CD ON P.ID_codirector = CD.ID_profesor " +
                 "WHERE P.ID_proyecto = (?)";
         

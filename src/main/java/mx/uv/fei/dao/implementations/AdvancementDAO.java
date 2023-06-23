@@ -21,8 +21,8 @@ public class AdvancementDAO implements IAdvancement {
      */
     @Override
     public int addAdvancement(Advancement advancement) throws SQLException {
-        String query = "insert into Avances(nombre, descripcion, fechaInicio, fechaEntrega, ID_proyecto) " +
-                "values (?,?,?,?,?)";
+        String query = "INSERT INTO Avances(nombre, descripcion, fechaInicio, fechaEntrega, ID_proyecto) " +
+                "VALUES (?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -45,8 +45,8 @@ public class AdvancementDAO implements IAdvancement {
      */
     @Override
     public Advancement getAdvancementDetailById(int advancementId) throws SQLException {
-        String query = "select nombre, descripcion, fechaInicio, fechaEntrega, ID_avance, ID_proyecto from Avances " +
-                "where ID_avance=(?)";
+        String query = "SELECT nombre, descripcion, fechaInicio, fechaEntrega, ID_avance, ID_proyecto FROM Avances " +
+                "WHERE ID_avance=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
@@ -74,8 +74,8 @@ public class AdvancementDAO implements IAdvancement {
      * @throws SQLException if there was an error connecting to the database.
      */
     public List<Advancement> getAdvancementListByProjectId(int projectId) throws SQLException {
-        String query = "select nombre, descripcion, fechaInicio, fechaEntrega, ID_avance, ID_proyecto from Avances " +
-                "where ID_proyecto=(?)";
+        String query = "SELECT nombre, descripcion, fechaInicio, fechaEntrega, ID_avance, ID_proyecto FROM Avances " +
+                "WHERE ID_proyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -145,7 +145,7 @@ public class AdvancementDAO implements IAdvancement {
     public List<Advancement> getListAdvancementNamesByStudentId(String studentID) throws SQLException {
         String sqlQuery = "SELECT A.ID_avance, A.nombre FROM Avances A " +
                 "INNER JOIN Proyectos P ON A.ID_proyecto = P.ID_proyecto " +
-                "INNER JOIN SolicitudesProyecto SP on P.ID_proyecto = SP.ID_proyecto " +
+                "INNER JOIN SolicitudesProyecto SP ON P.ID_proyecto = SP.ID_proyecto " +
                 "WHERE SP.matriculaEstudiante = ? AND SP.estado = 'Aceptado'";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -174,8 +174,8 @@ public class AdvancementDAO implements IAdvancement {
      */
     @Override
     public int modifyAdvancementById(int advancementId, Advancement advancement) throws SQLException {
-        String query = "update Avances set nombre=(?), descripcion=(?), fechaInicio=(?), fechaEntrega=(?), " +
-                "ID_proyecto=(?) where ID_avance=(?)";
+        String query = "UPDATE Avances SET nombre=(?), descripcion=(?), fechaInicio=(?), fechaEntrega=(?), " +
+                "ID_proyecto=(?) WHERE ID_avance=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -199,7 +199,7 @@ public class AdvancementDAO implements IAdvancement {
      */
     @Override
     public int deleteAdvancementById(int advancementId) throws SQLException {
-        String query = "delete from Avances where ID_avance=(?)";
+        String query = "DELETE FROM Avances WHERE ID_avance=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -276,7 +276,7 @@ public class AdvancementDAO implements IAdvancement {
     @Override
     public LocalDate getAdvancementDeadLineByEvidenceID(int evidenceID) throws SQLException {
         String query = "SELECT Avances.fechaEntrega FROM Avances " +
-                "INNER JOIN Evidencias on Avances.ID_avance = Evidencias.ID_avance " +
+                "INNER JOIN Evidencias ON Avances.ID_avance = Evidencias.ID_avance " +
                 "WHERE Evidencias.ID_evidencia = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -302,7 +302,7 @@ public class AdvancementDAO implements IAdvancement {
      */
     @Override
     public int getLastAdvancementID() throws SQLException {
-        String query = "select max(ID_avance) from Avances";
+        String query = "SELECT max(ID_avance) FROM Avances";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 

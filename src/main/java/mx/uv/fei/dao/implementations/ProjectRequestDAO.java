@@ -88,11 +88,11 @@ public class ProjectRequestDAO implements IProjectRequest {
      */
     @Override
     public List<ProjectRequest> getProjectRequestsListByProfessorId(int professorID) throws SQLException {
-        String query = "select Soli.ID_solicitudProyecto, Soli.matriculaEstudiante, Soli.estado, Soli.motivos, " +
-                "Soli.ID_proyecto from " +
-                "SolicitudesProyecto Soli JOIN Proyectos Proy Join Profesores Prof " +
-                "on Proy.ID_proyecto = Soli.ID_proyecto and Proy.ID_director = Prof.ID_profesor " +
-                "where ID_profesor = (?)";
+        String query = "SELECT Soli.ID_solicitudProyecto, Soli.matriculaEstudiante, Soli.estado, Soli.motivos, " +
+                "Soli.ID_proyecto FROM " +
+                "SolicitudesProyecto Soli JOIN Proyectos Proy JOIN Profesores Prof " +
+                "ON Proy.ID_proyecto = Soli.ID_proyecto AND Proy.ID_director = Prof.ID_profesor " +
+                "WHERE ID_profesor = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -174,7 +174,7 @@ public class ProjectRequestDAO implements IProjectRequest {
         ProjectRequest projectRequest = new ProjectRequest();
         String query = "SELECT Proyectos.nombreTrabajoRecepcional, SolicitudesProyecto.estado, motivos" +
                 " FROM SolicitudesProyecto " +
-                "INNER JOIN Proyectos on SolicitudesProyecto.ID_proyecto = Proyectos.ID_proyecto " +
+                "INNER JOIN Proyectos ON SolicitudesProyecto.ID_proyecto = Proyectos.ID_proyecto " +
                 "WHERE SolicitudesProyecto.matriculaEstudiante = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
