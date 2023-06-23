@@ -21,17 +21,17 @@ import java.util.Optional;
 
 public class ProjectRequestsController implements IProfessorNavigationBar {
     @FXML
-    Label labelUsername;
+    private Label labelUsername;
     @FXML
-    Text textMotive;
+    private Text textMotive;
     @FXML
-    TableView<ProjectRequest> tableViewRequests;
+    private TableView<ProjectRequest> tableViewRequests;
     @FXML
-    Button buttonAccept;
+    private Button buttonAccept;
     @FXML
-    Button buttonReject;
+    private Button buttonReject;
     @FXML
-    Text textDescription;
+    private Text textDescription;
     private static final String ACCEPT_REQUEST = "Aceptado";
     private static final String DECLINE_REQUEST = "Rechazado";
     private static final Logger logger = Logger.getLogger(ProjectRequestsController.class);

@@ -24,15 +24,15 @@ import java.util.Optional;
 
 public class ModifyEvidenceController implements IStudentNavigationBar {
     @FXML
-    Label labelAdvancementTitle;
+    private Label labelAdvancementTitle;
     @FXML
-    Label labelFileTitle;
+    private Label labelFileTitle;
     @FXML
-    Label labelUsername;
+    private Label labelUsername;
     @FXML
-    TextField textFieldEvidenceTitle;
+    private TextField textFieldEvidenceTitle;
     @FXML
-    TextArea textAreaEvidenceDescription;
+    private TextArea textAreaEvidenceDescription;
     @FXML
     private HBox hboxLogOutLabel;
     private static final int MAX_TITLE_EVIDENCE_LENGTH = 30;

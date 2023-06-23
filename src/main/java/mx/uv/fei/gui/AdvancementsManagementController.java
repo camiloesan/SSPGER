@@ -276,7 +276,6 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             String advancementName = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementName();
             TransferAdvancement.setAdvancementName(advancementName);
             int advancementId = tableViewAdvancements.getSelectionModel().getSelectedItem().getAdvancementID();
-            System.out.println(advancementId);
             TransferAdvancement.setAdvancementID(advancementId);
             Parent modifyVbox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(
                     "panemodifyadvancement-view.fxml")));

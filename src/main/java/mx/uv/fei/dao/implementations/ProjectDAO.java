@@ -383,7 +383,7 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public List<String> getProjectNamesByIdDirector(int directorId) throws SQLException {
-        String query = "select nombreTrabajoRecepcional from Proyectos where ID_director=(?)";
+        String query = "SELECT nombreTrabajoRecepcional FROM Proyectos WHERE ID_director=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -407,7 +407,7 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public String getProjectNameById(int projectId) throws SQLException {
-        String query = "select nombreTrabajoRecepcional from Proyectos where ID_proyecto=(?)";
+        String query = "SELECT nombreTrabajoRecepcional FROM Proyectos WHERE ID_proyecto=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -481,8 +481,8 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public String getProjectNameByAdvancementID(int advancementID) throws SQLException {
-        String query = "select P.nombreTrabajoRecepcional from Proyectos P inner join Avances A on P.ID_proyecto = " +
-                "A.ID_proyecto where ID_avance = (?);";
+        String query = "SELECT P.nombreTrabajoRecepcional FROM Proyectos P INNER JOIN Avances A ON P.ID_proyecto = " +
+                "A.ID_proyecto WHERE ID_avance = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         

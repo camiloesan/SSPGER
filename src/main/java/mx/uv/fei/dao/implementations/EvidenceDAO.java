@@ -22,8 +22,8 @@ public class EvidenceDAO implements IEvidence {
      */
     @Override
     public int addEvidence(Evidence evidence) throws SQLException {
-        String query = "insert into Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante, fechaEntrega) " +
-                "values (?,?,?,?,?)";
+        String query = "INSERT INTO Evidencias(titulo, descripcion, ID_avance, matriculaEstudiante, fechaEntrega) " +
+                "VALUES (?,?,?,?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -71,7 +71,7 @@ public class EvidenceDAO implements IEvidence {
     @Override
     public int updateEvidenceGradeCheckById(int id, int grade) throws SQLException {
         int result;
-        String query = "update Evidencias set calificacion=(?), estado=(?) where ID_evidencia=(?)";
+        String query = "UPDATE Evidencias SET calificacion=(?), estado=(?) WHERE ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -95,7 +95,7 @@ public class EvidenceDAO implements IEvidence {
     @Override
     public int updateEvidenceGradeUncheckById(int id) throws SQLException {
         int result;
-        String query = "update Evidencias set calificacion=(?), estado=(?) where ID_evidencia=(?)";
+        String query = "UPDATE Evidencias SET calificacion=(?), estado=(?) WHERE ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -119,8 +119,8 @@ public class EvidenceDAO implements IEvidence {
     @Override
     public List<Evidence> getEvidenceListByProfessorID(int professorID) throws SQLException {
         String query = "SELECT * FROM Evidencias " +
-                "INNER JOIN Avances on Evidencias.ID_avance = Avances.ID_avance " +
-                "INNER JOIN Proyectos on Avances.ID_proyecto = Proyectos.ID_proyecto " +
+                "INNER JOIN Avances ON Evidencias.ID_avance = Avances.ID_avance " +
+                "INNER JOIN Proyectos ON Avances.ID_proyecto = Proyectos.ID_proyecto " +
                 "WHERE Proyectos.ID_director = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -267,7 +267,7 @@ public class EvidenceDAO implements IEvidence {
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */
     public int deleteEvidenceByID (int evidenceID) throws SQLException {
-        String query = "delete from Evidencias where ID_evidencia=(?)";
+        String query = "DELETE FROM Evidencias WHERE ID_evidencia=(?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -345,7 +345,7 @@ public class EvidenceDAO implements IEvidence {
     @Override
     public String getAdvancementNameByStudentID(String studentID, int advancementID) throws SQLException {
         String query = "SELECT Avances.nombre FROM Evidencias " +
-                "INNER JOIN Avances on Evidencias.ID_avance = Avances.ID_avance " +
+                "INNER JOIN Avances ON Evidencias.ID_avance = Avances.ID_avance " +
                 "WHERE matriculaEstudiante = (?) AND Evidencias.ID_avance = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();

@@ -58,8 +58,8 @@ public class ProgressReportController implements IProfessorNavigationBar{
     private TableColumn<Evidence, String> tableColumnProduct;
     private TableColumn<Evidence, String> tableColumnDeliverDate;
     private TableColumn<Evidence, String> tableColumnWasDelivered;
-    LocalDate actualDate = LocalDate.now();
-    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private LocalDate actualDate = LocalDate.now();
+    private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final Logger logger = Logger.getLogger(ProgressReportController.class);
     
     public void initialize() {
