@@ -13,7 +13,8 @@ public class Student {
     private String email;
 
     public boolean isEmailValid(String studentEmail) {
-        String regex = "^[\\w!#$%&amp;'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&amp;'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        String regex =
+                "^[\\w!#$%&amp;'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&amp;'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(studentEmail);
 
@@ -24,6 +25,14 @@ public class Student {
         String regex = "^(\\p{Alnum}+(\\/{1}\\p{Alnum}+)*)+(?!([\\/]{2}))$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(username);
+
+        return matcher.matches();
+    }
+
+    public boolean isStudentIDValid(String studentID) {
+        String regex = "^\\d+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(studentID);
 
         return matcher.matches();
     }

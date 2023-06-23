@@ -45,10 +45,11 @@ public class PaneModifyUserController {
     private static final int MAX_LENGTH_NAME = 30;
     private static final int MAX_LENGTH_LASTNAME = 80;
     private static final int MAX_LENGTH_EMAIL = 30;
-    private static final int MAX_LENGTH_STUDENT_ID = 10;
+    private static final int MAX_LENGTH_STUDENT_ID = 8;
     private static final String PROFESSOR_USER = "Profesor";
     private static final String STUDENT_USER = "Estudiante";
     private static final String ACADEMIC_BODY_REPRESENTATIVE_USER = "RepresentanteCA";
+    private static final String PREFIX_STUDENT_ID = "ZS";
     private static final Logger logger = Logger.getLogger(PaneModifyUserController.class);
 
     private final static ObservableList<String> observableListComboItemsUserType =
@@ -97,11 +98,12 @@ public class PaneModifyUserController {
         try {
             studentData = userDAO.getStudentAccount(UserManagementController.getUsername());
             textFieldNewEmail.setText(studentData.getEmail());
-            textFieldNewStudentId.setText(studentData.getStudentID());
+            textFieldNewStudentId.setText(studentData.getStudentID().replaceAll("[^\\d]", ""));
             textFieldNewStudentName.setText(studentData.getName());
             textFieldNewStudentLastName.setText(studentData.getLastName());
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información de la base de datos", AlertStatus.WARNING));
             logger.error(sqlException);
         }
     }
@@ -188,35 +190,31 @@ public class PaneModifyUserController {
     }
 
     private boolean areStudentFieldsValid() {
+        boolean result = false;
         Student student = new Student();
         if (textFieldNewStudentId.getText().isBlank()
                 || textFieldNewStudentName.getText().isBlank()
                 || textFieldNewStudentLastName.getText().isBlank()) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Todos los campos deben estar llenos", AlertStatus.WARNING));
-            return false;
         } else if (textFieldNewStudentId.getText().length() != MAX_LENGTH_STUDENT_ID) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Tamaño inválido, la matrícula debe tener exactamente 10 caracteres", AlertStatus.WARNING
+                    "Tamaño inválido, la matrícula debe tener exactamente 8 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldNewStudentName.getText().length() > MAX_LENGTH_NAME) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Tamaño inválido, el límite del nombre es de 30 caracteres", AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldNewStudentLastName.getText().length() > MAX_LENGTH_LASTNAME) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Tamaño inválido, el límite del campo apellidos es de máximo 80 caracteres",
                     AlertStatus.WARNING
             ));
-            return false;
         } else if (textFieldNewEmail.getText().length() > MAX_LENGTH_EMAIL) {
             DialogGenerator.getDialog(new AlertMessage(
                     "Tamaño inválido, el correo electrónico debe tener máximo 30 caracteres",
                     AlertStatus.WARNING
             ));
-            return false;
         } else if (!student.isEmailValid(textFieldNewEmail.getText())) {
             DialogGenerator.getDialog(new AlertMessage(
                     "El formato del correo electrónico no es válido, " +
@@ -224,10 +222,15 @@ public class PaneModifyUserController {
                             "(@estudiantes.uv.mx)",
                     AlertStatus.WARNING
             ));
-            return false;
+        } else if (!student.isStudentIDValid(textFieldNewStudentId.getText())) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Solo se permiten números en la matrícula",
+                    AlertStatus.WARNING
+            ));
         } else {
-            return true;
+            result = true;
         }
+        return result;
     }
 
     private void modifyProfessorUser() {
@@ -266,7 +269,7 @@ public class PaneModifyUserController {
         accessAccount.setUserType(comboBoxUserTypeToModify.getValue());
         accessAccount.setUserEmail(textFieldNewEmail.getText());
         Student student = new Student();
-        student.setStudentID(textFieldNewStudentId.getText());
+        student.setStudentID(PREFIX_STUDENT_ID + textFieldNewStudentId.getText());
         student.setName(textFieldNewStudentName.getText());
         student.setLastName(textFieldNewStudentLastName.getText());
 

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FeedbackDAO implements IFeedback {
+
     /**
      * @param feedback new feedback to save in the database.
      * @return rows affected if the admin was saved (1) or not (0).

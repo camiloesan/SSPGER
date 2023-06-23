@@ -54,6 +54,14 @@ public class PaneAddUserController {
     private static final String STUDENT__USER = "Estudiante";
     private static final String ACADEMIC_BODY_REPRESENTATIVE_USER = "RepresentanteCA";
     private static final String ADMIN_USER = "Administrador";
+    private static final String PREFIX_STUDENT_ID = "ZS";
+
+    private static final int MAX_LENGTH_USERNAME = 28;
+    private static final int MAX_LENGTH_PASSWORD = 64;
+    private static final int MAX_LENGTH_NAME = 30;
+    private static final int MAX_LENGTH_LASTNAME = 80;
+    private static final int MAX_LENGTH_EMAIL = 28;
+    private static final int MAX_LENGTH_STUDENT_ID = 8;
 
     @FXML
     private void initialize() {
@@ -162,6 +170,8 @@ public class PaneAddUserController {
         }
     }
 
+
+
     private void addStudentUser() throws SQLException {
         UserDAO userDAO = new UserDAO();
         AccessAccount accessAccount = new AccessAccount();
@@ -171,7 +181,7 @@ public class PaneAddUserController {
         accessAccount.setUserType(comboBoxUserType.getValue());
         accessAccount.setUserEmail(textFieldEmail.getText());
         Student student = new Student();
-        student.setStudentID(textFieldStudentId.getText());
+        student.setStudentID(PREFIX_STUDENT_ID + textFieldStudentId.getText());
         student.setName(textFieldStudentName.getText());
         student.setLastName(textFieldStudentLastName.getText());
 
@@ -212,29 +222,22 @@ public class PaneAddUserController {
         }
     }
 
-    private static final int MAX_LENGTH_USERNAME = 28;
-    private static final int MAX_LENGTH_PASSWORD = 64;
-    private static final int MAX_LENGTH_NAME = 30;
-    private static final int MAX_LENGTH_LASTNAME = 80;
-    private static final int MAX_LENGTH_EMAIL = 28;
-    private static final int MAX_LENGTH_STUDENT_ID = 10;
-
     private boolean areFieldsValid(String userType) {
+        boolean result = false;
         if (areAccessAccountFieldsValid()) {
             switch (userType) {
                 case PROFESSOR_USER, ACADEMIC_BODY_REPRESENTATIVE_USER -> {
-                    return areProfessorFieldsValid();
+                    result = areProfessorFieldsValid();
                 }
                 case STUDENT__USER -> {
-                    return areStudentFieldsValid();
+                    result = areStudentFieldsValid();
                 }
                 default -> {
-                    return true;
+                    result = true;
                 }
             }
-        } else {
-            return false;
         }
+        return result;
     }
 
     private boolean areAccessAccountFieldsValid() {
@@ -318,7 +321,7 @@ public class PaneAddUserController {
             ));
         } else if (textFieldStudentId.getText().length() != MAX_LENGTH_STUDENT_ID) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Tamaño inválido, la matrícula debe tener exactamente 10 caracteres", AlertStatus.WARNING
+                    "Tamaño inválido, la matrícula debe tener exactamente 8 caracteres", AlertStatus.WARNING
             ));
         } else if (textFieldStudentName.getText().length() > MAX_LENGTH_NAME) {
             DialogGenerator.getDialog(new AlertMessage(
@@ -338,6 +341,11 @@ public class PaneAddUserController {
         } else if (!student.isUsernameValid(textFieldUsername.getText())){
             DialogGenerator.getDialog(new AlertMessage(
                     "No se permiten caracteres especiales en el nombre de usuario ni espacios",
+                    AlertStatus.WARNING
+            ));
+        } else if (!student.isStudentIDValid(textFieldStudentId.getText())){
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Solo se permiten números en la matrícula",
                     AlertStatus.WARNING
             ));
         } else {
