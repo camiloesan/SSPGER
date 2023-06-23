@@ -614,4 +614,26 @@ public class ProjectDAO implements IProject {
         databaseManager.closeConnection();
         return availableSpaces;
     }
+
+    /**
+     * @param projectID project id to update stage to Trabajo Recepcional
+     * @return the rows affected
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public int updateStageProjectByProjectID(int projectID) throws SQLException{
+        int result = 0;
+        String sqlQuery = "UPDATE Proyectos SET etapa = 'Trabajo Recepcional' WHERE ID_proyecto = (?)";
+
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, projectID);
+
+        result = preparedStatement.executeUpdate();
+        databaseManager.closeConnection();
+        return result;
+    }
+
 }

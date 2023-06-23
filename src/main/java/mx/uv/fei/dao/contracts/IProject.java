@@ -30,4 +30,6 @@ public interface IProject {
     int increaseStudentQuota(int projectID) throws SQLException;
     int getStudentQuota(int projectID) throws SQLException;
     int getAvailableSpaces(int projectID) throws SQLException;
+
+    int updateStageProjectByProjectID(int projectID) throws SQLException;
 }

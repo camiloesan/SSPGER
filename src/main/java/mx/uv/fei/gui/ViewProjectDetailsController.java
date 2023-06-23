@@ -122,9 +122,37 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
     }
 
     private void hideDeleteProject() {
-        if (SessionDetails.getInstance().getUserType().equals("Profesor")) {
+        if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_PROFESSOR)) {
             buttonDeleteProject.setVisible(false);
         }
+    }
+
+    @FXML
+    private void updateProjectStage() {
+        if (confirmedProjectStage()) {
+            ProjectDAO projectDAO = new ProjectDAO();
+            int resultOfUpdate = 0;
+
+            try {
+                resultOfUpdate = projectDAO.updateStageProjectByProjectID(getTransferProjectID());
+            } catch (SQLException updateStageProjectException) {
+                DialogGenerator.getDialog(new AlertMessage("Error al actualizar proyecto", AlertStatus.ERROR));
+                logger.error(updateStageProjectException);
+            }
+
+            if (resultOfUpdate == 1) {
+                DialogGenerator.getDialog(new AlertMessage(
+                        "Proyecto actualizado a Trabajo Recepcional", AlertStatus.SUCCESS));
+            }
+
+        }
+    }
+
+    private boolean confirmedProjectStage() {
+        Optional<ButtonType> response = DialogGenerator.getConfirmationDialog(
+                "¿Está seguro que desea actualizar el estado del proyecto a Trabajo Recepcional?\n"
+                        +"NOTA: No podrá regresar a Proyecto Guiado");
+        return response.orElse(null) == DialogGenerator.BUTTON_YES;
     }
 
     private boolean confirmedDeleteProject() {
