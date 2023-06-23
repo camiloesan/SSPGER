@@ -9,5 +9,5 @@ public interface IFeedback {
     int deleteFeedbackByID(int feedbackID) throws SQLException;
     int getFeedbackIDByEvidenceID(int evidenceID, String studentID) throws SQLException;
     int getFeedbacksByEvidenceID(int evidenceID, String studentID) throws SQLException;
-    String  getFeedbackTextByEvidenceID(int evidenceID, String studentID) throws SQLException;
+    String getFeedbackTextByEvidenceID(int evidenceID, String studentID) throws SQLException;
 }

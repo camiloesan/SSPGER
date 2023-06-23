@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +152,14 @@ class EvidenceDAOTest {
         int result = evidenceDAO.addEvidence(evidence);
         assertEquals(expectedResult,result);
 
+    }
+
+    @Test
+    void testAddEvidenceNull() {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        Evidence evidence = new Evidence();
+
+        assertThrows(SQLIntegrityConstraintViolationException.class, () -> evidenceDAO.addEvidence(evidence));
     }
 
     @Test

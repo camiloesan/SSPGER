@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -134,6 +135,31 @@ AdvancementDAOTest {
     }
 
     @Test
+    void testAddAdvancementProjectSuccess() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        Advancement advancement1 = new Advancement();
+        ProjectDAO projectDAO = new ProjectDAO();
+        advancement1.setAdvancementName("Primera Entrega Parcial");
+        advancement1.setAdvancementDescription("El alumno se encargará de recopilar la información de la primera fase," +
+                "esto significa un entregable con todos los puntos marcados en la rúbrica siguiente: " +
+                "Portada, Introducción, Desarrollo del problema, Conclusión temporal del trabajo.");
+        advancement1.setAdvancementStartDate("2023-06-29");
+        advancement1.setAdvancementDeadline("2023-09-27");
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
+
+        int expectedResult = 1;
+        assertEquals(expectedResult, advancementDAO.addAdvancement(advancement1));
+    }
+
+    @Test
+    void testAddAdvancementProjectNull() {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+        Advancement advancement1 = new Advancement();
+
+        assertThrows(SQLIntegrityConstraintViolationException.class, () -> advancementDAO.addAdvancement(advancement1));
+    }
+
+    @Test
     void testAddAdvancementProjectIdDoesNotExist() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         Advancement advancement1 = new Advancement();
@@ -215,8 +241,8 @@ AdvancementDAOTest {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement1 = new Advancement();
-        advancement1.setAdvancementName("new");
-        advancement1.setAdvancementDescription("new");
+        advancement1.setAdvancementName("Avance para modificar");
+        advancement1.setAdvancementDescription("Formato erroneo de fechas");
         advancement1.setAdvancementStartDate("202x2-03-24");
         advancement1.setAdvancementDeadline("2024-02x-03");
         advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));

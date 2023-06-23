@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provides a set of methods to connect to the advancements table on the database.
+ * Provides a set of functions involving manipulation of advancements in the database as well as consulting information.
  */
 public class AdvancementDAO implements IAdvancement {
     /**

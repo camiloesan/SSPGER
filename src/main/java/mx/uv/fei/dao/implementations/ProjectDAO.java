@@ -13,6 +13,9 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides a set of functions involving manipulation of projects in the database as well as consulting information.
+ */
 public class ProjectDAO implements IProject {
     /**
      * @param project project to register in the database

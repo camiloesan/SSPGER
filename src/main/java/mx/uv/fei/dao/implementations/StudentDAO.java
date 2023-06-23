@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides a set of functions involving manipulation of students in the database as well as consulting information.
+ */
 public class StudentDAO implements IStudent {
     /**
      * @param studentID student ID to get the student name

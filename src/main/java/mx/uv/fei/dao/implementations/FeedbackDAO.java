@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Provides a set of methods to connect to the feedback table on the database.
+ */
 public class FeedbackDAO implements IFeedback {
 
     /**

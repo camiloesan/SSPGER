@@ -1,15 +1,14 @@
 package mx.uv.fei.dao;
 
-import mx.uv.fei.dao.implementations.AdvancementDAO;
-import mx.uv.fei.dao.implementations.EvidenceDAO;
-import mx.uv.fei.dao.implementations.ProjectDAO;
-import mx.uv.fei.dao.implementations.UserDAO;
+import mx.uv.fei.dao.implementations.*;
 import mx.uv.fei.logic.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLSyntaxErrorException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -144,6 +143,99 @@ class FeedbackDAOTest {
 
     @Test
     void testAddFeedbackSuccess() throws SQLException {
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        Feedback feedback = new Feedback();
 
+        feedback.setEvidenceID(evidenceDAO.getLastEvidenceID());
+        feedback.setFeedbackText("En primer lugar, quiero destacar la claridad y la organización de tu " +
+                "documentación. Es evidente que has dedicado tiempo y esfuerzo en presentar la información de manera " +
+                "estructurada y fácil de seguir. Los objetivos del proyecto, los requisitos y las funcionalidades " +
+                "están claramente definidos, lo que demuestra una comprensión sólida del alcance del trabajo.");
+
+        int expectedResult = 1;
+        assertEquals(expectedResult, feedbackDAO.addFeedback(feedback));
     }
+
+    @Test
+    void testAddFeedbackDataTooLong() throws SQLException {
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        Feedback feedback = new Feedback();
+
+        feedback.setEvidenceID(evidenceDAO.getLastEvidenceID());
+        feedback.setFeedbackText("Quiero comenzar felicitándote por el trabajo realizado en este proyecto de " +
+                "software. Es evidente que has invertido tiempo y esfuerzo en su desarrollo, y los resultados son " +
+                "notables. A continuación, me gustaría resaltar algunos aspectos positivos que he " +
+                "observado en tu evidencia. En primer lugar, me impresiona la claridad de los objetivos establecidos " +
+                "para el proyecto. Desde el principio, has definido claramente los requisitos y las " +
+                "funcionalidades esperadas, lo cual es fundamental para el éxito del desarrollo de software. " +
+                "Además, has demostrado una comprensión profunda de las necesidades de los usuarios, lo cual se " +
+                "refleja en la implementación de características relevantes y útiles. "+
+                "En cuanto a la arquitectura del software, me complace ver que has utilizado un enfoque modular, " +
+                "lo que facilita la escalabilidad y el mantenimiento del sistema. La estructura del código es limpia " +
+                "y bien organizada, lo que contribuye a la legibilidad y a la facilidad de mantenimiento. Además, " +
+                "has implementado buenas prácticas de programación, como el uso adecuado de comentarios y la " +
+                "modularización del código en funciones y clases reutilizables. " +
+                "También quiero destacar la atención que has prestado a la seguridad del software. " +
+                "Has implementado medidas de protección, como el cifrado de datos y la validación de entradas, " +
+                "lo cual es crucial en un entorno en línea. Además, has realizado pruebas exhaustivas para " +
+                "identificar y solucionar posibles vulnerabilidades, demostrando un enfoque proactivo hacia la " +
+                "seguridad. En cuanto a la documentación del proyecto, has proporcionado una descripción detallada " +
+                "de la arquitectura, las funcionalidades y las instrucciones de instalación. Esta documentación " +
+                "es clara y bien estructurada, lo que facilita la comprensión del sistema y su uso por parte de " +
+                "otros desarrolladores o usuarios. En general, tu evidencia refleja un enfoque metódico y " +
+                "cuidadoso en el desarrollo de software. Has demostrado habilidades técnicas sólidas, así como una " +
+                "comprensión profunda de los principios de la ingeniería de software. Además, tu capacidad para " +
+                "resolver problemas y enfrentar desafíos durante el proceso de desarrollo es impresionante. " +
+                "Como sugerencia de mejora, me gustaría enfatizar la importancia de realizar pruebas exhaustivas en " +
+                "todas las funcionalidades del software. Aunque has realizado pruebas en gran medida, asegurarse de " +
+                "cubrir todos los escenarios posibles y realizar pruebas de integración minuciosas puede ayudar a " +
+                "identificar y corregir posibles errores o deficiencias antes de la implementación final. " +
+                "En resumen, felicidades por el trabajo realizado en este proyecto de software. Tu evidencia " +
+                "muestra un enfoque sólido y meticuloso, reflejando un dominio de los conceptos y técnicas necesarios" +
+                " para el desarrollo exitoso de software. Espero ver más proyectos tuyos en el futuro y estoy " +
+                "seguro de que seguirás creciendo como profesional en el campo de la ingeniería de software.");
+
+        assertThrows(SQLSyntaxErrorException.class, () -> feedbackDAO.addFeedback(feedback));
+    }
+
+    @Test
+    void testAddFeedbackNull() {
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        Feedback feedback = new Feedback();
+
+        assertThrows(SQLIntegrityConstraintViolationException.class, () -> feedbackDAO.addFeedback(feedback));
+    }
+
+    @Test
+    void testDeleteFeedbackSuccess() throws SQLException {
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        Feedback feedback = new Feedback();
+
+        feedback.setEvidenceID(evidenceDAO.getLastEvidenceID());
+        feedback.setFeedbackText("En primer lugar, quiero destacar la claridad y la organización de tu " +
+                "documentación. Es evidente que has dedicado tiempo y esfuerzo en presentar la información de manera " +
+                "estructurada y fácil de seguir. Los objetivos del proyecto, los requisitos y las funcionalidades " +
+                "están claramente definidos, lo que demuestra una comprensión sólida del alcance del trabajo.");
+        feedbackDAO.addFeedback(feedback);
+
+        int expectedResult = 1;
+        assertEquals(expectedResult, feedbackDAO.deleteFeedbackByID(feedbackDAO
+                .getFeedbackIDByEvidenceID(evidenceDAO.getLastEvidenceID(), "ZS21050285")));
+    }
+
+    @Test
+    void testDeleteFeedbackNotExist() throws SQLException {
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+        Feedback feedback = new Feedback();
+
+        feedbackDAO.addFeedback(feedback);
+
+        assertThrows(SQLIntegrityConstraintViolationException.class, () -> feedbackDAO.deleteFeedbackByID(feedbackDAO
+                .getFeedbackIDByEvidenceID(evidenceDAO.getLastEvidenceID(), "ZS21050285")));
+    }
+
 }

@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides a set of methods to connect to the professors table on the database.
+ */
 public class ProfessorDAO implements IProfessor {
     /**
      * @return list with all profesor's names
