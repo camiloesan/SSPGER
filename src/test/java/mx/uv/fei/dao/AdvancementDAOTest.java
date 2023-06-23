@@ -231,7 +231,7 @@ AdvancementDAOTest {
         advancement1.setAdvancementDescription("Este avance lanzara una excepción");
         advancement1.setAdvancementStartDate("2022-03-24");
         advancement1.setAdvancementDeadline("2024-02-03");
-        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
 
         assertEquals(0, advancementDAO.modifyAdvancementById(0, advancement1));
     }
@@ -245,7 +245,7 @@ AdvancementDAOTest {
         advancement1.setAdvancementDescription("Formato erroneo de fechas");
         advancement1.setAdvancementStartDate("202x2-03-24");
         advancement1.setAdvancementDeadline("2024-02x-03");
-        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
         assertThrows(SQLException.class, () -> advancementDAO.modifyAdvancementById(advancementDAO.getLastAdvancementID(), advancement1));
     }
 
@@ -259,7 +259,7 @@ AdvancementDAOTest {
                 "con título que sobrepasa los límites");
         advancement1.setAdvancementStartDate("2022-03-24");
         advancement1.setAdvancementDeadline("2024-02-03");
-        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
         assertThrows(SQLException.class, () -> advancementDAO.modifyAdvancementById(advancementDAO.getLastAdvancementID(), advancement1));
     }
 
@@ -273,7 +273,7 @@ AdvancementDAOTest {
                 "con el id erronea");
         advancement1.setAdvancementStartDate("2022-03-24");
         advancement1.setAdvancementDeadline("2024-02-03");
-        advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
+        advancement1.setProjectId(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
 
         assertEquals(0, advancementDAO.modifyAdvancementById(0, advancement1));
     }
