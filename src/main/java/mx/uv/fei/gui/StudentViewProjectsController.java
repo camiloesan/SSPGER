@@ -29,7 +29,7 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
     private static final Logger logger = Logger.getLogger(StudentViewProjectsController.class);
     
     public void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         fillListViewProjects();
         setProjectTitles();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);

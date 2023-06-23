@@ -33,7 +33,7 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
     private static final Logger logger = Logger.getLogger(StudentViewAdvancementDetailsController.class);
     
     public void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         showAdvancementDetails();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }

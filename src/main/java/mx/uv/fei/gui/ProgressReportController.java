@@ -31,7 +31,6 @@ import java.nio.file.Files;
 import java.sql.SQLException;
 import java.time.format.TextStyle;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -212,9 +211,9 @@ public class ProgressReportController implements IProfessorNavigationBar{
     
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
+        if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_REPRESENTATIVE)) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
+        } else if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_PROFESSOR)){
             MainStage.changeView(
                     "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }

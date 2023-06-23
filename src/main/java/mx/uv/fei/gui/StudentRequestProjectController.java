@@ -44,7 +44,7 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
         ProjectRequest projectRequest = new ProjectRequest();
 
         projectRequest.setProjectID(TransferProject.getProjectID());
-        projectRequest.setStudentId(LoginController.sessionDetails.getId());
+        projectRequest.setStudentId(SessionDetails.getInstance().getId());
         projectRequest.setDescription(textAreaDescription.getText());
 
         return projectRequest;

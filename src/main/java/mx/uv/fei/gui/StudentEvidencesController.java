@@ -176,7 +176,7 @@ public class StudentEvidencesController implements IStudentNavigationBar {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         tableViewAdvancement.getItems().clear();
         tableViewAdvancement.getItems().addAll(advancementDAO
-                .getAdvancementByStudentID(LoginController.sessionDetails.getId()));
+                .getAdvancementByStudentID(SessionDetails.getInstance().getId()));
     }
 
     private boolean advancementIsSelected() {

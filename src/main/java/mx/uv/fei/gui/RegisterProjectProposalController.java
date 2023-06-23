@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class RegisterProjectProposalController implements IProfessorNavigationBar{
@@ -72,7 +71,7 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     private static final Logger logger = Logger.getLogger(RegisterProjectProposalController.class);
     
     public void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         fillCombos();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
@@ -354,9 +353,9 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
+        if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_REPRESENTATIVE)) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
+        } else if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_PROFESSOR)){
             MainStage.changeView(
                     "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }

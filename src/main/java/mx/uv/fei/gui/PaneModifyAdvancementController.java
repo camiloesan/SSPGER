@@ -9,6 +9,7 @@ import mx.uv.fei.logic.Advancement;
 import mx.uv.fei.logic.AlertMessage;
 import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.TransferAdvancement;
+import mx.uv.fei.logic.SessionDetails;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -99,7 +100,7 @@ public class PaneModifyAdvancementController {
 
     private void fillComboBoxNewProjectToAssign() throws SQLException{
         ProjectDAO projectDAO = new ProjectDAO();
-        int professorId = Integer.parseInt(LoginController.sessionDetails.getId());
+        int professorId = Integer.parseInt(SessionDetails.getInstance().getId());
         comboNewProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
     }
 

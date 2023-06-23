@@ -27,7 +27,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     
     @FXML
     private void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         fillListViewAdvancements();
         setAdvancementNames();
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
@@ -37,7 +37,7 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     private void fillListViewAdvancements() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         try {
-            String studentId = LoginController.sessionDetails.getId();
+            String studentId = SessionDetails.getInstance().getId();
             listViewAdvancementsNames.getItems().clear();
             
             List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByStudentId(studentId));

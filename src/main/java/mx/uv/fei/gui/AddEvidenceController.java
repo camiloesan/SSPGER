@@ -52,7 +52,7 @@ public class AddEvidenceController implements IStudentNavigationBar {
             evidence.setEvidenceTitle(textFieldEvidenceTitle.getText());
             evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
             evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
-            evidence.setStudentId(LoginController.sessionDetails.getId());
+            evidence.setStudentId(SessionDetails.getInstance().getId());
 
             int resultDAO= 0;
             try {

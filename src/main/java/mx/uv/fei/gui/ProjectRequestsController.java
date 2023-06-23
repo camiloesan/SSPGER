@@ -12,7 +12,6 @@ import mx.uv.fei.logic.AlertStatus;
 import mx.uv.fei.logic.ProjectRequest;
 import mx.uv.fei.logic.SessionDetails;
 import org.apache.log4j.Logger;
-import org.apache.logging.log4j.core.pattern.NotANumber;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -39,7 +38,7 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     @FXML
     private void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         TableColumn<ProjectRequest, String> studentIdColumn = new TableColumn<>("Matrícula");
         studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         TableColumn<ProjectRequest, String> projectColumn = new TableColumn<>("Estado");
@@ -163,9 +162,9 @@ public class ProjectRequestsController implements IProfessorNavigationBar {
 
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
+        if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_REPRESENTATIVE)) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
+        } else if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_PROFESSOR)){
             MainStage.changeView(
                     "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }

@@ -47,7 +47,7 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
 
     private String getAdvancementName() throws SQLException{
         EvidenceDAO evidenceDAO = new EvidenceDAO();
-        return evidenceDAO.getAdvancementNameByStudentID(LoginController.sessionDetails.getId(),
+        return evidenceDAO.getAdvancementNameByStudentID(SessionDetails.getInstance().getId(),
                 evidenceDAO.getAdvancementIDByEvidenceID(TransferEvidence.getEvidenceId()));
     }
     @FXML

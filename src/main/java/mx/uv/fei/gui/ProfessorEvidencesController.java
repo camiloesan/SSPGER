@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Optional;
 
 public class ProfessorEvidencesController implements IProfessorNavigationBar {
@@ -21,7 +20,7 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
 
     @FXML
     private void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         TableColumn<Evidence, String> titleEvidence = new TableColumn<>("Título");
         titleEvidence.setCellValueFactory(new PropertyValueFactory<>("evidenceTitle"));
         TableColumn<Evidence, String> statusEvidence = new TableColumn<>("Estado");
@@ -73,7 +72,7 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
         EvidenceDAO evidenceDAO = new EvidenceDAO();
         tableViewEvidence.getItems().clear();
         tableViewEvidence.getItems().addAll(evidenceDAO
-                .getEvidenceListByProfessorID(Integer.parseInt(LoginController.sessionDetails.getId())));
+                .getEvidenceListByProfessorID(Integer.parseInt(SessionDetails.getInstance().getId())));
     }
 
     @Override
@@ -83,9 +82,9 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
 
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
+        if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_REPRESENTATIVE)) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
+        } else if (SessionDetails.getInstance().getUserType().equals(LoginController.USER_PROFESSOR)) {
             MainStage.changeView(
                     "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }

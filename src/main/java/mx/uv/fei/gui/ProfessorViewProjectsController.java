@@ -31,7 +31,7 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
     private static final Logger logger = Logger.getLogger(ProfessorViewProjectsController.class);
 
     public void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         prepareTableViewProjects();
         try {
             fillProjectTableByRole();
@@ -63,7 +63,7 @@ public class ProfessorViewProjectsController implements IProfessorNavigationBar{
 
     private void fillProjectTableByRole() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
-        int professorID = Integer.parseInt(LoginController.sessionDetails.getId());
+        int professorID = Integer.parseInt(SessionDetails.getInstance().getId());
         tableViewProjects.getItems().clear();
         tableViewProjects.getItems().addAll(projectDAO.getProjectsByParticipation(professorID));
     }

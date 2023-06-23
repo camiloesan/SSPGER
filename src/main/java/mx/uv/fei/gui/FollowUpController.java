@@ -9,11 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import mx.uv.fei.dao.implementations.StudentDAO;
-import mx.uv.fei.logic.Student;
-import mx.uv.fei.logic.TransferProject;
-import mx.uv.fei.logic.TransferStudent;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
+import mx.uv.fei.logic.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -31,7 +27,7 @@ public class FollowUpController implements IProfessorNavigationBar{
     private static final Logger logger = Logger.getLogger(FollowUpController.class);
     
     public void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         try {
             fillStudentList();
         } catch (SQLException sqlException) {
@@ -88,9 +84,9 @@ public class FollowUpController implements IProfessorNavigationBar{
     
     @Override
     public void redirectToProfessorProjectManagement() throws IOException {
-        if (Objects.equals(LoginController.sessionDetails.getUserType(), "RepresentanteCA")) {
+        if (Objects.equals(SessionDetails.getInstance().getUserType(), LoginController.USER_REPRESENTATIVE)) {
             MainStage.changeView("projectproposals-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
-        } else if (Objects.equals(LoginController.sessionDetails.getUserType(), "Profesor")){
+        } else if (Objects.equals(SessionDetails.getInstance().getUserType(), LoginController.USER_PROFESSOR)){
             MainStage.changeView(
                     "professorviewprojects-view.fxml",1000,600 + MainStage.HEIGHT_OFFSET);
         }
@@ -114,7 +110,7 @@ public class FollowUpController implements IProfessorNavigationBar{
     
     @Override public void actionLogOut() throws IOException {
         if (confirmedLogOut()) {
-            LoginController.sessionDetails.cleanSessionDetails();
+            SessionDetails.cleanSessionDetails();
             MainStage.changeView("login-view.fxml", 600, 400 + MainStage.HEIGHT_OFFSET);
         }
     }

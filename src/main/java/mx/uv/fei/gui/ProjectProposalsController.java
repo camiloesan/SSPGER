@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
 
 public class ProjectProposalsController implements IProfessorNavigationBar{
@@ -49,7 +48,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     private static final Logger logger = Logger.getLogger(ProjectProposalsController.class);
  
     public void initialize() {
-        labelUsername.setText(LoginController.sessionDetails.getUsername());
+        labelUsername.setText(SessionDetails.getInstance().getUsername());
         prepareTableViewProjects();
         buttonSeguimiento.setVisible(false);
         fillProjectStateCombo();
@@ -105,7 +104,7 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
     
     private void fillProjectTableByRole() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
-        int professorID = Integer.parseInt(LoginController.sessionDetails.getId());
+        int professorID = Integer.parseInt(SessionDetails.getInstance().getId());
         buttonSeguimiento.setVisible(true);
         tableViewProjects.getItems().clear();
         tableViewProjects.getItems().addAll(projectDAO.getProjectsByParticipation(professorID));
