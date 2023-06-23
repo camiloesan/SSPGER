@@ -46,7 +46,8 @@ class ProfessorDAOTest {
         
         var projectDirectors = new Project();
         projectDirectors.setAcademicBodyId("UV-CA-127");
-        projectDirectors.setInvestigationProjectName("Hacia un Modelo de Campus Accesible: Facultad de Estadística e Informática");
+        projectDirectors.setInvestigationProjectName(
+                "Hacia un Modelo de Campus Accesible: Facultad de Estadística e Informática");
         projectDirectors.setLGAC_Id(2);
         projectDirectors.setInvestigationLine("Se orienta al estudio de diversas propiedades, enfoques, métodos de " +
                 "modelado y herramientas que conforman cada una de las diversas tecnologías aplicables al desarrollo " +
@@ -188,8 +189,10 @@ class ProfessorDAOTest {
         
         userDAO.deleteUserByUsername("perezJuanC");
         userDAO.deleteUserByUsername("cortesMariaK");
-        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
-        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle("Análisis de las tecnologías para el desarrollo de Development Bots"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle(
+                "Recomendaciones de Accesibilidad para el Desarrollo de Software"));
+        projectDAO.deleteProjectByID(projectDAO.getProjectIDByTitle(
+                "Análisis de las tecnologías para el desarrollo de Development Bots"));
     }
     
     @Test
@@ -252,7 +255,8 @@ class ProfessorDAOTest {
         
         String expectedString = "MCC. Juan Carlos Perez Arriaga, Dra. Maria Karen Cortes Verdin";
         
-        String actualString = professorDAO.getDirectorsByProject(projectDAO.getProjectIDByTitle("Recomendaciones de Accesibilidad para el Desarrollo de Software"));
+        String actualString = professorDAO.getDirectorsByProject(projectDAO.getProjectIDByTitle(
+                "Recomendaciones de Accesibilidad para el Desarrollo de Software"));
         
         System.out.println("Expected String:");
         System.out.println(expectedString);
@@ -270,7 +274,8 @@ class ProfessorDAOTest {
         var professorDAO = new ProfessorDAO();
         var projectDAO = new ProjectDAO();
         
-        String actualString = professorDAO.getDirectorsByProject(projectDAO.getProjectIDByTitle("Análisis de las tecnologías para el desarrollo de Development Bots"));
+        String actualString = professorDAO.getDirectorsByProject(projectDAO.getProjectIDByTitle(
+                "Análisis de las tecnologías para el desarrollo de Development Bots"));
         System.out.println("Actual String:");
         System.out.println(actualString);
         System.out.println("--------------");

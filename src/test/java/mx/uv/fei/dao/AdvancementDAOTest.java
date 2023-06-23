@@ -48,7 +48,8 @@ AdvancementDAOTest {
         student.setStudentID("zs21013869");
 
         project.setAcademicBodyId("UV-CA-127");
-        project.setInvestigationProjectName("Hacia un Modelo de Campus Accesible: Facultad de Estadística e Informática");
+        project.setInvestigationProjectName(
+                "Hacia un Modelo de Campus Accesible: Facultad de Estadística e Informática");
         project.setLGAC_Id(1);
         project.setInvestigationLine("Estudio de los diversos métodos y enfoques para la" +
                 "gestión, modelado y desarrollo de software, de manera " +
@@ -76,7 +77,8 @@ AdvancementDAOTest {
                 "desarrollo de productos de software de calidad. Existen estudios donde se definen algunas " +
                 "hipótesis orientadas a validar si aspectos de diversidad de personalidad están relacionadas " +
                 "positivamente en la calidad del producto final. ");
-        project.setReceptionWorkDescription("El presente trabajo tiene como finalidad, realizar una revisión sistemática de la literatura " +
+        project.setReceptionWorkDescription(
+                "El presente trabajo tiene como finalidad, realizar una revisión sistemática de la literatura " +
                 "sobre la diversidad (personalidad, género, entre otros aspectos) de los equipos de desarrollo " +
                 "y la relación que guardan con la calidad de los productos de software que desarrollan. " +
                 "Adicionalmente se pretende que la revisión sistemática documente el impacto que tienen los " +
@@ -108,17 +110,21 @@ AdvancementDAOTest {
         ProjectRequest projectRequest = new ProjectRequest();
         projectRequest.setProjectID(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
         projectRequest.setStudentId("zs21013869");
-        projectRequest.setDescription("Quisiera estar en este proyecto porque a mi me interesa mucho el tema desde el inicio de la" +
-                " carrera y considero que sería de gran ayuda en mi formación no tan solo como estudiante, sino como profesionista.");
+        projectRequest.setDescription(
+                "Quisiera estar en este proyecto porque a mi me interesa mucho el tema desde el inicio de la" +
+                " carrera y considero que sería de gran ayuda en mi formación no tan solo como estudiante, " +
+                        "sino como profesionista.");
         projectRequestDAO.createProjectRequest(projectRequest);
-        projectRequestDAO.validateProjectRequest("Aceptado", projectRequestDAO.getProjectRequestIDByStudentID("zs21013869"));
+        projectRequestDAO.validateProjectRequest("Aceptado",
+                projectRequestDAO.getProjectRequestIDByStudentID("zs21013869"));
 
         advancement.setAdvancementName("Entrega final");
         advancement.setAdvancementDescription("Se incluyen todos los archivos y conclusión general " +
                 "de todos los avances anteriores");
         advancement.setAdvancementStartDate("2023-12-02");
         advancement.setAdvancementDeadline("2023-12-02");
-        advancement.setProjectId(projectDAO.getProjectIDByTitle("Diversidad en equipos de desarrollo y su relación con la " +
+        advancement.setProjectId(projectDAO.getProjectIDByTitle(
+                "Diversidad en equipos de desarrollo y su relación con la " +
                 "calidad de software"));
         advancementDAO.addAdvancement(advancement);
     }
@@ -140,7 +146,8 @@ AdvancementDAOTest {
         Advancement advancement1 = new Advancement();
         ProjectDAO projectDAO = new ProjectDAO();
         advancement1.setAdvancementName("Primera Entrega Parcial");
-        advancement1.setAdvancementDescription("El alumno se encargará de recopilar la información de la primera fase," +
+        advancement1.setAdvancementDescription(
+                "El alumno se encargará de recopilar la información de la primera fase," +
                 "esto significa un entregable con todos los puntos marcados en la rúbrica siguiente: " +
                 "Portada, Introducción, Desarrollo del problema, Conclusión temporal del trabajo.");
         advancement1.setAdvancementStartDate("2023-06-29");
@@ -164,7 +171,8 @@ AdvancementDAOTest {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         Advancement advancement1 = new Advancement();
         advancement1.setAdvancementName("Primera Entrega Parcial");
-        advancement1.setAdvancementDescription("El alumno se encargará de recopilar la información de la primera fase," +
+        advancement1.setAdvancementDescription(
+                "El alumno se encargará de recopilar la información de la primera fase," +
                 "esto significa un entregable con todos los puntos marcados en la rúbrica siguiente: " +
                 "Portada, Introducción, Desarrollo del problema, Conclusión temporal del trabajo.");
         advancement1.setAdvancementStartDate("2023-06-29");
@@ -246,7 +254,8 @@ AdvancementDAOTest {
         advancement1.setAdvancementStartDate("202x2-03-24");
         advancement1.setAdvancementDeadline("2024-02x-03");
         advancement1.setProjectId(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
-        assertThrows(SQLException.class, () -> advancementDAO.modifyAdvancementById(advancementDAO.getLastAdvancementID(), advancement1));
+        assertThrows(SQLException.class, () -> advancementDAO.modifyAdvancementById(
+                advancementDAO.getLastAdvancementID(), advancement1));
     }
 
     @Test
@@ -260,7 +269,8 @@ AdvancementDAOTest {
         advancement1.setAdvancementStartDate("2022-03-24");
         advancement1.setAdvancementDeadline("2024-02-03");
         advancement1.setProjectId(projectDAO.getProjectIDByTitle(project.getReceptionWorkName()));
-        assertThrows(SQLException.class, () -> advancementDAO.modifyAdvancementById(advancementDAO.getLastAdvancementID(), advancement1));
+        assertThrows(SQLException.class, () -> advancementDAO.modifyAdvancementById(
+                advancementDAO.getLastAdvancementID(), advancement1));
     }
 
     @Test
