@@ -39,6 +39,7 @@ public class UserManagementController {
     @FXML
     private void fillTableViewAccessAccounts() {
         UserDAO accessAccountDAO = new UserDAO();
+        tableViewAccessAccounts.getItems().clear();
         try {
             tableViewAccessAccounts.getItems().addAll(accessAccountDAO.getAccessAccountsList());
         } catch (SQLException sqlException) {
