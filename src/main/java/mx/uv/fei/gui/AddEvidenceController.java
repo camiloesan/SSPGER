@@ -209,35 +209,61 @@ public class AddEvidenceController implements IStudentNavigationBar {
                 || textAreaEvidenceDescription.getText().isBlank();
     }
     
+    private ArrayList<String> emptyFieldsList = new ArrayList<>();
+    public void fillEmptyFieldsList() {
+        if (emptyFields()) {
+            if (textFieldEvidenceTitle.getText().isBlank()) {
+                emptyFieldsList.add("• Debes ingresar el título de la evidencia");
+            } if (textAreaEvidenceDescription.getText().isBlank()) {
+                emptyFieldsList.add("• Debes ingresar la descripción de la evidencia");
+            }
+        }
+    }
+    
     private boolean overSizeData() {
         return textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH
                 || textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH;
     }
     
+    private ArrayList<String> overSizeFieldsList = new ArrayList<>();
+    private void fillOverSizeDataList() {
+        if (overSizeData()) {
+            if (textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH) {
+                overSizeFieldsList.add("• El título de la evidencia excede el límite de caracteres: " +
+                        MAX_TITLE_EVIDENCE_LENGTH);
+            } if (textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH) {
+                overSizeFieldsList.add("• La descripción de la evidencia excede el límite de caracteres: " +
+                        MAX_DESCRIPTION_EVIDENCE_LENGTH);
+            }
+        }
+    }
+    
+    private String buildFieldsAlert(ArrayList<String> fieldsList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String element : fieldsList) {
+            stringBuilder.append(element).append("\n");
+        }
+        return  stringBuilder.toString();
+    }
+    
     private boolean fieldsCorrect() {
         boolean result = false;
-        if (emptyFields()) {
-            if (textFieldEvidenceTitle.getText().isBlank()) {
-                DialogGenerator.getDialog(new AlertMessage("Debe ingresar un titulo a la evidencia",
-                        AlertStatus.WARNING));
-            } else if (textAreaEvidenceDescription.getText().isBlank()) {
-                DialogGenerator.getDialog(new AlertMessage("Debe ingresar una descripción para la evidencia",
-                        AlertStatus.WARNING));
-            }
-        } else {
+        if (!emptyFields()) {
             if (overSizeData()) {
-                if (textFieldEvidenceTitle.getText().length() > MAX_TITLE_EVIDENCE_LENGTH) {
-                    DialogGenerator.getDialog(new AlertMessage(
-                            "El título de la evidencia excede el límite de caracteres: " +
-                                    MAX_TITLE_EVIDENCE_LENGTH, AlertStatus.WARNING));
-                } else if (textAreaEvidenceDescription.getText().length() > MAX_DESCRIPTION_EVIDENCE_LENGTH) {
-                    DialogGenerator.getDialog(new AlertMessage(
-                            "La descripción de la evidencia excede el límite de caracteres: " +
-                                    MAX_DESCRIPTION_EVIDENCE_LENGTH, AlertStatus.WARNING));
-                }
+                overSizeFieldsList.clear();
+                fillOverSizeDataList();
+                String overSizeFields = buildFieldsAlert(overSizeFieldsList);
+                DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" + overSizeFields,
+                        AlertStatus.WARNING));
             } else {
                 result = true;
             }
+        } else {
+            emptyFieldsList.clear();
+            fillEmptyFieldsList();
+            String emptyFields = buildFieldsAlert(emptyFieldsList);
+            DialogGenerator.getDialog(new AlertMessage("Debe ingresar toda la información: \n" + emptyFields,
+                    AlertStatus.WARNING));
         }
         return result;
     }
