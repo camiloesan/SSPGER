@@ -190,20 +190,22 @@ public class PaneModifyAdvancementController {
     }
     
     private boolean areModifyAdvancementFieldsValid() {
-        boolean flag;
+        boolean flag = false;
         if (emptyFields()) {
             emptyFieldsList.clear();
             fillEmptyFieldsList();
             String emptyFields = buildFieldsAlert(emptyFieldsList);
             DialogGenerator.getDialog(new AlertMessage(
                     "Debe ingresar toda la información: \n" + emptyFields, AlertStatus.WARNING));
-            flag = false;
         } else if (overSizeData()) {
             overSizeFieldsList.clear();
             fillOverSizeFieldsList();
             String overSizeFields = buildFieldsAlert(overSizeFieldsList);
-            DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" + overSizeFields, AlertStatus.WARNING));
-            flag = false;
+            DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" +
+                    overSizeFields, AlertStatus.WARNING));
+        } else if (newAdvancementDeadline.getValue().isBefore(newAdvancementStartDate.getValue())){
+            DialogGenerator.getDialog(new AlertMessage(
+                    "La Fecha de cierre tiene que ser despues de la de inicio ", AlertStatus.WARNING));
         } else {
             flag = true;
         }
