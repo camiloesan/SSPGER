@@ -174,7 +174,7 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="buttonDeleteFile" mnemonicParsing="false" onAction="#deleteFile" prefHeight="26.0" prefWidth="120.0" text="Elimar archivo" textAlignment="CENTER" visible="false">
+                        <Button fx:id="buttonDeleteFile" mnemonicParsing="false" onAction="#deleteFile" prefHeight="26.0" prefWidth="120.0" text="Eliminar archivo" textAlignment="CENTER" visible="false">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
