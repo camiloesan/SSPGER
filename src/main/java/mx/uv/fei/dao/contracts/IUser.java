@@ -16,6 +16,9 @@ public interface IUser {
     int deleteUserByUsername(String username) throws SQLException;
     boolean areCredentialsValid(String username, String password) throws SQLException;
     String getAccessAccountTypeByUsername(String username) throws SQLException;
+
+    String getEmailByUsername(String username) throws SQLException;
+
     List<AccessAccount> getAccessAccountsList() throws SQLException;
     boolean isUserTaken(String username) throws SQLException;
     boolean isEmailTaken(String email) throws SQLException;

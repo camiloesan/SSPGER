@@ -286,6 +286,30 @@ public class UserDAO implements IUser {
     }
 
     /**
+     * @param username username for searching usertype
+     * @return user type of the provided username
+     * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
+     */
+    @Override
+    public String getEmailByUsername(String username) throws SQLException {
+        String query = "SELECT correoInstitucional FROM CuentasAcceso WHERE nombreUsuario=(?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        databaseManager.closeConnection();
+
+        String email = "null";
+        while (resultSet.next()) {
+            email = resultSet.getString("tipoUsuario");
+        }
+
+        return email;
+    }
+
+    /**
      * @return return a list with ALL the access accounts in the database
      * @throws SQLException if there was a problem connecting to the database or getting the data from a column.
      */

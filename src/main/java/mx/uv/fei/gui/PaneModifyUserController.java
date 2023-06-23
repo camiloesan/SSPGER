@@ -92,6 +92,8 @@ public class PaneModifyUserController {
             logger.error(sqlException);
         }
     }
+
+
     
     private void showStudentData() {
         UserDAO userDAO = new UserDAO();
@@ -107,6 +109,12 @@ public class PaneModifyUserController {
                     "No se pudo recuperar la información de la base de datos", AlertStatus.WARNING));
             logger.error(sqlException);
         }
+    }
+
+    private String getEmail() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+
+        return userDAO.getEmailByUsername(UserManagementController.getUsername());
     }
 
     @FXML
