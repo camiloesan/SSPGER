@@ -58,7 +58,6 @@ public class AddEvidenceController implements IStudentNavigationBar {
                 evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
                 evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
                 evidence.setStudentId(SessionDetails.getInstance().getId());
-                evidence.setProjectStage(projectStage);
                 
                 if (evidenceDAO.addEvidence(evidence) == 1 && addFiles()) {
                     DialogGenerator.getDialog(new AlertMessage

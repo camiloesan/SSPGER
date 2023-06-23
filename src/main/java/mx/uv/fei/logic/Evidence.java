@@ -13,7 +13,6 @@ public class Evidence {
     private String studentName;
     private String studentId;
     private String deliverDate;
-    private String projectStage;
     public int getEvidenceId() {
         return evidenceId;
     }
@@ -92,14 +91,6 @@ public class Evidence {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
-    }
-    
-    public String getProjectStage() {
-        return projectStage;
-    }
-    
-    public void setProjectStage(String projectStage) {
-        this.projectStage = projectStage;
     }
     
     @Override
