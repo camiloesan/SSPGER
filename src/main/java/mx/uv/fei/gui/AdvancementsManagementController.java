@@ -216,20 +216,22 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
     }
 
     private boolean areScheduleAdvancementFieldsValid() {
-        boolean flag;
+        boolean flag = false;
         if (emptyFields()) {
             emptyFieldsList.clear();
             fillEmptyFieldsList();
             String emptyFields = buildFieldsAlert(emptyFieldsList);
             DialogGenerator.getDialog(new AlertMessage(
                     "Debe ingresar toda la información: \n" + emptyFields, AlertStatus.WARNING));
-            flag = false;
         } else if (overSizeData()) {
             overSizeFieldsList.clear();
             fillOverSizeFieldsList();
             String overSizeFields = buildFieldsAlert(overSizeFieldsList);
-            DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" + overSizeFields, AlertStatus.WARNING));
-            flag = false;
+            DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" +
+                    overSizeFields, AlertStatus.WARNING));
+        } else if (advancementDeadline.getValue().isBefore(advancementStartDate.getValue())) {
+            DialogGenerator.getDialog(new AlertMessage(
+                    "La Fecha de cierre tiene que ser despues de la de inicio ", AlertStatus.WARNING));
         } else {
             flag = true;
         }
@@ -245,7 +247,7 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         advancement.setAdvancementDescription(advancementDescription.getText());
         advancement.setAdvancementStartDate(String.valueOf(java.sql.Date.valueOf(advancementStartDate.getValue())));
         advancement.setAdvancementDeadline(String.valueOf(java.sql.Date.valueOf(advancementDeadline.getValue())));
-        
+
         return advancement;
     }
     
