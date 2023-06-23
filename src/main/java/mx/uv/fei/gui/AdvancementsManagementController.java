@@ -66,7 +66,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             fillComboBoxProjectToAssign();
             fillTableViewAdvancements();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo recuperar" +
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, " +
+                    "no se pudo recuperar" +
                     " la información de los avances.", AlertStatus.ERROR));
         }
     }
@@ -85,7 +86,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
         try {
             fillTableViewAdvancements();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo actualizar" +
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, " +
+                    "no se pudo actualizar" +
                     " la tabla de avances.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
@@ -202,7 +204,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
             if (advancementName.getText().length() > MAX_LENGTH_NAME) {
                 overSizeFieldsList.add("• El nombre del Avance excede el límite de caracteres: " + MAX_LENGTH_NAME);
             } if (advancementDescription.getText().length() > MAX_LENGTH_DESCRIPTION) {
-                overSizeFieldsList.add("• La descripción del avance excede el límite de caracteres: " + MAX_LENGTH_DESCRIPTION);
+                overSizeFieldsList.add("• La descripción del avance excede el límite de caracteres: " +
+                        MAX_LENGTH_DESCRIPTION);
             }
         }
     }
@@ -286,7 +289,8 @@ public class AdvancementsManagementController implements IProfessorNavigationBar
 
     private void fillComboBoxProjectToAssign() throws SQLException{
         ProjectDAO projectDAO = new ProjectDAO();
-        comboProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
+        comboProjectToAssign.setItems(FXCollections.observableList(
+                projectDAO.getProjectNamesByIdDirector(professorId)));
     }
     
     public void fillTableViewAdvancements() throws SQLException {

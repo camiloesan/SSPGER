@@ -47,7 +47,8 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
             getDetailedAdvancement();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información del avance.",AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información del avance.",
+                    AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -88,7 +89,8 @@ public class StudentViewAdvancementDetailsController implements IStudentNavigati
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {

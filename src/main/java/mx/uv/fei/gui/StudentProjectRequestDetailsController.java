@@ -40,7 +40,8 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
             checkRequestState();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información de las peticiones", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información de las peticiones",
+                    AlertStatus.ERROR));
         }
     }
     
@@ -53,13 +54,14 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
 
     private void getProjectRequestInfo() throws SQLException{
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
-        ProjectRequest projectRequest = projectRequestDAO.getProjectRequestInfoByStudentID(SessionDetails.getInstance().getId());
+        ProjectRequest projectRequest = projectRequestDAO.getProjectRequestInfoByStudentID(SessionDetails.getInstance()
+                .getId());
         labelReceptionWorkName.setText(projectRequest.getProjectName());
         labelStateProjectRequest.setText(projectRequest.getStatus());
         labelDescriptionProjectRequest.setText(projectRequest.getDescription());
     }
 
-    private boolean existsProjectRequests() { //TODO hacer que con esta comprobación se muestre el mensaje de que aun no hay una petición
+    private boolean existsProjectRequests() {
         ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
         int projectrequests = 0;
         boolean result;
@@ -68,7 +70,8 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
                     .getProjectRequestsByStudentID(SessionDetails.getInstance().getId());
         } catch (SQLException projectRequestsException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar el número de peticiones", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar el número de peticiones",
+                    AlertStatus.ERROR));
             logger.error(projectRequestsException);
         }
 
@@ -88,7 +91,8 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
             ProjectRequestDAO projectRequestDAO = new ProjectRequestDAO();
 
             try {
-                if (projectRequestDAO.deleteProjectRequest(projectRequestDAO.getProjectRequestIDByStudentID(SessionDetails.getInstance().getId())) == 1) {
+                if (projectRequestDAO.deleteProjectRequest(projectRequestDAO.getProjectRequestIDByStudentID(
+                        SessionDetails.getInstance().getId())) == 1) {
                     DialogGenerator.getDialog(new AlertMessage(
                             "Se eliminó con éxito la petición", AlertStatus.SUCCESS));
                     redirectToProjects();
@@ -97,7 +101,8 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
                 }
             } catch (SQLException deleteProjectRequestException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "No hay conexión a la base de datos, no se pudo eliminar la petición", AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo eliminar la petición",
+                        AlertStatus.ERROR));
                 logger.error(deleteProjectRequestException);
             }
         }
@@ -126,7 +131,8 @@ public class StudentProjectRequestDetailsController implements IStudentNavigatio
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml", 1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
 
     @Override

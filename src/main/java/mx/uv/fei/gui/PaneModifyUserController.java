@@ -87,7 +87,8 @@ public class PaneModifyUserController {
             textFieldNewProfessorLastName.setText(professorData.getProfessorLastName());
             comboBoxNewProfessorDegree.setValue(professorData.getProfessorDegree());
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información de la base de datos", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información de la base de datos", AlertStatus.WARNING));
             logger.error(sqlException);
         }
     }
@@ -138,7 +139,8 @@ public class PaneModifyUserController {
             try {
                 if (userDAO.isEmailTaken(textFieldNewEmail.getText())) {
                     DialogGenerator.getDialog(new AlertMessage(
-                            "El correo electrónico ya está registrado, intente con uno distinto", AlertStatus.WARNING
+                            "El correo electrónico ya está registrado, intente con uno distinto",
+                            AlertStatus.WARNING
                     ));
                 } else {
                     switch (userType) {
@@ -169,7 +171,8 @@ public class PaneModifyUserController {
             return false;
         } else if (textFieldNewProfessorName.getText().length() > MAX_LENGTH_NAME) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Tamaño inválido, el campo nombre del profesor debe tener máximo 30 caracteres", AlertStatus.WARNING
+                    "Tamaño inválido, el campo nombre del profesor debe tener máximo 30 caracteres",
+                    AlertStatus.WARNING
             ));
             return false;
         } else if (textFieldNewProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME) {

@@ -66,7 +66,8 @@ public class ViewEvidenceDetailsController implements IStudentNavigationBar {
             labelStudentEvidence.setText(evidenceDetails.getStudentName());
         } catch (SQLException evidenceInfoException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información de la evidencia.", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información de la evidencia.",
+                    AlertStatus.ERROR));
             logger.error(evidenceInfoException);
         }
     }

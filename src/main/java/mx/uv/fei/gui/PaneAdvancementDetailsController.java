@@ -44,7 +44,8 @@ public class PaneAdvancementDetailsController {
     
     public void getDetailedAdvancement() throws SQLException {
         AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement detailedAdvancement = (advancementDAO.getAdvancementDetailById(TransferAdvancement.getAdvancementID()));
+        Advancement detailedAdvancement = (advancementDAO.getAdvancementDetailById(
+                TransferAdvancement.getAdvancementID()));
 
         labelAdvancementName.setText(detailedAdvancement.getAdvancementName());
         

@@ -56,7 +56,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
             fillUnfilteredTable();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información.",AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información.",
+                    AlertStatus.ERROR));
             logger.error(sqlException);
         }
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
@@ -138,7 +139,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
                 fillUnfilteredTable();
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "No hay conexión a a la base de datos, no se pudo recuperar la información.",AlertStatus.ERROR));
+                        "No hay conexión a a la base de datos, no se pudo recuperar la información.",
+                        AlertStatus.ERROR));
                 logger.error(sqlException);
             }
         } else {
@@ -153,7 +155,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
                 }
             } catch (SQLException sqlException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "No hay conexión a a la base de datos, no se pudo recuperar la información.",AlertStatus.ERROR));
+                        "No hay conexión a a la base de datos, no se pudo recuperar la información.",
+                        AlertStatus.ERROR));
                 logger.error(sqlException);
             }
             labelHeader.setText(comboProjectStates.getSelectionModel().getSelectedItem());
@@ -196,7 +199,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
                 refreshFilteredTable();
             } catch (SQLException requestException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "No hay conexión a la base de datos, no se pudo actualizar el estado del anteproyecto.",AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo actualizar el estado del anteproyecto.",
+                        AlertStatus.ERROR));
                 logger.error(requestException);
             }
         } else {
@@ -217,7 +221,8 @@ public class ProjectProposalsController implements IProfessorNavigationBar{
                 refreshFilteredTable();
             } catch (SQLException requestException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "No hay conexión a la base de datos, no se pudo actualizar el estado del anteproyecto.",AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo actualizar el estado del anteproyecto.",
+                        AlertStatus.ERROR));
                 logger.error(requestException);
             }
         } else {

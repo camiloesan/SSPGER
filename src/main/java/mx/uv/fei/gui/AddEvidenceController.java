@@ -201,7 +201,8 @@ public class AddEvidenceController implements IStudentNavigationBar {
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
 
     public boolean emptyFields() {
@@ -253,7 +254,8 @@ public class AddEvidenceController implements IStudentNavigationBar {
                 overSizeFieldsList.clear();
                 fillOverSizeDataList();
                 String overSizeFields = buildFieldsAlert(overSizeFieldsList);
-                DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" + overSizeFields,
+                DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n"
+                        + overSizeFields,
                         AlertStatus.WARNING));
             } else {
                 result = true;

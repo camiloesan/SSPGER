@@ -262,7 +262,8 @@ public class PaneAddUserController {
             DialogGenerator.getDialog(new AlertMessage(
                     "El correo electrónico debe tener máximo 28 caracteres", AlertStatus.WARNING
             ));
-        } else if (!professor.isEmailValid(textFieldEmail.getText()) && comboBoxUserType.getValue().equals("Administrador")) {
+        } else if (!professor.isEmailValid(textFieldEmail.getText())
+                && comboBoxUserType.getValue().equals("Administrador")) {
             DialogGenerator.getDialog(new AlertMessage(
                     "El formato del correo electrónico no es válido, " +
                             "sólo se permiten caracteres alfa-numéricos" +
@@ -291,7 +292,8 @@ public class PaneAddUserController {
             ));
         } else if (textFieldProfessorName.getText().length() > MAX_LENGTH_NAME) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Tamaño inválido, el campo nombre del profesor debe tener máximo 30 caracteres", AlertStatus.WARNING
+                    "Tamaño inválido, el campo nombre del profesor debe tener máximo 30 caracteres",
+                    AlertStatus.WARNING
             ));
         } else if (textFieldProfessorLastName.getText().length() > MAX_LENGTH_LASTNAME) {
             DialogGenerator.getDialog(new AlertMessage(
@@ -329,7 +331,8 @@ public class PaneAddUserController {
             ));
         } else if (textFieldStudentLastName.getText().length() > MAX_LENGTH_LASTNAME) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Tamaño inválido, el límite del campo apellidos es de máximo 80 caracteres", AlertStatus.WARNING
+                    "Tamaño inválido, el límite del campo apellidos es de máximo 80 caracteres",
+                    AlertStatus.WARNING
             ));
         } else if (!student.isEmailValid(textFieldEmail.getText())) {
             DialogGenerator.getDialog(new AlertMessage(

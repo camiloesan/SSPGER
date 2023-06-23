@@ -90,7 +90,8 @@ public class EvidenceFilesController implements IStudentNavigationBar {
                 result = true;
             }
         } catch (SQLException deadlineException) {
-            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo comprobar" +
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay conexión a la base de datos, no se pudo comprobar" +
                     " la fecha de entrega.", AlertStatus.ERROR));
             logger.error(deadlineException);
         }

@@ -40,11 +40,13 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
             String studentId = SessionDetails.getInstance().getId();
             listViewAdvancementsNames.getItems().clear();
             
-            List<Advancement> advancementList = new ArrayList<>(advancementDAO.getListAdvancementNamesByStudentId(studentId));
+            List<Advancement> advancementList = new ArrayList<>(
+                    advancementDAO.getListAdvancementNamesByStudentId(studentId));
             listViewAdvancementsNames.getItems().addAll(advancementList);
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar los avances programados.",AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar los avances programados.",
+                    AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -92,7 +94,8 @@ public class StudentAdvancementsController implements IStudentNavigationBar{
     
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {

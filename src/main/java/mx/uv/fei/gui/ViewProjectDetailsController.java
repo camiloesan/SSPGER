@@ -66,7 +66,8 @@ public class ViewProjectDetailsController implements IProfessorNavigationBar{
             getDetailedProject();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información del anteproyecto.",AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información del anteproyecto.",
+                    AlertStatus.ERROR));
             logger.error(sqlException);
         }
         hideDeleteProject();

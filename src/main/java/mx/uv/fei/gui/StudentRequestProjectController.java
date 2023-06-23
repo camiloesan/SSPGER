@@ -53,12 +53,14 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
     private boolean confirmedFields() {
         boolean result;
         if (textAreaDescription.getText().isBlank()) {
-            DialogGenerator.getDialog(new AlertMessage("Debe ingresar los motivos de la solicitud", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage("Debe ingresar los motivos de la solicitud",
+                    AlertStatus.WARNING));
             result = false;
         } else {
             if (textAreaDescription.getText().length() > DESCRIPTION_PROJECT_REQUEST_MAX_LENGTH) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "Los motivos exceden el límite de caracteres: " + DESCRIPTION_PROJECT_REQUEST_MAX_LENGTH, AlertStatus.WARNING));
+                        "Los motivos exceden el límite de caracteres: " +
+                                DESCRIPTION_PROJECT_REQUEST_MAX_LENGTH, AlertStatus.WARNING));
             }
             result = true;
         }
@@ -88,10 +90,12 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
             if (!projectOutOfSpaces) {
                 flag = true;
             } else {
-                DialogGenerator.getDialog(new AlertMessage("Ya no hay espacios disponibles para este proyecto", AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage("Ya no hay espacios disponibles para este proyecto",
+                        AlertStatus.WARNING));
             }
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Error al comprobar los espacios disponibles en el proyecto.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "Error al comprobar los espacios disponibles en el proyecto.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
         return flag;
@@ -106,14 +110,15 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
                     projectRequestDAO.createProjectRequest(getProjectRequestAttributes());
                 } catch (SQLException requestProjectException) {
                     DialogGenerator.getDialog(new AlertMessage(
-                            "Sin conexión a la base de datos, no se pudo crear la petición", AlertStatus.ERROR));
+                            "Sin conexión a la base de datos, no se pudo crear la petición",AlertStatus.ERROR));
                     logger.error(requestProjectException);
                 }
                 redirectToProjects();
             }
         } catch (SQLException getRequestsException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar el número de peticiones", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar el número de peticiones",
+                    AlertStatus.ERROR));
             logger.error(getRequestsException);
         }
     }
@@ -135,7 +140,8 @@ public class StudentRequestProjectController implements IStudentNavigationBar {
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
 
     @Override

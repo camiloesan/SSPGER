@@ -25,7 +25,8 @@ public class UserDAO implements IUser {
      */
     @Override
     public int addAdminUser(AccessAccount accessAccount) throws SQLException {
-        String query = "insert into CuentasAcceso(nombreUsuario, contrasena, correoInstitucional, tipoUsuario) values (?,SHA2(?, 256),?,?)";
+        String query = "insert into CuentasAcceso(nombreUsuario, contrasena, correoInstitucional, tipoUsuario) " +
+                "values (?,SHA2(?, 256),?,?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
@@ -137,7 +138,8 @@ public class UserDAO implements IUser {
     @Override
     public boolean modifyStudentUserTransaction(String username, AccessAccount accessAccount, Student student)
             throws SQLException {
-        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), correoInstitucional=(?) ,tipoUsuario=(?) " +
+        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), correoInstitucional=(?) , " +
+                "tipoUsuario=(?) " +
                 "where nombreUsuario=(?) and tipoUsuario!=(?)";
         String secondQuery = "update Estudiantes set matricula=(?), nombre=(?), apellidos=(?) " +
                 "where nombreUsuario=(?)";
@@ -181,7 +183,8 @@ public class UserDAO implements IUser {
     @Override
     public boolean modifyProfessorUserTransaction(String username, AccessAccount accessAccount, Professor professor)
             throws SQLException {
-        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), correoInstitucional = (?) ,tipoUsuario=(?) " +
+        String firstQuery = "update CuentasAcceso set contrasena=(SHA2(?, 256)), correoInstitucional = (?) , " +
+                "tipoUsuario=(?) " +
                 "where nombreUsuario=(?)";
         String secondQuery = "update Profesores set nombre=(?), apellidos=(?), grado=(?) " +
                 "where nombreUsuario=(?)";
@@ -354,7 +357,8 @@ public class UserDAO implements IUser {
      */
     @Override
     public Professor getProfessorAccount(String username) throws SQLException {
-        String sqlQuery = "SELECT CA.correoInstitucional, P.nombre, P.apellidos, P.grado FROM Profesores P INNER JOIN " +
+        String sqlQuery = "SELECT CA.correoInstitucional, P.nombre, P.apellidos, P.grado FROM Profesores " +
+                "P INNER JOIN " +
                 "CuentasAcceso CA on P.nombreUsuario = CA.nombreUsuario WHERE P.nombreUsuario = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -381,7 +385,8 @@ public class UserDAO implements IUser {
      */
     @Override
     public Student getStudentAccount(String username) throws SQLException {
-        String sqlQuery = "SELECT CA.correoInstitucional, E.matricula, E.nombre, E.apellidos FROM Estudiantes E INNER JOIN" +
+        String sqlQuery = "SELECT CA.correoInstitucional, E.matricula, E.nombre, E.apellidos FROM Estudiantes " +
+                "E INNER JOIN" +
                 " CuentasAcceso CA on E.nombreUsuario = CA.nombreUsuario WHERE E.nombreUsuario = (?)";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();

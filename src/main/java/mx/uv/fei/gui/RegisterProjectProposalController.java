@@ -83,7 +83,8 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
             fillReceptionWorkModalityCombo();
             fillAcademicBodycombo();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No se pudo recuperar la información necesaria para el registro.",AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No se pudo recuperar la información necesaria para el registro.",AlertStatus.ERROR));
             logger.error(sqlException);
         }
         fillStudentsCombo();
@@ -118,7 +119,8 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         ObservableList<String> rwModalities = FXCollections.observableArrayList();
         List<String> rwModalitiesList = new ArrayList<>(projectDAO.getRWModalitiesList());
         if (rwModalitiesList.isEmpty()) {
-            DialogGenerator.getDialog(new AlertMessage("No hay modalidades de trabajo recepcional registradas", AlertStatus.WARNING));
+            DialogGenerator.getDialog(new AlertMessage(
+                    "No hay modalidades de trabajo recepcional registradas", AlertStatus.WARNING));
         }
         rwModalities.addAll(rwModalitiesList);
         comboRecptionWorkModality.setItems(rwModalities);
@@ -131,7 +133,8 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     }
     
     private void fillDurationCombo() {
-        ObservableList<String> numberOfStudents = FXCollections.observableArrayList("6 meses", "12 meses", "18 meses");
+        ObservableList<String> numberOfStudents = FXCollections.observableArrayList(
+                "6 meses", "12 meses", "18 meses");
         comboDuration.setItems(numberOfStudents);
     }
     
@@ -204,21 +207,28 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
     private void fillOverSizeDataList() {
         if (overSizeData()) {
             if (textAreaInvestigationProjectName.getText().length() > MAX_INVESTIGATION_NAME_SIZE) {
-                overSizeFieldsList.add("• El nombre de Proyecto de Investigación excede el límite de caracteres: " + MAX_INVESTIGATION_NAME_SIZE);
+                overSizeFieldsList.add("• El nombre de Proyecto de Investigación excede el límite de caracteres: " +
+                        MAX_INVESTIGATION_NAME_SIZE);
             } if (textAreaInvestigationLine.getText().length() > MAX_INVESTIGATION_LINE_SIZE) {
-                overSizeFieldsList.add("• El nombre de la Línea de Investigación excede el límite de caracteres: " + MAX_INVESTIGATION_LINE_SIZE);
+                overSizeFieldsList.add("• El nombre de la Línea de Investigación excede el límite de caracteres: " +
+                        MAX_INVESTIGATION_LINE_SIZE);
             } if (textAreaReceptionWorkName.getText().length() > MAX_RECEPTION_WORK_NAME_SIZE) {
-                overSizeFieldsList.add("• El nombre del trabajo Recepcional excede el límite de caracteres: " + MAX_RECEPTION_WORK_NAME_SIZE);
+                overSizeFieldsList.add("• El nombre del trabajo Recepcional excede el límite de caracteres: " +
+                        MAX_RECEPTION_WORK_NAME_SIZE);
             } if (textAreaRequisites.getText().length() > MAX_REQUISITES_SIZE) {
                 overSizeFieldsList.add("• Los requisitos exceden el límite de caracteres: " + MAX_REQUISITES_SIZE);
             } if (textAreaInvestigationProjectDescription.getText().length() > MAX_INVESTIGATION_DESCRIPTION_SIZE) {
-                overSizeFieldsList.add("• La descripción del Proyecto de Investigación excede el límite de caracteres: " + MAX_INVESTIGATION_DESCRIPTION_SIZE);
+                overSizeFieldsList.add("• La descripción del Proyecto de Investigación excede el límite de caracteres: "
+                        + MAX_INVESTIGATION_DESCRIPTION_SIZE);
             } if (textAreaReceptionWorkDescription.getText().length() > MAX_RECEPTION_WORK_DESCRIPTION_SIZE) {
-                overSizeFieldsList.add("• La descripción del Trabajo Recepcional excede el límite de caracteres: " + MAX_RECEPTION_WORK_DESCRIPTION_SIZE);
+                overSizeFieldsList.add("• La descripción del Trabajo Recepcional excede el límite de caracteres: " +
+                        MAX_RECEPTION_WORK_DESCRIPTION_SIZE);
             } if (textAreaExpectedResults.getText().length() > MAX_EXPECTED_RESULTS_SIZE) {
-                overSizeFieldsList.add("• Los Resultados Esperados exceden el límite de caracteres: " + MAX_EXPECTED_RESULTS_SIZE);
+                overSizeFieldsList.add("• Los Resultados Esperados exceden el límite de caracteres: " +
+                        MAX_EXPECTED_RESULTS_SIZE);
             } if (textAreaRecommendedBibliography.getText().length() > MAX_RECOMMENDED_BIBLIOGRAPHY_SIZE) {
-                overSizeFieldsList.add("• La Bibliografía Recomendada excede el límite de caracteres: " + MAX_RECOMMENDED_BIBLIOGRAPHY_SIZE);
+                overSizeFieldsList.add("• La Bibliografía Recomendada excede el límite de caracteres: " +
+                        MAX_RECOMMENDED_BIBLIOGRAPHY_SIZE);
             }
         }
     }
@@ -229,7 +239,8 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
         try {
             flag = projectDAO.isProjectRegistered(textAreaReceptionWorkName.getText());
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog( new AlertMessage("Error al conectar con la base datos.",AlertStatus.ERROR));
+            DialogGenerator.getDialog( new AlertMessage("Error al conectar con la base datos.",
+                    AlertStatus.ERROR));
             logger.error(sqlException);
             flag = false;
         }
@@ -270,13 +281,15 @@ public class RegisterProjectProposalController implements IProfessorNavigationBa
                 emptyFieldsList.clear();
                 fillEmptyFieldsList();
                 String emptyFields = buildFieldsAlert(emptyFieldsList);
-                DialogGenerator.getDialog(new AlertMessage("Debe ingresar toda la información: \n" + emptyFields, AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage("Debe ingresar toda la información: \n"
+                        + emptyFields, AlertStatus.WARNING));
                 flag = false;
             } else if (overSizeData()) {
                 overSizeFieldsList.clear();
                 fillOverSizeDataList();
                 String overSizeFields = buildFieldsAlert(overSizeFieldsList);
-                DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" + overSizeFields, AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n"
+                        + overSizeFields, AlertStatus.WARNING));
                 flag = false;
             } else {
                 flag = true;

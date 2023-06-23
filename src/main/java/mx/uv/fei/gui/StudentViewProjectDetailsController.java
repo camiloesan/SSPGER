@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class StudentViewProjectDetailsController implements IStudentNavigationBar{
+public class StudentViewProjectDetailsController implements IStudentNavigationBar {
     @FXML
     private HBox hboxLogOutLabel;
     @FXML
@@ -66,22 +66,19 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
         VBox.setVgrow(hboxLogOutLabel, Priority.ALWAYS);
     }
     
-    private int getTransferProjectID() {
-        return TransferProject.getProjectID();
-    }
-    
     private void showProjectDetails() {
         try {
             getDetailedProject();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información del proyecto.",AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información del proyecto.",
+                    AlertStatus.ERROR));
         }
     }
     
     private void getDetailedProject() throws SQLException {
         ProjectDAO projectDAO = new ProjectDAO();
-        DetailedProject detailedProject = (projectDAO.getProjectInfoByID(getTransferProjectID()));
+        DetailedProject detailedProject = (projectDAO.getProjectInfoByID(TransferProject.getProjectID()));
 
         projectID = detailedProject.getProjectID();
         
@@ -159,12 +156,15 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
                 DialogGenerator.getDialog(new AlertMessage("Ya tienes una solicitud.", AlertStatus.WARNING));
             } else if (projectHasSpaces()) {
                 TransferProject.setReceptionWorkName(getTextWorkReceptionName());
-                MainStage.changeView("studentrequestproject-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
+                MainStage.changeView("studentrequestproject-view.fxml", 1000, 600 +
+                        MainStage.HEIGHT_OFFSET);
             } else {
-                DialogGenerator.getDialog(new AlertMessage("Ya no hay espacios disponibles para este proyecto", AlertStatus.WARNING));
+                DialogGenerator.getDialog(new AlertMessage("Ya no hay espacios disponibles para este proyecto",
+                        AlertStatus.WARNING));
             }
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("Sin conexión a la base de datos, no se pudo comprobar los espacios disponibles.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("Sin conexión a la base de datos, no se pudo " +
+                    "comprobar los espacios disponibles.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -186,7 +186,8 @@ public class StudentViewProjectDetailsController implements IStudentNavigationBa
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {

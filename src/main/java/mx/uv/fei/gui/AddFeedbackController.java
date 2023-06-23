@@ -58,7 +58,8 @@ public class AddFeedbackController implements IProfessorNavigationBar {
             showFeedback();
             showEvidenceInformation();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo recuperar la información necesaria para la retroalimentación.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo " +
+                    "recuperar la información necesaria para la retroalimentación.", AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -97,7 +98,8 @@ public class AddFeedbackController implements IProfessorNavigationBar {
                 }
             } catch (SQLException feedbackException) {
                 DialogGenerator.getDialog(new AlertMessage(
-                        "No hay conexión a la base de datos, no se pudo registrar la retroalimentación", AlertStatus.ERROR));
+                        "No hay conexión a la base de datos, no se pudo registrar la retroalimentación",
+                        AlertStatus.ERROR));
                 logger.error(feedbackException);
             }
         }
@@ -110,10 +112,12 @@ public class AddFeedbackController implements IProfessorNavigationBar {
             FeedbackDAO feedbackDAO = new FeedbackDAO();
 
             try {
-                if (feedbackDAO.deleteFeedbackByID(feedbackDAO.getFeedbackIDByEvidenceID(TransferEvidence.getEvidenceId(),
+                if (feedbackDAO.deleteFeedbackByID(feedbackDAO.getFeedbackIDByEvidenceID(
+                        TransferEvidence.getEvidenceId(),
                         TransferEvidence.getStudentID())) == 1) {
                     evidenceDAO.updateEvidenceGradeUncheckById(TransferEvidence.getEvidenceId());
-                    DialogGenerator.getDialog(new AlertMessage("Retroalimentación eliminada", AlertStatus.SUCCESS));
+                    DialogGenerator.getDialog(new AlertMessage("Retroalimentación eliminada",
+                            AlertStatus.SUCCESS));
                     showFeedback();
                 }
             } catch (SQLException deleteFeedbackException) {

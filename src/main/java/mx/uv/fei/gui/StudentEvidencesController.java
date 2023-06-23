@@ -74,7 +74,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
 
     @FXML
@@ -148,7 +149,8 @@ public class StudentEvidencesController implements IStudentNavigationBar {
             fillTableViewAdvancement();
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información.", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información.",
+                    AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }

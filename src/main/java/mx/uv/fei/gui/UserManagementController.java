@@ -31,7 +31,8 @@ public class UserManagementController {
         userTypeColumn.setCellValueFactory(new PropertyValueFactory<>("userType"));
         TableColumn<AccessAccount, String> userEmailColumn = new TableColumn<>("Correo Electrónico");
         userEmailColumn.setCellValueFactory(new PropertyValueFactory<>("userEmail"));
-        tableViewAccessAccounts.getColumns().addAll(Arrays.asList(idColumn, usernameColumn, userEmailColumn, userTypeColumn));
+        tableViewAccessAccounts.getColumns().addAll(
+                Arrays.asList(idColumn, usernameColumn, userEmailColumn, userTypeColumn));
         fillTableViewAccessAccounts();
     }
 
@@ -42,7 +43,8 @@ public class UserManagementController {
             tableViewAccessAccounts.getItems().addAll(accessAccountDAO.getAccessAccountsList());
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No se pudo recuperar la información de la base de datos, inténtelo de nuevo más tarde", AlertStatus.ERROR));
+                    "No se pudo recuperar la información de la base de datos, inténtelo de nuevo más tarde",
+                    AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }

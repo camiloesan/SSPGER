@@ -45,7 +45,8 @@ public class ViewFeedbackController implements IStudentNavigationBar {
     
     private int getFeedbacks() throws SQLException{
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        return feedbackDAO.getFeedbacksByEvidenceID(TransferEvidence.getEvidenceId(), SessionDetails.getInstance().getId());
+        return feedbackDAO.getFeedbacksByEvidenceID(
+                TransferEvidence.getEvidenceId(), SessionDetails.getInstance().getId());
     }
     
     private void showEvidence() {
@@ -57,7 +58,8 @@ public class ViewFeedbackController implements IStudentNavigationBar {
             labelStudentName.setText("Estudiante: " + getEvidenceInfo().getStudentName());
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información.", AlertStatus.WARNING));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información.",
+                    AlertStatus.WARNING));
         }
     }
 
@@ -81,7 +83,8 @@ public class ViewFeedbackController implements IStudentNavigationBar {
             }
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información.", AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información.",
+                    AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -108,7 +111,8 @@ public class ViewFeedbackController implements IStudentNavigationBar {
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
 
     public boolean confirmedLogOut() {

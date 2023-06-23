@@ -43,7 +43,8 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
             listViewVerifiedProjects.getItems().addAll(projectDAO.getProjectsByState(VERIFIED_PROJECT_STATUS));
         } catch (SQLException sqlException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "No hay conexión a la base de datos, no se pudo recuperar la información.",AlertStatus.ERROR));
+                    "No hay conexión a la base de datos, no se pudo recuperar la información.",
+                    AlertStatus.ERROR));
             logger.error(sqlException);
         }
     }
@@ -102,7 +103,8 @@ public class StudentViewProjectsController implements IStudentNavigationBar{
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
     
     public boolean confirmedLogOut() {

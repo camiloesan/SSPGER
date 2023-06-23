@@ -27,7 +27,8 @@ public class ProjectDAO implements IProject {
         int result;
         String sqlQuery = "INSERT INTO Proyectos (claveCA, nombreProyectoInvestigación, LGAC, lineaInvestigacion, " +
                 "duracionAprox, ID_modalidadTR, nombreTrabajoRecepcional, requisitos, alumnosParticipantes, " +
-                "espaciosDisponibles, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, resultadosEsperados, " +
+                "espaciosDisponibles, descripcionProyectoInvestigacion, descripcionTrabajoRecepcional, " +
+                "resultadosEsperados, " +
                 "bibliografiaRecomendada) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
         DatabaseManager databaseManager = new DatabaseManager();
@@ -254,7 +255,8 @@ public class ProjectDAO implements IProject {
     @Override
     public DetailedProject getProjectInfoByID(int projectID) throws SQLException{
         String sqlQuery = "SELECT P.ID_proyecto, CA.nombreCA AS 'Cuerpo Académico', P.nombreProyectoInvestigación, " +
-                "CONCAT(LC.clave, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, P.duracionAprox, MTR.modalidadTR, " +
+                "CONCAT(LC.clave, '. ', LC.nombre) AS 'LGAC' , P.lineaInvestigacion, " +
+                "P.duracionAprox, MTR.modalidadTR, " +
                 "P.nombreTrabajoRecepcional, P.requisitos, CONCAT (PRF.grado,' ',PRF.nombre, ' ',PRF.apellidos) " +
                 "AS 'Director', CONCAT (CD.grado,' ',CD.nombre, ' ',CD.apellidos) " +
                 "AS 'Co-director', P.alumnosParticipantes, P.descripcionProyectoInvestigacion, " +
@@ -449,7 +451,8 @@ public class ProjectDAO implements IProject {
     public boolean isProjectRegistered(String projectTitle) throws SQLException {
         boolean flag = false;
         
-        String sqlQuery = "SELECT COUNT(nombreTrabajoRecepcional) AS registeredProjects FROM Proyectos WHERE nombreTrabajoRecepcional = ?";
+        String sqlQuery = "SELECT COUNT(nombreTrabajoRecepcional) AS registeredProjects FROM Proyectos WHERE " +
+                "nombreTrabajoRecepcional = ?";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
@@ -478,7 +481,8 @@ public class ProjectDAO implements IProject {
      */
     @Override
     public String getProjectNameByAdvancementID(int advancementID) throws SQLException {
-        String query = "select P.nombreTrabajoRecepcional from Proyectos P inner join Avances A on P.ID_proyecto = A.ID_proyecto where ID_avance = (?);";
+        String query = "select P.nombreTrabajoRecepcional from Proyectos P inner join Avances A on P.ID_proyecto = " +
+                "A.ID_proyecto where ID_avance = (?);";
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
         
@@ -527,7 +531,8 @@ public class ProjectDAO implements IProject {
     @Override
     public int decreaseStudentQuota(int projectID) throws SQLException {
         int result;
-        String sqlQuery = "UPDATE Proyectos SET espaciosDisponibles = (Proyectos.espaciosDisponibles - 1) WHERE ID_proyecto = (?)";
+        String sqlQuery = "UPDATE Proyectos SET espaciosDisponibles = (Proyectos.espaciosDisponibles - 1) " +
+                "WHERE ID_proyecto = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -548,7 +553,8 @@ public class ProjectDAO implements IProject {
     @Override
     public int increaseStudentQuota(int projectID) throws SQLException {
         int result;
-        String sqlQuery = "UPDATE Proyectos SET espaciosDisponibles = (Proyectos.espaciosDisponibles + 1) WHERE ID_proyecto = (?)";
+        String sqlQuery = "UPDATE Proyectos SET espaciosDisponibles = (Proyectos.espaciosDisponibles + 1) " +
+                "WHERE ID_proyecto = (?)";
         
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();

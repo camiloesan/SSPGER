@@ -47,8 +47,8 @@ public class PaneModifyAdvancementController {
             fillComboBoxNewProjectToAssign();
             getAdvancementToModify();
         } catch (SQLException sqlException) {
-            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo recuperar" +
-                    " la información del avance.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo " +
+                    "recuperar la información del avance.", AlertStatus.ERROR));
         }
     }
     
@@ -101,7 +101,8 @@ public class PaneModifyAdvancementController {
     private void fillComboBoxNewProjectToAssign() throws SQLException{
         ProjectDAO projectDAO = new ProjectDAO();
         int professorId = Integer.parseInt(SessionDetails.getInstance().getId());
-        comboNewProjectToAssign.setItems(FXCollections.observableList(projectDAO.getProjectNamesByIdDirector(professorId)));
+        comboNewProjectToAssign.setItems(FXCollections.observableList(
+                projectDAO.getProjectNamesByIdDirector(professorId)));
     }
 
     @FXML
@@ -176,7 +177,8 @@ public class PaneModifyAdvancementController {
             if (newAdvancementName.getText().length() > MAX_LENGTH_NAME) {
                 overSizeFieldsList.add("• El nombre del Avance excede el límite de caracteres: " + MAX_LENGTH_NAME);
             } if (newAdvancementDescription.getText().length() > MAX_LENGTH_DESCRIPTION) {
-                overSizeFieldsList.add("• La descripción del avance excede el límite de caracteres: " + MAX_LENGTH_DESCRIPTION);
+                overSizeFieldsList.add("• La descripción del avance excede el límite de caracteres: " +
+                        MAX_LENGTH_DESCRIPTION);
             }
         }
     }

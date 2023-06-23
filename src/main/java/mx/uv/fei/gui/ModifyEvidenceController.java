@@ -82,8 +82,8 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
             textFieldEvidenceTitle.setText(evidenceDetails.getEvidenceTitle());
             textAreaEvidenceDescription.setText(evidenceDetails.getEvidenceDescription());
         } catch (SQLException evidenceDetailsException) {
-            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo recuperar" +
-                    " la información de la evidencia a modificar.", AlertStatus.ERROR));
+            DialogGenerator.getDialog(new AlertMessage("No hay conexión a la base de datos, no se pudo " +
+                    "recuperar la información de la evidencia a modificar.", AlertStatus.ERROR));
             logger.error(evidenceDetailsException);
         }
     }
@@ -152,7 +152,8 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
             overSizeFieldsList.clear();
             fillOverSizeDataList();
             String overSizeFields = buildFieldsAlert(overSizeFieldsList);
-            DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n" + overSizeFields,
+            DialogGenerator.getDialog(new AlertMessage("La información excede el límite de caracteres: \n"
+                    + overSizeFields,
                     AlertStatus.WARNING));
         } else {
             result = true;
@@ -184,7 +185,8 @@ public class ModifyEvidenceController implements IStudentNavigationBar {
 
     @Override
     public void redirectToRequest() throws IOException {
-        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 + MainStage.HEIGHT_OFFSET);
+        MainStage.changeView("studentprojectrequestdetails-view.fxml",1000, 600 +
+                MainStage.HEIGHT_OFFSET);
     }
 
     public boolean confirmedLogOut() {

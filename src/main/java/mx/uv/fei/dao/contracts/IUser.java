@@ -22,6 +22,5 @@ public interface IUser {
     Professor getProfessorAccount(String username) throws SQLException;
     Student getStudentAccount(String username) throws SQLException;
     int getUserIDByUsername(String username) throws SQLException;
-
     int getUserIDByStudentID(String studentID) throws SQLException;
 }
