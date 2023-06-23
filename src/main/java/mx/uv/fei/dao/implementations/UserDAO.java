@@ -424,4 +424,29 @@ public class UserDAO implements IUser {
         return result;
     }
 
+    /**
+     * @param studentID student ID to get user ID
+     * @return user ID of the student ID
+     * @throws SQLException if there was a problem connecting to the database or getting the information
+     */
+    @Override
+    public int getUserIDByStudentID(String studentID) throws SQLException {
+        String sqlQuery = "SELECT ID_usuario FROM CuentasAcceso " +
+                "INNER JOIN Estudiantes ON CuentasAcceso.nombreUsuario = Estudiantes.nombreUsuario " +
+                "WHERE Estudiantes.matricula = (?)";
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, studentID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        int result = 0;
+
+        if (resultSet.next()) {
+            result = resultSet.getInt("ID_usuario");
+        }
+        databaseManager.closeConnection();
+        return result;
+    }
+
 }

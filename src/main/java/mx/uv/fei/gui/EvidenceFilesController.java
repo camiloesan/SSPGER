@@ -12,10 +12,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
-import mx.uv.fei.logic.AlertMessage;
-import mx.uv.fei.logic.AlertStatus;
-import mx.uv.fei.logic.SessionDetails;
-import mx.uv.fei.logic.TransferEvidence;
+import mx.uv.fei.dao.implementations.StudentDAO;
+import mx.uv.fei.dao.implementations.UserDAO;
+import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -189,25 +188,42 @@ public class EvidenceFilesController implements IStudentNavigationBar {
     }
 
     private File getEvidenceDirectory() {
-        EvidenceDAO evidenceDAO = new EvidenceDAO();
-        String projectName = null;
-        String advancementName = null;
-        String studentID = null;
+        File directory = null;
         try {
-            projectName = evidenceDAO.getProjectNameByEvidenceID(TransferEvidence.getEvidenceId());
-            advancementName = evidenceDAO.getAdvancementNameByStudentID(
-                    evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId()),
-                    evidenceDAO.getAdvancementIDByEvidenceID(TransferEvidence.getEvidenceId()));
-            studentID = evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
-        } catch(SQLException evidenceDAOException) {
+            directory = new File(System.getProperty("user.home")
+                    +"/IdeaProjects/SSPGER/evidences/"
+                    +getProjectID()+"/"
+                    +TransferAdvancement.getAdvancementID()+"/"
+                    +getStudentUserID());
+        } catch (SQLException evidenceDirectoryException) {
             DialogGenerator.getDialog(new AlertMessage(
-                    "Error al recuperar información para la carpeta de evidencias", AlertStatus.ERROR));
+                    "Error al buscar la carpeta de evidencias", AlertStatus.ERROR));
+            logger.error(evidenceDirectoryException);
         }
-        return new File(System.getProperty("user.home")
-                +"/IdeaProjects/SSPGER/evidences/"
-                +projectName+"/"
-                +advancementName+"/"
-                +studentID);
+
+        return directory;
+
+    }
+
+    private int getProjectID() throws SQLException {
+        AdvancementDAO advancementDAO = new AdvancementDAO();
+
+        return advancementDAO.getProjectIDByAdvancementID(TransferAdvancement.getAdvancementID());
+
+    }
+
+    private String getStudentID() throws SQLException {
+        EvidenceDAO evidenceDAO = new EvidenceDAO();
+
+        return evidenceDAO.getStudentIDByEvidenceID(TransferEvidence.getEvidenceId());
+
+    }
+
+    private int getStudentUserID() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+
+        return userDAO.getUserIDByStudentID(getStudentID());
+
     }
 
     @Override
