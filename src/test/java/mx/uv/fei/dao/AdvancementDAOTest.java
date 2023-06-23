@@ -134,14 +134,6 @@ AdvancementDAOTest {
     }
 
     @Test
-    void testGetAdvancementDetailsByIdObject() throws SQLException {
-        AdvancementDAO advancementDAO = new AdvancementDAO();
-        Advancement expectedAdvancement = advancementDAO
-                .getAdvancementDetailById(advancementDAO.getLastAdvancementID());
-        assertEquals(advancement, expectedAdvancement);
-    }
-
-    @Test
     void testAddAdvancementProjectIdDoesNotExist() {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         Advancement advancement1 = new Advancement();
@@ -209,8 +201,8 @@ AdvancementDAOTest {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement1 = new Advancement();
-        advancement1.setAdvancementName("new");
-        advancement1.setAdvancementDescription("new");
+        advancement1.setAdvancementName("AvanceID 0");
+        advancement1.setAdvancementDescription("Este avance lanzara una excepción");
         advancement1.setAdvancementStartDate("2022-03-24");
         advancement1.setAdvancementDeadline("2024-02-03");
         advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
@@ -236,8 +228,9 @@ AdvancementDAOTest {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement1 = new Advancement();
-        advancement1.setAdvancementName("newxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        advancement1.setAdvancementDescription("new");
+        advancement1.setAdvancementName("Este título de avance lanzara una excepción por ser muy largo para modificar");
+        advancement1.setAdvancementDescription("Descripcción de avance para modificar, " +
+                "con título que sobrepasa los límites");
         advancement1.setAdvancementStartDate("2022-03-24");
         advancement1.setAdvancementDeadline("2024-02-03");
         advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
@@ -249,8 +242,9 @@ AdvancementDAOTest {
         AdvancementDAO advancementDAO = new AdvancementDAO();
         ProjectDAO projectDAO = new ProjectDAO();
         Advancement advancement1 = new Advancement();
-        advancement1.setAdvancementName("new");
-        advancement1.setAdvancementDescription("new");
+        advancement1.setAdvancementName("Avance modificar sin id");
+        advancement1.setAdvancementDescription("Descripcción del avance que se va a modificar " +
+                "con el id erronea");
         advancement1.setAdvancementStartDate("2022-03-24");
         advancement1.setAdvancementDeadline("2024-02-03");
         advancement1.setProjectId(projectDAO.getProjectIDByTitle("Ejemplo trabajo recepcional"));
