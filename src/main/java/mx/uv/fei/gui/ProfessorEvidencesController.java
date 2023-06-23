@@ -43,6 +43,10 @@ public class ProfessorEvidencesController implements IProfessorNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceId());
+            TransferAdvancement.setAdvancementID(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getAdvancementId());
             MainStage.changeView("evidencefiles-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         } else {
             DialogGenerator.getDialog(new AlertMessage("Seleccione una evidencia para ver sus archivos.", AlertStatus.WARNING));

@@ -99,6 +99,10 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceId());
+            TransferAdvancement.setAdvancementID(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getAdvancementId());
             TransferEvidence.setEvidenceName(tableViewEvidence
                     .getSelectionModel()
                     .getSelectedItem()
@@ -114,6 +118,10 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceId());
+            TransferAdvancement.setAdvancementID(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getAdvancementId());
             MainStage.changeView("evidencefiles-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
     }
@@ -125,6 +133,10 @@ public class StudentEvidencesController implements IStudentNavigationBar {
                     .getSelectionModel()
                     .getSelectedItem()
                     .getEvidenceId());
+            TransferAdvancement.setAdvancementID(tableViewEvidence
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getAdvancementId());
             MainStage.changeView(
                     "viewevidencedetails-view.fxml", 1000, 600 + MainStage.HEIGHT_OFFSET);
         }
