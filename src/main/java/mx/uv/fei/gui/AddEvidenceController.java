@@ -9,7 +9,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mx.uv.fei.dao.implementations.AdvancementDAO;
 import mx.uv.fei.dao.implementations.EvidenceDAO;
-import mx.uv.fei.dao.implementations.ProjectDAO;
 import mx.uv.fei.dao.implementations.UserDAO;
 import mx.uv.fei.logic.*;
 import org.apache.log4j.Logger;
@@ -49,11 +48,9 @@ public class AddEvidenceController implements IStudentNavigationBar {
         if (existsEvidence() && fieldsCorrect() && confirmedEvidence()) {
             EvidenceDAO evidenceDAO = new EvidenceDAO();
             Evidence evidence = new Evidence();
-            ProjectDAO projectDAO = new ProjectDAO();
             
             try {
-                String projectStage = projectDAO.getProjectStageByAdvancementID(TransferAdvancement.getAdvancementID());
-                
+            
                 evidence.setEvidenceTitle(textFieldEvidenceTitle.getText());
                 evidence.setEvidenceDescription(textAreaEvidenceDescription.getText());
                 evidence.setAdvancementId(TransferAdvancement.getAdvancementID());
@@ -69,11 +66,6 @@ public class AddEvidenceController implements IStudentNavigationBar {
                 logger.error(addEvidenceException);
             }
         }
-    }
-    
-    private String getProjectStage() throws SQLException {
-        ProjectDAO projectDAO = new ProjectDAO();
-        return projectDAO.getProjectStageByAdvancementID(TransferAdvancement.getAdvancementID());
     }
 
     private String buildStringsOfFiles() {
